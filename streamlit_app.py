@@ -5,7 +5,7 @@ import os
 from io import BytesIO
 
 # Define the version of the app
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.1.1"
 
 
 markdown_content = """ 
@@ -52,7 +52,7 @@ Here you will find an Excel file template that you can fill out with your metada
 BattINFO converter web application was developed at [Empa](https://www.empa.ch/), Swiss Federal Laboratories for Materials Science and Technology in [Material for Energy Conversion lab](https://www.empa.ch/web/s501).  
 
 
-We acknowledge stimulating discussions and support from Dr Simon Clark, SINTEF  
+We acknowledge stimulating discussions and support from Dr Simon Clark, SINTEF, Norway.
 
 
 This work has been developed under the following project and funding agencies: 
