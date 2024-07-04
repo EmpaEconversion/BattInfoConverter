@@ -5,7 +5,7 @@ import os
 from io import BytesIO
 
 # Define the version of the app
-APP_VERSION = "0.1.1"
+APP_VERSION = "0.1.2"
 
 
 markdown_content = """ 
