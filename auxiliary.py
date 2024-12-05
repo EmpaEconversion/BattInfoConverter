@@ -5,7 +5,7 @@ import inspect
 def add_to_structure(jsonld, path, value, unit, data_container):
     from json_convert import get_information_value
     try:
-        print('               ') # To add space between each Excel row - for debugging.
+        print('               ')  # To add space between each Excel row - for debugging.
         current_level = jsonld
         unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
         context_connector = data_container.data['context_connector']
@@ -17,6 +17,17 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                 part = parts
                 special_command = None
                 plf(value, part)
+
+            elif "type|" in parts:
+                # Handle "type|" special command
+                _, type_value = parts.split('|', 1)
+                plf(value, type_value)
+
+                # Assign type value
+                current_level["@type"] = type_value
+                plf(value, type_value, current_level=current_level)
+                continue
+
             elif len(parts.split('|')) == 2:
                 special_command, part = parts.split('|')
                 plf(value, part)
@@ -25,16 +36,12 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                     if "@reverse" not in current_level:
                         plf(value, part)
                         current_level["@reverse"] = {}
-                    current_level = current_level["@reverse"] ; plf(value, part)
-                if special_command == "type":
-                    plf(value, part)                   
-                    current_level['type'] = part ; plf(value, part, current_level=current_level)
-                    parts = parts[idx + 1] ; plf(value, part, current_level=current_level)
-                    idx += 1 ; plf(value, part, current_level=current_level)
-                    continue
+                    current_level = current_level["@reverse"]
+                    plf(value, part)
+
             else:
                 raise ValueError(f"Invalid JSON-LD at: {parts} in {path}")
-            
+
             is_last = idx == len(path) - 1
             is_second_last = idx == len(path) - 2
 
@@ -52,8 +59,8 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                 else:
                     plf(value, part)
                     current_level[part] = {}
-            
-            #Handle the case of the single path.
+
+            # Handle the case of the single path
             if len(path) == 1 and unit == 'No Unit':
                 plf(value, part)
                 if value in unique_id['Item'].values:
@@ -80,39 +87,6 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                     current_level[part]['rdfs:comment'] = value
                 break
 
-            if is_second_last and unit != 'No Unit':
-                plf(value, part)
-                if pd.isna(unit):
-                    plf(value, part)
-                    raise ValueError(f"The value '{value}' is filled in the wrong row, please check the schema")
-                unit_info = unit_map[unit] ; plf(value, part)
-
-                new_entry = {
-                    "@type": path[-1],
-                    "hasNumericalPart": {
-                        "@type": "emmo:Real",
-                        "hasNumericalValue": value
-                    },
-                    "hasMeasurementUnit": unit_info['Key']
-                }
-                
-                # Check if the part already exists and should be a list
-                if part in current_level:
-                    plf(value, part)
-                    if isinstance(current_level[part], list):
-                        current_level[part].append(new_entry) ;plf(value, part)
-                    else:
-                        # Ensure we do not overwrite non-dictionary values
-                        existing_entry = current_level[part] ;plf(value, part)
-                        current_level[part] = [existing_entry, new_entry]
-                else:
-                    current_level[part] = [new_entry] ;plf(value, part)
-                
-                # Clean up any empty dictionaries in the list
-                if isinstance(current_level[part], list):
-                    current_level[part] = [item for item in current_level[part] if item != {}] ;plf(value, part)
-                break
-
             if is_last and unit == 'No Unit':
                 plf(value, part)
                 if value in unique_id['Item'].values:
@@ -122,64 +96,19 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                         if isinstance(current_level["@type"], list):
                             plf(value, part)
                             if not pd.isna(value):
-                                current_level["@type"].append(value) ; plf(value, part)
+                                current_level["@type"].append(value)
                         else:
                             plf(value, part)
                             if not pd.isna(value):
-                                current_level["@type"] = [current_level["@type"], value] ; plf(value, part)
+                                current_level["@type"] = [current_level["@type"], value]
                     else:
                         if not pd.isna(value):
-                            current_level["@type"] = value ; plf(value, part)
+                            current_level["@type"] = value
                 else:
-                    current_level['rdfs:comment'] = value ; plf(value, part)
+                    current_level['rdfs:comment'] = value
                 break
 
             current_level = current_level[part]
-
-            if not is_last and part in connectors:
-                connector_type = context_connector.loc[context_connector['Item'] == part, 'Key'].values[0] ; plf(value, part)
-                if not pd.isna(connector_type):
-                    plf(value, part)
-                    if "@type" not in current_level:
-                        current_level["@type"] = connector_type ; plf(value, part)
-                    elif current_level["@type"] != connector_type:
-                        plf(value, part)
-                        if isinstance(current_level["@type"], list):
-                            plf(value, part)
-                            if connector_type not in current_level["@type"]:
-                                current_level["@type"].append(connector_type) ; plf(value, part)
-                        else:
-                            current_level["@type"] = [current_level["@type"], connector_type] ; plf(value, part)
-
-            if is_second_last and unit == 'No Unit':
-                next_part = path[idx + 1] ; plf(value, part)
-                if isinstance(current_level, dict): 
-                    plf(value, part, current_level=current_level)
-                    if next_part not in current_level:
-                        current_level[next_part] = {} ; plf(value, part)
-                    current_level = current_level[next_part]
-                elif isinstance(current_level, list):
-                    current_level.append({next_part: {}}) ; plf(value, part)
-                    current_level = current_level[-1][next_part]
-
-                if value in unique_id['Item'].values:
-                    unique_id_of_value = get_information_value(df=unique_id, row_to_look=value, col_to_look = "ID", col_to_match="Item") ; plf(value, part)
-                    if not pd.isna(unique_id_of_value):
-                        current_level['@id'] = unique_id_of_value ; plf(value, part)
-                    
-                    if not pd.isna(value):
-                        plf(value, part, current_level=current_level)
-                        if "@type" in current_level:
-                            plf(value, part)
-                            if isinstance(current_level["@type"], list):
-                                current_level["@type"].append(value) ; plf(value, part)
-                            else:
-                                current_level["@type"] = [current_level["@type"], value] ; plf(value, part)
-                        else:
-                            current_level["@type"] = value ; plf(value, part)
-                else:
-                    current_level['rdfs:comment'] = value ; plf(value, part)
-                break
 
     except Exception as e:
         traceback.print_exc()  # Print the full traceback
@@ -199,4 +128,3 @@ def plf(value, part, current_level = None, debug_switch = True):
             print(f'pass line {line_number}, value:', value,'AND part:', part)
     else:
         pass 
-

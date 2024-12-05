@@ -83,7 +83,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer):
         "@context": ["https://w3id.org/emmo/domain/battery/context", {}],
         "@type": dict_harvested_info['Cell type'],
         "schema:version": get_information_value(df=schema, row_to_look='BattINFO CoinCellSchema version'),
-        "schemas:productID": dict_harvested_info['Cell ID'],
+        "schema:productID": dict_harvested_info['Cell ID'],
         "schema:dateCreated": dict_harvested_info['Date of cell assembly'],
         "schema:creator": {
                             "@type": "schema:Person",
@@ -107,15 +107,45 @@ def create_jsonld_with_conditions(data_container: ExcelContainer):
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
             continue
         if row['Ontology link'] == 'Comment':
-            jsonld["rdfs:comment"][row['Metadata']] = row['Value']
+            jsonld["rdfs:comment"] = f"{row['Metadata']}: {row['Value']}"
             continue
-        if pd.isna(row['Unit']):
-            raise ValueError(f"The value '{row['Value']}' is filled in the wrong row, please check the schema")
 
         ontology_path = row['Ontology link'].split('-')
+
+        # Handle schema:productID specifically
+        if 'schema:productID' in row['Ontology link']:
+            product_id = str(row['Value']).strip()  # Ensure the value is treated as a string
+            # Explicitly assign the value to avoid issues with add_to_structure
+            current = jsonld
+            for key in ontology_path[:-1]:
+                if key not in current:
+                    current[key] = {}
+                current = current[key]
+            current[ontology_path[-1]] = product_id
+            continue
+
+        # Handle schema:manufacturer entries
+        if 'schema:manufacturer' in row['Ontology link']:
+            manufacturer_entry = {
+                "@type": "schema:Organization",
+                "schema:name": row['Value']
+            }
+            # Add manufacturer entry to the structure
+            if ontology_path[0] not in jsonld:
+                jsonld[ontology_path[0]] = {}
+            jsonld[ontology_path[0]]["schema:manufacturer"] = manufacturer_entry
+            continue
+
+        # Default behavior for other entries
+        if pd.isna(row['Unit']):
+            raise ValueError(
+                f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
+            )
         aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
-    jsonld["rdfs:comment"]["BattINFO Converter version"] = APP_VERSION
-    jsonld["rdfs:comment"]["Software credit"] = f"This JSON-LD was created using Battconverter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion lab"
+
+
+    jsonld["rdfs:comment"] = f"BattINFO Converter version: {APP_VERSION}"
+    jsonld["rdfs:comment"] = f"Software credit: This JSON-LD was created using Battconverter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion lab"
 
     return jsonld
 
