@@ -5,12 +5,17 @@ import inspect
 def add_to_structure(jsonld, path, value, unit, data_container):
     from json_convert import get_information_value
     try:
-        print('               ')  # To add space between each Excel row - for debugging.
+        print('               ')  # Debug separator
         current_level = jsonld
         unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
         context_connector = data_container.data['context_connector']
         connectors = set(context_connector['Item'])
         unique_id = data_container.data['unique_id']
+
+        # Skip processing if value is invalid
+        if not value or pd.isna(value):
+            print(f"Skipping empty value for path: {path}")
+            return
 
         for idx, parts in enumerate(path):
             if len(parts.split('|')) == 1:
@@ -23,8 +28,9 @@ def add_to_structure(jsonld, path, value, unit, data_container):
                 _, type_value = parts.split('|', 1)
                 plf(value, type_value)
 
-                # Assign type value
-                current_level["@type"] = type_value
+                # Assign type value only if it's valid
+                if type_value:
+                    current_level["@type"] = type_value
                 plf(value, type_value, current_level=current_level)
                 continue
 
@@ -46,66 +52,47 @@ def add_to_structure(jsonld, path, value, unit, data_container):
             is_second_last = idx == len(path) - 2
 
             if part not in current_level:
-                plf(value, part)
-                if part in connectors:
+                if value or unit:  # Only add the part if value or unit exists
                     plf(value, part)
-                    connector_type = context_connector.loc[context_connector['Item'] == part, 'Key'].values[0]
-                    if pd.isna(connector_type):
-                        plf(value, part)
-                        current_level[part] = {}
-                    else:
-                        plf(value, part)
-                        current_level[part] = {"@type": connector_type}
-                else:
-                    plf(value, part)
-                    current_level[part] = {}
-
-            # Handle the case of the single path
-            if len(path) == 1 and unit == 'No Unit':
-                plf(value, part)
-                if value in unique_id['Item'].values:
-                    plf(value, part)
-                    if "@type" in current_level:
-                        plf(value, part)
-                        if "@type" in current_level[part] and isinstance(current_level[part]["@type"], list):
-                            plf(value, part)
-                            if not pd.isna(value):
-                                plf(value, part)
-                                current_level[part]["@type"].append(value)
+                    if part in connectors:
+                        connector_type = context_connector.loc[context_connector['Item'] == part, 'Key'].values[0]
+                        if pd.isna(connector_type):
+                            current_level[part] = {}
                         else:
-                            plf(value, part)
-                            if not pd.isna(value):
-                                plf(value, part)
-                                current_level[part]["@type"] = [value]
+                            current_level[part] = {"@type": connector_type}
                     else:
-                        plf(value, part)
-                        if not pd.isna(value):
-                            plf(value, part)
-                            current_level[part]["@type"] = value
+                        current_level[part] = {}
+
+            # Handle unit-based measured properties
+            if is_second_last and unit != 'No Unit':
+                if pd.isna(unit):
+                    raise ValueError(f"The value '{value}' is missing a valid unit.")
+                unit_info = unit_map.get(unit, {})
+                new_entry = {
+                    "@type": path[-1],
+                    "hasNumericalPart": {
+                        "@type": "emmo:Real",
+                        "hasNumericalValue": value
+                    },
+                    "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
+                }
+                if isinstance(current_level.get(part), list):
+                    current_level[part].append(new_entry)
                 else:
-                    plf(value, part)
-                    current_level[part]['rdfs:comment'] = value
+                    current_level[part] = new_entry
                 break
 
+            # Handle final value assignment
             if is_last and unit == 'No Unit':
-                plf(value, part)
                 if value in unique_id['Item'].values:
-                    plf(value, part)
-                    if "@type" in current_level:
-                        plf(value, part)
-                        if isinstance(current_level["@type"], list):
-                            plf(value, part)
-                            if not pd.isna(value):
-                                current_level["@type"].append(value)
-                        else:
-                            plf(value, part)
-                            if not pd.isna(value):
-                                current_level["@type"] = [current_level["@type"], value]
-                    else:
-                        if not pd.isna(value):
-                            current_level["@type"] = value
-                else:
-                    current_level['rdfs:comment'] = value
+                    unique_id_of_value = get_information_value(
+                        df=unique_id, row_to_look=value, col_to_look="ID", col_to_match="Item"
+                    )
+                    if not pd.isna(unique_id_of_value):  # Only assign if the ID is valid
+                        current_level["@id"] = unique_id_of_value
+                    current_level["@type"] = value
+                elif value:
+                    current_level["rdfs:comment"] = value
                 break
 
             current_level = current_level[part]
