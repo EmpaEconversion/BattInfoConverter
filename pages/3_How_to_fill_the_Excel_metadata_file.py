@@ -17,7 +17,11 @@ This tab contains the majority of the metadata file.
 - **Ontology Link**: Provide the ontology link. If you do not want to ontologize a particular row, enter "NotOntologize." To add a comment instead, enter "Comment."
 
 ### Unique ID Tab
-All string values (not numbers) are highly recommended to come with their own unique identifier (online unique identifier). Unless the ontology link for that particular field is "Comment," BattInfo Converter will attempt to include the unique ID for every string value (chemical names, names, etc.). There are three scenarios in which the app will proceed:
+All unique string values (not numbers) are highly recommended to come with their own unique identifier (online unique identifier).
+These includes name of the reserachers or institution. Please note that the chemical name is not uniqe. For example, Aluminium that is put in each cell are not unique.
+Although they are Aluminium, they are different piece. We recommend to simply put the correct ontology term to each chemical.
+Unless the ontology link for that particular field is "Comment," BattInfo Converter will attempt to include the unique ID for every string value.
+There are three scenarios in which the app will proceed:
 
 __1) The item is listed in the "Item" column and its respective unique ID is listed in the "ID" column__
 - This is for **Items with or without Ontologized link but with a unique ID**.

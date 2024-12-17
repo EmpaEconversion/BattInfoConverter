@@ -6,7 +6,7 @@ import datetime
 from pandas import DataFrame
 import numpy as np
 
-APP_VERSION = "0.9.0"
+APP_VERSION = "1.0.0"
 
 @dataclass
 class ExcelContainer:
