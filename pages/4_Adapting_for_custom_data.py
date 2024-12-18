@@ -5,7 +5,6 @@ markdown_content = """
 
 If you have your custom data schemas (you would like to change what to include in your metadata), you can simply modify our Excel metadata file to suit your custom data.
 
-- The items in the `JSON - Info` tab are fixed and **must not be changed**.
 - You can add or remove existing rows in the `Schema` tab to suit your data schemas.
 - When new rows are added to the `Schema` tab, please ensure to follow these steps:
 
@@ -20,7 +19,7 @@ If you have your custom data schemas (you would like to change what to include i
     - The app supports a special command in the ontology link, which can be specified using `|`. The list of possible special commands and their effects is as follows:
     - **"rev"**: The app will place the ontology link that starts with this special command (along with anything after this) in `"@reverse"`. For example: `-RatedCapacity-rev|hasInput`. Here, `hasInput` will be placed in `"@reverse"`.
     - **"type"**: The app will place the specific part in the Ontology link in `"@type"`. For example: `hasMeasuredProperty-type|RatedCapacity`, Rated Capacity will be placed in `"@type"` after `hasMeasuredProperty`.
-    - If you are using BattInfo as your ontology concept, Dr. Simon Clark (simon.clark@sintef.no) will be happy to assist you.
+    - If you are using BattInfo as your ontology concept, Dr. Simon Clark (simon.clark@sintef.no) will be delighted to assist you.
 
 #### 3. **Adding Any Additional Ontology Top-Level**
 - Sometimes, the appropriate ontology concept is not listed in the BattInfo ontology. You can use ontology concepts from other providers, such as `schema.org`. If this is the case, simply list your top-level ontology domain in the `@context-TopLevel` tab.
