@@ -9,35 +9,24 @@ import json_convert as js_conv
 
 
 markdown_content = """ 
-Ontologizing your metadata can significantly enhance the interoperability of data across various research groups.
-To learn more about ontologizing your metadata, we invite you to visit our page on
-[ontologizing metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main). 
-While the benefits of this process are clear, it can often be a daunting task in practice. 
-With this in mind, we've developed an BattINFO converter web application designed to streamline and expedite this intricate task,
-making it more manageable for you and your team.
+BattINFO converter helps you ontologize the metadata of your coin cell batteries based on the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO).
+Ontologizing your metadata significantly enhances the interoperability of your data across various digital platforms and research groups.
+To learn more about ontologizing your metadata, we invite you to visit our page on [ontologizing metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main).
+While there are many benefits of this process, it can be a daunting task in practice. With this in mind,
+we developed the open-source [BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application designed to streamline and expedite this intricate task, making it more manageable for you and your team.  
 
-BattINFO converter helps you ontologize metadata for coin cell battery based on
- [BattINFO](https://big-map.github.io/BattINFO/index.html) ontology. 
+BattINFO converter converts an Excel file collecting the metadata of a coin cell battery from the user into a ful-ly ontologized JSON-LD file,
+which can be published as supporting information with your scientific publication or in open-access data repositories such as [Zenodo](https://zenodo.org).
+Example Excel metadata files for a coin cell battery are provided. We plan to add more Excel metadata files for other cell types in the future. 
+For additional infor-mation on how to fill the Excel file, please click the respective link on the left.  
 
-<p style="color:orange; font-size:15px;">For additional information and example Excel metadata files,
- please click the respective link on the left</p>
-
-# Acknowledgement 
-BattINFO converter web application was developed at [Empa](https://www.empa.ch/),
-Swiss Federal Laboratories for Materials Science and Technology in
-[Material for Energy Conversion lab](https://www.empa.ch/web/s501).  
-
-
-We acknowledge stimulating discussions and support from Dr Simon Clark, SINTEF, Norway.
-
-
-This work has been developed under the following project and funding agencies: 
-- [PREMISE](https://ord-premise.org/)  
-  
-- [Battery 2030+](https://battery2030.eu/)
-
-- [Big-Map project](https://www.big-map.eu/)
-
+BattINFO converter web application was developed by Dr. Nukorn Plainpan and Prof. Dr. Corsin Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories
+for Materials Science and Technology in the Laboratory [Materials for Energy Conversion](https://www.empa.ch/web/s501). We acknowledge stimulating discussions and support from
+Dr. Simon Clark, SINTEF. BattINFO converter also  acknowledges support from the European Union’s Horizon research and innovation program under
+grant agreements No. 957189 ([BIG-MAP](https://www.big-map.eu/) project), No. 957213 ([Battery2030+](https://battery2030.eu/) coordination and support action 2),
+and No. 101104022 ([Battery2030+](https://battery2030.eu/) coordination and support action 3), 
+the Swiss State Sec-retariat for Education, Research, and Innovation, 
+and the Open Research Data program of the ETH Board (project [PREMISE](https://ord-premise.org/), Open and Reproducible Materials Science Research). 
 
 """
 
