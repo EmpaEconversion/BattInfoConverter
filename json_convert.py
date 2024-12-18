@@ -42,7 +42,24 @@ def get_information_value(df: DataFrame, row_to_look: str, col_to_look: str = "V
     return result.iloc[0] if not result.empty else None
 
 
-def create_jsonld_with_conditions(data_container: ExcelContainer):
+def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
+    """
+    Creates a JSON-LD structure based on the provided data container containing schema and context information.
+
+    This function extracts necessary information from the schema and context sheets of the provided
+    `ExcelContainer` to generate a JSON-LD object. It performs validation on required fields, handles
+    ontology links, and structures data in compliance with the EMMO domain for battery context.
+
+    Args:
+        data_container (ExcelContainer): A datalcass container with data extracted from the input Excel schema required for generating JSON-LD,
+            including schema, context, and unique identifiers.
+
+    Returns:
+        dict: A JSON-LD dictionary representing the structured information derived from the input data.
+
+    Raises:
+        ValueError: If required fields are missing or have invalid data in the schema or unique ID sheets.
+    """
     schema = data_container.data['schema']
     context_toplevel = data_container.data['context_toplevel']
     context_connector = data_container.data['context_connector']
@@ -145,11 +162,27 @@ def create_jsonld_with_conditions(data_container: ExcelContainer):
 
 
     jsonld["rdfs:comment"] = f"BattINFO Converter version: {APP_VERSION}"
-    jsonld["rdfs:comment"] = f"Software credit: This JSON-LD was created using Battconverter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion lab"
-
+    jsonld["rdfs:comment"] = f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion"
+    
     return jsonld
 
-def convert_excel_to_jsonld(excel_file: ExcelContainer):
+def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
+    """
+    Converts an Excel file into a JSON-LD representation.
+
+    This function initializes a new session for converting an Excel file, processes the data
+    using the `ExcelContainer` class, and generates a complete JSON-LD object. It uses the `create_jsonld_with_conditions`
+    function to construct a structured section of the JSON-LD and incorporates it into the final output.
+
+    Args:
+        excel_file (ExcelContainer): An instance of the `ExcelContainer` dataclass encapsulating the Excel file to be converted.
+
+    Returns:
+        dict: A JSON-LD dictionary representing the entire structured information derived from the Excel file.
+
+    Raises:
+        ValueError: If any required fields in the Excel file are missing or contain invalid data.
+    """
     print('*********************************************************')
     print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
     print('*********************************************************')
@@ -158,5 +191,4 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer):
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
     
-
     return jsonld_output

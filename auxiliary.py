@@ -1,8 +1,31 @@
 import pandas as pd
 import traceback
 import inspect
+from typing import Any, Optional
 
-def add_to_structure(jsonld, path, value, unit, data_container):
+def add_to_structure(jsonld: dict, path: list[str], value: Any, unit: str, data_container: 'ExcelContainer') -> None:
+    """
+    Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
+
+    This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
+    measured properties, ontology links, and unique identifiers. It uses data from the provided `ExcelContainer` 
+    to resolve unit mappings and context connectors.
+
+    Args:
+        jsonld (dict): The JSON-LD structure to modify.
+        path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
+        value (any): The value to be inserted at the specified path.
+        unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
+        data_container (ExcelContainer): An instance of the `ExcelContainer` dataclass (from son_convert module) containing supporting data 
+                                         for unit mappings, connectors, and unique identifiers.
+
+    Returns:
+        None: This function modifies the JSON-LD structure in place.
+
+    Raises:
+        ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
+        RuntimeError: If any unexpected error arises while processing the value and path.
+    """
     from json_convert import get_information_value
     try:
         print('               ')  # Debug separator
@@ -102,9 +125,22 @@ def add_to_structure(jsonld, path, value, unit, data_container):
         raise RuntimeError(f"Error occurred with value '{value}' and path '{path}': {str(e)}")
 
 
-def plf(value, part, current_level = None, debug_switch = True):
-    """Print Line Function.
-    This function is used for debugging.
+def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = True):
+    """
+    Print Line Function (PLF).
+
+    This function is used for debugging purposes. It prints the current line number, 
+    along with the provided value, part, and optionally the current level, if debugging 
+    is enabled via the `debug_switch` parameter.
+
+    Args:
+        value (Any): The value being processed or debugged.
+        part (Any): The part of the JSON-LD or data structure being processed.
+        current_level (Optional[dict]): The current level of the JSON-LD or data structure, if applicable.
+        debug_switch (bool): A flag to enable or disable debug output. Defaults to True.
+
+    Returns:
+        None: This function does not return any value.
     """
     if debug_switch:
         current_frame = inspect.currentframe()
