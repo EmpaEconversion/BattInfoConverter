@@ -15,7 +15,7 @@ To learn more about ontologizing your metadata, we invite you to visit our page 
 While there are many benefits of this process, it can be a daunting task in practice. With this in mind,
 we developed the open-source [BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application designed to streamline and expedite this intricate task, making it more manageable for you and your team.  
 
-BattINFO converter converts an Excel file collecting the metadata of a coin cell battery from the user into a ful-ly ontologized JSON-LD file,
+BattINFO converter converts an Excel file collecting the metadata of a coin cell battery from the user into a fully ontologized JSON-LD file,
 which can be published as supporting information with your scientific publication or in open-access data repositories such as [Zenodo](https://zenodo.org).
 Example Excel metadata files for a coin cell battery are provided. We plan to add more Excel metadata files for other cell types in the future. 
 For additional infor-mation on how to fill the Excel file, please click the respective link on the left.  
