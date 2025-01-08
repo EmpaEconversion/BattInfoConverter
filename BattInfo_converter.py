@@ -30,7 +30,7 @@ and the Open Research Data program of the ETH Board (project [PREMISE](https://o
 
 """
 
-image_url = 'https://raw.githubusercontent.com/NukP/xls_convert/fix_oslo2/BattInfoCOnverter.png'
+image_url = 'https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/battinfoconverter.png'
 
 def main():
     st.image(image_url)
