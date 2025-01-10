@@ -7,6 +7,8 @@ import os
 from io import BytesIO
 import json_convert as js_conv 
 
+badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.streamlit.app"
+st.image(badge_url)
 
 markdown_content = """ 
 BattINFO converter helps you ontologize the metadata of your coin cell batteries based on the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO).
