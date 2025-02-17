@@ -19,4 +19,4 @@ and No. 101104022 ([Battery2030+](https://battery2030.eu/) coordination and supp
 the Swiss State Sec-retariat for Education, Research, and Innovation, 
 and the Open Research Data program of the ETH Board (project [PREMISE](https://ord-premise.org/), Open and Reproducible Materials Science Research). 
 
-![Sponsors](https://raw.githubusercontent.com/NukP/xls_convert/fix_oslo2/sponsor.png)
+![Sponsors](https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/sponsor.png)
