@@ -7,6 +7,9 @@
 
 🔗 Vist **[BattINFO converter](https://battinfoconverter.streamlit.app/)** to learn more. 
 
+## License
+BattINFO converter is released under MIT license.
+
 ## Acknowledgement
 
 BattINFO Converter was developed at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories
