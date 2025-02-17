@@ -61,7 +61,7 @@ def main():
         st.text_area("JSON-LD Output", jsonld_str, height=1000)
     
     st.markdown(markdown_content, unsafe_allow_html=True)
-    st.image('https://raw.githubusercontent.com/NukP/xls_convert/fix_oslo2/sponsor.png', width=700)
+    st.image('https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/sponsor.png', width=700)
 
 if __name__ == "__main__":
     main()
