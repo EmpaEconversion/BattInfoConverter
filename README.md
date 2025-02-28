@@ -12,11 +12,6 @@ BattINFO converter is released under MIT license.
 
 ## Acknowledgement
 
-BattINFO Converter was developed at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories
-for Materials Science and Technology in the Laboratory [Materials for Energy Conversion](https://www.empa.ch/web/s501). We acknowledge support from from the European Union’s Horizon research and innovation program under
-grant agreements No. 957189 ([BIG-MAP](https://www.big-map.eu/) project), No. 957213 ([Battery2030+](https://battery2030.eu/) coordination and support action 2),
-and No. 101104022 ([Battery2030+](https://battery2030.eu/) coordination and support action 3), 
-the Swiss State Sec-retariat for Education, Research, and Innovation, 
-and the Open Research Data program of the ETH Board (project [PREMISE](https://ord-premise.org/), Open and Reproducible Materials Science Research). 
+The BattINFO converter web application was developed by Dr. Nukorn Plainpan and Prof. Dr. Corsin Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories for Materials Science and Technology in the Laboratory [Materials for Energy Conversion](https://www.empa.ch/web/s501). We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF as well as the help of Dr. Graham Kimbell, Empa in designing the BattINFO converter app logo. The development of BattINFO converter was supported by funding for the [Battery2030+](https://battery2030.eu/) initiative from the European Union’s research and innovation program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for Education, Research, and Innovation (SERI) under contract No. 2300313 as well as funding for the [PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board
 
 ![Sponsors](https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/sponsor.png)
