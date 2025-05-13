@@ -3,37 +3,63 @@ import traceback
 import inspect
 from typing import Any, Optional
 
-def add_to_structure(jsonld: dict, path: list[str], value: Any, unit: str, data_container: 'ExcelContainer') -> None:
+def _merge_type(node: dict, new_type: str) -> None:
+    """
+    Helper function to add_to_structure function. Add *new_type* to the ``@type`` key of *node* **without ever clobbering**
+    what is already there.
+
+    - If ``@type`` is absent → set it.
+    - If it's a single value different from *new_type* → turn it into a list.
+    - If it's a list and *new_type* is missing → append it.
+    """
+    if "@type" not in node:
+        node["@type"] = new_type
+    else:
+        existing = node["@type"]
+        if isinstance(existing, list):
+            if new_type not in existing:
+                existing.append(new_type)
+        elif existing != new_type:
+            node["@type"] = [existing, new_type]
+
+def add_to_structure(
+    jsonld: dict,
+    path: list[str],
+    value: Any,
+    unit: str,
+    data_container: "ExcelContainer",
+) -> None:
     """
     Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
 
-    This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
-    measured properties, ontology links, and unique identifiers. It uses data from the provided `ExcelContainer` 
-    to resolve unit mappings and context connectors.
+        This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
+        measured properties, ontology links, and unique identifiers. It uses data from the provided ExcelContainer 
+        to resolve unit mappings and context connectors.
 
-    Args:
-        jsonld (dict): The JSON-LD structure to modify.
-        path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
-        value (any): The value to be inserted at the specified path.
-        unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
-        data_container (ExcelContainer): An instance of the `ExcelContainer` dataclass (from son_convert module) containing supporting data 
-                                         for unit mappings, connectors, and unique identifiers.
+        Args:
+            jsonld (dict): The JSON-LD structure to modify.
+            path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
+            value (any): The value to be inserted at the specified path.
+            unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
+            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data 
+                                            for unit mappings, connectors, and unique identifiers.
 
-    Returns:
-        None: This function modifies the JSON-LD structure in place.
+        Returns:
+            None: This function modifies the JSON-LD structure in place.
 
-    Raises:
-        ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
-        RuntimeError: If any unexpected error arises while processing the value and path.
+        Raises:
+            ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
+            RuntimeError: If any unexpected error arises while processing the value and path.
     """
     from json_convert import get_information_value
+
     try:
-        print('               ')  # Debug separator
+        print("               ")  # Debug separator
         current_level = jsonld
-        unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
-        context_connector = data_container.data['context_connector']
-        connectors = set(context_connector['Item'])
-        unique_id = data_container.data['unique_id']
+        unit_map = data_container.data["unit_map"].set_index("Item").to_dict(orient="index")
+        context_connector = data_container.data["context_connector"]
+        connectors = set(context_connector["Item"])
+        unique_id = data_container.data["unique_id"]
 
         # Skip processing if value is invalid
         if not value or pd.isna(value):
@@ -41,33 +67,28 @@ def add_to_structure(jsonld: dict, path: list[str], value: Any, unit: str, data_
             return
 
         for idx, parts in enumerate(path):
-            if len(parts.split('|')) == 1:
+            if len(parts.split("|")) == 1:
                 part = parts
                 special_command = None
                 plf(value, part)
 
             elif "type|" in parts:
-                # Handle "type|" special command
-                _, type_value = parts.split('|', 1)
+                _, type_value = parts.split("|", 1)
                 plf(value, type_value)
 
-                # Assign type value only if it's valid
                 if type_value:
-                    current_level["@type"] = type_value
+                    _merge_type(current_level, type_value)  
                 plf(value, type_value, current_level=current_level)
-                continue
+                continue 
 
-            elif len(parts.split('|')) == 2:
-                special_command, part = parts.split('|')
+            elif len(parts.split("|")) == 2:
+                special_command, part = parts.split("|")
                 plf(value, part)
                 if special_command == "rev":
-                    plf(value, part)
                     if "@reverse" not in current_level:
-                        plf(value, part)
                         current_level["@reverse"] = {}
                     current_level = current_level["@reverse"]
                     plf(value, part)
-
             else:
                 raise ValueError(f"Invalid JSON-LD at: {parts} in {path}")
 
@@ -75,19 +96,21 @@ def add_to_structure(jsonld: dict, path: list[str], value: Any, unit: str, data_
             is_second_last = idx == len(path) - 2
 
             if part not in current_level:
-                if value or unit:  # Only add the part if value or unit exists
+                if value or unit:  
                     plf(value, part)
                     if part in connectors:
-                        connector_type = context_connector.loc[context_connector['Item'] == part, 'Key'].values[0]
-                        if pd.isna(connector_type):
-                            current_level[part] = {}
-                        else:
-                            current_level[part] = {"@type": connector_type}
+                        connector_type = context_connector.loc[
+                            context_connector["Item"] == part, "Key"
+                        ].values[0]
+                        current_level[part] = (
+                            {} if pd.isna(connector_type) else {"@type": connector_type}
+                        )
                     else:
                         current_level[part] = {}
 
-            # Handle unit-based measured properties
-            if is_second_last and unit != 'No Unit':
+            next_level = current_level[part]
+
+            if is_second_last and unit != "No Unit":
                 if pd.isna(unit):
                     raise ValueError(f"The value '{value}' is missing a valid unit.")
                 unit_info = unit_map.get(unit, {})
@@ -95,33 +118,36 @@ def add_to_structure(jsonld: dict, path: list[str], value: Any, unit: str, data_
                     "@type": path[-1],
                     "hasNumericalPart": {
                         "@type": "emmo:Real",
-                        "hasNumericalValue": value
+                        "hasNumericalValue": value,
                     },
-                    "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
+                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
                 if isinstance(current_level.get(part), list):
                     current_level[part].append(new_entry)
                 else:
                     current_level[part] = new_entry
-                break
+                break  
 
-            # Handle final value assignment
-            if is_last and unit == 'No Unit':
-                if value in unique_id['Item'].values:
+            if is_last and unit == "No Unit":
+                target = next_level  
+                if value in unique_id["Item"].values:
                     unique_id_of_value = get_information_value(
-                        df=unique_id, row_to_look=value, col_to_look="ID", col_to_match="Item"
+                        df=unique_id,
+                        row_to_look=value,
+                        col_to_look="ID",
+                        col_to_match="Item",
                     )
-                    if not pd.isna(unique_id_of_value):  # Only assign if the ID is valid
-                        current_level["@id"] = unique_id_of_value
-                    current_level["@type"] = value
+                    if not pd.isna(unique_id_of_value):
+                        target["@id"] = unique_id_of_value
+                    _merge_type(target, value)  
                 elif value:
-                    current_level["rdfs:comment"] = value
-                break
+                    target["rdfs:comment"] = value
+                break  
 
-            current_level = current_level[part]
+            current_level = next_level
 
     except Exception as e:
-        traceback.print_exc()  # Print the full traceback
+        traceback.print_exc()
         raise RuntimeError(f"Error occurred with value '{value}' and path '{path}': {str(e)}")
 
 
