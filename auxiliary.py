@@ -3,6 +3,7 @@ import traceback
 import inspect
 from typing import Any, Optional
 
+DEBUG_STATUS = False # Set to True for debugging output (using plf function)
 
 def add_to_structure(
     jsonld: dict,
@@ -62,7 +63,8 @@ def add_to_structure(
 
 
     try:
-        print('               ')  # Debug separator
+        if DEBUG_STATUS:
+            print('               ')  # Debug separator
         current_level = jsonld
         unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
         context_connector = data_container.data['context_connector']
@@ -158,7 +160,7 @@ def add_to_structure(
         )
 
 
-def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = True):
+def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = DEBUG_STATUS):
     """
     Print Line Function (PLF).
 
