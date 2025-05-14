@@ -22,6 +22,23 @@ def _merge_type(node: dict, new_type: str) -> None:
         elif existing != new_type:
             node["@type"] = [existing, new_type]
 
+def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
+    """
+    Safely insert *new_entry* at ``node[key]``:
+
+    - If the slot is empty or `{}`, just set it.
+    - If it already holds a list, append.
+    - If it holds a single object, turn that object into a list with the new
+      entry appended.
+    """
+    existing = node.get(key)
+    if existing in (None, {}):
+        node[key] = new_entry
+    elif isinstance(existing, list):
+        existing.append(new_entry)
+    else:  
+        node[key] = [existing, new_entry]
+
 def add_to_structure(
     jsonld: dict,
     path: list[str],
@@ -122,10 +139,7 @@ def add_to_structure(
                     },
                     "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-                if isinstance(current_level.get(part), list):
-                    current_level[part].append(new_entry)
-                else:
-                    current_level[part] = new_entry
+                _add_or_extend_list(current_level, part, new_entry)
                 break  
 
             if is_last and unit == "No Unit":
