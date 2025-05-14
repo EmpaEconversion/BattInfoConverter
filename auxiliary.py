@@ -72,7 +72,7 @@ def add_to_structure(
         unique_id = data_container.data['unique_id']
 
         # Skip processing if value is invalid
-        if not value or pd.isna(value):
+        if pd.isna(value):
             print(f"Skipping empty value for path: {path}")
             return
 
