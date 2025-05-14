@@ -3,41 +3,6 @@ import traceback
 import inspect
 from typing import Any, Optional
 
-def _merge_type(node: dict, new_type: str) -> None:
-    """
-    Helper function to add_to_structure function. Add *new_type* to the ``@type`` key of *node* **without ever clobbering**
-    what is already there.
-
-    - If ``@type`` is absent → set it.
-    - If it's a single value different from *new_type* → turn it into a list.
-    - If it's a list and *new_type* is missing → append it.
-    """
-    if "@type" not in node:
-        node["@type"] = new_type
-    else:
-        existing = node["@type"]
-        if isinstance(existing, list):
-            if new_type not in existing:
-                existing.append(new_type)
-        elif existing != new_type:
-            node["@type"] = [existing, new_type]
-
-def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
-    """
-    Safely insert *new_entry* at ``node[key]``:
-
-    - If the slot is empty or `{}`, just set it.
-    - If it already holds a list, append.
-    - If it holds a single object, turn that object into a list with the new
-      entry appended.
-    """
-    existing = node.get(key)
-    if existing in (None, {}):
-        node[key] = new_entry
-    elif isinstance(existing, list):
-        existing.append(new_entry)
-    else:  
-        node[key] = [existing, new_entry]
 
 def add_to_structure(
     jsonld: dict,
@@ -69,14 +34,40 @@ def add_to_structure(
             RuntimeError: If any unexpected error arises while processing the value and path.
     """
     from json_convert import get_information_value
+    def _merge_type(node: dict, new_type: str) -> None:
+        """Safely add *new_type* to node['@type'] without overwriting."""
+        if "@type" not in node:
+            node["@type"] = new_type
+        else:
+            existing = node["@type"]
+            if isinstance(existing, list):
+                if new_type not in existing:
+                    existing.append(new_type)
+            elif existing != new_type:
+                node["@type"] = [existing, new_type]
+
+    def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
+        """Set, append or convert-to-list at *node[key]* so nothing is lost."""
+        existing = node.get(key)
+        if existing in (None, {}):
+            node[key] = new_entry
+        elif isinstance(existing, list):
+            existing.append(new_entry)
+        else:
+            node[key] = [existing, new_entry]
+
+    def _extract_type(segment: str) -> str:
+        """'type|RatedCapacity' ➜ 'RatedCapacity' (else return unchanged)."""
+        return segment.split("|", 1)[1] if segment.startswith("type|") else segment
+
 
     try:
-        print("               ")  # Debug separator
+        print('               ')  # Debug separator
         current_level = jsonld
-        unit_map = data_container.data["unit_map"].set_index("Item").to_dict(orient="index")
-        context_connector = data_container.data["context_connector"]
-        connectors = set(context_connector["Item"])
-        unique_id = data_container.data["unique_id"]
+        unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
+        context_connector = data_container.data['context_connector']
+        connectors = set(context_connector['Item'])
+        unique_id = data_container.data['unique_id']
 
         # Skip processing if value is invalid
         if not value or pd.isna(value):
@@ -84,22 +75,22 @@ def add_to_structure(
             return
 
         for idx, parts in enumerate(path):
-            if len(parts.split("|")) == 1:
+            if len(parts.split('|')) == 1:
                 part = parts
                 special_command = None
                 plf(value, part)
 
             elif "type|" in parts:
-                _, type_value = parts.split("|", 1)
+                # explicit @type assignment
+                _, type_value = parts.split('|', 1)
                 plf(value, type_value)
-
                 if type_value:
-                    _merge_type(current_level, type_value)  
+                    _merge_type(current_level, type_value)
                 plf(value, type_value, current_level=current_level)
-                continue 
+                continue
 
-            elif len(parts.split("|")) == 2:
-                special_command, part = parts.split("|")
+            elif len(parts.split('|')) == 2:
+                special_command, part = parts.split('|')
                 plf(value, part)
                 if special_command == "rev":
                     if "@reverse" not in current_level:
@@ -117,52 +108,54 @@ def add_to_structure(
                     plf(value, part)
                     if part in connectors:
                         connector_type = context_connector.loc[
-                            context_connector["Item"] == part, "Key"
+                            context_connector['Item'] == part, 'Key'
                         ].values[0]
                         current_level[part] = (
-                            {} if pd.isna(connector_type) else {"@type": connector_type}
+                            {} if pd.isna(connector_type)
+                            else {"@type": connector_type}
                         )
                     else:
                         current_level[part] = {}
 
             next_level = current_level[part]
 
-            if is_second_last and unit != "No Unit":
+            if is_second_last and unit != 'No Unit':
                 if pd.isna(unit):
                     raise ValueError(f"The value '{value}' is missing a valid unit.")
                 unit_info = unit_map.get(unit, {})
                 new_entry = {
-                    "@type": path[-1],
+                    "@type": _extract_type(path[-1]),  
                     "hasNumericalPart": {
                         "@type": "emmo:Real",
-                        "hasNumericalValue": value,
+                        "hasNumericalValue": value
                     },
-                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
+                    "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
                 }
-                _add_or_extend_list(current_level, part, new_entry)
-                break  
+                _add_or_extend_list(current_level, part, new_entry)  
+                break
 
-            if is_last and unit == "No Unit":
+            if is_last and unit == 'No Unit':
                 target = next_level  
-                if value in unique_id["Item"].values:
+                if value in unique_id['Item'].values:
                     unique_id_of_value = get_information_value(
-                        df=unique_id,
-                        row_to_look=value,
-                        col_to_look="ID",
-                        col_to_match="Item",
+                        df=unique_id, row_to_look=value,
+                        col_to_look="ID", col_to_match="Item"
                     )
                     if not pd.isna(unique_id_of_value):
                         target["@id"] = unique_id_of_value
-                    _merge_type(target, value)  
+                    _merge_type(target, value)
                 elif value:
                     target["rdfs:comment"] = value
-                break  
+                break
 
+            # step down
             current_level = next_level
 
     except Exception as e:
         traceback.print_exc()
-        raise RuntimeError(f"Error occurred with value '{value}' and path '{path}': {str(e)}")
+        raise RuntimeError(
+            f"Error occurred with value '{value}' and path '{path}': {str(e)}"
+        )
 
 
 def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = True):
