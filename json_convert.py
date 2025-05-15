@@ -112,19 +112,20 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
                             "@id": dict_harvest_id['Institution/company'],
                             "schema:name": dict_harvested_info['Institution/company']
                             },
-        "rdfs:comment": {}
+        "rdfs:comment": []
     }
 
     for _, row in context_toplevel.iterrows():
         jsonld["@context"][1][row['Item']] = row['Key']
 
-    connectors = set(context_connector['Item'])
+    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
+    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
 
     for _, row in schema.iterrows():
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
             continue
         if row['Ontology link'] == 'Comment':
-            jsonld["rdfs:comment"] = f"{row['Metadata']}: {row['Value']}"
+            jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
             continue
 
         ontology_path = row['Ontology link'].split('-')
@@ -159,11 +160,6 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
                 f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
             )
         aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
-
-
-    jsonld["rdfs:comment"] = f"BattINFO Converter version: {APP_VERSION}"
-    jsonld["rdfs:comment"] = f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion"
-    
     return jsonld
 
 def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
