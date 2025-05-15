@@ -125,7 +125,10 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
             continue
         if row['Ontology link'] == 'Comment':
-            jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
+            if row['Unit'] == 'No Unit':
+                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
+            else:
+                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']} {row['Unit']}")
             continue
 
         ontology_path = row['Ontology link'].split('-')
