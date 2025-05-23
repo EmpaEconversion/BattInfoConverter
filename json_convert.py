@@ -165,7 +165,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
     return jsonld
 
-def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
+def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) -> dict:
     """
     Converts an Excel file into a JSON-LD representation.
 
@@ -175,6 +175,7 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
 
     Args:
         excel_file (ExcelContainer): An instance of the `ExcelContainer` dataclass encapsulating the Excel file to be converted.
+        debug_mode (bool): Flag to enable or disable debug mode. Default is True.
 
     Returns:
         dict: A JSON-LD dictionary representing the entire structured information derived from the Excel file.
@@ -182,9 +183,10 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
     Raises:
         ValueError: If any required fields in the Excel file are missing or contain invalid data.
     """
-    print('*********************************************************')
-    print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
-    print('*********************************************************')
+    if debug_mode:
+        print('*********************************************************')
+        print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
+        print('*********************************************************')
     data_container = ExcelContainer(excel_file)
 
     # Generate JSON-LD using the data container
