@@ -1,12 +1,11 @@
 from dataclasses import dataclass, field
 import pandas as pd
-import streamlit as st
 import auxiliary as aux 
 import datetime
 from pandas import DataFrame
 import numpy as np
 
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 
 @dataclass
 class ExcelContainer:
@@ -112,19 +111,23 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
                             "@id": dict_harvest_id['Institution/company'],
                             "schema:name": dict_harvested_info['Institution/company']
                             },
-        "rdfs:comment": {}
+        "rdfs:comment": []
     }
 
     for _, row in context_toplevel.iterrows():
         jsonld["@context"][1][row['Item']] = row['Key']
 
-    connectors = set(context_connector['Item'])
+    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
+    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
 
     for _, row in schema.iterrows():
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
             continue
         if row['Ontology link'] == 'Comment':
-            jsonld["rdfs:comment"] = f"{row['Metadata']}: {row['Value']}"
+            if row['Unit'] == 'No Unit':
+                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
+            else:
+                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']} {row['Unit']}")
             continue
 
         ontology_path = row['Ontology link'].split('-')
@@ -159,14 +162,9 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
                 f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
             )
         aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
-
-
-    jsonld["rdfs:comment"] = f"BattINFO Converter version: {APP_VERSION}"
-    jsonld["rdfs:comment"] = f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion"
-    
     return jsonld
 
-def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
+def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) -> dict:
     """
     Converts an Excel file into a JSON-LD representation.
 
@@ -176,6 +174,7 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
 
     Args:
         excel_file (ExcelContainer): An instance of the `ExcelContainer` dataclass encapsulating the Excel file to be converted.
+        debug_mode (bool): Flag to enable or disable debug mode. Default is True.
 
     Returns:
         dict: A JSON-LD dictionary representing the entire structured information derived from the Excel file.
@@ -183,10 +182,11 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer) -> dict:
     Raises:
         ValueError: If any required fields in the Excel file are missing or contain invalid data.
     """
-    print('*********************************************************')
-    print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
-    print('*********************************************************')
-    data_container = ExcelContainer(excel_file)
+    if debug_mode:
+        print('*********************************************************')
+        print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
+        print('*********************************************************')
+    data_container = ExcelContainer(excel_file) # type: ignore
 
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
