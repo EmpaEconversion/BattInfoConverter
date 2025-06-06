@@ -13,148 +13,158 @@ def add_to_structure(
     data_container: "ExcelContainer",
 ) -> None:
     """
-    Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
+    Build or extend *jsonld* along *path* with *value* and *unit*.
 
-        This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
-        measured properties, ontology links, and unique identifiers. It uses data from the provided ExcelContainer 
-        to resolve unit mappings and context connectors.
+    Key features
+    ------------
+    • Handles special commands ``type|`` and ``rev|`` exactly as before.  
+    • Prevents silent overwrites of ``@type`` or measured-property blocks.  
+    • Connector rows that can appear **multiple times** (e.g. solvents,
+      additives) are stored as *lists of separate objects*; everything else
+      remains a single dict, so existing client code (e.g. manufacturer) keeps
+      working.
 
-        Args:
-            jsonld (dict): The JSON-LD structure to modify.
-            path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
-            value (any): The value to be inserted at the specified path.
-            unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
-            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data 
-                                            for unit mappings, connectors, and unique identifiers.
-
-        Returns:
-            None: This function modifies the JSON-LD structure in place.
-
-        Raises:
-            ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
-            RuntimeError: If any unexpected error arises while processing the value and path.
+    The set of multi-object connectors can be expanded easily by editing
+    ``MULTI_CONNECTORS`` below.
     """
-    from json_convert import get_information_value
+    # ------------------------------------------------------------------ #
+    # Which connector keys should become lists (one object per row)      #
+    # ------------------------------------------------------------------ #
+    MULTI_CONNECTORS = {
+        "hasConstituent",
+        "hasAdditive",
+        "hasSolute",
+        "hasSolvent",
+    }
+
+    # ------------------------------------------------------------------ #
+    # Local helpers                                                      #
+    # ------------------------------------------------------------------ #
     def _merge_type(node: dict, new_type: str) -> None:
-        """Safely add *new_type* to node['@type'] without overwriting."""
         if "@type" not in node:
             node["@type"] = new_type
         else:
-            existing = node["@type"]
-            if isinstance(existing, list):
-                if new_type not in existing:
-                    existing.append(new_type)
-            elif existing != new_type:
-                node["@type"] = [existing, new_type]
+            ex = node["@type"]
+            if isinstance(ex, list):
+                if new_type not in ex:
+                    ex.append(new_type)
+            elif ex != new_type:
+                node["@type"] = [ex, new_type]
 
     def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
-        """Set, append or convert-to-list at *node[key]* so nothing is lost."""
-        existing = node.get(key)
-        if existing in (None, {}):
+        cur = node.get(key)
+        if cur in (None, {}):
             node[key] = new_entry
-        elif isinstance(existing, list):
-            existing.append(new_entry)
+        elif isinstance(cur, list):
+            cur.append(new_entry)
         else:
-            node[key] = [existing, new_entry]
+            node[key] = [cur, new_entry]
 
-    def _extract_type(segment: str) -> str:
-        """'type|RatedCapacity' ➜ 'RatedCapacity' (else return unchanged)."""
-        return segment.split("|", 1)[1] if segment.startswith("type|") else segment
+    def _extract_type(seg: str) -> str:
+        return seg.split("|", 1)[1] if seg.startswith("type|") else seg
 
+    def _make_fresh_item(parent: dict, key: str) -> dict:
+        """Convert *parent[key]* into a list and append a fresh dict."""
+        val = parent.get(key)
+        if val is None or val == {}:
+            parent[key] = {}
+            return parent[key]
+        if isinstance(val, list):
+            new_obj = {}
+            val.append(new_obj)
+            return new_obj
+        parent[key] = [val, {}]
+        return parent[key][-1]
 
+    # ------------------------------------------------------------------ #
+    # Main body                                                          #
+    # ------------------------------------------------------------------ #
+    from json_convert import get_information_value
     try:
-        if DEBUG_STATUS:
-            print('               ')  # Debug separator
         current_level = jsonld
-        unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
-        context_connector = data_container.data['context_connector']
-        connectors = set(context_connector['Item'])
-        unique_id = data_container.data['unique_id']
+        unit_map = (
+            data_container.data["unit_map"].set_index("Item").to_dict(orient="index")
+        )
+        context_connector = data_container.data["context_connector"]
+        connectors = set(context_connector["Item"])
+        unique_id = data_container.data["unique_id"]
 
-        # Skip processing if value is invalid
-        if pd.isna(value):
-            print(f"Skipping empty value for path: {path}")
+        if not value or pd.isna(value):
             return
 
         for idx, parts in enumerate(path):
-            if len(parts.split('|')) == 1:
+            # ----------- handle special-command segments --------------- #
+            if "|" not in parts:
                 part = parts
-                special_command = None
-                plf(value, part)
-
             elif "type|" in parts:
-                # explicit @type assignment
-                _, type_value = parts.split('|', 1)
-                plf(value, type_value)
-                if type_value:
-                    _merge_type(current_level, type_value)
-                plf(value, type_value, current_level=current_level)
+                _, tval = parts.split("|", 1)
+                if tval:
+                    _merge_type(current_level, tval)
                 continue
-
-            elif len(parts.split('|')) == 2:
-                special_command, part = parts.split('|')
-                plf(value, part)
-                if special_command == "rev":
-                    if "@reverse" not in current_level:
-                        current_level["@reverse"] = {}
-                    current_level = current_level["@reverse"]
-                    plf(value, part)
             else:
-                raise ValueError(f"Invalid JSON-LD at: {parts} in {path}")
+                cmd, part = parts.split("|")
+                if cmd == "rev":
+                    current_level = current_level.setdefault("@reverse", {})
+                else:
+                    raise ValueError(f"Unknown special command {cmd} in {parts}")
+
+            # If we’re already inside a list (from previous row), point to last
+            if isinstance(current_level, list):
+                current_level = current_level[-1]
 
             is_last = idx == len(path) - 1
             is_second_last = idx == len(path) - 2
 
-            if part not in current_level:
-                if value or unit:  
-                    plf(value, part)
-                    if part in connectors:
-                        connector_type = context_connector.loc[
-                            context_connector['Item'] == part, 'Key'
-                        ].values[0]
-                        current_level[part] = (
-                            {} if pd.isna(connector_type)
-                            else {"@type": connector_type}
-                        )
-                    else:
-                        current_level[part] = {}
+            # ----------- create node if absent ------------------------- #
+            if part not in current_level and (value or unit):
+                if part in connectors:
+                    ctype = context_connector.loc[
+                        context_connector["Item"] == part, "Key"
+                    ].values[0]
+                    current_level[part] = {} if pd.isna(ctype) else {"@type": ctype}
+                else:
+                    current_level[part] = {}
 
             next_level = current_level[part]
 
-            if is_second_last and unit != 'No Unit':
+            # ----------- measured-property branch ---------------------- #
+            if is_second_last and unit != "No Unit":
                 if pd.isna(unit):
-                    raise ValueError(f"The value '{value}' is missing a valid unit.")
+                    raise ValueError(f"Value '{value}' missing unit.")
                 unit_info = unit_map.get(unit, {})
-                new_entry = {
-                    "@type": _extract_type(path[-1]),  
+                meas_entry = {
+                    "@type": _extract_type(path[-1]),
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": value
+                        "@type": "emmo:Real",
+                        "hasNumericalValue": value,
                     },
-                    "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
+                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-                if isinstance(current_level, list):          
-                    target_node = current_level[-1]          
-                    _add_or_extend_list(target_node, part, new_entry)
-                else:
-                    _add_or_extend_list(current_level, part, new_entry)
+                _add_or_extend_list(current_level, part, meas_entry)
                 break
 
-            if is_last and unit == 'No Unit':
-                target = next_level  
-                if value in unique_id['Item'].values:
-                    unique_id_of_value = get_information_value(
-                        df=unique_id, row_to_look=value,
-                        col_to_look="ID", col_to_match="Item"
+            # ----------- final-value branch ----------------------------- #
+            if is_last and unit == "No Unit":
+                # Only MULTI_CONNECTORS are turned into lists
+                if part in MULTI_CONNECTORS:
+                    target = _make_fresh_item(current_level, part)
+                else:
+                    target = next_level
+
+                if value in unique_id["Item"].values:
+                    uid = get_information_value(
+                        df=unique_id,
+                        row_to_look=value,
+                        col_to_look="ID",
+                        col_to_match="Item",
                     )
-                    if not pd.isna(unique_id_of_value):
-                        target["@id"] = unique_id_of_value
+                    if not pd.isna(uid):
+                        target["@id"] = uid
                     _merge_type(target, value)
                 elif value:
                     target["rdfs:comment"] = value
                 break
 
-            # step down
             current_level = next_level
 
     except Exception as e:
