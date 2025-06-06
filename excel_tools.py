@@ -1,6 +1,5 @@
 """
 excel_tools.py
-~~~~~~~~~~~~~~
 read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """

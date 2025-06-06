@@ -133,7 +133,11 @@ def add_to_structure(
                     },
                     "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
                 }
-                _add_or_extend_list(current_level, part, new_entry)  
+                if isinstance(current_level, list):          
+                    target_node = current_level[-1]          
+                    _add_or_extend_list(target_node, part, new_entry)
+                else:
+                    _add_or_extend_list(current_level, part, new_entry)
                 break
 
             if is_last and unit == 'No Unit':
