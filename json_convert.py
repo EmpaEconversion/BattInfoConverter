@@ -7,7 +7,7 @@ import numpy as np
 from excel_tools import read_excel_preserve_decimals as read_excel
 
 
-APP_VERSION = "1.1.2-dev"
+APP_VERSION = "1.1.3"
 
 
 @dataclass
