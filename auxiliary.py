@@ -128,8 +128,8 @@ def add_to_structure(
                 new_entry = {
                     "@type": _extract_type(path[-1]),  
                     "hasNumericalPart": {
-                        "@type": "emmo:Real",
-                        "hasNumericalValue": value
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": value
                     },
                     "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
                 }
