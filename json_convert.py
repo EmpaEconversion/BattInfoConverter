@@ -4,8 +4,10 @@ import auxiliary as aux
 import datetime
 from pandas import DataFrame
 import numpy as np
+from excel_tools import read_excel_preserve_decimals as read_excel
 
-APP_VERSION = "1.1.2"
+
+APP_VERSION = "1.1.2-dev"
 
 
 @dataclass
@@ -14,13 +16,13 @@ class ExcelContainer:
     data: dict = field(init=False)
 
     def __post_init__(self):
-        excel_data = pd.ExcelFile(self.excel_file)
+        # use the helper in place of pd.read_excel so decimal precision is kept
         self.data = {
-            "schema": pd.read_excel(excel_data, 'Schema'),
-            "unit_map": pd.read_excel(excel_data, 'Ontology - Unit'),
-            "context_toplevel": pd.read_excel(excel_data, '@context-TopLevel'),
-            "context_connector": pd.read_excel(excel_data, '@context-Connector'),
-            "unique_id": pd.read_excel(excel_data, 'Unique ID')
+            "schema":            read_excel(self.excel_file, sheet_name="Schema"),
+            "unit_map":          read_excel(self.excel_file, sheet_name="Ontology - Unit"),
+            "context_toplevel":  read_excel(self.excel_file, sheet_name="@context-TopLevel"),
+            "context_connector": read_excel(self.excel_file, sheet_name="@context-Connector"),
+            "unique_id":         read_excel(self.excel_file, sheet_name="Unique ID"),
         }
 
 def get_information_value(df: DataFrame, row_to_look: str, col_to_look: str = "Value", col_to_match: str = "Metadata") -> str | None:
