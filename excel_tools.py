@@ -1,13 +1,8 @@
 """
 excel_tools.py
-A drop-in replacement for ``pandas.read_excel`` that
-
-1. preserves the number of decimals users see in Excel,
-2. mimics pandas’ header handling (Unnamed columns + de-duplication).
-
-Import like::
-
-    from excel_tools import read_excel_preserve_decimals as read_excel
+~~~~~~~~~~~~~~
+read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
+that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
 from decimal import Decimal, ROUND_HALF_UP
@@ -16,59 +11,52 @@ from typing import Any, List, Sequence
 import pandas as pd
 from openpyxl import load_workbook
 
-
-try:  # official path (openpyxl ≥ 3.1)
+# ------------------------------------------------------------------ #
+# robust import for format_cell (new path / old path / fallback)     #
+# ------------------------------------------------------------------ #
+try:  # official since openpyxl 3.1
     from openpyxl.utils.formatting import format_cell  # type: ignore
 except ImportError:
-    try:                                              # legacy path
+    try:  # provisional path in some wheels
         from openpyxl.utils.cell import format_cell  # type: ignore
-    except ImportError:                               # tiny fallback
+    except ImportError:
+        # very small local fallback
         def format_cell(cell) -> str:  # type: ignore
-            val = cell.value
-            if val is None:
+            v = cell.value
+            if v is None:
                 return ""
             fmt = getattr(cell, "number_format", "")
-            if not isinstance(val, (int, float)) or "." not in fmt:
-                return str(val)
-            decs = sum(ch == "0" for ch in fmt.split(".", 1)[1].split(";")[0])
-            return f"{val:.{decs}f}"
+            if not isinstance(v, (int, float)) or "." not in fmt:
+                return str(v)
+            decs = fmt.split(".", 1)[1].split(";")[0]
+            n_dec = sum(ch == "0" for ch in decs)
+            return f"{v:.{n_dec}f}"
 
 
+# ------------------------------------------------------------------ #
+# internal helper                                                    #
+# ------------------------------------------------------------------ #
 def _clean_cell(cell) -> Any:
-    """Return a value that preserves the cell’s displayed decimal places."""
-    if cell.data_type != "n":                     # non-numeric
+    """Return a value that respects the cell’s displayed decimals."""
+    if cell.data_type != "n":          # not numeric
         return cell.value
-    txt = format_cell(cell)                      # what Excel shows
-    if "E" in txt or "e" in txt:                 # scientific notation – leave raw
+
+    shown = format_cell(cell)          # text Excel would display
+    if "e" in shown.lower():           # scientific notation → leave as float
         return cell.value
-    if "." in txt:                               # round to shown decimals
-        n_dec = len(txt.split(".", 1)[1])
-        q = Decimal(cell.value).quantize(
+
+    if "." in shown:                   # count decimals, round with Decimal
+        n_dec = len(shown.split(".", 1)[1])
+        quant = Decimal(cell.value).quantize(
             Decimal("1." + "0" * n_dec), rounding=ROUND_HALF_UP
         )
-        return float(q)
-    return cell.value
+        return quant                   # ← **keep as Decimal**
+    return cell.value                  # integer-like
 
 
-def _sanitize_headers(raw_headers: Sequence[Any]) -> List[str]:
-    """
-    Emulate pandas' behaviour:
-      * NaN/None/''  →  'Unnamed: {idx}'
-      * duplicate names → '.1', '.2', …
-    """
-    clean: List[str] = []
-    counts = {}
-    for idx, h in enumerate(raw_headers):
-        name = f"Unnamed: {idx}" if pd.isna(h) or h == "" else str(h)
-        if name in counts:
-            counts[name] += 1
-            name = f"{name}.{counts[name]}"
-        else:
-            counts[name] = 0
-        clean.append(name)
-    return clean
-
-
+# ------------------------------------------------------------------ #
+# public API                                                         #
+# ------------------------------------------------------------------ #
 def read_excel_preserve_decimals(
     path: str,
     sheet_name: Any = 0,
@@ -76,12 +64,10 @@ def read_excel_preserve_decimals(
     **pd_kwargs,
 ) -> pd.DataFrame:
     """
-    Load *path*/*sheet_name* into a DataFrame while
+    Load an Excel sheet while preserving the user-visible decimals.
 
-    - keeping the exact decimal precision the user sees in Excel,
-    - reproducing pandas’ header processing rules.
-
-    All extra keyword arguments are forwarded to ``pd.DataFrame`` after loading.
+    Parameters mirror pandas.read_excel; unused kwargs are forwarded to
+    pandas.DataFrame.
     """
     wb = load_workbook(path, data_only=True)
     ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
@@ -90,9 +76,9 @@ def read_excel_preserve_decimals(
 
     df = pd.DataFrame(rows, **pd_kwargs)
 
-    # Apply header logic (only single-row headers are used in this project)
+    # mimic pandas' header handling (Unnamed: x, de-duplication)
     if header is not None:
-        df.columns = _sanitize_headers(df.iloc[header])
+        df.columns = df.iloc[header]
         df = df.drop(index=list(range(header + 1))).reset_index(drop=True)
 
     return df
