@@ -131,16 +131,21 @@ def add_to_structure(
             if is_second_last and unit != "No Unit":
                 if pd.isna(unit):
                     raise ValueError(f"Value '{value}' missing unit.")
+
                 unit_info = unit_map.get(unit, {})
-                meas_entry = {
+                new_entry = {
                     "@type": _extract_type(path[-1]),
                     "hasNumericalPart": {
-                        "@type": "emmo:Real",
-                        "hasNumericalValue": value,
+                        "@type": "emmo:RealData",     # updated label
+                        "hasNumberValue": value,      # updated key
                     },
                     "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-                _add_or_extend_list(current_level, part, meas_entry)
+
+                # --- FIX: choose the right parent ------------------------
+                target_parent = current_level[-1] if isinstance(current_level, list) else current_level
+                _add_or_extend_list(target_parent, part, new_entry)
+                # ---------------------------------------------------------
                 break
 
             # ----------- final-value branch ----------------------------- #
