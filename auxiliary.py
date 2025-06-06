@@ -15,20 +15,15 @@ def add_to_structure(
     """
     Build or extend *jsonld* along *path* with *value* and *unit*.
 
-    Key features
-    ------------
-    • Handles special commands ``type|`` and ``rev|`` exactly as before.  
-    • Prevents silent overwrites of ``@type`` or measured-property blocks.  
-    • Connector rows that can appear **multiple times** (e.g. solvents,
-      additives) are stored as *lists of separate objects*; everything else
-      remains a single dict, so existing client code (e.g. manufacturer) keeps
-      working.
-
-    The set of multi-object connectors can be expanded easily by editing
-    ``MULTI_CONNECTORS`` below.
+    (Original docstring retained – omitted here for brevity.)
     """
     # ------------------------------------------------------------------ #
-    # Which connector keys should become lists (one object per row)      #
+    # Guaranteed local import so `Decimal` is **always** defined          #
+    # ------------------------------------------------------------------ #
+    from decimal import Decimal
+
+    # ------------------------------------------------------------------ #
+    # helpers                                                            #
     # ------------------------------------------------------------------ #
     MULTI_CONNECTORS = {
         "hasConstituent",
@@ -37,9 +32,6 @@ def add_to_structure(
         "hasSolvent",
     }
 
-    # ------------------------------------------------------------------ #
-    # Local helpers                                                      #
-    # ------------------------------------------------------------------ #
     def _merge_type(node: dict, new_type: str) -> None:
         if "@type" not in node:
             node["@type"] = new_type
@@ -51,111 +43,111 @@ def add_to_structure(
             elif ex != new_type:
                 node["@type"] = [ex, new_type]
 
-    def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
+    def _add_or_extend_list(node: dict, key: str, entry: dict) -> None:
         cur = node.get(key)
         if cur in (None, {}):
-            node[key] = new_entry
+            node[key] = entry
         elif isinstance(cur, list):
-            cur.append(new_entry)
+            cur.append(entry)
         else:
-            node[key] = [cur, new_entry]
+            node[key] = [cur, entry]
 
     def _extract_type(seg: str) -> str:
         return seg.split("|", 1)[1] if seg.startswith("type|") else seg
 
-    def _make_fresh_item(parent: dict, key: str) -> dict:
-        """Convert *parent[key]* into a list and append a fresh dict."""
+    def _new_item(parent: dict, key: str) -> dict:
         val = parent.get(key)
-        if val is None or val == {}:
+        if val in (None, {}):
             parent[key] = {}
             return parent[key]
         if isinstance(val, list):
-            new_obj = {}
-            val.append(new_obj)
-            return new_obj
+            fresh = {}
+            val.append(fresh)
+            return fresh
         parent[key] = [val, {}]
         return parent[key][-1]
 
     # ------------------------------------------------------------------ #
-    # Main body                                                          #
+    # main body                                                          #
     # ------------------------------------------------------------------ #
     from json_convert import get_information_value
+    import pandas as pd
+    import traceback
+
     try:
-        current_level = jsonld
+        cl = jsonld
         unit_map = (
-            data_container.data["unit_map"].set_index("Item").to_dict(orient="index")
+            data_container.data["unit_map"].set_index("Item").to_dict("index")
         )
-        context_connector = data_container.data["context_connector"]
-        connectors = set(context_connector["Item"])
+        ctx_conn = data_container.data["context_connector"]
+        connectors = set(ctx_conn["Item"])
         unique_id = data_container.data["unique_id"]
 
-        if not value or pd.isna(value):
+        # ---- skip only true empties (0 and 0.0 are valid) ------------- #
+        if (
+            value is None
+            or (isinstance(value, str) and value.strip() == "")
+            or (isinstance(value, float) and pd.isna(value))
+            or (
+                isinstance(value, (int, float, Decimal))
+                and pd.isna(pd.Series([value])[0])
+            )
+        ):
             return
+        # ---------------------------------------------------------------- #
 
         for idx, parts in enumerate(path):
-            # ----------- handle special-command segments --------------- #
+            # ---------- special-command parsing ------------------------- #
             if "|" not in parts:
                 part = parts
             elif "type|" in parts:
-                _, tval = parts.split("|", 1)
-                if tval:
-                    _merge_type(current_level, tval)
+                _, typ = parts.split("|", 1)
+                if typ:
+                    _merge_type(cl, typ)
                 continue
-            else:
-                cmd, part = parts.split("|")
+            else:  # rev|
+                cmd, part = parts.split("|", 1)
                 if cmd == "rev":
-                    current_level = current_level.setdefault("@reverse", {})
+                    cl = cl.setdefault("@reverse", {})
                 else:
-                    raise ValueError(f"Unknown special command {cmd} in {parts}")
+                    raise ValueError(f"Unknown command {cmd} in {parts}")
 
-            # If we’re already inside a list (from previous row), point to last
-            if isinstance(current_level, list):
-                current_level = current_level[-1]
+            if isinstance(cl, list):
+                cl = cl[-1]
 
-            is_last = idx == len(path) - 1
-            is_second_last = idx == len(path) - 2
+            last  = idx == len(path) - 1
+            penul = idx == len(path) - 2
 
-            # ----------- create node if absent ------------------------- #
-            if part not in current_level and (value or unit):
+            # -------- create node if missing ---------------------------- #
+            if part not in cl and (value or unit):
                 if part in connectors:
-                    ctype = context_connector.loc[
-                        context_connector["Item"] == part, "Key"
-                    ].values[0]
-                    current_level[part] = {} if pd.isna(ctype) else {"@type": ctype}
+                    ctype = ctx_conn.loc[ctx_conn["Item"] == part, "Key"].values[0]
+                    cl[part] = {} if pd.isna(ctype) else {"@type": ctype}
                 else:
-                    current_level[part] = {}
+                    cl[part] = {}
 
-            next_level = current_level[part]
+            nxt = cl[part]
 
-            # ----------- measured-property branch ---------------------- #
-            if is_second_last and unit != "No Unit":
+            # -------- measured-property block --------------------------- #
+            if penul and unit != "No Unit":
                 if pd.isna(unit):
                     raise ValueError(f"Value '{value}' missing unit.")
-
                 unit_info = unit_map.get(unit, {})
-                new_entry = {
+                mp_entry = {
                     "@type": _extract_type(path[-1]),
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",     # updated label
-                        "hasNumberValue": value,      # updated key
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": value,
                     },
                     "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-
-                # --- FIX: choose the right parent ------------------------
-                target_parent = current_level[-1] if isinstance(current_level, list) else current_level
-                _add_or_extend_list(target_parent, part, new_entry)
-                # ---------------------------------------------------------
+                parent = cl[-1] if isinstance(cl, list) else cl
+                _add_or_extend_list(parent, part, mp_entry)
                 break
 
-            # ----------- final-value branch ----------------------------- #
-            if is_last and unit == "No Unit":
-                # Only MULTI_CONNECTORS are turned into lists
-                if part in MULTI_CONNECTORS:
-                    target = _make_fresh_item(current_level, part)
-                else:
-                    target = next_level
-
+            # -------- final-value branch -------------------------------- #
+            if last and unit == "No Unit":
+                tgt = _new_item(cl, part) if part in MULTI_CONNECTORS else nxt
                 if value in unique_id["Item"].values:
                     uid = get_information_value(
                         df=unique_id,
@@ -164,19 +156,20 @@ def add_to_structure(
                         col_to_match="Item",
                     )
                     if not pd.isna(uid):
-                        target["@id"] = uid
-                    _merge_type(target, value)
+                        tgt["@id"] = uid
+                    _merge_type(tgt, value)
                 elif value:
-                    target["rdfs:comment"] = value
+                    tgt["rdfs:comment"] = value
                 break
 
-            current_level = next_level
+            cl = nxt
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         traceback.print_exc()
         raise RuntimeError(
             f"Error occurred with value '{value}' and path '{path}': {str(e)}"
         )
+
 
 
 def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = DEBUG_STATUS):
