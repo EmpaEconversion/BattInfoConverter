@@ -64,21 +64,34 @@ def read_excel_preserve_decimals(
     **pd_kwargs,
 ) -> pd.DataFrame:
     """
-    Load an Excel sheet while preserving the user-visible decimals.
-
-    Parameters mirror pandas.read_excel; unused kwargs are forwarded to
-    pandas.DataFrame.
+    Load an Excel sheet while preserving user-visible decimals **and**
+    reproduce pandas’ header logic (Unnamed columns + de-duplication).
     """
     wb = load_workbook(path, data_only=True)
     ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
 
+    # 1 — read all rows, fixing numeric cells
     rows: List[List[Any]] = [[_clean_cell(c) for c in row] for row in ws.iter_rows()]
 
+    # 2 — build DataFrame without headers first
     df = pd.DataFrame(rows, **pd_kwargs)
 
-    # mimic pandas' header handling (Unnamed: x, de-duplication)
+    # 3 — mimic pandas header behaviour
     if header is not None:
-        df.columns = df.iloc[header]
+        hdr_row = df.iloc[header].tolist()
+
+        # convert None → 'Unnamed: {i}', Decimal → str, then de-duplicate
+        seen: dict[str, int] = {}
+        clean_hdr: List[str] = []
+        for i, col in enumerate(hdr_row):
+            base = str(col) if col is not None else f"Unnamed: {i}"
+            cnt = seen.get(base, 0)
+            clean = base if cnt == 0 else f"{base}.{cnt}"
+            seen[base] = cnt + 1
+            clean_hdr.append(clean)
+
+        df.columns = clean_hdr
         df = df.drop(index=list(range(header + 1))).reset_index(drop=True)
 
     return df
+
