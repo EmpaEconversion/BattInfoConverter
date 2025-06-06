@@ -1,6 +1,7 @@
+import inspect
 import pandas as pd
 import traceback
-import inspect
+from decimal import Decimal
 from typing import Any, Optional
 
 DEBUG_STATUS = False # Set to True for debugging output (using plf function)
@@ -10,20 +11,34 @@ def add_to_structure(
     path: list[str],
     value: Any,
     unit: str,
-    data_container: "ExcelContainer",
+    data_container: "json_convert.ExcelContainer",
 ) -> None:
     """
-    Build or extend *jsonld* along *path* with *value* and *unit*.
+    Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
 
-    (Original docstring retained – omitted here for brevity.)
+        This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
+        measured properties, ontology links, and unique identifiers. It uses data from the provided ExcelContainer 
+        to resolve unit mappings and context connectors.
+
+        Args:
+            jsonld (dict): The JSON-LD structure to modify.
+            path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
+            value (any): The value to be inserted at the specified path.
+            unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
+            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data 
+                                            for unit mappings, connectors, and unique identifiers.
+
+        Returns:
+            None: This function modifies the JSON-LD structure in place.
+
+        Raises:
+            ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
+            RuntimeError: If any unexpected error arises while processing the value and path.
     """
-    # ------------------------------------------------------------------ #
-    # Guaranteed local import so `Decimal` is **always** defined          #
-    # ------------------------------------------------------------------ #
-    from decimal import Decimal
+    from json_convert import get_information_value
 
     # ------------------------------------------------------------------ #
-    # helpers                                                            #
+    # helper functions                                                   #
     # ------------------------------------------------------------------ #
     MULTI_CONNECTORS = {
         "hasConstituent",
@@ -70,10 +85,6 @@ def add_to_structure(
     # ------------------------------------------------------------------ #
     # main body                                                          #
     # ------------------------------------------------------------------ #
-    from json_convert import get_information_value
-    import pandas as pd
-    import traceback
-
     try:
         cl = jsonld
         unit_map = (
@@ -169,7 +180,6 @@ def add_to_structure(
         raise RuntimeError(
             f"Error occurred with value '{value}' and path '{path}': {str(e)}"
         )
-
 
 
 def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = DEBUG_STATUS):
