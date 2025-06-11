@@ -1,6 +1,7 @@
+import inspect
 import pandas as pd
 import traceback
-import inspect
+from decimal import Decimal
 from typing import Any, Optional
 
 DEBUG_STATUS = False # Set to True for debugging output (using plf function)
@@ -10,7 +11,7 @@ def add_to_structure(
     path: list[str],
     value: Any,
     unit: str,
-    data_container: "ExcelContainer",
+    data_container: "json_convert.ExcelContainer",
 ) -> None:
     """
     Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
@@ -35,125 +36,146 @@ def add_to_structure(
             RuntimeError: If any unexpected error arises while processing the value and path.
     """
     from json_convert import get_information_value
+
+    # ------------------------------------------------------------------ #
+    # helper functions                                                   #
+    # ------------------------------------------------------------------ #
+    MULTI_CONNECTORS = {
+        "hasConstituent",
+        "hasAdditive",
+        "hasSolute",
+        "hasSolvent",
+    }
+
     def _merge_type(node: dict, new_type: str) -> None:
-        """Safely add *new_type* to node['@type'] without overwriting."""
         if "@type" not in node:
             node["@type"] = new_type
         else:
-            existing = node["@type"]
-            if isinstance(existing, list):
-                if new_type not in existing:
-                    existing.append(new_type)
-            elif existing != new_type:
-                node["@type"] = [existing, new_type]
+            ex = node["@type"]
+            if isinstance(ex, list):
+                if new_type not in ex:
+                    ex.append(new_type)
+            elif ex != new_type:
+                node["@type"] = [ex, new_type]
 
-    def _add_or_extend_list(node: dict, key: str, new_entry: dict) -> None:
-        """Set, append or convert-to-list at *node[key]* so nothing is lost."""
-        existing = node.get(key)
-        if existing in (None, {}):
-            node[key] = new_entry
-        elif isinstance(existing, list):
-            existing.append(new_entry)
+    def _add_or_extend_list(node: dict, key: str, entry: dict) -> None:
+        cur = node.get(key)
+        if cur in (None, {}):
+            node[key] = entry
+        elif isinstance(cur, list):
+            cur.append(entry)
         else:
-            node[key] = [existing, new_entry]
+            node[key] = [cur, entry]
 
-    def _extract_type(segment: str) -> str:
-        """'type|RatedCapacity' ➜ 'RatedCapacity' (else return unchanged)."""
-        return segment.split("|", 1)[1] if segment.startswith("type|") else segment
+    def _extract_type(seg: str) -> str:
+        return seg.split("|", 1)[1] if seg.startswith("type|") else seg
 
+    def _new_item(parent: dict, key: str) -> dict:
+        val = parent.get(key)
+        if val in (None, {}):
+            parent[key] = {}
+            return parent[key]
+        if isinstance(val, list):
+            fresh = {}
+            val.append(fresh)
+            return fresh
+        parent[key] = [val, {}]
+        return parent[key][-1]
 
+    # ------------------------------------------------------------------ #
+    # main body                                                          #
+    # ------------------------------------------------------------------ #
     try:
-        if DEBUG_STATUS:
-            print('               ')  # Debug separator
-        current_level = jsonld
-        unit_map = data_container.data['unit_map'].set_index('Item').to_dict(orient='index')
-        context_connector = data_container.data['context_connector']
-        connectors = set(context_connector['Item'])
-        unique_id = data_container.data['unique_id']
+        cl = jsonld
+        unit_map = (
+            data_container.data["unit_map"].set_index("Item").to_dict("index")
+        )
+        ctx_conn = data_container.data["context_connector"]
+        connectors = set(ctx_conn["Item"])
+        unique_id = data_container.data["unique_id"]
 
-        # Skip processing if value is invalid
-        if pd.isna(value):
-            print(f"Skipping empty value for path: {path}")
+        # ---- skip only true empties (0 and 0.0 are valid) ------------- #
+        if (
+            value is None
+            or (isinstance(value, str) and value.strip() == "")
+            or (isinstance(value, float) and pd.isna(value))
+            or (
+                isinstance(value, (int, float, Decimal))
+                and pd.isna(pd.Series([value])[0])
+            )
+        ):
             return
+        # ---------------------------------------------------------------- #
 
         for idx, parts in enumerate(path):
-            if len(parts.split('|')) == 1:
+            # ---------- special-command parsing ------------------------- #
+            if "|" not in parts:
                 part = parts
-                special_command = None
-                plf(value, part)
-
             elif "type|" in parts:
-                # explicit @type assignment
-                _, type_value = parts.split('|', 1)
-                plf(value, type_value)
-                if type_value:
-                    _merge_type(current_level, type_value)
-                plf(value, type_value, current_level=current_level)
+                _, typ = parts.split("|", 1)
+                if typ:
+                    _merge_type(cl, typ)
                 continue
+            else:  # rev|
+                cmd, part = parts.split("|", 1)
+                if cmd == "rev":
+                    cl = cl.setdefault("@reverse", {})
+                else:
+                    raise ValueError(f"Unknown command {cmd} in {parts}")
 
-            elif len(parts.split('|')) == 2:
-                special_command, part = parts.split('|')
-                plf(value, part)
-                if special_command == "rev":
-                    if "@reverse" not in current_level:
-                        current_level["@reverse"] = {}
-                    current_level = current_level["@reverse"]
-                    plf(value, part)
-            else:
-                raise ValueError(f"Invalid JSON-LD at: {parts} in {path}")
+            if isinstance(cl, list):
+                cl = cl[-1]
 
-            is_last = idx == len(path) - 1
-            is_second_last = idx == len(path) - 2
+            last  = idx == len(path) - 1
+            penul = idx == len(path) - 2
 
-            if part not in current_level:
-                if value or unit:  
-                    plf(value, part)
-                    if part in connectors:
-                        connector_type = context_connector.loc[
-                            context_connector['Item'] == part, 'Key'
-                        ].values[0]
-                        current_level[part] = (
-                            {} if pd.isna(connector_type)
-                            else {"@type": connector_type}
-                        )
-                    else:
-                        current_level[part] = {}
+            # -------- create node if missing ---------------------------- #
+            if part not in cl and (value or unit):
+                if part in connectors:
+                    ctype = ctx_conn.loc[ctx_conn["Item"] == part, "Key"].values[0]
+                    cl[part] = {} if pd.isna(ctype) else {"@type": ctype}
+                else:
+                    cl[part] = {}
 
-            next_level = current_level[part]
+            nxt = cl[part]
 
-            if is_second_last and unit != 'No Unit':
+            # -------- measured-property block --------------------------- #
+            if penul and unit != "No Unit":
                 if pd.isna(unit):
-                    raise ValueError(f"The value '{value}' is missing a valid unit.")
+                    raise ValueError(f"Value '{value}' missing unit.")
                 unit_info = unit_map.get(unit, {})
-                new_entry = {
-                    "@type": _extract_type(path[-1]),  
+                mp_entry = {
+                    "@type": _extract_type(path[-1]),
                     "hasNumericalPart": {
-                        "@type": "emmo:Real",
-                        "hasNumericalValue": value
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": value,
                     },
-                    "hasMeasurementUnit": unit_info.get('Key', 'UnknownUnit')
+                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-                _add_or_extend_list(current_level, part, new_entry)  
+                parent = cl[-1] if isinstance(cl, list) else cl
+                _add_or_extend_list(parent, part, mp_entry)
                 break
 
-            if is_last and unit == 'No Unit':
-                target = next_level  
-                if value in unique_id['Item'].values:
-                    unique_id_of_value = get_information_value(
-                        df=unique_id, row_to_look=value,
-                        col_to_look="ID", col_to_match="Item"
+            # -------- final-value branch -------------------------------- #
+            if last and unit == "No Unit":
+                tgt = _new_item(cl, part) if part in MULTI_CONNECTORS else nxt
+                if value in unique_id["Item"].values:
+                    uid = get_information_value(
+                        df=unique_id,
+                        row_to_look=value,
+                        col_to_look="ID",
+                        col_to_match="Item",
                     )
-                    if not pd.isna(unique_id_of_value):
-                        target["@id"] = unique_id_of_value
-                    _merge_type(target, value)
+                    if not pd.isna(uid):
+                        tgt["@id"] = uid
+                    _merge_type(tgt, value)
                 elif value:
-                    target["rdfs:comment"] = value
+                    tgt["rdfs:comment"] = value
                 break
 
-            # step down
-            current_level = next_level
+            cl = nxt
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         traceback.print_exc()
         raise RuntimeError(
             f"Error occurred with value '{value}' and path '{path}': {str(e)}"
