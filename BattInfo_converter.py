@@ -2,7 +2,7 @@
 This module handle the interface of the web app. 
 """
 import streamlit as st # type: ignore
-import json
+import simplejson as json  
 import os
 from io import BytesIO
 import json_convert as js_conv 
@@ -44,7 +44,7 @@ def main():
         
         # Convert the uploaded Excel file to JSON-LD
         jsonld_output = js_conv.convert_excel_to_jsonld(uploaded_file)
-        jsonld_str = json.dumps(jsonld_output, indent=4)
+        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         # Download button
         to_download = BytesIO(jsonld_str.encode())
