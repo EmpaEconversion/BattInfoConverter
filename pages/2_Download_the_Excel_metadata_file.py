@@ -11,9 +11,9 @@ These fields are needed to be filled before the file can be subjected to the con
 
 
 ### Blank Excel metadata template file
-[Coin cell battery template version 1.1.2](https://github.com/EmpaEconversion/BattInfoConverter/raw/main/Excel%20for%20reference/Battery2030%2B_CoinCellBattery_Schema_Ontologized_1.1.2_Empty.xlsx) 
+[Coin cell battery template version 1.1.7](https://github.com/EmpaEconversion/BattInfoConverter/raw/main/Excel%20for%20reference/250515_241125_Battery2030%2B_CoinCellBattery_Schema_Ontologized_1.1.7_empty.xlsx) 
 ### Example filled Excel metadata template file
-[Example-filled coin cell battery template version 1.1.2](https://github.com/EmpaEconversion/BattInfoConverter/raw/main/Excel%20for%20reference/250515_241125_Battery2030%2B_CoinCellBattery_Schema_Ontologized_1.1.2_filled.xlsx)
+[Example-filled coin cell battery template version 1.1.7](https://github.com/EmpaEconversion/BattInfoConverter/raw/main/Excel%20for%20reference/250515_241125_Battery2030%2B_CoinCellBattery_Schema_Ontologized_1.1.7_filled.xlsx)
 
 
 """
