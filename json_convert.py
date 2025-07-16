@@ -189,44 +189,44 @@ def assit_format_json_rated_capacity(json_dict: dict) -> dict:
     try:
         ##Positive electrode
         #Extract the values
-        pos_1 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_2 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
-        pos_3 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        pos_4 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_5 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_6 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+        pos_1 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_2 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+        pos_3 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        pos_4 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_5 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_6 = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
         
         #Load the template with pre-defined place holder 
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE
         
         #Re-assign the values
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_1
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_2
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_3
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_4
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_5
-        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_6
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_1
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_2
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_3
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_4
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_5
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_6
 
         ##Negative electrode
         #Extract the values
-        neg_1 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_2 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        neg_3 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        neg_4 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_5 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_6 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+        neg_1 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_2 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        neg_3 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        neg_4 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_5 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_6 = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
 
 
         #Load the template with pre-defined place holder 
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
         #Re-assign the values
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_1
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_2
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_3
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_4
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_5
-        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_6
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_1
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_2
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_3
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_4
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_5
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_6
         
         json_output = json_dict
     #If the try claus failed (likely due to not all pre-defined values required for the formatting the rated capacity strcuture is given, simply return the original json_dict)
