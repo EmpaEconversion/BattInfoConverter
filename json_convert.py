@@ -261,5 +261,5 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) 
 
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
-    jsonld_output = assit_format_json_rated_capacity(jsonld_output)
+    jsonld_output = assit_format_json_rated_capacity(jsonld_output) # Simply comment this line out if assit_format is not prefereed. 
     return jsonld_output
