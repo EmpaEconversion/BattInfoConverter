@@ -179,6 +179,7 @@ def assit_format_json_rated_capacity(json_dict: dict) -> dict:
     to handle this structure directly from a pre-defined structure. In addition, the new template would make sence only if the users input all of the pre-defined value in the Excel template file,
     otherwise the original structure is better to preserve the information. So, we decide this function in the way that it will only kick-in to modify the resulting JSON-LD file only if all
     the required field is input. 
+    ** This version remians a beta version for this function. Further discussion on what to do / how to proceed when the user input different reference electrode  (yes,no) remians to be discussed. 
 
     Args:
         json_dict (dict): The JSON dictionary to format.
