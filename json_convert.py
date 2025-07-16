@@ -189,9 +189,8 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) 
         print('*********************************************************')
         print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
         print('*********************************************************')
-    data_container = ExcelContainer(excel_file) # type: ignore
+    data_container = ExcelContainer(excel_file) 
 
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
-    
     return jsonld_output
