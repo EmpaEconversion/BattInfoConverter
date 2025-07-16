@@ -1,7 +1,7 @@
 """
 This module handle the interface of the web app. 
 """
-import streamlit as st # type: ignore
+import streamlit as st 
 import simplejson as json  
 import os
 from io import BytesIO

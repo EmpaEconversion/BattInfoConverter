@@ -4,7 +4,7 @@ import traceback
 from decimal import Decimal
 from typing import Any, Optional
 
-DEBUG_STATUS = False # Set to True for debugging output (using plf function)
+DEBUG_STATUS = False 
 
 def add_to_structure(
     jsonld: dict,
