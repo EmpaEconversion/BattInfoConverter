@@ -4,7 +4,7 @@ import traceback
 from decimal import Decimal
 from typing import Any, Optional
 
-DEBUG_STATUS = False # Set to True for debugging output (using plf function)
+DEBUG_STATUS = False 
 
 def add_to_structure(
     jsonld: dict,
@@ -175,7 +175,7 @@ def add_to_structure(
 
             cl = nxt
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:  
         traceback.print_exc()
         raise RuntimeError(
             f"Error occurred with value '{value}' and path '{path}': {str(e)}"
