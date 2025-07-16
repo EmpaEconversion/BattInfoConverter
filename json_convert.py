@@ -5,6 +5,7 @@ import datetime
 from pandas import DataFrame
 import numpy as np
 from excel_tools import read_excel_preserve_decimals as read_excel
+from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
 
 APP_VERSION = "pre-1.2.0"
@@ -167,6 +168,72 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
     return jsonld
 
+
+def assit_format_json_rated_capacity(json_dict: dict) -> dict:
+    """
+    Assit formating rated capacity part to follow the newly purposed structure.
+
+    In a discussion with BattINFO ontology team (Simon Clark), certain structure on how to properly define rated capacity is recommended.
+    Nevertheless, this structure is too complicated to be implement directly in the Excel template. To achieve that many specific functions may have to be implemented.
+    Since this is likely very specific to our definition of coin cell and less likely to be used by other users not using our template, we decide to just have a specific function
+    to handle this structure directly from a pre-defined structure. In addition, the new template would make sence only if the users input all of the pre-defined value in the Excel template file,
+    otherwise the original structure is better to preserve the information. So, we decide this function in the way that it will only kick-in to modify the resulting JSON-LD file only if all
+    the required field is input. 
+
+    Args:
+        json_dict (dict): The JSON dictionary to format.
+
+    Returns:
+        dict: The modified JSON dictionary with the rated capacity section formatted according to the new structure.
+    """
+    try:
+        ##Positive electrode
+        #Extract the values
+        pos_1 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_2 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+        pos_3 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        pos_4 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_5 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        pos_6 = json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+        
+        #Load the template with pre-defined place holder 
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE
+        
+        #Re-assign the values
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_1
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_2
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_3
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_4
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_5
+        json_dict['@graph'][0]["hasTestObject"]["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_6
+
+        ##Negative electrode
+        #Extract the values
+        neg_1 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_2 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        neg_3 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
+        neg_4 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_5 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
+        neg_6 = json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
+
+
+        #Load the template with pre-defined place holder 
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
+
+        #Re-assign the values
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_1
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_2
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_3
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_4
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_5
+        json_dict['@graph'][0]["hasTestObject"]["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasMeasurementParameter"]["hasTask"]["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_6
+        
+        json_output = json_dict
+    #If the try claus failed (likely due to not all pre-defined values required for the formatting the rated capacity strcuture is given, simply return the original json_dict)
+    except: 
+        json_output = json_dict
+    return json_output
+
 def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) -> dict:
     """
     Converts an Excel file into a JSON-LD representation.
@@ -193,4 +260,5 @@ def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) 
 
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
+    jsonld_output = assit_format_json_rated_capacity(jsonld_output)
     return jsonld_output
