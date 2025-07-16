@@ -7,6 +7,12 @@ import os
 from io import BytesIO
 import json_convert as js_conv 
 
+st.set_page_config(
+page_title="BattINFO Converter",
+page_icon="battinfoconverter-logo.png",  
+layout="wide"
+)
+
 badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.streamlit.app"
 st.image(badge_url)
 
