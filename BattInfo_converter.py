@@ -17,6 +17,7 @@ badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.str
 st.image(badge_url)
 
 markdown_content = """ 
+### Overview
 BattINFO converter helps you ontologize the metadata of your coin cell batteries based on the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO).
 Ontologizing your metadata significantly enhances the interoperability of your data across various digital platforms and research groups.
 To learn more about ontologizing your metadata, we invite you to visit our page on [ontologizing metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main).
@@ -33,6 +34,9 @@ the Swiss Federal Laboratories for Materials Science and Technology in the Labor
 We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF as well as the help of Dr. Graham Kimbell, Empa in designing the BattINFO converter app logo.
 The development of BattINFO converter was supported by funding for the [Battery2030+](https://battery2030.eu/) initiative from the European Union’s research and innovation program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for Education, Research, and Innovation (SERI) under contract No. 2300313 as well as funding for the [PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board
 
+### Citation
+If you find BattINFO converter useful and would like to cite our work in an academic jounral. Please consider citing our publication:  
+[1] Nukorn Plainpan, Simon Clark, and Corsin Battaglia. "BattINFO Converter: An Automated Tool for Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**): 2500151. [doi.org/10.1002/batt.202500151](https://doi.org/10.1002/batt.202500151)
 """
 
 image_url = 'https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/battinfoconverter.png'
