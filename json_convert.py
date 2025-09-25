@@ -8,7 +8,7 @@ from excel_tools import read_excel_preserve_decimals as read_excel
 from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
 
-APP_VERSION = "1.2.0"
+APP_VERSION = "1.3.0"
 
 
 @dataclass
@@ -135,28 +135,6 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             continue
 
         ontology_path = row['Ontology link'].split('-')
-
-        # Handle schema:productID specifically
-        if 'schema:productID' in row['Ontology link']:
-            aux.add_to_structure(
-                jsonld=jsonld,
-                path=ontology_path,
-                value=row['Value'],
-                unit=row['Unit'],
-                data_container=data_container,
-            )
-            continue
-
-        # Handle schema:manufacturer entries
-        if 'schema:manufacturer' in row['Ontology link']:
-            aux.add_to_structure(
-                jsonld=jsonld,
-                path=ontology_path,
-                value=row['Value'],
-                unit=row['Unit'],
-                data_container=data_container,
-            )
-            continue
 
         # Default behavior for other entries
         if pd.isna(row['Unit']):
