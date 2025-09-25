@@ -8,7 +8,7 @@ from excel_tools import read_excel_preserve_decimals as read_excel
 from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
 
-APP_VERSION = "1.2.0"
+APP_VERSION = "1.3.0"
 
 
 @dataclass
