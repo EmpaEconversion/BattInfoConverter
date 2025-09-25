@@ -8,7 +8,7 @@ from excel_tools import read_excel_preserve_decimals as read_excel
 from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "1.2.0"
 
 
 @dataclass
@@ -65,7 +65,6 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     """
     schema = data_container.data['schema']
     context_toplevel = data_container.data['context_toplevel']
-    context_connector = data_container.data['context_connector']
 
     #Harvest the information for the required section of the schemas
     ls_info_to_harvest = [
