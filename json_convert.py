@@ -138,26 +138,24 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
 
         # Handle schema:productID specifically
         if 'schema:productID' in row['Ontology link']:
-            product_id = str(row['Value']).strip()  # Ensure the value is treated as a string
-            # Explicitly assign the value to avoid issues with add_to_structure
-            current = jsonld
-            for key in ontology_path[:-1]:
-                if key not in current:
-                    current[key] = {}
-                current = current[key]
-            current[ontology_path[-1]] = product_id
+            aux.add_to_structure(
+                jsonld=jsonld,
+                path=ontology_path,
+                value=row['Value'],
+                unit=row['Unit'],
+                data_container=data_container,
+            )
             continue
 
         # Handle schema:manufacturer entries
         if 'schema:manufacturer' in row['Ontology link']:
-            manufacturer_entry = {
-                "@type": "schema:Organization",
-                "schema:name": row['Value']
-            }
-            # Add manufacturer entry to the structure
-            if ontology_path[0] not in jsonld:
-                jsonld[ontology_path[0]] = {}
-            jsonld[ontology_path[0]]["schema:manufacturer"] = manufacturer_entry
+            aux.add_to_structure(
+                jsonld=jsonld,
+                path=ontology_path,
+                value=row['Value'],
+                unit=row['Unit'],
+                data_container=data_container,
+            )
             continue
 
         # Default behavior for other entries
