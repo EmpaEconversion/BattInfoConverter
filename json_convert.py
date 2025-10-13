@@ -8,7 +8,7 @@ from excel_tools import read_excel_preserve_decimals as read_excel
 from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
 
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "1.3.5"
 
 
 @dataclass
@@ -27,6 +27,7 @@ class ExcelContainer:
         }
         self._last_nodes: dict[tuple[str, ...], dict] = {}
         self._path_counts: dict[tuple[str, ...], int] = {}
+        self._connector_registry: dict[tuple[str, ...], list[dict]] = {}
 
 def get_information_value(df: DataFrame, row_to_look: str, col_to_look: str = "Value", col_to_match: str = "Metadata") -> str | None:
     """
@@ -127,6 +128,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
 
     data_container._last_nodes = {}
     data_container._path_counts = {}
+    data_container._connector_registry = {}
 
     for _, row in schema.iterrows():
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
@@ -151,6 +153,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             row['Value'],
             row['Unit'],
             data_container,
+            metadata=row['Metadata'],
         )
     return jsonld
 
