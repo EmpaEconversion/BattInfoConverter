@@ -25,9 +25,8 @@ def add_to_structure(
             path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
             value (any): The value to be inserted at the specified path.
             unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
-            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data 
+            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data
                                             for unit mappings, connectors, and unique identifiers.
-
         Returns:
             None: This function modifies the JSON-LD structure in place.
 
@@ -82,6 +81,30 @@ def add_to_structure(
         parent[key] = [val, {}]
         return parent[key][-1]
 
+    def _register_last(path_key: tuple[str, ...], node: dict) -> None:
+        if not path_key:
+            return
+        history = getattr(data_container, "_last_nodes", None)
+        if history is None:
+            history = {}
+            setattr(data_container, "_last_nodes", history)
+        history[path_key] = node
+
+    def _get_last(path_key: tuple[str, ...]) -> dict | None:
+        history = getattr(data_container, "_last_nodes", None)
+        if not history:
+            return None
+        return history.get(path_key)
+
+    def _next_index(path_key: tuple[str, ...]) -> int:
+        counters = getattr(data_container, "_path_counts", None)
+        if counters is None:
+            counters = {}
+            setattr(data_container, "_path_counts", counters)
+        val = counters.get(path_key, 0)
+        counters[path_key] = val + 1
+        return val
+
     # ------------------------------------------------------------------ #
     # main body                                                          #
     # ------------------------------------------------------------------ #
@@ -107,6 +130,8 @@ def add_to_structure(
             return
         # ---------------------------------------------------------------- #
 
+        traversed: list[str] = []
+
         for idx, parts in enumerate(path):
             # ---------- special-command parsing ------------------------- #
             if "|" not in parts:
@@ -128,6 +153,8 @@ def add_to_structure(
 
             last  = idx == len(path) - 1
             penul = idx == len(path) - 2
+
+            traversed.append(part)
 
             # -------- create node if missing ---------------------------- #
             if part not in cl and (value or unit):
@@ -158,7 +185,61 @@ def add_to_structure(
 
             # -------- final-value branch -------------------------------- #
             if last and unit == "No Unit":
-                tgt = _new_item(cl, part) if part in MULTI_CONNECTORS else nxt
+                special_keys = {"schema:manufacturer", "schema:productID"}
+                if (
+                    part in special_keys
+                    and isinstance(cl, dict)
+                    and "hasConstituent" in cl
+                ):
+                    raw_const = cl["hasConstituent"]
+                    if isinstance(raw_const, list):
+                        candidates = [c for c in raw_const if isinstance(c, dict)]
+                    elif isinstance(raw_const, dict):
+                        candidates = [raw_const]
+                    else:
+                        candidates = []
+
+                    if candidates:
+                        path_key = tuple(traversed)
+                        idx = _next_index(path_key)
+                        target = candidates[idx] if idx < len(candidates) else None
+                        if target is None:
+                            last_key = tuple(traversed[:-1] + ["hasConstituent"])
+                            target = _get_last(last_key)
+                        if target not in candidates:
+                            target = None
+                        if target is None:
+                            for cand in candidates:
+                                existing = cand.get(part)
+                                if existing in (None, {}):
+                                    target = cand
+                                    break
+                        if target is not None:
+                            holder = target.get(part)
+                            if not isinstance(holder, dict):
+                                target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
+                            tgt = target[part]
+                            if value in unique_id["Item"].values:
+                                uid = get_information_value(
+                                    df=unique_id,
+                                    row_to_look=value,
+                                    col_to_look="ID",
+                                    col_to_match="Item",
+                                )
+                                if not pd.isna(uid):
+                                    tgt["@id"] = uid
+                                _merge_type(tgt, value)
+                            elif value:
+                                tgt["rdfs:comment"] = value
+                            if part in cl and cl[part] in (None, {}):
+                                cl.pop(part)
+                            break
+
+                if part in MULTI_CONNECTORS:
+                    tgt = _new_item(cl, part)
+                    _register_last(tuple(traversed), tgt)
+                else:
+                    tgt = nxt
                 if value in unique_id["Item"].values:
                     uid = get_information_value(
                         df=unique_id,
