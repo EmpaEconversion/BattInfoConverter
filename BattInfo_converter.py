@@ -5,7 +5,7 @@ import streamlit as st
 import simplejson as json  
 import os
 from io import BytesIO
-import json_convert as js_conv 
+from battinfoconverter_backend import json_convert as js_conv
 
 st.set_page_config(
 page_title="BattINFO Converter",

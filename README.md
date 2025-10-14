@@ -5,7 +5,25 @@
 
 **BattINFO Converter** is a Python-based web application that simplifies the semantic annotation of battery metadata. It converts coin cell battery metadata from an Excel-based schema into a **JSON-LD** format using the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO), ensuring standardized and machine-readable metadata. This tool is designed for non-technical users, eliminating the need for manual JSON-LD creation. Researchers only need to fill in an Excel schema (visit BattINFO converter to learn more), and the converter automates the transformation process, enhancing data interoperability, reproducibility, and [FAIRness](https://www.go-fair.org/fair-principles/). By adopting **BattINFO Converter**, research groups can ensure that their battery metadata is structured, shareable, and reusable, facilitating better collaboration and advancing battery research.
 
-🔗 Vist **[BattINFO converter](https://battinfoconverter.streamlit.app/)** to learn more. 
+🔗 Vist **[BattINFO converter](https://battinfoconverter.streamlit.app/)** to learn more.
+
+## Python package
+
+The backend utilities that power the web application are available as a standalone
+package so they can be reused in other projects. Install it from a local clone or
+directly from GitHub with:
+
+```bash
+pip install battinfoconverter-backend
+```
+
+After installation you can access the converter helpers with:
+
+```python
+from battinfoconverter_backend import json_convert
+
+result = json_convert.convert_excel_to_jsonld("example.xlsx")
+```
 
 ## License
 BattINFO converter is released under MIT license.

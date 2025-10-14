@@ -1,14 +1,18 @@
 from dataclasses import dataclass, field
-import pandas as pd
-import auxiliary as aux 
 import datetime
 from pandas import DataFrame
 import numpy as np
-from excel_tools import read_excel_preserve_decimals as read_excel
-from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
+import pandas as pd
+
+from . import auxiliary as aux
+from .excel_tools import read_excel_preserve_decimals as read_excel
+from .json_template import (
+    SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
+    SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
+)
 
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "2.0.0"
 
 
 @dataclass
@@ -25,6 +29,9 @@ class ExcelContainer:
             "context_connector": read_excel(self.excel_file, sheet_name="@context-Connector"),
             "unique_id":         read_excel(self.excel_file, sheet_name="Unique ID"),
         }
+        self._last_nodes: dict[tuple[str, ...], dict] = {}
+        self._path_counts: dict[tuple[str, ...], int] = {}
+        self._connector_registry: dict[tuple[str, ...], list[dict]] = {}
 
 def get_information_value(df: DataFrame, row_to_look: str, col_to_look: str = "Value", col_to_match: str = "Metadata") -> str | None:
     """
@@ -123,6 +130,10 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
     jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
 
+    data_container._last_nodes = {}
+    data_container._path_counts = {}
+    data_container._connector_registry = {}
+
     for _, row in schema.iterrows():
         if pd.isna(row['Value']) or row['Ontology link'] == 'NotOntologize':
             continue
@@ -140,7 +151,14 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             raise ValueError(
                 f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
             )
-        aux.add_to_structure(jsonld, ontology_path, row['Value'], row['Unit'], data_container)
+        aux.add_to_structure(
+            jsonld,
+            ontology_path,
+            row['Value'],
+            row['Unit'],
+            data_container,
+            metadata=row['Metadata'],
+        )
     return jsonld
 
 
