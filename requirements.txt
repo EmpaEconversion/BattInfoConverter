@@ -1,4 +1,2 @@
-streamlit
-pandas
-openpyxl
-simplejson
+-e .
+streamlit>=1.37
