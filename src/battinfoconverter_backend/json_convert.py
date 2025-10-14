@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 import datetime
 from pandas import DataFrame
-
 import numpy as np
 import pandas as pd
 
@@ -13,7 +12,7 @@ from .json_template import (
 )
 
 
-APP_VERSION = "1.3.5"
+APP_VERSION = "2.0.0"
 
 
 @dataclass
