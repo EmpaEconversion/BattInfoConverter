@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 import pandas as pd
 
-DEBUG_STATUS = False 
+DEBUG_STATUS = False
 
 def add_to_structure(
     jsonld: dict,
@@ -38,7 +38,7 @@ def add_to_structure(
             ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
             RuntimeError: If any unexpected error arises while processing the value and path.
     """
-    from json_convert import get_information_value
+    from .json_convert import get_information_value
 
     # ------------------------------------------------------------------ #
     # helper functions                                                   #

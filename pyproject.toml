@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "battinfoconverter-backend"
+version = "1.3.5"
+description = "Backend utilities for the BattINFO converter."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
+
+dependencies = [
+  "numpy>=1.23",
+  "openpyxl>=3.1",
+  "pandas>=1.5",
+  "simplejson"
+]
+
+[project.optional-dependencies]
+dev = [
+  "streamlit",
+]
+
+[project.urls]
+Homepage = "https://github.com/EmpaEconversion/BattInfoConverter"
+Source = "https://github.com/EmpaEconversion/BattInfoConverter"
+Issues = "https://github.com/EmpaEconversion/BattInfoConverter/issues"
+
+[tool.setuptools.packages.find]
+include = ["battinfoconverter_backend"]

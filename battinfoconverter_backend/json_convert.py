@@ -1,11 +1,16 @@
 from dataclasses import dataclass, field
-import pandas as pd
-import auxiliary as aux 
 import datetime
 from pandas import DataFrame
+
 import numpy as np
-from excel_tools import read_excel_preserve_decimals as read_excel
-from json_template import SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE, SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE
+import pandas as pd
+
+from . import auxiliary as aux
+from .excel_tools import read_excel_preserve_decimals as read_excel
+from .json_template import (
+    SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
+    SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
+)
 
 
 APP_VERSION = "1.3.5"
