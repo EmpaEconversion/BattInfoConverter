@@ -5,19 +5,23 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "battinfoconverter-backend"
 version = "0.1.0"
-description = "Backend for BattInfoConverter"
+description = "Backend conversion module for BattInfoConverter"
 readme = "README.md"
 requires-python = ">=3.9"
+license = { text = "MIT" }
 authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
-license = {text = "MIT"}
+
 dependencies = [
-  "pandas",
-  "openpyxl"
-  "simplejson"
+  "pandas>=2.0",
+  "openpyxl>=3.1"
 ]
 
+[project.urls]
+Homepage = "https://github.com/NukP/BattInfoConverter"
+Repository = "https://github.com/NukP/BattInfoConverter"
+
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
