@@ -1,3 +1,4 @@
+"""Test module for standard Excel to JSON-LD conversion."""
 import copy
 import json
 from decimal import Decimal
