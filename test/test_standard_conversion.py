@@ -51,8 +51,15 @@ def test_standard_excel_conversion_matches_reference_jsonld():
     excel_path = FIXTURE_DIR / "Standard_Excel.xlsx"
     expected_json_path = FIXTURE_DIR / "Standard_JSON.json"
 
-    converted = convert_excel_to_jsonld(str(excel_path), debug_mode=False)
+    converted = convert_excel_to_jsonld(excel_path, debug_mode=False)
     with expected_json_path.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 
     assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+
+def test_valid_json() -> None:
+    """Make sure the JSON-LD output is valid."""
+    excel_path = FIXTURE_DIR / "Standard_Excel.xlsx"
+    converted = convert_excel_to_jsonld(excel_path, debug_mode=False)
+    # This should run without errors
+    json.dumps(converted)
