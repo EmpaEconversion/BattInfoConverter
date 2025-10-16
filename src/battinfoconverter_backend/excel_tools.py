@@ -4,7 +4,8 @@ read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
-from typing import Any, List, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 import pandas as pd
 from openpyxl import load_workbook
@@ -66,7 +67,7 @@ def read_excel_preserve_decimals(
     ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
 
     # 1 — read all rows, fixing numeric cells
-    rows: List[List[Any]] = [[_clean_cell(c) for c in row] for row in ws.iter_rows()]
+    rows: list[list[Any]] = [[_clean_cell(c) for c in row] for row in ws.iter_rows()]
 
     # 2 — build DataFrame without headers first
     df = pd.DataFrame(rows, **pd_kwargs)
@@ -77,7 +78,7 @@ def read_excel_preserve_decimals(
 
         # convert None → 'Unnamed: {i}', Decimal → str, then de-duplicate
         seen: dict[str, int] = {}
-        clean_hdr: List[str] = []
+        clean_hdr: list[str] = []
         for i, col in enumerate(hdr_row):
             base = str(col) if col is not None else f"Unnamed: {i}"
             cnt = seen.get(base, 0)
