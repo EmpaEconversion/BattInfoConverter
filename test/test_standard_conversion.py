@@ -1,5 +1,6 @@
 """Test module for standard Excel to JSON-LD conversion."""
 import copy
+import io
 import json
 from decimal import Decimal
 from pathlib import Path
@@ -63,3 +64,24 @@ def test_valid_json() -> None:
     converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
     # This should run without errors
     json.dumps(converted)
+
+def test_conversion_different_inputs() -> None:
+    """Users should be able to read files in different ways."""
+    excel_path = FIXTURE_DIR / "Standard_Excel.xlsx"
+
+    # pathlib.Path object
+    res1 = convert_excel_to_jsonld(excel_path, debug_mode=False)
+
+    # String object
+    res2 = convert_excel_to_jsonld(str(excel_path), debug_mode=False)
+
+    # Buffered reader object
+    with excel_path.open("rb") as f:
+        excel_bytesio = io.BytesIO(f.read())
+        res3 = convert_excel_to_jsonld(f, debug_mode=False)
+
+    # Bytes IO object
+    res4 = convert_excel_to_jsonld(excel_bytesio, debug_mode=False)
+
+    # Should not affect the results
+    assert res1 == res2 == res3 == res4

@@ -1,7 +1,9 @@
-from dataclasses import dataclass, field
 import datetime
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
+from typing import IO
+
 import numpy as np
 import pandas as pd
 import tomllib
@@ -41,7 +43,7 @@ APP_VERSION = _load_app_version()
 
 @dataclass
 class ExcelContainer:
-    excel_file: str
+    excel_file: str | Path | IO[bytes]
     data: dict = field(init=False)
 
     def __post_init__(self):
@@ -252,7 +254,7 @@ def assit_format_json_rated_capacity(json_dict: dict) -> dict:
         json_output = json_dict
     return json_output
 
-def convert_excel_to_jsonld(excel_file: ExcelContainer, debug_mode:bool = True) -> dict:
+def convert_excel_to_jsonld(excel_file: str | Path | IO[bytes], debug_mode:bool = True) -> dict:
     """
     Converts an Excel file into a JSON-LD representation.
 
