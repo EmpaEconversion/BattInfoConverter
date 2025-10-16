@@ -12,7 +12,7 @@
         }
     ],
     "@type": "CoinCell",
-    "schema:version": "1.1.8",
+    "schema:version": "1.1.9",
     "schema:productID": "Empa-bco-000007",
     "schema:dateCreated": "16/6/2024",
     "schema:creator": {
@@ -26,9 +26,9 @@
         "schema:name": "Empa"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 2.0.1",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.0.1 and the coin cell battery schema version: 1.1.8, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
-        "BattINFO CoinCellSchema version: 1.1.8",
+        "BattINFO Converter version: 2.0.1-trial",
+        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.0.1-trial and the coin cell battery schema version: 1.1.9, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "BattINFO CoinCellSchema version: 1.1.9",
         "Project: Battery2030+/PREMISE",
         "Assembled manually or by robot: manually",
         "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
@@ -47,6 +47,12 @@
                     "hasNumberValue": 15
                 },
                 "hasMeasurementUnit": "emmo:MicroMetre"
+            },
+            "schema:manufacturer": {
+                "rdfs:comment": "test_Positive electrode current collector material manufacturer"
+            },
+            "schema:productID": {
+                "rdfs:comment": "test_Positive electrode current collector material manufacturer product ID"
             }
         },
         "hasCoating": {
@@ -81,7 +87,13 @@
                         },
                         "hasMeasurementUnit": "emmo:MicroMetre"
                     }
-                ]
+                ],
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Positive electrode coating active material manufacturer"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Positive electrode coating active material manufacturer product ID"
+                }
             },
             "hasBinder": {
                 "@type": [
@@ -95,6 +107,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Positive electrode coating binder material manufacturer"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Positive electrode coating binder material manufacturer product ID"
                 }
             },
             "hasConductiveAdditive": {
@@ -109,6 +127,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Positive electrode coating conductive additive material manufacturer"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Positive electrode coating conductive additive material manufacturer product ID"
                 }
             },
             "hasMeasuredProperty": [
@@ -281,6 +305,12 @@
                     "hasNumberValue": 14
                 },
                 "hasMeasurementUnit": "emmo:MicroMetre"
+            },
+            "schema:manufacturer": {
+                "rdfs:comment": "test_Negative electrode current collector material manufacturer"
+            },
+            "schema:productID": {
+                "rdfs:comment": "test_Negative electrode current collector material manufacturer product ID"
             }
         },
         "hasCoating": {
@@ -312,7 +342,13 @@
                         },
                         "hasMeasurementUnit": "emmo:MicroMetre"
                     }
-                ]
+                ],
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Negative electrode coating active material manufacturer"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Negative electrode coating active material manufacturer product ID"
+                }
             },
             "hasBinder": {
                 "@type": [
@@ -326,6 +362,12 @@
                         "hasNumberValue": 3
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Negative electrode coating binder material manufacturer"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Negative electrode coating binder material manufacturer product ID"
                 }
             },
             "hasConductiveAdditive": {
@@ -340,6 +382,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_Negative electrode coating conductive additive manufacturer supplier"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_Negative electrode coating conductive additive material manufacturer product ID"
                 }
             },
             "hasMeasuredProperty": [
@@ -551,6 +599,12 @@
                             "hasNumberValue": 1
                         },
                         "hasMeasurementUnit": "unit:MOL-PER-L"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_solute_A_manufacturer"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_solute_A_manufacturer_product_ID"
                     }
                 },
                 {
@@ -562,6 +616,12 @@
                             "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "unit:MOL-PER-L"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_solute_B_manufacturer"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_solute_B_manufacturer_product_ID"
                     }
                 }
             ],
@@ -577,6 +637,12 @@
                                 "hasNumberValue": 0.16
                             },
                             "hasMeasurementUnit": "unit:MOL-PER-L"
+                        },
+                        "schema:manufacturer": {
+                            "rdfs:comment": "test_additive_A_manufacturer"
+                        },
+                        "schema:productID": {
+                            "rdfs:comment": "test_additive_A_manufacturer_product_ID"
                         }
                     },
                     {
@@ -588,6 +654,12 @@
                                 "hasNumberValue": 0
                             },
                             "hasMeasurementUnit": "unit:MOL-PER-L"
+                        },
+                        "schema:manufacturer": {
+                            "rdfs:comment": "test_additive_B_manufacturer"
+                        },
+                        "schema:productID": {
+                            "rdfs:comment": "test_additive_B_manufacturer_product_ID"
                         }
                     }
                 ]
@@ -630,6 +702,9 @@
         "schema:manufacturer": {
             "@id": "https://www.wikidata.org/wiki/Q30285492",
             "@type": "Solvionic"
+        },
+        "schema:productID": {
+            "rdfs:comment": "test_electrolyte_manufacturer_product_ID"
         }
     },
     "hasSeparator": {
