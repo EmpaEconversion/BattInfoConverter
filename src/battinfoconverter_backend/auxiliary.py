@@ -129,7 +129,8 @@ def add_to_structure(
         value: Any,
     ) -> None:
         reg = _registry()
-        entries = reg.setdefault(parent_path, [])
+        key = parent_path + (connector,) if connector else parent_path
+        entries = reg.setdefault(key, [])
         tokens: set[str] = set()
         if metadata_label:
             plf(metadata_label, "_register_connector_entry_metadata", node); tokens.update(_tokenize(metadata_label))
@@ -290,7 +291,23 @@ def add_to_structure(
                     plf(cmd, "unknown_command", cl); raise ValueError(f"Unknown command {cmd} in {parts}")
 
             if isinstance(cl, list):
-                plf(cl, "list_to_dict", cl); cl = cl[-1]
+                plf(cl, "list_to_dict", cl)
+                path_key = tuple(traversed)
+                entries = _get_registry_entries(path_key)
+                part_hint = parts
+                if parts.startswith("type|"):
+                    part_hint = "@type"
+                elif "|" in parts:
+                    _, part_hint = parts.split("|", 1)
+                selected = _select_entry(metadata, entries, part_hint, traversed + [part_hint]) if entries else None
+                if selected is not None and selected["node"] in cl:
+                    plf(selected, "list_to_dict_selected", selected["node"]); cl = selected["node"]
+                else:
+                    remembered = _get_last(path_key)
+                    if remembered is not None and remembered in cl:
+                        plf(remembered, "list_to_dict_remembered", remembered); cl = remembered
+                    else:
+                        plf(cl[-1], "list_to_dict_default_last", cl[-1]); cl = cl[-1]
 
             last  = idx == len(path) - 1
             penul = idx == len(path) - 2
@@ -389,7 +406,7 @@ def add_to_structure(
                     plf(value, "final_value_multi_comment", tgt); tgt["rdfs:comment"] = value
                 if part in MULTI_CONNECTORS:
                     plf(part, "final_value_multi_update_tokens", tgt); _update_entry_tokens(
-                        parent_path,
+                        parent_path + (part,),
                         tgt,
                         metadata,
                         value if isinstance(value, str) else None,
