@@ -5,7 +5,8 @@ that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
 from collections.abc import Sequence
-from typing import Any
+from pathlib import Path
+from typing import IO, Any
 
 import pandas as pd
 from openpyxl import load_workbook
@@ -54,7 +55,7 @@ def _clean_cell(cell) -> Any:
 # public API                                                         #
 # ------------------------------------------------------------------ #
 def read_excel_preserve_decimals(
-    path: str,
+    path: str | Path | IO[bytes],
     sheet_name: Any = 0,
     header: int | Sequence[int] | None = 0,
     **pd_kwargs,
