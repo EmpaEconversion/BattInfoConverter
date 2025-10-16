@@ -26,8 +26,8 @@
         "schema:name": "Empa"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 2.0.0",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.0.0 and the coin cell battery schema version: 1.1.8, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "BattINFO Converter version: 2.0.1",
+        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.0.1 and the coin cell battery schema version: 1.1.8, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
         "BattINFO CoinCellSchema version: 1.1.8",
         "Project: Battery2030+/PREMISE",
         "Assembled manually or by robot: manually",
@@ -211,7 +211,7 @@
                                                 "@type": "ElectricCurrentDensity",
                                                 "hasNumericalPart": {
                                                     "@type": "emmo:RealData",
-                                                    "hasNumberValue": 0.10
+                                                    "hasNumberValue": 0.1
                                                 },
                                                 "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                                             },
@@ -396,7 +396,7 @@
                                         "@type": "ElectricCurrentDensity",
                                         "hasNumericalPart": {
                                             "@type": "emmo:RealData",
-                                            "hasNumberValue": 0.10
+                                            "hasNumberValue": 0.1
                                         },
                                         "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                                     },
@@ -442,7 +442,7 @@
                                                 "@type": "ElectricCurrentDensity",
                                                 "hasNumericalPart": {
                                                     "@type": "emmo:RealData",
-                                                    "hasNumberValue": 0.10
+                                                    "hasNumberValue": 0.1
                                                 },
                                                 "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                                             },
@@ -512,6 +512,12 @@
                             "hasNumberValue": 30
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_EC_producer"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_EC_producer_product_ID"
                     }
                 },
                 {
@@ -523,6 +529,12 @@
                             "hasNumberValue": 70
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_EMC_producer"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_EMC_producer_product_ID"
                     }
                 }
             ]

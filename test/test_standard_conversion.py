@@ -48,8 +48,8 @@ def _normalize_jsonld(payload: dict) -> dict:
 
 def test_standard_excel_conversion_matches_reference_jsonld():
     """Validate the Excel fixture converts to the canonical JSON-LD output."""
-    excel_path = FIXTURE_DIR / "Standard_Excel.xlsx"
-    expected_json_path = FIXTURE_DIR / "Standard_JSON.json"
+    excel_path = FIXTURE_DIR / "adjust_251006_250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.8_filled.xlsx"
+    expected_json_path = FIXTURE_DIR / "adjust_BattINFO_converter_adjust_251006_250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.8_filled.json"
 
     converted = convert_excel_to_jsonld(excel_path, debug_mode=False)
     with expected_json_path.open(encoding="utf-8") as json_file:
@@ -59,7 +59,7 @@ def test_standard_excel_conversion_matches_reference_jsonld():
 
 def test_valid_json() -> None:
     """Make sure the JSON-LD output is valid."""
-    excel_path = FIXTURE_DIR / "Standard_Excel.xlsx"
+    excel_path = FIXTURE_DIR / "adjust_251006_250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.8_filled.xlsx"
     converted = convert_excel_to_jsonld(excel_path, debug_mode=False)
     # This should run without errors
     json.dumps(converted)
