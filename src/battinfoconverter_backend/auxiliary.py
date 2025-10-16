@@ -49,8 +49,16 @@ def add_to_structure(
         "hasSolvent",
     }
 
-    def _merge_type(node: dict, new_type: str) -> None:
-        """Ensure the ``@type`` entry on ``node`` includes ``new_type``."""
+    def _merge_type(node: dict[str, Any], new_type: str) -> None:
+        """Ensure the ``@type`` entry on ``node`` includes ``new_type``.
+
+        Args:
+            node (dict[str, Any]): The JSON-LD node whose ``@type`` should be updated.
+            new_type (str): The type value to merge into the node.
+
+        Returns:
+            None: This helper mutates ``node`` in place.
+        """
 
         if "@type" not in node:
             node["@type"] = new_type
@@ -62,8 +70,19 @@ def add_to_structure(
             elif existing_type != new_type:
                 node["@type"] = [existing_type, new_type]
 
-    def _add_or_extend_list(node: dict, key: str, entry: dict) -> None:
-        """Add ``entry`` to ``node[key]`` while normalizing the holder to a list."""
+    def _add_or_extend_list(
+        node: dict[str, Any], key: str, entry: dict[str, Any]
+    ) -> None:
+        """Add ``entry`` to ``node[key]`` while normalizing the holder to a list.
+
+        Args:
+            node (dict[str, Any]): The parent node whose key should hold the entry.
+            key (str): The key on ``node`` where the entry should be inserted.
+            entry (dict[str, Any]): The dictionary representing the new list item.
+
+        Returns:
+            None: This helper mutates ``node`` in place.
+        """
 
         current_value = node.get(key)
         if current_value in (None, {}):
@@ -74,12 +93,27 @@ def add_to_structure(
             node[key] = [current_value, entry]
 
     def _extract_type(segment: str) -> str:
-        """Return the type payload when ``segment`` contains the ``type|`` prefix."""
+        """Return the type payload when ``segment`` contains the ``type|`` prefix.
+
+        Args:
+            segment (str): The path segment being evaluated.
+
+        Returns:
+            str: The extracted type value if the prefix is present, otherwise the original segment.
+        """
 
         return segment.split("|", 1)[1] if segment.startswith("type|") else segment
 
-    def _new_item(parent: dict, key: str) -> dict:
-        """Create and return a new dictionary entry under ``parent[key]``."""
+    def _new_item(parent: dict[str, Any], key: str) -> dict[str, Any]:
+        """Create and return a new dictionary entry under ``parent[key]``.
+
+        Args:
+            parent (dict[str, Any]): The JSON-LD node that holds the collection.
+            key (str): The key that should receive a new dictionary entry.
+
+        Returns:
+            dict[str, Any]: The freshly created dictionary stored at ``parent[key]``.
+        """
 
         value = parent.get(key)
         if value in (None, {}):
@@ -92,8 +126,16 @@ def add_to_structure(
         parent[key] = [value, {}]
         return parent[key][-1]
 
-    def _register_last(path_key: tuple[str, ...], node: dict) -> None:
-        """Remember the most recent ``node`` encountered for ``path_key``."""
+    def _register_last(path_key: tuple[str, ...], node: dict[str, Any]) -> None:
+        """Remember the most recent ``node`` encountered for ``path_key``.
+
+        Args:
+            path_key (tuple[str, ...]): The connector path associated with ``node``.
+            node (dict[str, Any]): The node that was most recently created or visited.
+
+        Returns:
+            None: The registry is stored on ``data_container`` for later lookups.
+        """
 
         if not path_key:
             return
@@ -103,8 +145,15 @@ def add_to_structure(
             setattr(data_container, "_last_nodes", history)
         history[path_key] = node
 
-    def _get_last(path_key: tuple[str, ...]) -> dict | None:
-        """Fetch the previously registered node for ``path_key`` if available."""
+    def _get_last(path_key: tuple[str, ...]) -> dict[str, Any] | None:
+        """Fetch the previously registered node for ``path_key`` if available.
+
+        Args:
+            path_key (tuple[str, ...]): The connector path used to track nodes.
+
+        Returns:
+            dict[str, Any] | None: The remembered node if present; otherwise ``None``.
+        """
 
         history = getattr(data_container, "_last_nodes", None)
         if not history:
@@ -112,7 +161,14 @@ def add_to_structure(
         return history.get(path_key)
 
     def _next_index(path_key: tuple[str, ...]) -> int:
-        """Provide a sequential index for ``path_key`` to balance assignments."""
+        """Provide a sequential index for ``path_key`` to balance assignments.
+
+        Args:
+            path_key (tuple[str, ...]): The connector path to count occurrences for.
+
+        Returns:
+            int: The index assigned to the next occurrence of ``path_key``.
+        """
 
         counters = getattr(data_container, "_path_counts", None)
         if counters is None:
@@ -123,12 +179,23 @@ def add_to_structure(
         return value
 
     def _tokenize(label: str) -> tuple[str, ...]:
-        """Split ``label`` into alphanumeric tokens for fuzzy matching."""
+        """Split ``label`` into alphanumeric tokens for fuzzy matching.
+
+        Args:
+            label (str): The label from which to extract normalized tokens.
+
+        Returns:
+            tuple[str, ...]: A tuple of lowercase alphanumeric tokens.
+        """
 
         return tuple(re.findall(r"[A-Za-z0-9]+", label.lower()))
 
-    def _registry() -> dict[tuple[str, ...], list[dict]]:
-        """Return the connector registry stored on ``data_container``."""
+    def _registry() -> dict[tuple[str, ...], list[dict[str, Any]]]:
+        """Return the connector registry stored on ``data_container``.
+
+        Returns:
+            dict[tuple[str, ...], list[dict[str, Any]]]: The registry indexed by connector paths.
+        """
 
         registry = getattr(data_container, "_connector_registry", None)
         if registry is None:
@@ -139,11 +206,22 @@ def add_to_structure(
     def _register_connector_entry(
         parent_path: tuple[str, ...],
         connector: str,
-        node: dict,
+        node: dict[str, Any],
         metadata_label: str | None,
         value: Any,
     ) -> None:
-        """Store a new connector entry with tokenized metadata and values."""
+        """Store a new connector entry with tokenized metadata and values.
+
+        Args:
+            parent_path (tuple[str, ...]): The parent connector path for the entry.
+            connector (str): The connector key associated with the entry.
+            node (dict[str, Any]): The node corresponding to the connector occurrence.
+            metadata_label (str | None): Optional metadata label to seed matching tokens.
+            value (Any): The raw value that may provide additional matching tokens.
+
+        Returns:
+            None: The registry entry is appended for later retrieval.
+        """
 
         registry = _registry()
         entries = registry.setdefault(parent_path, [])
@@ -163,9 +241,18 @@ def add_to_structure(
         )
 
     def _update_entry_tokens(
-        parent_path: tuple[str, ...], node: dict, *labels: str | None
+        parent_path: tuple[str, ...], node: dict[str, Any], *labels: str | None
     ) -> None:
-        """Augment alias tokens for entries tied to ``parent_path`` and ``node``."""
+        """Augment alias tokens for entries tied to ``parent_path`` and ``node``.
+
+        Args:
+            parent_path (tuple[str, ...]): The connector path used to look up entries.
+            node (dict[str, Any]): The specific connector node whose entry should be updated.
+            *labels (str | None): Optional labels whose tokens help future lookups.
+
+        Returns:
+            None: The registry entry is updated in place when found.
+        """
 
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
@@ -183,8 +270,15 @@ def add_to_structure(
 
     def _get_registry_entries(
         parent_path: tuple[str, ...]
-    ) -> list[dict]:
-        """Return registry entries registered for ``parent_path``."""
+    ) -> list[dict[str, Any]]:
+        """Return registry entries registered for ``parent_path``.
+
+        Args:
+            parent_path (tuple[str, ...]): The connector path to search.
+
+        Returns:
+            list[dict[str, Any]]: The list of registered entries for the path.
+        """
 
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
@@ -193,15 +287,25 @@ def add_to_structure(
 
     def _select_entry(
         label: str | None,
-        entries: list[dict],
+        entries: list[dict[str, Any]],
         part: str,
         traversed: list[str],
-    ) -> dict | None:
-        """Select the most appropriate connector entry for the incoming value."""
+    ) -> dict[str, Any] | None:
+        """Select the most appropriate connector entry for the incoming value.
+
+        Args:
+            label (str | None): The metadata label to aid selection.
+            entries (list[dict[str, Any]]): Candidate entries to compare against.
+            part (str): The final property part being populated.
+            traversed (list[str]): The path segments already processed.
+
+        Returns:
+            dict[str, Any] | None: The chosen entry, or ``None`` if no match is appropriate.
+        """
 
         if not entries:
             return None
-        chosen: dict | None = None
+        chosen: dict[str, Any] | None = None
         best_score: tuple[int, int, int, int, int] | None = None
         tokens = set(_tokenize(label)) if label else set()
         token_occurrence: dict[str, int] = {}
