@@ -4,7 +4,6 @@ read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
-from decimal import Decimal, ROUND_HALF_UP
 from typing import Any, List, Sequence
 
 import pandas as pd
@@ -44,12 +43,9 @@ def _clean_cell(cell) -> Any:
     if "e" in shown.lower():           # scientific notation → leave as float
         return cell.value
 
-    if "." in shown:                   # count decimals, round with Decimal
+    if "." in shown:                   # count decimal places and round
         n_dec = len(shown.split(".", 1)[1])
-        quant = Decimal(cell.value).quantize(
-            Decimal("1." + "0" * n_dec), rounding=ROUND_HALF_UP
-        )
-        return quant                   # ← **keep as Decimal**
+        return round(float(cell.value), n_dec)
     return cell.value                  # integer-like
 
 
