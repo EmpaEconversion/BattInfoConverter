@@ -1,8 +1,11 @@
 from dataclasses import dataclass, field
 import datetime
-from pandas import DataFrame
+from functools import lru_cache
+from pathlib import Path
 import numpy as np
 import pandas as pd
+import tomllib
+from pandas import DataFrame
 
 from . import auxiliary as aux
 from .excel_tools import read_excel_preserve_decimals as read_excel
@@ -12,7 +15,28 @@ from .json_template import (
 )
 
 
-APP_VERSION = "2.0.0"
+def _find_pyproject_path() -> Path | None:
+    for parent in Path(__file__).resolve().parents:
+        candidate = parent / "pyproject.toml"
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+@lru_cache(maxsize=1)
+def _load_app_version() -> str: 
+    pyproject_path = _find_pyproject_path()
+    if pyproject_path is None:
+        return "0.0.0"
+    try:
+        with pyproject_path.open("rb") as file:
+            pyproject = tomllib.load(file)
+    except (OSError, tomllib.TOMLDecodeError):
+        return "0.0.0"
+    return pyproject.get("project", {}).get("version", "0.0.0")
+
+
+APP_VERSION = _load_app_version()
 
 
 @dataclass
