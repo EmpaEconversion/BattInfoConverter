@@ -3,7 +3,6 @@ import re
 import traceback
 from decimal import Decimal
 from typing import Any, Optional
-
 import pandas as pd
 
 DEBUG_STATUS = False
@@ -51,75 +50,91 @@ def add_to_structure(
     }
 
     def _merge_type(node: dict, new_type: str) -> None:
+        """Ensure the ``@type`` entry on ``node`` includes ``new_type``."""
+
         if "@type" not in node:
-            plf(new_type, "_merge_type_not_in", node); node["@type"] = new_type
+            node["@type"] = new_type
         else:
-            plf(new_type, "_merge_type_exists", node)
-            ex = node["@type"]
-            if isinstance(ex, list):
-                plf(new_type, "_merge_type_list", node)
-                if new_type not in ex:
-                    plf(new_type, "_merge_type_list_append", node); ex.append(new_type)
-            elif ex != new_type:
-                plf(new_type, "_merge_type_diff", node); node["@type"] = [ex, new_type]
+            existing_type = node["@type"]
+            if isinstance(existing_type, list):
+                if new_type not in existing_type:
+                    existing_type.append(new_type)
+            elif existing_type != new_type:
+                node["@type"] = [existing_type, new_type]
 
     def _add_or_extend_list(node: dict, key: str, entry: dict) -> None:
-        cur = node.get(key)
-        if cur in (None, {}):
-            plf(entry, "_add_or_extend_list_new", node); node[key] = entry
-        elif isinstance(cur, list):
-            plf(entry, "_add_or_extend_list_append", node); cur.append(entry)
-        else:
-            plf(entry, "_add_or_extend_list_create_list", node); node[key] = [cur, entry]
+        """Add ``entry`` to ``node[key]`` while normalizing the holder to a list."""
 
-    def _extract_type(seg: str) -> str:
-        return seg.split("|", 1)[1] if seg.startswith("type|") else seg
+        current_value = node.get(key)
+        if current_value in (None, {}):
+            node[key] = entry
+        elif isinstance(current_value, list):
+            current_value.append(entry)
+        else:
+            node[key] = [current_value, entry]
+
+    def _extract_type(segment: str) -> str:
+        """Return the type payload when ``segment`` contains the ``type|`` prefix."""
+
+        return segment.split("|", 1)[1] if segment.startswith("type|") else segment
 
     def _new_item(parent: dict, key: str) -> dict:
-        val = parent.get(key)
-        if val in (None, {}):
-            plf(key, "_new_item_create", parent); parent[key] = {}
+        """Create and return a new dictionary entry under ``parent[key]``."""
+
+        value = parent.get(key)
+        if value in (None, {}):
+            parent[key] = {}
             return parent[key]
-        if isinstance(val, list):
-            plf(key, "_new_item_append", parent); fresh = {}
-            val.append(fresh)
+        if isinstance(value, list):
+            fresh = {}
+            value.append(fresh)
             return fresh
-        plf(key, "_new_item_convert_list", parent); parent[key] = [val, {}]
+        parent[key] = [value, {}]
         return parent[key][-1]
 
     def _register_last(path_key: tuple[str, ...], node: dict) -> None:
+        """Remember the most recent ``node`` encountered for ``path_key``."""
+
         if not path_key:
-            plf(path_key, "_register_last_skip", node); return
+            return
         history = getattr(data_container, "_last_nodes", None)
         if history is None:
-            plf(path_key, "_register_last_init", node); history = {}
+            history = {}
             setattr(data_container, "_last_nodes", history)
         history[path_key] = node
 
     def _get_last(path_key: tuple[str, ...]) -> dict | None:
+        """Fetch the previously registered node for ``path_key`` if available."""
+
         history = getattr(data_container, "_last_nodes", None)
         if not history:
-            plf(path_key, "_get_last_empty", None); return None
+            return None
         return history.get(path_key)
 
     def _next_index(path_key: tuple[str, ...]) -> int:
+        """Provide a sequential index for ``path_key`` to balance assignments."""
+
         counters = getattr(data_container, "_path_counts", None)
         if counters is None:
-            plf(path_key, "_next_index_init", None); counters = {}
+            counters = {}
             setattr(data_container, "_path_counts", counters)
-        val = counters.get(path_key, 0)
-        counters[path_key] = val + 1
-        return val
+        value = counters.get(path_key, 0)
+        counters[path_key] = value + 1
+        return value
 
     def _tokenize(label: str) -> tuple[str, ...]:
+        """Split ``label`` into alphanumeric tokens for fuzzy matching."""
+
         return tuple(re.findall(r"[A-Za-z0-9]+", label.lower()))
 
     def _registry() -> dict[tuple[str, ...], list[dict]]:
-        reg = getattr(data_container, "_connector_registry", None)
-        if reg is None:
-            plf("registry", "_registry_init", None); reg = {}
-            setattr(data_container, "_connector_registry", reg)
-        return reg
+        """Return the connector registry stored on ``data_container``."""
+
+        registry = getattr(data_container, "_connector_registry", None)
+        if registry is None:
+            registry = {}
+            setattr(data_container, "_connector_registry", registry)
+        return registry
 
     def _register_connector_entry(
         parent_path: tuple[str, ...],
@@ -128,14 +143,15 @@ def add_to_structure(
         metadata_label: str | None,
         value: Any,
     ) -> None:
-        reg = _registry()
-        key = parent_path + (connector,) if connector else parent_path
-        entries = reg.setdefault(key, [])
+        """Store a new connector entry with tokenized metadata and values."""
+
+        registry = _registry()
+        entries = registry.setdefault(parent_path, [])
         tokens: set[str] = set()
         if metadata_label:
-            plf(metadata_label, "_register_connector_entry_metadata", node); tokens.update(_tokenize(metadata_label))
+            tokens.update(_tokenize(metadata_label))
         if isinstance(value, str):
-            plf(value, "_register_connector_entry_value", node); tokens.update(_tokenize(value))
+            tokens.update(_tokenize(value))
         entries.append(
             {
                 "connector": connector,
@@ -149,27 +165,31 @@ def add_to_structure(
     def _update_entry_tokens(
         parent_path: tuple[str, ...], node: dict, *labels: str | None
     ) -> None:
-        reg = getattr(data_container, "_connector_registry", None)
-        if not reg:
-            plf(parent_path, "_update_entry_tokens_no_reg", None); return
-        entries = reg.get(parent_path)
+        """Augment alias tokens for entries tied to ``parent_path`` and ``node``."""
+
+        registry = getattr(data_container, "_connector_registry", None)
+        if not registry:
+            return
+        entries = registry.get(parent_path)
         if not entries:
-            plf(parent_path, "_update_entry_tokens_no_entries", None); return
+            return
         for entry in entries:
             if entry["node"] is node:
-                plf(parent_path, "_update_entry_tokens_match", node); alias = entry.setdefault("alias_tokens", set())
+                alias_tokens = entry.setdefault("alias_tokens", set())
                 for label in labels:
                     if isinstance(label, str) and label:
-                        plf(label, "_update_entry_tokens_label", node); alias.update(_tokenize(label))
+                        alias_tokens.update(_tokenize(label))
                 break
 
     def _get_registry_entries(
         parent_path: tuple[str, ...]
     ) -> list[dict]:
-        reg = getattr(data_container, "_connector_registry", None)
-        if not reg:
-            plf(parent_path, "_get_registry_entries_no_reg", None); return []
-        return reg.get(parent_path, [])
+        """Return registry entries registered for ``parent_path``."""
+
+        registry = getattr(data_container, "_connector_registry", None)
+        if not registry:
+            return []
+        return registry.get(parent_path, [])
 
     def _select_entry(
         label: str | None,
@@ -177,32 +197,32 @@ def add_to_structure(
         part: str,
         traversed: list[str],
     ) -> dict | None:
+        """Select the most appropriate connector entry for the incoming value."""
+
         if not entries:
-            plf(label, "_select_entry_no_entries", None); return None
+            return None
         chosen: dict | None = None
-        best_score: tuple[int, int, int, int] | None = None
+        best_score: tuple[int, int, int, int, int] | None = None
         tokens = set(_tokenize(label)) if label else set()
         token_occurrence: dict[str, int] = {}
         base_occurrence: dict[str, int] = {}
         if tokens:
-            plf(tokens, "_select_entry_tokens", None)
             for entry in entries:
                 combined = entry.get("base_tokens", set()) | entry.get("alias_tokens", set())
-                base = entry.get("base_tokens", set())
+                base_tokens = entry.get("base_tokens", set())
                 for token in combined:
                     token_occurrence[token] = token_occurrence.get(token, 0) + 1
-                for token in base:
+                for token in base_tokens:
                     base_occurrence[token] = base_occurrence.get(token, 0) + 1
         if tokens:
-            plf(tokens, "_select_entry_scoring", None)
             for entry in entries:
                 base_tokens = entry.get("base_tokens", set())
                 entry_tokens = base_tokens | entry.get("alias_tokens", set())
                 if not entry_tokens:
-                    plf(entry, "_select_entry_no_entry_tokens", None); continue
+                    continue
                 overlap = len(tokens & entry_tokens)
                 if overlap == 0:
-                    plf(entry, "_select_entry_no_overlap", None); continue
+                    continue
                 subset_flag = 1 if entry_tokens <= tokens else 0
                 unique_base_hits = sum(
                     1
@@ -222,21 +242,20 @@ def add_to_structure(
                     -entry["order"],
                 )
                 if best_score is None or score > best_score:
-                    plf(score, "_select_entry_new_best", entry)
                     best_score = score
                     chosen = entry
         if chosen is not None:
-            plf(chosen, "_select_entry_chosen", None); return chosen
+            return chosen
 
         path_key = tuple(traversed)
-        idx = _next_index(path_key)
-        if idx < len(entries):
-            plf(entries[idx], "_select_entry_index", None); return entries[idx]
+        index = _next_index(path_key)
+        if index < len(entries):
+            return entries[index]
 
         for entry in entries:
             existing = entry["node"].get(part)
             if existing in (None, {}):
-                plf(entry, "_select_entry_empty_existing", None); return entry
+                return entry
 
         last_key_base = tuple(traversed[:-1])
         for entry in entries:
@@ -244,19 +263,19 @@ def add_to_structure(
             last_key = last_key_base + (connector,)
             remembered = _get_last(last_key)
             if remembered is entry["node"]:
-                plf(entry, "_select_entry_remembered", None); return entry
+                return entry
         return None
 
     # ------------------------------------------------------------------ #
     # main body                                                          #
     # ------------------------------------------------------------------ #
     try:
-        cl = jsonld
+        current_level = jsonld
         unit_map = (
             data_container.data["unit_map"].set_index("Item").to_dict("index")
         )
-        ctx_conn = data_container.data["context_connector"]
-        connectors = set(ctx_conn["Item"])
+        context_connector = data_container.data["context_connector"]
+        connectors = set(context_connector["Item"])
         unique_id = data_container.data["unique_id"]
 
         # ---- skip only true empties (0 and 0.0 are valid) ------------- #
@@ -269,66 +288,55 @@ def add_to_structure(
                 and pd.isna(pd.Series([value])[0])
             )
         ):
-            plf(value, "skip_empty", cl); return
+            return
         # ---------------------------------------------------------------- #
 
         traversed: list[str] = []
 
-        for idx, parts in enumerate(path):
+        for index, parts in enumerate(path):
             # ---------- special-command parsing ------------------------- #
             if "|" not in parts:
-                plf(parts, "no_pipe", cl); part = parts
+                part = parts
             elif "type|" in parts:
-                plf(parts, "type_command", cl); _, typ = parts.split("|", 1)
+                _, typ = parts.split("|", 1)
                 if typ:
-                    plf(typ, "type_command_typ", cl); _merge_type(cl, typ)
+                    _merge_type(current_level, typ)
                 continue
             else:  # rev|
-                plf(parts, "other_command", cl); cmd, part = parts.split("|", 1)
-                if cmd == "rev":
-                    plf(cmd, "rev_command", cl); cl = cl.setdefault("@reverse", {})
+                command, part = parts.split("|", 1)
+                if command == "rev":
+                    current_level = current_level.setdefault("@reverse", {})
                 else:
-                    plf(cmd, "unknown_command", cl); raise ValueError(f"Unknown command {cmd} in {parts}")
+                    raise ValueError(f"Unknown command {command} in {parts}")
 
-            if isinstance(cl, list):
-                plf(cl, "list_to_dict", cl)
-                path_key = tuple(traversed)
-                entries = _get_registry_entries(path_key)
-                part_hint = parts
-                if parts.startswith("type|"):
-                    part_hint = "@type"
-                elif "|" in parts:
-                    _, part_hint = parts.split("|", 1)
-                selected = _select_entry(metadata, entries, part_hint, traversed + [part_hint]) if entries else None
-                if selected is not None and selected["node"] in cl:
-                    plf(selected, "list_to_dict_selected", selected["node"]); cl = selected["node"]
-                else:
-                    remembered = _get_last(path_key)
-                    if remembered is not None and remembered in cl:
-                        plf(remembered, "list_to_dict_remembered", remembered); cl = remembered
-                    else:
-                        plf(cl[-1], "list_to_dict_default_last", cl[-1]); cl = cl[-1]
+            if isinstance(current_level, list):
+                current_level = current_level[-1]
 
-            last  = idx == len(path) - 1
-            penul = idx == len(path) - 2
+            last = index == len(path) - 1
+            penultimate = index == len(path) - 2
 
             traversed.append(part)
 
             # -------- create node if missing ---------------------------- #
-            if part not in cl and (value or unit):
+            if part not in current_level and (value or unit):
                 if part in connectors:
-                    plf(part, "create_connector", cl); ctype = ctx_conn.loc[ctx_conn["Item"] == part, "Key"].values[0]
-                    cl[part] = {} if pd.isna(ctype) else {"@type": ctype}
+                    connector_type = context_connector.loc[
+                        context_connector["Item"] == part, "Key"
+                    ].values[0]
+                    current_level[part] = (
+                        {}
+                        if pd.isna(connector_type)
+                        else {"@type": connector_type}
+                    )
                 else:
-                    plf(part, "create_plain", cl); cl[part] = {}
+                    current_level[part] = {}
 
-            nxt = cl[part]
+            next_level = current_level[part]
 
             # -------- measured-property block --------------------------- #
-            if penul and unit != "No Unit":
-                plf(unit, "penultimate_with_unit", cl)
+            if penultimate and unit != "No Unit":
                 if pd.isna(unit):
-                    plf(unit, "missing_unit", cl); raise ValueError(f"Value '{value}' missing unit.")
+                    raise ValueError(f"Value '{value}' missing unit.")
                 unit_info = unit_map.get(unit, {})
                 mp_entry = {
                     "@type": _extract_type(path[-1]),
@@ -338,46 +346,50 @@ def add_to_structure(
                     },
                     "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
-                parent = cl[-1] if isinstance(cl, list) else cl
-                plf(parent, "measured_property", parent); _add_or_extend_list(parent, part, mp_entry)
+                parent = current_level[-1] if isinstance(current_level, list) else current_level
+                _add_or_extend_list(parent, part, mp_entry)
                 break
 
             # -------- final-value branch -------------------------------- #
             if last and unit == "No Unit":
-                plf(value, "final_value_branch", cl); parent_path = tuple(traversed[:-1])
+                parent_path = tuple(traversed[:-1])
 
                 registry_entries = []
-                if part not in MULTI_CONNECTORS and isinstance(cl, dict):
-                    plf(part, "final_value_non_multi", cl)
-                    for entry in _get_registry_entries(parent_path):
-                        node = entry.get("node")
-                        if isinstance(node, dict):
-                            plf(node, "final_value_registry_entry", cl); registry_entries.append(entry)
+                if part not in MULTI_CONNECTORS and isinstance(current_level, dict):
+                    connector_parent_path: tuple[str, ...] = parent_path[:-1]
+                    connector_key: str | None = (
+                        parent_path[-1] if parent_path else None
+                    )
+                    if connector_parent_path and connector_key:
+                        for entry in _get_registry_entries(connector_parent_path):
+                            if entry.get("connector") != connector_key:
+                                continue
+                            node = entry.get("node")
+                            if isinstance(node, dict):
+                                registry_entries.append(entry)
 
                 if registry_entries:
-                    plf(registry_entries, "final_value_has_registry", cl); selected = _select_entry(metadata, registry_entries, part, traversed)
+                    selected = _select_entry(metadata, registry_entries, part, traversed)
                     if selected is not None:
-                        plf(selected, "final_value_selected", cl); target = selected["node"]
+                        target = selected["node"]
                         holder = target.get(part)
                         if not isinstance(holder, dict):
-                            plf(holder, "final_value_holder_not_dict", target); target[part] = (
-                                {} if holder in (None, {}) else {"rdfs:comment": holder}
-                            )
-                        tgt = target[part]
+                            target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
+                        target_node = target[part]
                         if value in unique_id["Item"].values:
-                            plf(value, "final_value_unique_id", tgt); uid = get_information_value(
+                            uid = get_information_value(
                                 df=unique_id,
                                 row_to_look=value,
                                 col_to_look="ID",
                                 col_to_match="Item",
                             )
                             if not pd.isna(uid):
-                                plf(uid, "final_value_set_id", tgt); tgt["@id"] = uid
-                            _merge_type(tgt, value)
+                                target_node["@id"] = uid
+                            _merge_type(target_node, value)
                         elif value:
-                            plf(value, "final_value_comment", tgt); tgt["rdfs:comment"] = value
-                        if part in cl and cl[part] in (None, {}):
-                            plf(part, "final_value_cleanup", cl); cl.pop(part)
+                            target_node["rdfs:comment"] = value
+                        if part in current_level and current_level[part] in (None, {}):
+                            current_level.pop(part)
                         _update_entry_tokens(
                             parent_path,
                             target,
@@ -387,33 +399,33 @@ def add_to_structure(
                         break
 
                 if part in MULTI_CONNECTORS:
-                    plf(part, "final_value_multi_connector", cl); tgt = _new_item(cl, part)
-                    _register_last(tuple(traversed), tgt)
-                    _register_connector_entry(parent_path, part, tgt, metadata, value)
+                    target_node = _new_item(current_level, part)
+                    _register_last(tuple(traversed), target_node)
+                    _register_connector_entry(parent_path, part, target_node, metadata, value)
                 else:
-                    plf(part, "final_value_single_connector", cl); tgt = nxt
+                    target_node = next_level
                 if value in unique_id["Item"].values:
-                    plf(value, "final_value_multi_unique_id", tgt); uid = get_information_value(
+                    uid = get_information_value(
                         df=unique_id,
                         row_to_look=value,
                         col_to_look="ID",
                         col_to_match="Item",
                     )
                     if not pd.isna(uid):
-                        plf(uid, "final_value_multi_set_id", tgt); tgt["@id"] = uid
-                    _merge_type(tgt, value)
+                        target_node["@id"] = uid
+                    _merge_type(target_node, value)
                 elif value:
-                    plf(value, "final_value_multi_comment", tgt); tgt["rdfs:comment"] = value
+                    target_node["rdfs:comment"] = value
                 if part in MULTI_CONNECTORS:
-                    plf(part, "final_value_multi_update_tokens", tgt); _update_entry_tokens(
-                        parent_path + (part,),
-                        tgt,
+                    _update_entry_tokens(
+                        parent_path,
+                        target_node,
                         metadata,
                         value if isinstance(value, str) else None,
                     )
                 break
 
-            plf(part, "iterate_next", nxt); cl = nxt
+            current_level = next_level
 
     except Exception as e:  
         traceback.print_exc()
