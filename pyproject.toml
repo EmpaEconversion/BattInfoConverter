@@ -7,7 +7,7 @@ name = "battinfoconverter-backend"
 version = "2.1.0"
 description = "Backend conversion module for BattInfoConverter"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
 
