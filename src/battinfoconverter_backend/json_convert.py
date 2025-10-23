@@ -6,8 +6,10 @@ from typing import IO
 
 import numpy as np
 import pandas as pd
-import tomllib
 from pandas import DataFrame
+
+import tomli
+from tomli import TOMLDecodeError
 
 from . import auxiliary as aux
 from .excel_tools import read_excel_preserve_decimals as read_excel
@@ -32,8 +34,8 @@ def _load_app_version() -> str:
         return "0.0.0"
     try:
         with pyproject_path.open("rb") as file:
-            pyproject = tomllib.load(file)
-    except (OSError, tomllib.TOMLDecodeError):
+            pyproject = tomli.load(file)
+    except (OSError, TOMLDecodeError):
         return "0.0.0"
     return pyproject.get("project", {}).get("version", "0.0.0")
 
