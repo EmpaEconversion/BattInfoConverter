@@ -31,8 +31,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/NukP/BattInfoConverter"
-Repository = "https://github.com/NukP/BattInfoConverter"
+Homepage = "https://github.com/EmpaEconversion/BattInfoConverter"
+Repository = "https://github.com/EmpaEconversion/BattInfoConverter"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
