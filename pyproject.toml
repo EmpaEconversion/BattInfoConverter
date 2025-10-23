@@ -14,7 +14,8 @@ authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
 dependencies = [
   "pandas>=2.0",
   "openpyxl>=3.1",
-  "simplejson"
+  "simplejson",
+  "tomli"
 ]
 
 [project.urls]
