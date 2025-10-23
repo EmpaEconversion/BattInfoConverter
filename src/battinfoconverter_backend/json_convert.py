@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 import tomli
-from tomli import TOMLDecodeError
 
 from . import auxiliary as aux
 from .excel_tools import read_excel_preserve_decimals as read_excel
@@ -33,7 +32,7 @@ def _load_app_version() -> str:
     try:
         with pyproject_path.open("rb") as file:
             pyproject = tomli.load(file)
-    except (OSError, TOMLDecodeError):
+    except (OSError, tomli.TOMLDecodeError):
         return "0.0.0"
     return pyproject.get("project", {}).get("version", "0.0.0")
 
