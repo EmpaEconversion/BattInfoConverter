@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "battinfoconverter-backend"
 version = "2.1.0"
 description = "Backend conversion module for BattInfoConverter"
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
@@ -15,7 +15,19 @@ dependencies = [
   "pandas>=2.0",
   "openpyxl>=3.1",
   "simplejson",
-  "tomli"
+  'tomli'
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
 ]
 
 [project.urls]
@@ -29,8 +41,8 @@ package-dir = { "" = "src" }
 where = ["src"]
 include = ["battinfoconverter_backend*"]
 
-[dependency-groups]
-dev = [
-    "pytest>=8.4.2",
-]
+[project.optional-dependencies]
 app = ["streamlit"]
+dev = [
+  "pytest>=8.4.2",
+]

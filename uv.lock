@@ -43,7 +43,7 @@ dependencies = [
     { name = "tomli" },
 ]
 
-[package.dev-dependencies]
+[package.optional-dependencies]
 app = [
     { name = "streamlit" },
 ]
@@ -55,13 +55,12 @@ dev = [
 requires-dist = [
     { name = "openpyxl", specifier = ">=3.1" },
     { name = "pandas", specifier = ">=2.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.4.2" },
     { name = "simplejson" },
+    { name = "streamlit", marker = "extra == 'app'" },
     { name = "tomli" },
 ]
-
-[package.metadata.requires-dev]
-app = [{ name = "streamlit" }]
-dev = [{ name = "pytest", specifier = ">=8.4.2" }]
+provides-extras = ["app", "dev"]
 
 [[package]]
 name = "blinker"
