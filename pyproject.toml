@@ -33,3 +33,4 @@ include = ["battinfoconverter_backend*"]
 dev = [
     "pytest>=8.4.2",
 ]
+app = ["streamlit"]
