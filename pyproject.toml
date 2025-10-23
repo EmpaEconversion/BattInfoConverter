@@ -28,3 +28,8 @@ package-dir = { "" = "src" }
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["battinfoconverter_backend*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
