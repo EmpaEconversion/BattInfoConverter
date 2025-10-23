@@ -3,11 +3,9 @@ from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import IO
-
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
-
 import tomli
 from tomli import TOMLDecodeError
 
@@ -60,6 +58,7 @@ class ExcelContainer:
         self._last_nodes: dict[tuple[str, ...], dict] = {}
         self._path_counts: dict[tuple[str, ...], int] = {}
         self._connector_registry: dict[tuple[str, ...], list[dict]] = {}
+
 
 def get_information_value(df: DataFrame, row_to_look: str, col_to_look: str = "Value", col_to_match: str = "Metadata") -> str | None:
     """
@@ -255,6 +254,7 @@ def assit_format_json_rated_capacity(json_dict: dict) -> dict:
     except: 
         json_output = json_dict
     return json_output
+
 
 def convert_excel_to_jsonld(excel_file: str | Path | IO[bytes], debug_mode:bool = True) -> dict:
     """
