@@ -203,6 +203,16 @@ def add_to_structure(
             setattr(data_container, "_connector_registry", registry)
         return registry
 
+    def _registry_key_for(parent_path: tuple[str, ...]) -> tuple[str, ...]:
+        """Return a stable key for connector registries.
+
+        ``parent_path`` may be empty for top-level connectors. In that case we
+        store entries under a dedicated ``("__root__",)`` bucket so they can be
+        retrieved consistently across registration and lookup calls.
+        """
+
+        return parent_path if parent_path else ("__root__",)
+
     def _register_connector_entry(
         parent_path: tuple[str, ...],
         connector: str,
@@ -224,7 +234,7 @@ def add_to_structure(
         """
 
         registry = _registry()
-        entries = registry.setdefault(parent_path, [])
+        entries = registry.setdefault(_registry_key_for(parent_path), [])
         tokens: set[str] = set()
         if metadata_label:
             tokens.update(_tokenize(metadata_label))
@@ -257,7 +267,7 @@ def add_to_structure(
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
             return
-        entries = registry.get(parent_path)
+        entries = registry.get(_registry_key_for(parent_path))
         if not entries:
             return
         for entry in entries:
@@ -283,7 +293,7 @@ def add_to_structure(
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
             return []
-        return registry.get(parent_path, [])
+        return registry.get(_registry_key_for(parent_path), [])
 
     def _select_entry(
         label: str | None,
@@ -405,6 +415,8 @@ def add_to_structure(
                 _, typ = parts.split("|", 1)
                 if typ:
                     _merge_type(current_level, typ)
+                    parent_path = tuple(traversed[:-1]) if traversed else ()
+                    _update_entry_tokens(parent_path, current_level, typ)
                 continue
             else:  # rev|
                 command, part = parts.split("|", 1)
@@ -436,6 +448,60 @@ def add_to_structure(
                     current_level[part] = {}
 
             next_level = current_level[part]
+
+            if part in MULTI_CONNECTORS and not last:
+                connector_parent_path = tuple(traversed[:-1])
+                next_segment = path[index + 1] if index + 1 < len(path) else None
+                desired_type: str | None = None
+                if next_segment and next_segment.startswith("type|"):
+                    _, desired_type = next_segment.split("|", 1)
+                registry_entries = [
+                    entry
+                    for entry in _get_registry_entries(connector_parent_path)
+                    if entry.get("connector") == part
+                ]
+                selected = None
+                if desired_type:
+                    for entry in registry_entries:
+                        existing_type = entry["node"].get("@type")
+                        if isinstance(existing_type, list):
+                            if desired_type in existing_type:
+                                selected = entry
+                                break
+                        elif existing_type == desired_type:
+                            selected = entry
+                            break
+                if selected is None:
+                    selected = _select_entry(metadata, registry_entries, part, traversed)
+                    if selected is not None and desired_type:
+                        existing_type = selected["node"].get("@type")
+                        if isinstance(existing_type, list):
+                            if desired_type not in existing_type:
+                                selected = None
+                        elif existing_type != desired_type:
+                            selected = None
+                if selected is not None:
+                    target_node = selected["node"]
+                else:
+                    entries_for_parent = _get_registry_entries(connector_parent_path)
+                    holder = current_level.get(part)
+                    if (
+                        isinstance(holder, dict)
+                        and (not holder or list(holder.keys()) == ["@type"])
+                        and not any(entry.get("node") is holder for entry in entries_for_parent)
+                    ):
+                        target_node = holder
+                    else:
+                        target_node = _new_item(current_level, part)
+                        entries_for_parent = _get_registry_entries(connector_parent_path)
+                    if not any(entry.get("node") is target_node for entry in entries_for_parent):
+                        _register_connector_entry(
+                            connector_parent_path, part, target_node, metadata, None
+                        )
+                _register_last(tuple(traversed), target_node)
+                _update_entry_tokens(connector_parent_path, target_node, metadata)
+                current_level = target_node
+                continue
 
             # -------- measured-property block --------------------------- #
             if penultimate and unit != "No Unit":

@@ -57,6 +57,7 @@
                     {
                         "@type": "molecularFormula",
                         "hasStringValue": "LiNi0.6Mn0.2Co0.2"
+
                     },
                     {
                         "@type": "MassFraction",
@@ -673,20 +674,20 @@
             "R2032",
             "StainlessSteel"
         ],
-        "hasConstituent": {
-            "CellLid": {
+        "hasConstituent": [
+            {
                 "@type": "CellLid",
                 "hasCoating": {
                     "rdfs:comment": "none"
                 }
             },
-            "CellCan": {
+            {
                 "@type": "CellCan",
                 "hasCoating": {
                     "@type": "Aluminium"
                 }
             }
-        },
+        ],
         "schema:manufacturer": {
             "@type": "Hosen"
         },
@@ -694,8 +695,8 @@
             "rdfs:comment": "2032, SUS316L"
         }
     },
-    "hasConstituent": {
-        "Spring": {
+    "hasConstituent": [
+        {
             "@type": "Spring",
             "hasMeasuredProperty": [
                 {
@@ -716,7 +717,7 @@
                 }
             ]
         },
-        "Spacer": {
+        {
             "@type": "Spacer",
             "hasMeasuredProperty": [
                 {
@@ -737,5 +738,5 @@
                 }
             ]
         }
-    }
+    ]
 }
