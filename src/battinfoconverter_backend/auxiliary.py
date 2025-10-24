@@ -456,6 +456,13 @@ def add_to_structure(
 
             # -------- final-value branch -------------------------------- #
             if last and unit == "No Unit":
+                if part == "hasStringValue" and isinstance(value, str):
+                    if isinstance(current_level, list):
+                        target_node = current_level[-1]
+                    else:
+                        target_node = current_level
+                    target_node[part] = value
+                    break
                 parent_path = tuple(traversed[:-1])
 
                 registry_entries = []
