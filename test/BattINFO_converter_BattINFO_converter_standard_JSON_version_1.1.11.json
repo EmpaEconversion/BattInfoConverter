@@ -26,8 +26,8 @@
         "schema:name": "Empa"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 2.2.2",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.2 and the coin cell battery schema version: 1.1.9, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "BattINFO Converter version: 2.2.4",
+        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.4 and the coin cell battery schema version: 1.1.9, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
         "BattINFO CoinCellSchema version: 1.1.9",
         "Project: Battery2030+/PREMISE",
         "Assembled manually or by robot: manually",
@@ -47,6 +47,12 @@
                     "hasNumberValue": 15
                 },
                 "hasMeasurementUnit": "emmo:MicroMetre"
+            },
+            "schema:manufacturer": {
+                "rdfs:comment": "test_value_row_44"
+            },
+            "schema:productID": {
+                "rdfs:comment": "test_value_row_45"
             }
         },
         "hasCoating": {
@@ -57,7 +63,6 @@
                     {
                         "@type": "molecularFormula",
                         "hasStringValue": "LiNi0.6Mn0.2Co0.2"
-
                     },
                     {
                         "@type": "MassFraction",
@@ -83,7 +88,13 @@
                         },
                         "hasMeasurementUnit": "emmo:MicroMetre"
                     }
-                ]
+                ],
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_46"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_47"
+                }
             },
             "hasBinder": {
                 "@type": [
@@ -97,6 +108,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_48"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_49"
                 }
             },
             "hasConductiveAdditive": {
@@ -111,6 +128,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_50"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_51"
                 }
             },
             "hasMeasuredProperty": [
@@ -283,6 +306,12 @@
                     "hasNumberValue": 14
                 },
                 "hasMeasurementUnit": "emmo:MicroMetre"
+            },
+            "schema:manufacturer": {
+                "rdfs:comment": "test_value_row_84"
+            },
+            "schema:productID": {
+                "rdfs:comment": "test_value_row_85"
             }
         },
         "hasCoating": {
@@ -314,7 +343,13 @@
                         },
                         "hasMeasurementUnit": "emmo:MicroMetre"
                     }
-                ]
+                ],
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_86"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_87"
+                }
             },
             "hasBinder": {
                 "@type": [
@@ -328,6 +363,12 @@
                         "hasNumberValue": 3
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_88"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_89"
                 }
             },
             "hasConductiveAdditive": {
@@ -342,6 +383,12 @@
                         "hasNumberValue": 2
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "rdfs:comment": "test_value_row_90"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "test_value_row_91"
                 }
             },
             "hasMeasuredProperty": [
@@ -514,6 +561,12 @@
                             "hasNumberValue": 30
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_value_row_113"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_value_row_114"
                     }
                 },
                 {
@@ -525,6 +578,12 @@
                             "hasNumberValue": 70
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_value_row_115"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_value_row_116"
                     }
                 }
             ]
@@ -541,6 +600,12 @@
                             "hasNumberValue": 1
                         },
                         "hasMeasurementUnit": "unit:MOL-PER-L"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_value_row_117"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_value_row_118"
                     }
                 },
                 {
@@ -552,6 +617,12 @@
                             "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "unit:MOL-PER-L"
+                    },
+                    "schema:manufacturer": {
+                        "rdfs:comment": "test_value_row_119"
+                    },
+                    "schema:productID": {
+                        "rdfs:comment": "test_value_row_120"
                     }
                 }
             ],
@@ -567,6 +638,12 @@
                                 "hasNumberValue": 0.16
                             },
                             "hasMeasurementUnit": "unit:MOL-PER-L"
+                        },
+                        "schema:manufacturer": {
+                            "rdfs:comment": "test_value_row_121"
+                        },
+                        "schema:productID": {
+                            "rdfs:comment": "test_value_row_122"
                         }
                     },
                     {
@@ -578,6 +655,12 @@
                                 "hasNumberValue": 0
                             },
                             "hasMeasurementUnit": "unit:MOL-PER-L"
+                        },
+                        "schema:manufacturer": {
+                            "rdfs:comment": "test_value_row_123"
+                        },
+                        "schema:productID": {
+                            "rdfs:comment": "test_value_row_124"
                         }
                     }
                 ]
@@ -620,6 +703,9 @@
         "schema:manufacturer": {
             "@id": "https://www.wikidata.org/wiki/Q30285492",
             "@type": "Solvionic"
+        },
+        "schema:productID": {
+            "rdfs:comment": "test_value_row_112"
         }
     },
     "hasSeparator": {
