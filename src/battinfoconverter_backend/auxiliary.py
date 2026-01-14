@@ -42,12 +42,35 @@ def add_to_structure(
     # ------------------------------------------------------------------ #
     # helper functions                                                   #
     # ------------------------------------------------------------------ #
-    MULTI_CONNECTORS = {
-        "hasConstituent",
-        "hasAdditive",
-        "hasSolute",
-        "hasSolvent",
-    }
+    def _split_connector_suffix(
+        segment: str, connector_set: set[str]
+    ) -> tuple[str, str | None]:
+        """Split trailing connector suffix letters (A-Z) when base exists.
+
+        Returns the base connector and the suffix letter if the suffix is used
+        to force multi-connector behavior. Otherwise returns the input segment
+        and ``None``.
+        """
+
+        if (
+            segment.startswith("has")
+            and len(segment) > 4
+            and segment[-1].isalpha()
+            and segment[-1].isupper()
+        ):
+            base = segment[:-1]
+            if base in connector_set:
+                return base, segment[-1]
+        return segment, None
+
+    def _selector_label(metadata_label: str | None, suffix: str | None) -> str | None:
+        """Combine metadata with connector suffix for registry selection."""
+
+        if suffix and metadata_label:
+            return f"{metadata_label} {suffix}"
+        if suffix:
+            return suffix
+        return metadata_label
 
     def _merge_type(node: dict[str, Any], new_type: str) -> None:
         """Ensure the ``@type`` entry on ``node`` includes ``new_type``.
@@ -431,6 +454,10 @@ def add_to_structure(
             last = index == len(path) - 1
             penultimate = index == len(path) - 2
 
+            part, suffix_letter = _split_connector_suffix(part, connectors)
+            selection_label = _selector_label(metadata, suffix_letter)
+            is_multi = suffix_letter is not None
+
             traversed.append(part)
 
             # -------- create node if missing ---------------------------- #
@@ -449,7 +476,7 @@ def add_to_structure(
 
             next_level = current_level[part]
 
-            if part in MULTI_CONNECTORS and not last:
+            if is_multi and not last:
                 connector_parent_path = tuple(traversed[:-1])
                 next_segment = path[index + 1] if index + 1 < len(path) else None
                 desired_type: str | None = None
@@ -472,7 +499,7 @@ def add_to_structure(
                             selected = entry
                             break
                 if selected is None:
-                    selected = _select_entry(metadata, registry_entries, part, traversed)
+                    selected = _select_entry(selection_label, registry_entries, part, traversed)
                     if selected is not None and desired_type:
                         existing_type = selected["node"].get("@type")
                         if isinstance(existing_type, list):
@@ -496,10 +523,15 @@ def add_to_structure(
                         entries_for_parent = _get_registry_entries(connector_parent_path)
                     if not any(entry.get("node") is target_node for entry in entries_for_parent):
                         _register_connector_entry(
-                            connector_parent_path, part, target_node, metadata, None
+                            connector_parent_path, part, target_node, selection_label, None
                         )
                 _register_last(tuple(traversed), target_node)
-                _update_entry_tokens(connector_parent_path, target_node, metadata)
+                _update_entry_tokens(
+                    connector_parent_path,
+                    target_node,
+                    metadata,
+                    suffix_letter,
+                )
                 current_level = target_node
                 continue
 
@@ -532,7 +564,7 @@ def add_to_structure(
                 parent_path = tuple(traversed[:-1])
 
                 registry_entries = []
-                if part not in MULTI_CONNECTORS and isinstance(current_level, dict):
+                if not is_multi and isinstance(current_level, dict):
                     connector_parent_path: tuple[str, ...] = parent_path[:-1]
                     connector_key: str | None = (
                         parent_path[-1] if parent_path else None
@@ -575,10 +607,12 @@ def add_to_structure(
                         )
                         break
 
-                if part in MULTI_CONNECTORS:
+                if is_multi:
                     target_node = _new_item(current_level, part)
                     _register_last(tuple(traversed), target_node)
-                    _register_connector_entry(parent_path, part, target_node, metadata, value)
+                    _register_connector_entry(
+                        parent_path, part, target_node, selection_label, value
+                    )
                 else:
                     target_node = next_level
                 if value in unique_id["Item"].values:
@@ -593,11 +627,12 @@ def add_to_structure(
                     _merge_type(target_node, value)
                 elif value:
                     target_node["rdfs:comment"] = value
-                if part in MULTI_CONNECTORS:
+                if is_multi:
                     _update_entry_tokens(
                         parent_path,
                         target_node,
                         metadata,
+                        suffix_letter,
                         value if isinstance(value, str) else None,
                     )
                 break
