@@ -132,10 +132,22 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         except:
             raise ValueError(f"Missing unique ID for the field '{id}'")
 
+    schema_version = None
+    try:
+        schema_version = get_information_value(df=schema, row_to_look="Schema version")
+    except Exception:
+        schema_version = None
+    if schema_version is None or pd.isna(schema_version):
+        schema_version = get_information_value(
+            df=schema, row_to_look="BattINFO CoinCellSchema version"
+        )
+    if schema_version is None or pd.isna(schema_version):
+        raise ValueError("Missing schema version in the schema sheet")
+
     jsonld = {
         "@context": ["https://w3id.org/emmo/domain/battery/context", {}],
         "@type": dict_harvested_info['Cell type'],
-        "schema:version": get_information_value(df=schema, row_to_look='BattINFO CoinCellSchema version'),
+        "schema:version": schema_version,
         "schema:productID": dict_harvested_info['Cell ID'],
         "schema:dateCreated": dict_harvested_info['Date of cell assembly'],
         "schema:creator": {
@@ -155,7 +167,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         jsonld["@context"][1][row['Item']] = row['Key']
 
     jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
-    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
+    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
 
     data_container._last_nodes = {}
     data_container._path_counts = {}
