@@ -23,10 +23,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                 "hasInput": [
                     {
                         "@type": "ElectricCurrentDensity" ,
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<POS_1-original=0.1>>>>"
-                        },
+                        "hasNumberValue": "<<<<POS_1-original=0.1>>>>",
                         "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                     },
                     {
@@ -34,10 +31,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                             "UpperVoltageLimit",
                             "TerminationQuantity" 
                         ],
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<POS_2-original=4.2>>>>"
-                        },
+                        "hasNumberValue": "<<<<POS_2-original=4.2>>>>",
                         "hasMeasurementUnit": "emmo:Volt"
                     }
                 ],
@@ -46,10 +40,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                     "hasInput": [
                         {
                             "@type": "Voltage",
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<POS_3-original=4.2>>>>"
-                            },
+                            "hasNumberValue": "<<<<POS_3-original=4.2>>>>",
                             "hasMeasurementUnit": "emmo:Volt"
                         },
                         {
@@ -57,10 +48,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                                 "LowerCurrentDensityLimit",
                                 "TerminationQuantity" 
                             ],
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<POS_4-original=0.01>>>>"
-                            },
+                            "hasNumberValue": "<<<<POS_4-original=0.01>>>>",
                             "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                         }
                     ],
@@ -69,10 +57,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                         "hasInput": [
                             {
                                 "@type": "ElectricCurrentDensity" ,
-                                "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<POS_5-original=0.1>>>>"
-                                },
+                                "hasNumberValue": "<<<<POS_5-original=0.1>>>>",
                                 "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                             },
                             {
@@ -80,10 +65,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                                     "LowerVoltageLimit",
                                     "TerminationQuantity" 
                                 ],
-                                "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<POS_6-original=3.0>>>>"
-                                },
+                                "hasNumberValue": "<<<<POS_6-original=3.0>>>>",
                                 "hasMeasurementUnit": "emmo:Volt"
                             }
                         ]
@@ -114,10 +96,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                 "hasInput": [
                     {
                         "@type": "ElectricCurrentDensity" ,
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<NEG_1-original=0.1>>>"
-                        },
+                        "hasNumberValue": "<<<<NEG_1-original=0.1>>>",
                         "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                     },
                     {
@@ -125,10 +104,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                             "LowerVoltageLimit",
                             "TerminationQuantity" 
                         ],
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<NEG_2-original=0.01>>>"
-                        },
+                        "hasNumberValue": "<<<<NEG_2-original=0.01>>>",
                         "hasMeasurementUnit": "emmo:Volt"
                     }
                 ],
@@ -137,10 +113,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                     "hasInput": [
                         {
                             "@type": "Voltage",
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<NEG_3-original=0.01>>>"        
-                            },
+                            "hasNumberValue": "<<<<NEG_3-original=0.01>>>",
                             "hasMeasurementUnit": "emmo:Volt"
                         },
                         {
@@ -148,10 +121,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                                 "LowerCurrentDensityLimit",
                                 "TerminationQuantity" 
                             ],
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<NEG_4-original=0.01>>>"
-                            },
+                            "hasNumberValue": "<<<<NEG_4-original=0.01>>>",
                             "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                         }
                     ],
@@ -160,10 +130,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                         "hasInput": [
                             {
                                 "@type": "ElectricCurrentDensity" ,
-                                "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<NEG_5-original=0.1>>>"
-                                },
+                                "hasNumberValue": "<<<<NEG_5-original=0.1>>>",
                                 "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
                             },
                             {
@@ -171,10 +138,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                                     "LowerVoltageLimit",
                                     "TerminationQuantity" 
                                 ],
-                                "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<NEG_6-original=1.0>>>"
-                                },
+                                "hasNumberValue": "<<<<NEG_6-original=1.0>>>",
                                 "hasMeasurementUnit": "emmo:Volt"
                             }
                         ]
@@ -183,4 +147,3 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
         }
     }
 }
-
