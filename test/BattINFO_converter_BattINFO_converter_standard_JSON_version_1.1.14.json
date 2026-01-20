@@ -12,7 +12,7 @@
         }
     ],
     "@type": "CoinCell",
-    "schema:version": "1.1.13",
+    "schema:version": "1.1.14",
     "schema:productID": "Empa-bco-000007",
     "schema:dateCreated": "16/6/2024",
     "schema:creator": {
@@ -26,9 +26,9 @@
         "schema:name": "Empa"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 2.2.4",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.4 and the coin cell battery schema version: 1.1.13, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
-        "BattINFO CoinCellSchema version: 1.1.13",
+        "BattINFO Converter version: 2.2.5",
+        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 1.1.14, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "Schema version: 1.1.14",
         "Project: Battery2030+/PREMISE",
         "Assembled manually or by robot: manually",
         "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
