@@ -23,12 +23,37 @@ class ExcelContainer:
 
     def __post_init__(self):
         # use the helper in place of pd.read_excel so decimal precision is kept
+        try:
+            schema = read_excel(self.excel_file, sheet_name="@Schema")
+        except KeyError:
+            schema = read_excel(self.excel_file, sheet_name="Schema")
+
+        try:
+            unit_map = read_excel(self.excel_file, sheet_name="@Units")
+        except KeyError:
+            unit_map = read_excel(self.excel_file, sheet_name="Ontology - Unit")
+
+        try:
+            context_toplevel = read_excel(self.excel_file, sheet_name="@Context")
+        except KeyError:
+            context_toplevel = read_excel(self.excel_file, sheet_name="@context-TopLevel")
+
+        try:
+            context_connector = read_excel(self.excel_file, sheet_name="@Predicates")
+        except KeyError:
+            context_connector = read_excel(self.excel_file, sheet_name="@context-Connector")
+
+        try:
+            unique_id = read_excel(self.excel_file, sheet_name="@Classes")
+        except KeyError:
+            unique_id = read_excel(self.excel_file, sheet_name="Unique ID")
+
         self.data = {
-            "schema":            read_excel(self.excel_file, sheet_name="Schema"),
-            "unit_map":          read_excel(self.excel_file, sheet_name="Ontology - Unit"),
-            "context_toplevel":  read_excel(self.excel_file, sheet_name="@context-TopLevel"),
-            "context_connector": read_excel(self.excel_file, sheet_name="@context-Connector"),
-            "unique_id":         read_excel(self.excel_file, sheet_name="Unique ID"),
+            "schema": schema,
+            "unit_map": unit_map,
+            "context_toplevel": context_toplevel,
+            "context_connector": context_connector,
+            "unique_id": unique_id,
         }
         self._last_nodes: dict[tuple[str, ...], dict] = {}
         self._path_counts: dict[tuple[str, ...], int] = {}
