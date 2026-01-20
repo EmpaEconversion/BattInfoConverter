@@ -598,10 +598,7 @@ def add_to_structure(
                 unit_info = unit_map.get(unit, {})
                 mp_entry = {
                     "@type": _extract_type(path[-1]),
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": value,
-                    },
+                    "hasNumberValue": value,
                     "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
                 }
                 parent = current_level[-1] if isinstance(current_level, list) else current_level
