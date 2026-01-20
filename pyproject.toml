@@ -15,6 +15,8 @@ dependencies = [
   "pandas>=2.0",
   "openpyxl>=3.1",
   "simplejson",
+  'tomli',
+  "streamlit>=1.50.0",
 ]
 
 classifiers = [
