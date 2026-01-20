@@ -13,6 +13,7 @@ IGNORED_COMMENT_PREFIXES = (
     "BattINFO Converter version:",
     "Software credit:",
     "BattINFO CoinCellSchema version:",
+    "Schema version:",
 )
 
 STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.13.xlsx"
