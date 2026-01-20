@@ -9,7 +9,7 @@ description = "Backend conversion module for BattInfoConverter"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Nukorn Plainpan", email = "nukorn.p27@gmail.com" }]
+authors = [{ name = "Nukorn Plainpan", email = "econversion@empa.ch" }]
 
 dependencies = [
   "pandas>=2.0",
