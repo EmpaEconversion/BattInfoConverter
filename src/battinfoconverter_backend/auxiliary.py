@@ -42,12 +42,67 @@ def add_to_structure(
     # ------------------------------------------------------------------ #
     # helper functions                                                   #
     # ------------------------------------------------------------------ #
-    MULTI_CONNECTORS = {
-        "hasConstituent",
-        "hasAdditive",
-        "hasSolute",
-        "hasSolvent",
-    }
+    MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
+
+    def _split_multi_connector(part: str) -> tuple[str, int | None]:
+        """Split multi-connector suffixes (e.g. ``hasSolventA`` -> ``hasSolvent``, 0).
+
+        Args:
+            part (str): The raw path segment.
+
+        Returns:
+            tuple[str, int | None]: The base connector and optional zero-based index.
+        """
+
+        match = MULTI_CONNECTOR_SUFFIX.match(part)
+        if match:
+            base = match.group("base")
+            if base in connectors and part not in connectors:
+                return base, ord(match.group("suffix")) - ord("A")
+        return part, None
+
+    def _ensure_indexed_connector_node(
+        parent: dict[str, Any],
+        connector: str,
+        parent_path: tuple[str, ...],
+        index: int,
+        metadata_label: str | None,
+        value: Any,
+    ) -> dict[str, Any]:
+        """Return the connector node at ``index``, creating placeholders as needed."""
+
+        entries_for_parent = _get_registry_entries(parent_path)
+        registry_entries = [
+            entry for entry in entries_for_parent if entry.get("connector") == connector
+        ]
+        while len(registry_entries) <= index:
+            is_target = len(registry_entries) == index
+            holder = parent.get(connector)
+            if (
+                isinstance(holder, dict)
+                and (not holder or list(holder.keys()) == ["@type"])
+                and not any(entry.get("node") is holder for entry in entries_for_parent)
+                and len(registry_entries) == 0
+            ):
+                target_node = holder
+            else:
+                target_node = _new_item(parent, connector)
+            _register_connector_entry(
+                parent_path,
+                connector,
+                target_node,
+                metadata_label if is_target else None,
+                value if is_target else None,
+            )
+            entries_for_parent = _get_registry_entries(parent_path)
+            registry_entries = [
+                entry
+                for entry in entries_for_parent
+                if entry.get("connector") == connector
+            ]
+        return registry_entries[index]["node"]
+
+    # NOTE: Multi connectors are inferred from suffixes or typed child segments.
 
     def _merge_type(node: dict[str, Any], new_type: str) -> None:
         """Ensure the ``@type`` entry on ``node`` includes ``new_type``.
@@ -425,13 +480,22 @@ def add_to_structure(
                 else:
                     raise ValueError(f"Unknown command {command} in {parts}")
 
+            part, connector_index = _split_multi_connector(part)
+
             if isinstance(current_level, list):
                 current_level = current_level[-1]
 
             last = index == len(path) - 1
             penultimate = index == len(path) - 2
+            next_segment = path[index + 1] if index + 1 < len(path) else None
 
             traversed.append(part)
+            parent_path = tuple(traversed[:-1])
+            is_multi_connector = (
+                part in connectors
+                and (connector_index is not None or (next_segment and next_segment.startswith("type|")))
+            )
+            # Suffix indices apply at every multi-connector level.
 
             # -------- create node if missing ---------------------------- #
             if part not in current_level and (value or unit):
@@ -449,17 +513,52 @@ def add_to_structure(
 
             next_level = current_level[part]
 
-            if part in MULTI_CONNECTORS and not last:
+            # -------- measured-property block --------------------------- #
+            if penultimate and unit != "No Unit":
+                if pd.isna(unit):
+                    raise ValueError(f"Value '{value}' missing unit.")
+                unit_info = unit_map.get(unit, {})
+                mp_entry = {
+                    "@type": _extract_type(path[-1]),
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": value,
+                    },
+                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
+                }
+                parent = current_level[-1] if isinstance(current_level, list) else current_level
+                _add_or_extend_list(parent, part, mp_entry)
+                break
+
+            if is_multi_connector and not last:
                 connector_parent_path = tuple(traversed[:-1])
-                next_segment = path[index + 1] if index + 1 < len(path) else None
-                desired_type: str | None = None
-                if next_segment and next_segment.startswith("type|"):
-                    _, desired_type = next_segment.split("|", 1)
                 registry_entries = [
                     entry
                     for entry in _get_registry_entries(connector_parent_path)
                     if entry.get("connector") == part
                 ]
+                if connector_index is not None:
+                    if connector_index < len(registry_entries):
+                        target_node = registry_entries[connector_index]["node"]
+                    else:
+                        target_node = _ensure_indexed_connector_node(
+                            current_level,
+                            part,
+                            connector_parent_path,
+                            connector_index,
+                            metadata,
+                            None,
+                        )
+                    _register_last(tuple(traversed), target_node)
+                    _update_entry_tokens(
+                        connector_parent_path, target_node, metadata
+                    )
+                    current_level = target_node
+                    continue
+
+                desired_type: str | None = None
+                if next_segment and next_segment.startswith("type|"):
+                    _, desired_type = next_segment.split("|", 1)
                 selected = None
                 if desired_type:
                     for entry in registry_entries:
@@ -503,23 +602,6 @@ def add_to_structure(
                 current_level = target_node
                 continue
 
-            # -------- measured-property block --------------------------- #
-            if penultimate and unit != "No Unit":
-                if pd.isna(unit):
-                    raise ValueError(f"Value '{value}' missing unit.")
-                unit_info = unit_map.get(unit, {})
-                mp_entry = {
-                    "@type": _extract_type(path[-1]),
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": value,
-                    },
-                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
-                }
-                parent = current_level[-1] if isinstance(current_level, list) else current_level
-                _add_or_extend_list(parent, part, mp_entry)
-                break
-
             # -------- final-value branch -------------------------------- #
             if last and unit == "No Unit":
                 if part == "hasStringValue" and isinstance(value, str):
@@ -529,10 +611,8 @@ def add_to_structure(
                         target_node = current_level
                     target_node[part] = value
                     break
-                parent_path = tuple(traversed[:-1])
-
                 registry_entries = []
-                if part not in MULTI_CONNECTORS and isinstance(current_level, dict):
+                if not is_multi_connector and isinstance(current_level, dict):
                     connector_parent_path: tuple[str, ...] = parent_path[:-1]
                     connector_key: str | None = (
                         parent_path[-1] if parent_path else None
@@ -575,10 +655,22 @@ def add_to_structure(
                         )
                         break
 
-                if part in MULTI_CONNECTORS:
-                    target_node = _new_item(current_level, part)
+                if is_multi_connector:
+                    if connector_index is not None:
+                        target_node = _ensure_indexed_connector_node(
+                            current_level,
+                            part,
+                            parent_path,
+                            connector_index,
+                            metadata,
+                            value,
+                        )
+                    else:
+                        target_node = _new_item(current_level, part)
+                        _register_connector_entry(
+                            parent_path, part, target_node, metadata, value
+                        )
                     _register_last(tuple(traversed), target_node)
-                    _register_connector_entry(parent_path, part, target_node, metadata, value)
                 else:
                     target_node = next_level
                 if value in unique_id["Item"].values:
@@ -593,7 +685,7 @@ def add_to_structure(
                     _merge_type(target_node, value)
                 elif value:
                     target_node["rdfs:comment"] = value
-                if part in MULTI_CONNECTORS:
+                if is_multi_connector:
                     _update_entry_tokens(
                         parent_path,
                         target_node,
