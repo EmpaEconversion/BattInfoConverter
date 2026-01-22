@@ -44,6 +44,11 @@ def add_to_structure(
     # ------------------------------------------------------------------ #
     MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
 
+    def _is_simple_connector(segment: str) -> bool:
+        """Return True if ``segment`` looks like a standalone connector token."""
+
+        return ":" not in segment and "_" not in segment
+
     def _split_multi_connector(part: str) -> tuple[str, int | None]:
         """Split multi-connector suffixes (e.g. ``hasSolventA`` -> ``hasSolvent``, 0).
 
@@ -55,9 +60,9 @@ def add_to_structure(
         """
 
         match = MULTI_CONNECTOR_SUFFIX.match(part)
-        if match:
+        if match and _is_simple_connector(part):
             base = match.group("base")
-            if base in connectors and part not in connectors:
+            if base in multi_connector_candidates and part not in multi_connector_candidates:
                 return base, ord(match.group("suffix")) - ord("A")
         return part, None
 
@@ -445,6 +450,32 @@ def add_to_structure(
         )
         context_connector = data_container.data["context_connector"]
         connectors = set(context_connector["Item"])
+        context_toplevel = data_container.data.get("context_toplevel")
+        top_level_connectors = (
+            set(context_toplevel["Item"]) if context_toplevel is not None else set()
+        )
+        multi_connector_candidates = connectors | top_level_connectors
+        schema = data_container.data.get("schema")
+        if schema is not None and "Ontology link" in schema:
+            for link in schema["Ontology link"]:
+                if not isinstance(link, str):
+                    continue
+                if link in ("NotOntologize", "Comment"):
+                    continue
+                for segment in link.split("-"):
+                    if segment.startswith("type|"):
+                        continue
+                    if "|" in segment:
+                        command, remainder = segment.split("|", 1)
+                        if command == "rev":
+                            segment = remainder
+                        else:
+                            continue
+                    match = MULTI_CONNECTOR_SUFFIX.match(segment)
+                    if match and _is_simple_connector(segment):
+                        base = match.group("base")
+                        if base.startswith("has"):
+                            multi_connector_candidates.add(base)
         unique_id = data_container.data["unique_id"]
 
         # ---- skip only true empties (0 and 0.0 are valid) ------------- #
@@ -492,7 +523,7 @@ def add_to_structure(
             traversed.append(part)
             parent_path = tuple(traversed[:-1])
             is_multi_connector = (
-                part in connectors
+                part in multi_connector_candidates
                 and (connector_index is not None or (next_segment and next_segment.startswith("type|")))
             )
             # Suffix indices apply at every multi-connector level.
