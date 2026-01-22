@@ -19,6 +19,9 @@ IGNORED_COMMENT_PREFIXES = (
 STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.15.xlsx"
 STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standard_JSON_version_1.1.15.json"
 
+STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR  / "standard_catalysis_excel_schema.xlsx"
+STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
+
 
 def _coerce_decimals(value):
     """Recursively convert ``Decimal`` instances within ``value`` to floats."""
@@ -56,6 +59,14 @@ def test_standard_excel_conversion_matches_reference_jsonld():
 
     converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
     with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
+        expected = json.load(json_file)
+
+    assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+
+def test_standard_catalysis_excel_conversion_match_reference_jsonld():
+    """Validate if the app convert the standard Excel schema for catalysis according to the expected behavior or not"""
+    converted = convert_excel_to_jsonld(STANDARD_CATALYSIS_EXCEL_PATH, debug_mode=False)
+    with STANDARD_CATALYSIS_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 
     assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
