@@ -28,7 +28,7 @@
     "rdfs:comment": [
         "BattINFO Converter version: 2.2.5",
         "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 0.1, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
-        "BattINFO CoinCellSchema version: 0.1",
+        "Schema version: 0.1",
         "Project: ETHB PREMISE/NCCR Catalysis",
         "Assembled manually or by robot: manually"
     ],
@@ -58,10 +58,15 @@
                         "@type": "emmo:RealData",
                         "hasNumberValue": 35
                     },
-                    "hasMeasurementUnit": "unit:PERCENT",
-                    "Tortuosity": {
-                        "rdfs:comment": 2.5
-                    }
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                {
+                    "@type": "Tortuosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 2.5
+                    },
+                    "hasMeasurementUnit": "unit:UNITLESS"
                 }
             ],
             "schema:manufacturer": {
@@ -119,21 +124,10 @@
             },
             "hasElectrolyte": {
                 "@type": "IonomerCompound",
-                "hasConstituent": {
-                    "@type": [
-                        "PolytetrafluoroEthylene",
-                        "PerfluoroSulfonicAcid"
-                    ],
-                    "hasMeasuredProperty": [
-                        {
-                            "@type": "MassFraction",
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": 2
-                            },
-                            "hasMeasurementUnit": "unit:PERCENT"
-                        },
-                        {
+                "hasConstituent": [
+                    {
+                        "@type": "PolytetrafluoroEthylene",
+                        "hasMeasuredProperty": {
                             "@type": "MassFraction",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
@@ -141,8 +135,19 @@
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
                         }
-                    ]
-                },
+                    },
+                    {
+                        "@type": "PerfluoroSulfonicAcid",
+                        "hasMeasuredProperty": {
+                            "@type": "MassFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 2
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    }
+                ],
                 "schema:manufacturer": {
                     "rdfs:comment": "Chemours"
                 },
@@ -167,18 +172,21 @@
             "rdfs:comment": "15p_Cu"
         },
         "hasGasFlow": {
-            "hasConstituent": {
-                "rdfs:comment": "Argon",
-                "MeasuredProperty": [
-                    {
+            "hasConstituent": [
+                {
+                    "rdfs:comment": "CarbonDioxide",
+                    "MeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
                             "hasNumberValue": 10
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
-                    },
-                    {
+                    }
+                },
+                {
+                    "rdfs:comment": "Argon",
+                    "MeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
@@ -186,8 +194,8 @@
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
                     }
-                ]
-            },
+                }
+            ],
             "hasMeasuredProperty": [
                 {
                     "@type": "VolumeFlowRate",
@@ -243,13 +251,22 @@
                     "hasMeasurementUnit": "unit:PERCENT",
                     "Tortuosity": {}
                 }
-            ]
+            ],
+            "schema:manufacturer": {
+                "rdfs:comment": "GoodFellows"
+            },
+            "schema:productID": {
+                "rdfs:comment": 1000214960
+            }
         },
         "hasCoating": {
             "@type": "ElectrodeCoating",
             "hasActiveMaterial": {
                 "rdfs:comment": "ElectroCatalyst",
-                "@type": "IridiumIIIOxide"
+                "@type": "IridiumIIIOxide",
+                "schema:manufacturer": {
+                    "rdfs:comment": "AJA International"
+                }
             },
             "hasMeasuredProperty": {
                 "@type": "Thickness",
@@ -267,17 +284,6 @@
         "schema:productID": {
             "rdfs:comment": "18x_Ti"
         },
-        "hasSubstrate_schema:manufacturer": {
-            "rdfs:comment": "GoodFellows"
-        },
-        "hasSubstrate_schema:productID": {
-            "rdfs:comment": 1000214960
-        },
-        "hasCoating_hasActiveMaterial": {
-            "schema:manufacturer": {
-                "rdfs:comment": "AJA International"
-            }
-        },
         "hasMeasuredProperty": {
             "@type": "Area",
             "hasNumericalPart": {
@@ -290,18 +296,21 @@
     "hasCatholyte": {
         "hasSolvent": {
             "@type": "Solvent",
-            "hasConstituent": {
-                "rdfs:comment": "SulfuricAcid",
-                "hasMeasuredProperty": [
-                    {
+            "hasConstituent": [
+                {
+                    "rdfs:comment": "Water",
+                    "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
                             "hasNumberValue": 100
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
-                    },
-                    {
+                    }
+                },
+                {
+                    "@type": "SulfuricAcid",
+                    "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
@@ -309,13 +318,13 @@
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
                     }
-                ]
-            }
+                }
+            ]
         },
         "hasSolute": {
             "@type": "Solute",
             "hasConstituent": {
-                "rdfs:comment": "PotassiumChloride",
+                "@type": "PotassiumChloride",
                 "hasMeasuredProperty": {
                     "@type": "AmountConcentration",
                     "hasNumericalPart": {
@@ -357,10 +366,15 @@
                     "@type": "emmo:RealData",
                     "hasNumberValue": 8
                 },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
-                "pH": {
-                    "rdfs:comment": 4.5
-                }
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "pH",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 4.5
+                },
+                "hasMeasurementUnit": "unit:UNITLESS"
             },
             {
                 "@type": "Density",
@@ -383,18 +397,21 @@
     "hasAnolyte": {
         "hasSolvent": {
             "@type": "Solvent",
-            "hasConstituent": {
-                "rdfs:comment": "SulfuricAcid",
-                "hasMeasuredProperty": [
-                    {
+            "hasConstituent": [
+                {
+                    "rdfs:comment": "Water",
+                    "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
                             "hasNumberValue": 100
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
-                    },
-                    {
+                    }
+                },
+                {
+                    "@type": "SulfuricAcid",
+                    "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
@@ -402,13 +419,13 @@
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
                     }
-                ]
-            }
+                }
+            ]
         },
         "hasSolute": {
             "@type": "Solute",
             "hasConstituent": {
-                "rdfs:comment": "PotassiumChloride",
+                "@type": "PotassiumChloride",
                 "hasMeasuredProperty": {
                     "@type": "AmountConcentration",
                     "hasNumericalPart": {
@@ -542,84 +559,90 @@
         }
     },
     "hasComponent": [
-    {
-        "schema:manufacturer": {
-            "rdfs:comment": "Dioxide Materials"
+        {
+            "schema:manufacturer": {
+                "rdfs:comment": "Chemours"
+            },
+            "schema:productID": {
+                "rdfs:comment": "Nafion D502CS"
+            }
         },
-        "schema:productID": {
-            "rdfs:comment": "Sustantion X37-50"
-        }
-    },
-    {
-        "@type": "CatholyteCompartment",
-        "hasMeasuredProperty": [
-            {
-                "@type": "Width",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1
-                },
-                "hasMeasurementUnit": "unit:MilliM"
+        {
+            "schema:manufacturer": {
+                "rdfs:comment": "Dioxide Materials"
             },
-            {
+            "schema:productID": {
+                "rdfs:comment": "Sustantion X37-50"
+            },
+            "@type": "CatholyteCompartment",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Width",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1
+                    },
+                    "hasMeasurementUnit": "unit:MilliM"
+                },
+                {
+                    "@type": "Volume",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 100
+                    },
+                    "hasMeasurementUnit": "unit:MilliL"
+                }
+            ],
+            "hasReferenceElectrode": {
+                "@type": [
+                    "ReferenceElectrode",
+                    "SilverChlorideElectrode"
+                ]
+            }
+        },
+        {
+            "@type": "CatholyteTank",
+            "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 100
+                    "hasNumberValue": 500
                 },
                 "hasMeasurementUnit": "unit:MilliL"
             }
-        ],
-        "hasReferenceElectrode": {
-            "@type": [
-                "ReferenceElectrode",
-                "SilverChlorideElectrode"
+        },
+        {
+            "@type": "AnolyteCompartment",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Width",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1
+                    },
+                    "hasMeasurementUnit": "unit:MilliM"
+                },
+                {
+                    "@type": "Volume",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 100
+                    },
+                    "hasMeasurementUnit": "unit:MilliL"
+                }
             ]
-        }
-    },
+        },
         {
-        "@type": "CatholyteTank",
-        "hasMeasuredProperty": {
-            "@type": "Volume",
-            "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 500
-            },
-            "hasMeasurementUnit": "unit:MilliL"
-        }
-    },
-        {
-        "@type": "AnolyteCompartment",
-        "hasMeasuredProperty": [
-            {
-                "@type": "Width",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1
-                },
-                "hasMeasurementUnit": "unit:MilliM"
-            },
-            {
+            "@type": "AnolyteTank",
+            "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 100
+                    "hasNumberValue": 500
                 },
                 "hasMeasurementUnit": "unit:MilliL"
             }
-        ]
-    },
-        {
-        "@type": "AnolyteTank",
-        "hasMeasuredProperty": {
-            "@type": "Volume",
-            "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 500
-            },
-            "hasMeasurementUnit": "unit:MilliL"
         }
-    }
     ],
     "hasCase": {
         "rdfs:comment": "FlowField",
