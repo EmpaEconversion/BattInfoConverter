@@ -34,3 +34,6 @@ dist/
 *.log
 *.tmp
 *.bak
+
+# Excel temporary files
+~$*
