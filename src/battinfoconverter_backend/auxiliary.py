@@ -76,7 +76,7 @@ def add_to_structure(
     ) -> dict[str, Any]:
         """Return the connector node at ``index``, creating placeholders as needed."""
 
-        entries_for_parent = _get_registry_entries(parent_path)
+        entries_for_parent = _get_registry_entries(parent_path, parent)
         registry_entries = [
             entry for entry in entries_for_parent if entry.get("connector") == connector
         ]
@@ -98,8 +98,9 @@ def add_to_structure(
                 target_node,
                 metadata_label if is_target else None,
                 value if is_target else None,
+                parent,
             )
-            entries_for_parent = _get_registry_entries(parent_path)
+            entries_for_parent = _get_registry_entries(parent_path, parent)
             registry_entries = [
                 entry
                 for entry in entries_for_parent
@@ -279,6 +280,7 @@ def add_to_structure(
         node: dict[str, Any],
         metadata_label: str | None,
         value: Any,
+        parent_node: dict[str, Any] | None = None,
     ) -> None:
         """Store a new connector entry with tokenized metadata and values.
 
@@ -307,6 +309,7 @@ def add_to_structure(
                 "base_tokens": tokens,
                 "alias_tokens": set(),
                 "order": len(entries),
+                "parent_id": id(parent_node) if parent_node is not None else None,
             }
         )
 
@@ -339,7 +342,7 @@ def add_to_structure(
                 break
 
     def _get_registry_entries(
-        parent_path: tuple[str, ...]
+        parent_path: tuple[str, ...], parent_node: dict[str, Any] | None = None
     ) -> list[dict[str, Any]]:
         """Return registry entries registered for ``parent_path``.
 
@@ -353,7 +356,11 @@ def add_to_structure(
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
             return []
-        return registry.get(_registry_key_for(parent_path), [])
+        entries = registry.get(_registry_key_for(parent_path), [])
+        if parent_node is None:
+            return entries
+        parent_id = id(parent_node)
+        return [entry for entry in entries if entry.get("parent_id") == parent_id]
 
     def _select_entry(
         label: str | None,
@@ -455,8 +462,48 @@ def add_to_structure(
             set(context_toplevel["Item"]) if context_toplevel is not None else set()
         )
         multi_connector_candidates = connectors | top_level_connectors
+        collapsible_multi_paths = getattr(
+            data_container, "_collapsible_multi_paths", None
+        )
         schema = data_container.data.get("schema")
         if schema is not None and "Ontology link" in schema:
+            if collapsible_multi_paths is None:
+                collapsible_multi_paths = set()
+                multi_paths_with_children: set[tuple[str, ...]] = set()
+                multi_paths_seen: set[tuple[str, ...]] = set()
+                for link in schema["Ontology link"]:
+                    if not isinstance(link, str):
+                        continue
+                    if link in ("NotOntologize", "Comment"):
+                        continue
+                    connectors_in_link: list[str] = []
+                    for raw in link.split("-"):
+                        if raw.startswith("type|"):
+                            continue
+                        if "|" in raw:
+                            command, remainder = raw.split("|", 1)
+                            if command == "rev":
+                                raw = remainder
+                            else:
+                                continue
+                        connectors_in_link.append(raw)
+                    normalized_path: list[str] = []
+                    for idx, segment in enumerate(connectors_in_link):
+                        segment_base = segment
+                        match = MULTI_CONNECTOR_SUFFIX.match(segment)
+                        if match and _is_simple_connector(segment):
+                            base = match.group("base")
+                            if base.startswith("has"):
+                                segment_base = base
+                                path_key = tuple(normalized_path + [segment_base])
+                                multi_paths_seen.add(path_key)
+                                if idx < len(connectors_in_link) - 1:
+                                    multi_paths_with_children.add(path_key)
+                        normalized_path.append(segment_base)
+                for path_key in multi_paths_seen:
+                    if path_key not in multi_paths_with_children:
+                        collapsible_multi_paths.add(path_key)
+                data_container._collapsible_multi_paths = collapsible_multi_paths
             for link in schema["Ontology link"]:
                 if not isinstance(link, str):
                     continue
@@ -565,7 +612,9 @@ def add_to_structure(
                 connector_parent_path = tuple(traversed[:-1])
                 registry_entries = [
                     entry
-                    for entry in _get_registry_entries(connector_parent_path)
+                    for entry in _get_registry_entries(
+                        connector_parent_path, current_level
+                    )
                     if entry.get("connector") == part
                 ]
                 if connector_index is not None:
@@ -602,18 +651,22 @@ def add_to_structure(
                             selected = entry
                             break
                 if selected is None:
-                    selected = _select_entry(metadata, registry_entries, part, traversed)
-                    if selected is not None and desired_type:
-                        existing_type = selected["node"].get("@type")
-                        if isinstance(existing_type, list):
-                            if desired_type not in existing_type:
-                                selected = None
-                        elif existing_type != desired_type:
+                    selected = _select_entry(
+                        metadata, registry_entries, part, traversed
+                    )
+                if selected is not None and desired_type:
+                    existing_type = selected["node"].get("@type")
+                    if isinstance(existing_type, list):
+                        if desired_type not in existing_type:
                             selected = None
+                    elif existing_type != desired_type:
+                        selected = None
                 if selected is not None:
                     target_node = selected["node"]
                 else:
-                    entries_for_parent = _get_registry_entries(connector_parent_path)
+                    entries_for_parent = _get_registry_entries(
+                        connector_parent_path, current_level
+                    )
                     holder = current_level.get(part)
                     if (
                         isinstance(holder, dict)
@@ -623,10 +676,17 @@ def add_to_structure(
                         target_node = holder
                     else:
                         target_node = _new_item(current_level, part)
-                        entries_for_parent = _get_registry_entries(connector_parent_path)
+                        entries_for_parent = _get_registry_entries(
+                            connector_parent_path, current_level
+                        )
                     if not any(entry.get("node") is target_node for entry in entries_for_parent):
                         _register_connector_entry(
-                            connector_parent_path, part, target_node, metadata, None
+                            connector_parent_path,
+                            part,
+                            target_node,
+                            metadata,
+                            None,
+                            current_level,
                         )
                 _register_last(tuple(traversed), target_node)
                 _update_entry_tokens(connector_parent_path, target_node, metadata)
@@ -687,7 +747,39 @@ def add_to_structure(
                         break
 
                 if is_multi_connector:
-                    if connector_index is not None:
+                    connector_path = parent_path + (part,)
+                    if connector_index is not None and connector_path in (collapsible_multi_paths or set()):
+                        registry_entries = [
+                            entry
+                            for entry in _get_registry_entries(parent_path, current_level)
+                            if entry.get("connector") == part
+                        ]
+                        if registry_entries:
+                            target_node = registry_entries[0]["node"]
+                            if isinstance(current_level.get(part), list):
+                                current_level[part] = target_node
+                        else:
+                            holder = current_level.get(part)
+                            if isinstance(holder, dict):
+                                target_node = holder
+                            elif holder in (None, {}):
+                                current_level[part] = {}
+                                target_node = current_level[part]
+                            elif isinstance(holder, list) and holder:
+                                target_node = holder[0]
+                                current_level[part] = target_node
+                            else:
+                                current_level[part] = {}
+                                target_node = current_level[part]
+                            _register_connector_entry(
+                                parent_path,
+                                part,
+                                target_node,
+                                metadata,
+                                value,
+                                current_level,
+                            )
+                    elif connector_index is not None:
                         target_node = _ensure_indexed_connector_node(
                             current_level,
                             part,
@@ -699,7 +791,12 @@ def add_to_structure(
                     else:
                         target_node = _new_item(current_level, part)
                         _register_connector_entry(
-                            parent_path, part, target_node, metadata, value
+                            parent_path,
+                            part,
+                            target_node,
+                            metadata,
+                            value,
+                            current_level,
                         )
                     _register_last(tuple(traversed), target_node)
                 else:
