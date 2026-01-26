@@ -12,7 +12,7 @@ license = { text = "MIT" }
 authors = [{ name = "Nukorn Plainpan", email = "econversion@empa.ch" }]
 
 dependencies = [
-  "pandas>=2.0",
+  "pandas>=2,<3",
   "openpyxl>=3.1",
   "simplejson",
   'tomli',
