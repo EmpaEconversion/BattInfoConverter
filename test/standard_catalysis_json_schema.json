@@ -28,11 +28,12 @@
     "rdfs:comment": [
         "BattINFO Converter version: 2.2.5",
         "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 0.1, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "Schema name: ElectrolysisCellSchema",
         "Schema version: 0.1",
         "Project: ETHB PREMISE/NCCR Catalysis",
         "Assembled manually or by robot: manually"
     ],
-    "hasPositiveElectrode": {
+    "hasNegativeElectrode": {
         "@type": [
             "Electrode",
             "GasDiffusionElectrode"
@@ -224,7 +225,7 @@
             "hasMeasurementUnit": "unit:CentiM2"
         }
     },
-    "hasNegativeElectrode": {
+    "hasPositiveElectrode": {
         "@type": "Electrode",
         "rdfs:comment": "ImmersionElectrode",
         "hasSubstrate": {
@@ -262,8 +263,10 @@
         "hasCoating": {
             "@type": "ElectrodeCoating",
             "hasActiveMaterial": {
-                "rdfs:comment": "ElectroCatalyst",
-                "@type": "IridiumIIIOxide",
+                "@type": [
+                    "Electrocatalyst",
+                    "IridiumIIIOxide"
+                ],
                 "schema:manufacturer": {
                     "rdfs:comment": "AJA International"
                 }
@@ -298,7 +301,7 @@
             "@type": "Solvent",
             "hasConstituent": [
                 {
-                    "rdfs:comment": "Water",
+                    "@type": "Water",
                     "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
@@ -399,7 +402,7 @@
             "@type": "Solvent",
             "hasConstituent": [
                 {
-                    "rdfs:comment": "Water",
+                    "@type": "Water",
                     "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
@@ -499,36 +502,45 @@
         "hasElectrolyte": [
             {
                 "@type": "CationExchangeMembrane",
-                "hasConstituent": [
+                "hasConstituent": {
+                        "@type": [
+                            "PolytetrafluoroEthylene",
+                            "PerfluoroSulfonicAcid"
+                        ]
+                    },
+                "hasMeasuredProperty": [
                     {
-                        "@type": "PolytetrafluoroEthylene"
+                        "@type": "Thickness",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 500
+                        },
+                        "hasMeasurementUnit": "unit:MicroM"
                     },
                     {
-                        "@type": "PerfluoroSulfonicAcid"
+                        "@type": "ElectrolyticConductivity",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 8
+                        },
+                        "hasMeasurementUnit": "UnknownUnit"
                     }
                 ],
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "Thickness",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 500
-                        },
-                        "hasMeasurementUnit": "unit:MicroM"
-                    },
-                    {
-                        "@type": "ElectrolyticConductivity",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 8
-                        },
-                        "hasMeasurementUnit": "UnknownUnit"
-                    }
-                ]
+                "schema:manufacturer": {
+                    "rdfs:comment": "Chemours"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "Nafion D502CS"
+                }
             },
             {
-                "@type": "CationExchangeMembrane",
-                "hasConstituent": {},
+                "@type": "AnionExchangeMembrane",
+                "hasConstituent": {
+                        "@type": [
+                            "PerfluoroSulfonicAcid",
+                            "Immidazolium"
+                        ]
+                },
                 "hasMeasuredProperty": [
                     {
                         "@type": "Thickness",
@@ -546,7 +558,13 @@
                         },
                         "hasMeasurementUnit": "UnknownUnit"
                     }
-                ]
+                ],
+                "schema:manufacturer": {
+                    "rdfs:comment": "Dioxide Materials"
+                },
+                "schema:productID": {
+                    "rdfs:comment": "Sustantion X37-50"
+                }
             }
         ],
         "hasMeasuredProperty": {
@@ -558,22 +576,14 @@
             "hasMeasurementUnit": "unit:CentiM2"
         }
     },
+    "hasCase": {
+        "rdfs:comment": "FlowField",
+        "schema:manufacturer": {
+            "rdfs:comment": "Fuel Cell Store"
+        }
+    },
     "hasComponent": [
         {
-            "schema:manufacturer": {
-                "rdfs:comment": "Chemours"
-            },
-            "schema:productID": {
-                "rdfs:comment": "Nafion D502CS"
-            }
-        },
-        {
-            "schema:manufacturer": {
-                "rdfs:comment": "Dioxide Materials"
-            },
-            "schema:productID": {
-                "rdfs:comment": "Sustantion X37-50"
-            },
             "@type": "CatholyteCompartment",
             "hasMeasuredProperty": [
                 {
@@ -643,11 +653,5 @@
                 "hasMeasurementUnit": "unit:MilliL"
             }
         }
-    ],
-    "hasCase": {
-        "rdfs:comment": "FlowField",
-        "schema:manufacturer": {
-            "rdfs:comment": "Fuel Cell Store"
-        }
-    }
+    ]
 }
