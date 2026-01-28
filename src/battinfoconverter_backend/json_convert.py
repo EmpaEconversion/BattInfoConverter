@@ -14,30 +14,7 @@ from .json_template import (
     SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
     SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
 )
-
-
-def _find_pyproject_path() -> Path | None:
-    for parent in Path(__file__).resolve().parents:
-        candidate = parent / "pyproject.toml"
-        if candidate.is_file():
-            return candidate
-    return None
-
-
-@lru_cache(maxsize=1)
-def _load_app_version() -> str: 
-    pyproject_path = _find_pyproject_path()
-    if pyproject_path is None:
-        return "0.0.0"
-    try:
-        with pyproject_path.open("rb") as file:
-            pyproject = tomli.load(file)
-    except (OSError, tomli.TOMLDecodeError):
-        return "0.0.0"
-    return pyproject.get("project", {}).get("version", "0.0.0")
-
-
-APP_VERSION = _load_app_version()
+from battinfoconverter_backend import __version__
 
 
 @dataclass
@@ -153,8 +130,8 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     for _, row in context_toplevel.iterrows():
         jsonld["@context"][1][row['Item']] = row['Key']
 
-    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
-    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {APP_VERSION} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
+    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {__version__}")
+    jsonld["rdfs:comment"].append(f"Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: {__version__} and the coin cell battery schema version: {jsonld['schema:version']}, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion")
 
     data_container._last_nodes = {}
     data_container._path_counts = {}
