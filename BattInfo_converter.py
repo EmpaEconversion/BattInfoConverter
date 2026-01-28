@@ -6,6 +6,7 @@ import simplejson as json
 import os
 from io import BytesIO
 from battinfoconverter_backend import json_convert as js_conv
+from battinfoconverter_backend import __version__
 
 st.set_page_config(
 page_title="BattINFO Converter",
@@ -48,7 +49,7 @@ image_url = 'https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter
 def main():
     st.image(image_url)
     
-    st.markdown(f"__App Version: {js_conv.APP_VERSION}__")
+    st.markdown(f"__App Version: {__version__}__")
     
     uploaded_file = st.file_uploader("__Upload your metadata Excel file here__", type=['xlsx', 'xlsm'])
     
