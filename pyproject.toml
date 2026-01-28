@@ -42,7 +42,7 @@ where = ["src"]
 include = ["battinfoconverter_backend*"]
 
 [tool.setuptools.dynamic]
-version = { attr = "battinfoconverter_backend.__version__" }
+version = { attr = "battinfoconverter_backend._version.__version__" }
 
 [project.optional-dependencies]
 app = ["streamlit"]
