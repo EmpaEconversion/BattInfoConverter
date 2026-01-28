@@ -14,7 +14,7 @@ from .json_template import (
     SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
     SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
 )
-from battinfoconverter_backend import __version__
+from battinfoconverter_backend._version import __version__
 
 
 @dataclass
