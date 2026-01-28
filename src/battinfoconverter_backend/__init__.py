@@ -9,4 +9,4 @@ __all__ = [
     "json_template",
 ]
 
-__version__ = getattr(json_convert, "APP_VERSION", "0.0.0")
+__version__ = "2.2.5"

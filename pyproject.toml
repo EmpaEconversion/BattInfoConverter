@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battinfoconverter-backend"
-version = "2.2.5"
+dynamic = ["version"]
 description = "Backend conversion module for BattInfoConverter"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -40,6 +40,9 @@ package-dir = { "" = "src" }
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["battinfoconverter_backend*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "battinfoconverter_backend.__version__" }
 
 [project.optional-dependencies]
 app = ["streamlit"]
