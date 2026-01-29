@@ -1,5 +1,7 @@
 """Backend utilities for the BattINFO converter."""
 
+from importlib.metadata import version
+
 from . import auxiliary, excel_tools, json_convert, json_template
 
 __all__ = [
@@ -9,4 +11,4 @@ __all__ = [
     "json_template",
 ]
 
-__version__ = getattr(json_convert, "APP_VERSION", "0.0.0")
+__version__ = version("battinfoconverter-backend")
