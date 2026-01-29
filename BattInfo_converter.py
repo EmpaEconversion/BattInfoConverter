@@ -1,11 +1,13 @@
 """
 This module handle the interface of the web app. 
 """
-import streamlit as st 
-import simplejson as json  
 import os
 from io import BytesIO
-from battinfoconverter_backend import json_convert as js_conv
+
+import simplejson as json
+import streamlit as st
+
+from battinfoconverter_backend import __version__, json_convert
 
 st.set_page_config(
 page_title="BattINFO Converter",
@@ -48,7 +50,7 @@ image_url = 'https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter
 def main():
     st.image(image_url)
     
-    st.markdown(f"__App Version: {js_conv.APP_VERSION}__")
+    st.markdown(f"__App Version: {__version__}__")
     
     uploaded_file = st.file_uploader("__Upload your metadata Excel file here__", type=['xlsx', 'xlsm'])
     
@@ -57,7 +59,7 @@ def main():
         base_name = os.path.splitext(uploaded_file.name)[0]
         
         # Convert the uploaded Excel file to JSON-LD
-        jsonld_output = js_conv.convert_excel_to_jsonld(uploaded_file)
+        jsonld_output = json_convert.convert_excel_to_jsonld(uploaded_file)
         jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         # Download button

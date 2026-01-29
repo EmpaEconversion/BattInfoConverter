@@ -1,12 +1,10 @@
 import datetime
 from dataclasses import dataclass, field
-from functools import lru_cache
 from pathlib import Path
 from typing import IO
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
-import tomli
 
 from . import auxiliary as aux
 from .excel_tools import read_excel_preserve_decimals as read_excel
@@ -14,31 +12,9 @@ from .json_template import (
     SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
     SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
 )
+from importlib.metadata import version
 
-
-def _find_pyproject_path() -> Path | None:
-    for parent in Path(__file__).resolve().parents:
-        candidate = parent / "pyproject.toml"
-        if candidate.is_file():
-            return candidate
-    return None
-
-
-@lru_cache(maxsize=1)
-def _load_app_version() -> str: 
-    pyproject_path = _find_pyproject_path()
-    if pyproject_path is None:
-        return "0.0.0"
-    try:
-        with pyproject_path.open("rb") as file:
-            pyproject = tomli.load(file)
-    except (OSError, tomli.TOMLDecodeError):
-        return "0.0.0"
-    return pyproject.get("project", {}).get("version", "0.0.0")
-
-
-APP_VERSION = _load_app_version()
-
+APP_VERSION = version("battinfoconverter-backend")
 
 @dataclass
 class ExcelContainer:
