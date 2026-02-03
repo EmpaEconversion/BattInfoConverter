@@ -249,8 +249,15 @@
                         "@type": "emmo:RealData",
                         "hasNumberValue": 50
                     },
-                    "hasMeasurementUnit": "unit:PERCENT",
-                    "Tortuosity": {}
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                {
+                    "@type": "Tortuosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 0
+                    },
+                    "hasMeasurementUnit": "unit:UNITLESS"
                 }
             ],
             "schema:manufacturer": {
@@ -502,12 +509,14 @@
         "hasElectrolyte": [
             {
                 "@type": "CationExchangeMembrane",
-                "hasConstituent": {
-                        "@type": [
-                            "PolytetrafluoroEthylene",
-                            "PerfluoroSulfonicAcid"
-                        ]
+                "hasConstituent": [
+                    {
+                        "@type": "PolytetrafluoroEthylene"
                     },
+                    {
+                        "@type": "PerfluoroSulfonicAcid"
+                    }
+                ],
                 "hasMeasuredProperty": [
                     {
                         "@type": "Thickness",
@@ -523,7 +532,7 @@
                             "@type": "emmo:RealData",
                             "hasNumberValue": 8
                         },
-                        "hasMeasurementUnit": "UnknownUnit"
+                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
                     }
                 ],
                 "schema:manufacturer": {
@@ -535,12 +544,14 @@
             },
             {
                 "@type": "AnionExchangeMembrane",
-                "hasConstituent": {
-                        "@type": [
-                            "PerfluoroSulfonicAcid",
-                            "Immidazolium"
-                        ]
-                },
+                "hasConstituent": [
+                    {
+                        "@type": "PerfluoroSulfonicAcid"
+                    },
+                    {
+                        "@type": "Immidazolium"
+                    }
+                ],
                 "hasMeasuredProperty": [
                     {
                         "@type": "Thickness",
@@ -556,7 +567,7 @@
                             "@type": "emmo:RealData",
                             "hasNumberValue": 8
                         },
-                        "hasMeasurementUnit": "UnknownUnit"
+                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
                     }
                 ],
                 "schema:manufacturer": {

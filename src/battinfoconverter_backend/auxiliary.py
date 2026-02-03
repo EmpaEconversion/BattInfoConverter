@@ -748,37 +748,37 @@ def add_to_structure(
 
                 if is_multi_connector:
                     connector_path = parent_path + (part,)
-                    if connector_index is not None and connector_path in (collapsible_multi_paths or set()):
-                        registry_entries = [
-                            entry
-                            for entry in _get_registry_entries(parent_path, current_level)
-                            if entry.get("connector") == part
-                        ]
-                        if registry_entries:
-                            target_node = registry_entries[0]["node"]
-                            if isinstance(current_level.get(part), list):
-                                current_level[part] = target_node
+                    registry_entries = [
+                        entry
+                        for entry in _get_registry_entries(parent_path, current_level)
+                        if entry.get("connector") == part
+                    ]
+                    if (
+                        connector_index is not None
+                        and connector_path in (collapsible_multi_paths or set())
+                        and connector_index == 0
+                        and not registry_entries
+                    ):
+                        holder = current_level.get(part)
+                        if isinstance(holder, dict):
+                            target_node = holder
+                        elif holder in (None, {}):
+                            current_level[part] = {}
+                            target_node = current_level[part]
+                        elif isinstance(holder, list) and holder:
+                            target_node = holder[0]
+                            current_level[part] = target_node
                         else:
-                            holder = current_level.get(part)
-                            if isinstance(holder, dict):
-                                target_node = holder
-                            elif holder in (None, {}):
-                                current_level[part] = {}
-                                target_node = current_level[part]
-                            elif isinstance(holder, list) and holder:
-                                target_node = holder[0]
-                                current_level[part] = target_node
-                            else:
-                                current_level[part] = {}
-                                target_node = current_level[part]
-                            _register_connector_entry(
-                                parent_path,
-                                part,
-                                target_node,
-                                metadata,
-                                value,
-                                current_level,
-                            )
+                            current_level[part] = {}
+                            target_node = current_level[part]
+                        _register_connector_entry(
+                            parent_path,
+                            part,
+                            target_node,
+                            metadata,
+                            value,
+                            current_level,
+                        )
                     elif connector_index is not None:
                         target_node = _ensure_indexed_connector_node(
                             current_level,
