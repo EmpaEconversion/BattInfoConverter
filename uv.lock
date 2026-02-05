@@ -34,7 +34,7 @@ wheels = [
 
 [[package]]
 name = "battinfoconverter-backend"
-version = "2.2.5"
+version = "3.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "openpyxl" },
