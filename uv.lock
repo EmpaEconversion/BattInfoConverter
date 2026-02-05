@@ -55,7 +55,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "openpyxl", specifier = ">=3.1" },
-    { name = "pandas", specifier = ">=2.0" },
+    { name = "pandas", specifier = ">=2,<3" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.4.2" },
     { name = "simplejson" },
     { name = "streamlit", specifier = ">=1.50.0" },
