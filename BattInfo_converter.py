@@ -20,13 +20,13 @@ st.image(badge_url)
 
 markdown_content = """ 
 ### Overview
-BattINFO converter helps you ontologize the metadata of your coin cell batteries based on the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO).
+BattINFO converter helps you ontologize the metadata of your battery cells based on the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO), which builds on the [EMMO ontology](https://github.com/emmo-repo/EMMO).
 Ontologizing your metadata significantly enhances the interoperability of your data across various digital platforms and research groups.
 To learn more about ontologizing your metadata, we invite you to visit our page on [ontologizing metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main).
 While there are many benefits of this process, it can be a daunting task in practice. With this in mind,
 we developed the open-source [Github: BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application designed to streamline and expedite this intricate task, making it more manageable for you and your team.
 
-BattINFO converter converts an Excel file collecting the metadata of a coin cell battery from the user into a fully ontologized JSON-LD file,
+BattINFO converter converts an Excel file collecting the metadata of a battery cell provided by the user into a fully ontologized JSON-LD file,
 which can be published as supporting information with your scientific publication or in open-access data repositories such as [Zenodo](https://zenodo.org).
 Example Excel metadata files for a coin cell battery are provided. We plan to add more Excel metadata files for other cell types in the future. 
 For additional information on how to fill the Excel file, please click the respective link on the left.
@@ -41,7 +41,7 @@ We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF 
 The development of BattINFO converter was supported by funding for the [Battery2030+](https://battery2030.eu/) initiative from the European Union’s research and innovation program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for Education, Research, and Innovation (SERI) under contract No. 2300313 as well as funding for the [PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board
 
 ### Citation
-If you find BattINFO converter useful and would like to cite our work in an academic jounral. Please consider citing our publication:  
+If you find BattINFO converter useful, please cite our publication:  
 [1] Nukorn Plainpan, Simon Clark, and Corsin Battaglia. "BattINFO Converter: An Automated Tool for Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**): 2500151. [doi.org/10.1002/batt.202500151](https://doi.org/10.1002/batt.202500151)
 """
 
