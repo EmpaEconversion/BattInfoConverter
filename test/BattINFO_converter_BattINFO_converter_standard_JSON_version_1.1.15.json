@@ -26,11 +26,12 @@
     "schema:name": "Empa"
   },
   "rdfs:comment": [
-    "BattINFO Converter version: 2.2.5",
-    "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 1.1.15, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
-    "Schema version: 1.1.15",
+    "BattINFO Converter version: 3.0.2",
+    "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 3.0.2 and the schema version: 1.1.15, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
     "Project: Battery2030+/PREMISE",
     "Assembled manually or by robot: manually",
+    "Schema name: CoinCellSchema",
+    "Schema version: 1.1.15",
     "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
   ],
   "hasPositiveElectrode": {
@@ -47,12 +48,6 @@
           "hasNumberValue": 15
         },
         "hasMeasurementUnit": "emmo:MicroMetre"
-      },
-      "schema:manufacturer": {
-        "rdfs:comment": "test_value_row_44"
-      },
-      "schema:productID": {
-        "rdfs:comment": "test_value_row_45"
       }
     },
     "hasCoating": {
@@ -62,7 +57,7 @@
         "hasMeasuredProperty": [
           {
             "@type": "molecularFormula",
-            "hasStringValue": "LiNi0.6Mn0.2Co0.2"
+            "hasStringValue": "LiNi0.6Mn0.2Co0.2O2"
           },
           {
             "@type": "MassFraction",
@@ -88,13 +83,7 @@
             },
             "hasMeasurementUnit": "emmo:MicroMetre"
           }
-        ],
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_46"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_47"
-        }
+        ]
       },
       "hasBinder": {
         "@type": [
@@ -108,12 +97,6 @@
             "hasNumberValue": 2
           },
           "hasMeasurementUnit": "unit:PERCENT"
-        },
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_48"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_49"
         }
       },
       "hasConductiveAdditive": {
@@ -128,12 +111,6 @@
             "hasNumberValue": 2
           },
           "hasMeasurementUnit": "unit:PERCENT"
-        },
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_50"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_51"
         }
       },
       "hasMeasuredProperty": [
@@ -279,14 +256,15 @@
         "@type": "Diameter",
         "hasNumericalPart": {
           "@type": "emmo:RealData",
-          "hasNumberValue": 12
+          "hasNumberValue": 14
         },
         "hasMeasurementUnit": "unit:MilliM"
       }
     ],
     "schema:manufacturer": {
+      "@type": "schema:Organization",
       "@id": "https://www.wikidata.org/wiki/Q120784603",
-      "@type": "Customcells"
+      "schema:name": "Customcells"
     },
     "schema:productID": {
       "rdfs:comment": 100000030
@@ -303,15 +281,9 @@
         "@type": "Thickness",
         "hasNumericalPart": {
           "@type": "emmo:RealData",
-          "hasNumberValue": 14
+          "hasNumberValue": 15
         },
         "hasMeasurementUnit": "emmo:MicroMetre"
-      },
-      "schema:manufacturer": {
-        "rdfs:comment": "test_value_row_84"
-      },
-      "schema:productID": {
-        "rdfs:comment": "test_value_row_85"
       }
     },
     "hasCoating": {
@@ -343,13 +315,7 @@
             },
             "hasMeasurementUnit": "emmo:MicroMetre"
           }
-        ],
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_86"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_87"
-        }
+        ]
       },
       "hasBinder": {
         "@type": [
@@ -363,12 +329,6 @@
             "hasNumberValue": 3
           },
           "hasMeasurementUnit": "unit:PERCENT"
-        },
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_88"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_89"
         }
       },
       "hasConductiveAdditive": {
@@ -383,12 +343,6 @@
             "hasNumberValue": 2
           },
           "hasMeasurementUnit": "unit:PERCENT"
-        },
-        "schema:manufacturer": {
-          "rdfs:comment": "test_value_row_90"
-        },
-        "schema:productID": {
-          "rdfs:comment": "test_value_row_91"
         }
       },
       "hasMeasuredProperty": [
@@ -404,7 +358,7 @@
           "@type": "Porosity",
           "hasNumericalPart": {
             "@type": "emmo:RealData",
-            "hasNumberValue": 34
+            "hasNumberValue": 35
           },
           "hasMeasurementUnit": "unit:PERCENT"
         },
@@ -534,14 +488,15 @@
         "@type": "Diameter",
         "hasNumericalPart": {
           "@type": "emmo:RealData",
-          "hasNumberValue": 14
+          "hasNumberValue": 15
         },
         "hasMeasurementUnit": "unit:MilliM"
       }
     ],
     "schema:manufacturer": {
+      "@type": "schema:Organization",
       "@id": "https://www.wikidata.org/wiki/Q120784603",
-      "@type": "Customcells"
+      "schema:name": "Customcells"
     },
     "schema:productID": {
       "rdfs:comment": "11113, A-1594"
@@ -549,10 +504,10 @@
   },
   "hasElectrolyte": {
     "@type": "OrganicElectrolyte",
-    "hasSolvent": [
-      {
-        "@type": "Solvent",
-        "hasConstituent": {
+    "hasSolvent": {
+      "@type": "Solvent",
+      "hasConstituent": [
+        {
           "@type": "EthyleneCarbonate",
           "hasMeasuredProperty": {
             "@type": "VolumeFraction",
@@ -561,17 +516,9 @@
               "hasNumberValue": 30
             },
             "hasMeasurementUnit": "unit:PERCENT"
-          },
-          "schema:manufacturer": {
-            "rdfs:comment": "test_value_row_113"
-          },
-          "schema:productID": {
-            "rdfs:comment": "test_value_row_114"
           }
-        }
-      },
-      {
-        "hasConstituent": {
+        },
+        {
           "@type": "EthylMethylCarbonate",
           "hasMeasuredProperty": {
             "@type": "VolumeFraction",
@@ -580,20 +527,14 @@
               "hasNumberValue": 70
             },
             "hasMeasurementUnit": "unit:PERCENT"
-          },
-          "schema:manufacturer": {
-            "rdfs:comment": "test_value_row_115"
-          },
-          "schema:productID": {
-            "rdfs:comment": "test_value_row_116"
           }
         }
-      }
-    ],
-    "hasSolute": [
-      {
-        "@type": "Solute",
-        "hasConstituent": {
+      ]
+    },
+    "hasSolute": {
+      "@type": "Solute",
+      "hasConstituent": [
+        {
           "@type": "LithiumHexafluorophosphate",
           "hasMeasuredProperty": {
             "@type": "AmountConcentration",
@@ -602,37 +543,9 @@
               "hasNumberValue": 1
             },
             "hasMeasurementUnit": "unit:MOL-PER-L"
-          },
-          "schema:manufacturer": {
-            "rdfs:comment": "test_value_row_117"
-          },
-          "schema:productID": {
-            "rdfs:comment": "test_value_row_118"
           }
         },
-        "hasAdditive": {
-          "@type": "Additive",
-          "hasConstituent": {
-            "@type": "VinyleneCarbonate",
-            "hasMeasuredProperty": {
-              "@type": "AmountConcentration",
-              "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 0.16
-              },
-              "hasMeasurementUnit": "unit:MOL-PER-L"
-            },
-            "schema:manufacturer": {
-              "rdfs:comment": "test_value_row_121"
-            },
-            "schema:productID": {
-              "rdfs:comment": "test_value_row_122"
-            }
-          }
-        }
-      },
-      {
-        "hasConstituent": {
+        {
           "@type": "LithiumBisfluorosulfonylimide",
           "hasMeasuredProperty": {
             "@type": "AmountConcentration",
@@ -641,40 +554,37 @@
               "hasNumberValue": 0
             },
             "hasMeasurementUnit": "unit:MOL-PER-L"
-          },
-          "schema:manufacturer": {
-            "rdfs:comment": "test_value_row_119"
-          },
-          "schema:productID": {
-            "rdfs:comment": "test_value_row_120"
           }
-        },
-        "hasAdditive": [
+        }
+      ],
+      "hasAdditive": {
+        "@type": "Additive",
+        "hasConstituent": [
           {
-            "@type": "Additive"
+            "@type": "VinyleneCarbonate",
+            "hasMeasuredProperty": {
+              "@type": "AmountConcentration",
+              "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 0.16
+              },
+              "hasMeasurementUnit": "unit:MOL-PER-L"
+            }
           },
           {
-            "hasConstituent": {
-              "@type": "TrisTrimethylsilyPhosphite",
-              "hasMeasuredProperty": {
-                "@type": "AmountConcentration",
-                "hasNumericalPart": {
-                  "@type": "emmo:RealData",
-                  "hasNumberValue": 0
-                },
-                "hasMeasurementUnit": "unit:MOL-PER-L"
+            "@type": "TrisTrimethylsilyPhosphite",
+            "hasMeasuredProperty": {
+              "@type": "AmountConcentration",
+              "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 0
               },
-              "schema:manufacturer": {
-                "rdfs:comment": "test_value_row_123"
-              },
-              "schema:productID": {
-                "rdfs:comment": "test_value_row_124"
-              }
+              "hasMeasurementUnit": "unit:MOL-PER-L"
             }
           }
         ]
       }
-    ],
+    },
     "hasMeasuredProperty": [
       {
         "@type": "ElectrolyticConductivity",
@@ -707,14 +617,20 @@
           "hasNumberValue": 25
         },
         "hasMeasurementUnit": "emmo:CelsiusTemperature"
+      },
+      {
+        "@type": "Volume",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 100
+        },
+        "hasMeasurementUnit": "unit:MicroL"
       }
     ],
     "schema:manufacturer": {
+      "@type": "schema:Organization",
       "@id": "https://www.wikidata.org/wiki/Q30285492",
-      "@type": "Solvionic"
-    },
-    "schema:productID": {
-      "rdfs:comment": "test_value_row_112"
+      "schema:name": "Solvionic"
     }
   },
   "hasSeparator": {
@@ -757,8 +673,8 @@
       }
     ],
     "schema:manufacturer": {
-      "@id": "https://www.wikidata.org/wiki/Q122199856",
-      "@type": "Celgard"
+      "@type": "schema:Organization",
+      "schema:name": "Celgard"
     },
     "schema:productID": {
       "rdfs:comment": 2500
@@ -769,7 +685,7 @@
       "R2032",
       "StainlessSteel"
     ],
-    "hasConstituent": [
+    "hasComponent": [
       {
         "@type": "CellLid",
         "hasCoating": {
@@ -784,13 +700,14 @@
       }
     ],
     "schema:manufacturer": {
-      "@type": "Hosen"
+      "@type": "schema:Organization",
+      "schema:name": "Hohsen"
     },
     "schema:productID": {
       "rdfs:comment": "2032, SUS316L"
     }
   },
-  "hasConstituent": [
+  "hasComponent": [
     {
       "@type": "Spring",
       "hasMeasuredProperty": [
