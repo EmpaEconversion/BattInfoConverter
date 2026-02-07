@@ -9,14 +9,12 @@ We will add more template for other cell types in the future. Be sure to check t
 Please note that the empty file cannot be submitted to conversion directly as the blank file lacks 4 required fields: CellID, Date of cell assembly, Institution/company and Scientist/technician/operator.
 These fields must be filled before the file can be sbmitted for conversion. 
 
-
 ### Blank Excel metadata template file
-[Coin cell battery template version 1.1.15](https://github.com/EmpaEconversion/BattInfoConverter/raw/refs/heads/development/Excel%20for%20reference//BattINFOconverter_CoinCell_template_version_1.1.15_empty.xlsx) 
+[Coin cell battery template version 1.1.15](https://github.com/EmpaEconversion/BattInfoConverter/raw/refs/heads/main/Excel%20for%20reference/BattINFO_converter_standard_Excel_version_1.1.15_empty.xlsx) 
 ### Example filled Excel metadata template file
-[Example-filled coin cell battery template version 1.1.15](https://github.com/EmpaEconversion/BattInfoConverter/raw/refs/heads/development/Excel%20for%20reference/BattINFOconverter_CoinCell_template_version_1.1.15_filled.xlsx)
-
-
+[Example-filled coin cell battery template version 1.1.15](https://github.com/EmpaEconversion/BattInfoConverter/raw/refs/heads/main/Excel%20for%20reference/BattINFO_converter_standard_Excel_version_1.1.15_filled.xlsx)
 """
+
 #####################################################################
 
 st.markdown(markdown_content, unsafe_allow_html=True)
