@@ -1,668 +1,678 @@
 {
-    "@context": [
-        "https://w3id.org/emmo/domain/battery/context",
-        {
-            "schema": "https://schema.org",
-            "emmo": "https://w3id.org/emmo#",
-            "echem": "https://w3id.org/emmo/domain/electrochemistry#",
-            "battery": "https://w3id.org/emmo/domain/battery#",
-            "chemical": "https://w3id.org/emmo/domain/chemical-substance/context",
-            "unit": "https://qudt.org/vocab/unit/",
-            "rdfs": "https://www.w3.org/TR/rdf-schema/#ch_comment"
-        }
+  "@context": [
+    "https://w3id.org/emmo/domain/battery/context",
+    {
+      "schema": "https://schema.org",
+      "emmo": "https://w3id.org/emmo#",
+      "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+      "battery": "https://w3id.org/emmo/domain/battery#",
+      "chemical": "https://w3id.org/emmo/domain/chemical-substance/context",
+      "unit": "https://qudt.org/vocab/unit/",
+      "rdfs": "https://www.w3.org/TR/rdf-schema/#ch_comment"
+    }
+  ],
+  "@type": "ElectrolyticCell",
+  "schema:version": 0.1,
+  "schema:productID": "Empa__ecid_000001",
+  "schema:dateCreated": "01/05/2026",
+  "schema:creator": {
+    "@type": "schema:Person",
+    "@id": "https://orcid.org/0000-0002-5003-1134",
+    "schema:name": "Corsin Battaglia"
+  },
+  "schema:manufacturer": {
+    "@type": "schema:Organization",
+    "@id": "https://www.wikidata.org/wiki/Q683116",
+    "schema:name": "Empa"
+  },
+  "rdfs:comment": [
+    "BattINFO Converter version: 2.2.5",
+    "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 0.1, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+    "Schema name: ElectrolysisCellSchema",
+    "Schema version: 0.1",
+    "Project: ETHB PREMISE/NCCR Catalysis",
+    "Assembled manually or by robot: manually"
+  ],
+  "hasNegativeElectrode": {
+    "@type": [
+      "Electrode",
+      "GasDiffusionElectrode"
     ],
-    "@type": "ElectrolyticCell",
-    "schema:version": 0.1,
-    "schema:productID": "Empa__ecid_000001",
-    "schema:dateCreated": "01/05/2026",
-    "schema:creator": {
-        "@type": "schema:Person",
-        "@id": "https://orcid.org/0000-0002-5003-1134",
-        "schema:name": "Corsin Battaglia"
+    "hasSubstrate": {
+      "@type": [
+        "Substrate",
+        "ElectrospunMesh",
+        "PolyvinylideneFluoride"
+      ],
+      "hasMeasuredProperty": [
+        {
+          "@type": "Thickness",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 280
+          },
+          "hasMeasurementUnit": "unit:MicroM"
+        },
+        {
+          "@type": "Porosity",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 35
+          },
+          "hasMeasurementUnit": "unit:PERCENT"
+        },
+        {
+          "@type": "Tortuosity",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 2.5
+          },
+          "hasMeasurementUnit": "unit:UNITLESS"
+        }
+      ],
+      "schema:manufacturer": {
+        "@type": "schema:Organization",
+        "schema:name": "Sigracet"
+      },
+      "schema:productID": {
+        "rdfs:comment": "38AA"
+      }
+    },
+    "hasCoating": {
+      "@type": "ElectrodeCoating",
+      "hasActiveMaterial": {
+        "@type": [
+          "Electrocatalyst",
+          "Copper"
+        ],
+        "hasMeasuredProperty": [
+          {
+            "@type": "MassLoading",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 0.5
+            },
+            "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+          },
+          {
+            "@type": "MassFraction",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 90
+            },
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
+        ]
+      },
+      "hasBinder": {
+        "@type": [
+          "Binder",
+          "PolyvinylideneFluoride"
+        ],
+        "hasMeasuredProperty": {
+          "@type": "MassFraction",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 6
+          },
+          "hasMeasurementUnit": "unit:PERCENT"
+        },
+        "schema:manufacturer": {
+          "@type": "schema:Organization",
+          "schema:name": "Arkema"
+        },
+        "schema:productID": {
+          "rdfs:comment": "Kynar 500"
+        }
+      },
+      "hasElectrolyte": {
+        "@type": "IonomerCompound",
+        "hasConstituent": [
+          {
+            "@type": "PolytetrafluoroEthylene",
+            "hasMeasuredProperty": {
+              "@type": "MassFraction",
+              "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 2
+              },
+              "hasMeasurementUnit": "unit:PERCENT"
+            }
+          },
+          {
+            "@type": "PerfluoroSulfonicAcid",
+            "hasMeasuredProperty": {
+              "@type": "MassFraction",
+              "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 2
+              },
+              "hasMeasurementUnit": "unit:PERCENT"
+            }
+          }
+        ],
+        "schema:manufacturer": {
+          "@type": "schema:Organization",
+          "schema:name": "Chemours"
+        },
+        "schema:productID": {
+          "rdfs:comment": "Nafion D502CS"
+        }
+      },
+      "hasMeasuredProperty": {
+        "@type": "Thickness",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 0.5
+        },
+        "hasMeasurementUnit": "unit:MicroM"
+      }
     },
     "schema:manufacturer": {
+      "@type": "schema:Organization",
+      "schema:name": "Empa",
+      "@id": "https://www.wikidata.org/wiki/Q683116"
+    },
+    "schema:productID": {
+      "rdfs:comment": "15p_Cu"
+    },
+    "hasGasFlow": {
+      "hasConstituent": [
+        {
+          "rdfs:comment": "CarbonDioxide",
+          "MeasuredProperty": {
+            "@type": "VolumeFraction",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 10
+            },
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
+        },
+        {
+          "rdfs:comment": "Argon",
+          "MeasuredProperty": {
+            "@type": "VolumeFraction",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 90
+            },
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
+        }
+      ],
+      "hasMeasuredProperty": [
+        {
+          "@type": "VolumeFlowRate",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 5
+          },
+          "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+        },
+        {
+          "@type": "Pressure",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 1
+          },
+          "hasMeasurementUnit": "unit:MilliBAR"
+        }
+      ]
+    },
+    "hasMeasuredProperty": {
+      "@type": "Area",
+      "hasNumericalPart": {
+        "@type": "emmo:RealData",
+        "hasNumberValue": 4
+      },
+      "hasMeasurementUnit": "unit:CentiM2"
+    }
+  },
+  "hasPositiveElectrode": {
+    "@type": "Electrode",
+    "rdfs:comment": "ImmersionElectrode",
+    "hasSubstrate": {
+      "@type": [
+        "Substrate",
+        "PerforatedFoil",
+        "Titanium"
+      ],
+      "hasMeasuredProperty": [
+        {
+          "@type": "Thickness",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 20
+          },
+          "hasMeasurementUnit": "unit:MicroM"
+        },
+        {
+          "@type": "Porosity",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 50
+          },
+          "hasMeasurementUnit": "unit:PERCENT"
+        },
+        {
+          "@type": "Tortuosity",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 0
+          },
+          "hasMeasurementUnit": "unit:UNITLESS"
+        }
+      ],
+      "schema:manufacturer": {
         "@type": "schema:Organization",
-        "@id": "https://www.wikidata.org/wiki/Q683116",
-        "schema:name": "Empa"
+        "schema:name": "GoodFellows"
+      },
+      "schema:productID": {
+        "rdfs:comment": 1000214960
+      }
     },
-    "rdfs:comment": [
-        "BattINFO Converter version: 2.2.5",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 0.1, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
-        "Schema name: ElectrolysisCellSchema",
-        "Schema version: 0.1",
-        "Project: ETHB PREMISE/NCCR Catalysis",
-        "Assembled manually or by robot: manually"
-    ],
-    "hasNegativeElectrode": {
+    "hasCoating": {
+      "@type": "ElectrodeCoating",
+      "hasActiveMaterial": {
         "@type": [
-            "Electrode",
-            "GasDiffusionElectrode"
+          "Electrocatalyst",
+          "IridiumIIIOxide"
         ],
-        "hasSubstrate": {
-            "@type": [
-                "Substrate",
-                "ElectrospunMesh",
-                "PolyvinylideneFluoride"
-            ],
-            "hasMeasuredProperty": [
-                {
-                    "@type": "Thickness",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 280
-                    },
-                    "hasMeasurementUnit": "unit:MicroM"
-                },
-                {
-                    "@type": "Porosity",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 35
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                },
-                {
-                    "@type": "Tortuosity",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 2.5
-                    },
-                    "hasMeasurementUnit": "unit:UNITLESS"
-                }
-            ],
-            "schema:manufacturer": {
-                "rdfs:comment": "Sigracet"
-            },
-            "schema:productID": {
-                "rdfs:comment": "38AA"
-            }
-        },
-        "hasCoating": {
-            "@type": "ElectrodeCoating",
-            "hasActiveMaterial": {
-                "@type": [
-                    "Electrocatalyst",
-                    "Copper"
-                ],
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "MassLoading",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 0.5
-                        },
-                        "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
-                    },
-                    {
-                        "@type": "MassFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 90
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                ]
-            },
-            "hasBinder": {
-                "@type": [
-                    "Binder",
-                    "PolyvinylideneFluoride"
-                ],
-                "hasMeasuredProperty": {
-                    "@type": "MassFraction",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 6
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                },
-                "schema:manufacturer": {
-                    "rdfs:comment": "Arkema"
-                },
-                "schema:productID": {
-                    "rdfs:comment": "Kynar 500"
-                }
-            },
-            "hasElectrolyte": {
-                "@type": "IonomerCompound",
-                "hasConstituent": [
-                    {
-                        "@type": "PolytetrafluoroEthylene",
-                        "hasMeasuredProperty": {
-                            "@type": "MassFraction",
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": 2
-                            },
-                            "hasMeasurementUnit": "unit:PERCENT"
-                        }
-                    },
-                    {
-                        "@type": "PerfluoroSulfonicAcid",
-                        "hasMeasuredProperty": {
-                            "@type": "MassFraction",
-                            "hasNumericalPart": {
-                                "@type": "emmo:RealData",
-                                "hasNumberValue": 2
-                            },
-                            "hasMeasurementUnit": "unit:PERCENT"
-                        }
-                    }
-                ],
-                "schema:manufacturer": {
-                    "rdfs:comment": "Chemours"
-                },
-                "schema:productID": {
-                    "rdfs:comment": "Nafion D502CS"
-                }
-            },
-            "hasMeasuredProperty": {
-                "@type": "Thickness",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 0.5
-                },
-                "hasMeasurementUnit": "unit:MicroM"
-            }
-        },
         "schema:manufacturer": {
-            "@id": "https://www.wikidata.org/wiki/Q683116",
-            "@type": "Empa"
+          "@type": "schema:Organization",
+          "schema:name": "AJA International"
+        }
+      },
+      "hasMeasuredProperty": {
+        "@type": "Thickness",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 0.5
         },
-        "schema:productID": {
-            "rdfs:comment": "15p_Cu"
-        },
-        "hasGasFlow": {
-            "hasConstituent": [
-                {
-                    "rdfs:comment": "CarbonDioxide",
-                    "MeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 10
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                },
-                {
-                    "rdfs:comment": "Argon",
-                    "MeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 90
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                }
-            ],
-            "hasMeasuredProperty": [
-                {
-                    "@type": "VolumeFlowRate",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 5
-                    },
-                    "hasMeasurementUnit": "unit:MilliL-PER-MIN"
-                },
-                {
-                    "@type": "Pressure",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "unit:MilliBAR"
-                }
-            ]
-        },
-        "hasMeasuredProperty": {
-            "@type": "Area",
+        "hasMeasurementUnit": "unit:MicroM"
+      }
+    },
+    "schema:manufacturer": {
+      "@type": "schema:Organization",
+      "schema:name": "Empa",
+      "@id": "https://www.wikidata.org/wiki/Q683116"
+    },
+    "schema:productID": {
+      "rdfs:comment": "18x_Ti"
+    },
+    "hasMeasuredProperty": {
+      "@type": "Area",
+      "hasNumericalPart": {
+        "@type": "emmo:RealData",
+        "hasNumberValue": 4
+      },
+      "hasMeasurementUnit": "unit:CentiM2"
+    }
+  },
+  "hasCatholyte": {
+    "hasSolvent": {
+      "@type": "Solvent",
+      "hasConstituent": [
+        {
+          "@type": "Water",
+          "hasMeasuredProperty": {
+            "@type": "VolumeFraction",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 4
+              "@type": "emmo:RealData",
+              "hasNumberValue": 100
             },
-            "hasMeasurementUnit": "unit:CentiM2"
-        }
-    },
-    "hasPositiveElectrode": {
-        "@type": "Electrode",
-        "rdfs:comment": "ImmersionElectrode",
-        "hasSubstrate": {
-            "@type": [
-                "Substrate",
-                "PerforatedFoil",
-                "Titanium"
-            ],
-            "hasMeasuredProperty": [
-                {
-                    "@type": "Thickness",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 20
-                    },
-                    "hasMeasurementUnit": "unit:MicroM"
-                },
-                {
-                    "@type": "Porosity",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 50
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                },
-                {
-                    "@type": "Tortuosity",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 0
-                    },
-                    "hasMeasurementUnit": "unit:UNITLESS"
-                }
-            ],
-            "schema:manufacturer": {
-                "rdfs:comment": "GoodFellows"
-            },
-            "schema:productID": {
-                "rdfs:comment": 1000214960
-            }
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
         },
-        "hasCoating": {
-            "@type": "ElectrodeCoating",
-            "hasActiveMaterial": {
-                "@type": [
-                    "Electrocatalyst",
-                    "IridiumIIIOxide"
-                ],
-                "schema:manufacturer": {
-                    "rdfs:comment": "AJA International"
-                }
-            },
-            "hasMeasuredProperty": {
-                "@type": "Thickness",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 0.5
-                },
-                "hasMeasurementUnit": "unit:MicroM"
-            }
-        },
-        "schema:manufacturer": {
-            "@id": "https://www.wikidata.org/wiki/Q683116",
-            "@type": "Empa"
-        },
-        "schema:productID": {
-            "rdfs:comment": "18x_Ti"
-        },
-        "hasMeasuredProperty": {
-            "@type": "Area",
+        {
+          "@type": "SulfuricAcid",
+          "hasMeasuredProperty": {
+            "@type": "VolumeFraction",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 4
+              "@type": "emmo:RealData",
+              "hasNumberValue": 0
             },
-            "hasMeasurementUnit": "unit:CentiM2"
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
         }
+      ]
     },
-    "hasCatholyte": {
-        "hasSolvent": {
-            "@type": "Solvent",
-            "hasConstituent": [
-                {
-                    "@type": "Water",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 100
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                },
-                {
-                    "@type": "SulfuricAcid",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 0
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                }
-            ]
-        },
-        "hasSolute": {
-            "@type": "Solute",
-            "hasConstituent": {
-                "@type": "PotassiumChloride",
-                "hasMeasuredProperty": {
-                    "@type": "AmountConcentration",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "unit:MOL-PER-L"
-                }
-            }
-        },
-        "hasMeasuredProperty": [
-            {
-                "@type": "Volume",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 100
-                },
-                "hasMeasurementUnit": "unit:MilliL"
-            },
-            {
-                "@type": "VolumeFlowRate",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 5.0
-                },
-                "hasMeasurementUnit": "unit:MilliL-PER-MIN"
-            },
-            {
-                "@type": "Pressure",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1.0
-                },
-                "hasMeasurementUnit": "unit:MilliBAR"
-            },
-            {
-                "@type": "ElectrolyticConductivity",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 8
-                },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
-            },
-            {
-                "@type": "pH",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 4.5
-                },
-                "hasMeasurementUnit": "unit:UNITLESS"
-            },
-            {
-                "@type": "Density",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1.3
-                },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
-            },
-            {
-                "@type": "CelsiusTemperature",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 25
-                },
-                "hasMeasurementUnit": "unit:DEG_C"
-            }
-        ]
-    },
-    "hasAnolyte": {
-        "hasSolvent": {
-            "@type": "Solvent",
-            "hasConstituent": [
-                {
-                    "@type": "Water",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 100
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                },
-                {
-                    "@type": "SulfuricAcid",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 0
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                }
-            ]
-        },
-        "hasSolute": {
-            "@type": "Solute",
-            "hasConstituent": {
-                "@type": "PotassiumChloride",
-                "hasMeasuredProperty": {
-                    "@type": "AmountConcentration",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "unit:MOL-PER-L"
-                }
-            }
-        },
-        "hasMeasuredProperty": [
-            {
-                "@type": "Volume",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 100
-                },
-                "hasMeasurementUnit": "unit:MilliL"
-            },
-            {
-                "@type": "VolumeFlowRate",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 5.0
-                },
-                "hasMeasurementUnit": "unit:MilliL-PER-MIN"
-            },
-            {
-                "@type": "Pressure",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1.0
-                },
-                "hasMeasurementUnit": "unit:MilliBAR"
-            },
-            {
-                "@type": "ElectrolyticConductivity",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 8
-                },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
-                "pH": {
-                    "rdfs:comment": 4.5
-                }
-            },
-            {
-                "@type": "Density",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 1.3
-                },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
-            },
-            {
-                "@type": "CelsiusTemperature",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 25
-                },
-                "hasMeasurementUnit": "unit:DEG_C"
-            }
-        ]
-    },
-    "hasSeparator": {
-        "@type": [
-            "Separator",
-            "IonExchangeMembrane",
-            "BilayerMembrane"
-        ],
-        "hasElectrolyte": [
-            {
-                "@type": "CationExchangeMembrane",
-                "hasConstituent": [
-                    {
-                        "@type": "PolytetrafluoroEthylene"
-                    },
-                    {
-                        "@type": "PerfluoroSulfonicAcid"
-                    }
-                ],
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "Thickness",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 500
-                        },
-                        "hasMeasurementUnit": "unit:MicroM"
-                    },
-                    {
-                        "@type": "ElectrolyticConductivity",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 8
-                        },
-                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
-                    }
-                ],
-                "schema:manufacturer": {
-                    "rdfs:comment": "Chemours"
-                },
-                "schema:productID": {
-                    "rdfs:comment": "Nafion D502CS"
-                }
-            },
-            {
-                "@type": "AnionExchangeMembrane",
-                "hasConstituent": [
-                    {
-                        "@type": "PerfluoroSulfonicAcid"
-                    },
-                    {
-                        "@type": "Immidazolium"
-                    }
-                ],
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "Thickness",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 500
-                        },
-                        "hasMeasurementUnit": "unit:MicroM"
-                    },
-                    {
-                        "@type": "ElectrolyticConductivity",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 8
-                        },
-                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
-                    }
-                ],
-                "schema:manufacturer": {
-                    "rdfs:comment": "Dioxide Materials"
-                },
-                "schema:productID": {
-                    "rdfs:comment": "Sustantion X37-50"
-                }
-            }
-        ],
+    "hasSolute": {
+      "@type": "Solute",
+      "hasConstituent": {
+        "@type": "PotassiumChloride",
         "hasMeasuredProperty": {
-            "@type": "Area",
-            "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 4
-            },
-            "hasMeasurementUnit": "unit:CentiM2"
+          "@type": "AmountConcentration",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 1
+          },
+          "hasMeasurementUnit": "unit:MOL-PER-L"
         }
+      }
     },
-    "hasCase": {
-        "rdfs:comment": "FlowField",
-        "schema:manufacturer": {
-            "rdfs:comment": "Fuel Cell Store"
-        }
-    },
-    "hasComponent": [
-        {
-            "@type": "CatholyteCompartment",
-            "hasMeasuredProperty": [
-                {
-                    "@type": "Width",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "unit:MilliM"
-                },
-                {
-                    "@type": "Volume",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 100
-                    },
-                    "hasMeasurementUnit": "unit:MilliL"
-                }
-            ],
-            "hasReferenceElectrode": {
-                "@type": [
-                    "ReferenceElectrode",
-                    "SilverChlorideElectrode"
-                ]
-            }
+    "hasMeasuredProperty": [
+      {
+        "@type": "Volume",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 100
         },
-        {
-            "@type": "CatholyteTank",
-            "hasMeasuredProperty": {
-                "@type": "Volume",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 500
-                },
-                "hasMeasurementUnit": "unit:MilliL"
-            }
+        "hasMeasurementUnit": "unit:MilliL"
+      },
+      {
+        "@type": "VolumeFlowRate",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 5.0
         },
-        {
-            "@type": "AnolyteCompartment",
-            "hasMeasuredProperty": [
-                {
-                    "@type": "Width",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "unit:MilliM"
-                },
-                {
-                    "@type": "Volume",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 100
-                    },
-                    "hasMeasurementUnit": "unit:MilliL"
-                }
-            ]
+        "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+      },
+      {
+        "@type": "Pressure",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 1.0
         },
-        {
-            "@type": "AnolyteTank",
-            "hasMeasuredProperty": {
-                "@type": "Volume",
-                "hasNumericalPart": {
-                    "@type": "emmo:RealData",
-                    "hasNumberValue": 500
-                },
-                "hasMeasurementUnit": "unit:MilliL"
-            }
-        }
+        "hasMeasurementUnit": "unit:MilliBAR"
+      },
+      {
+        "@type": "ElectrolyticConductivity",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 8
+        },
+        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+      },
+      {
+        "@type": "pH",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 4.5
+        },
+        "hasMeasurementUnit": "unit:UNITLESS"
+      },
+      {
+        "@type": "Density",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 1.3
+        },
+        "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+      },
+      {
+        "@type": "CelsiusTemperature",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 25
+        },
+        "hasMeasurementUnit": "unit:DEG_C"
+      }
     ]
+  },
+  "hasAnolyte": {
+    "hasSolvent": {
+      "@type": "Solvent",
+      "hasConstituent": [
+        {
+          "@type": "Water",
+          "hasMeasuredProperty": {
+            "@type": "VolumeFraction",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 100
+            },
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
+        },
+        {
+          "@type": "SulfuricAcid",
+          "hasMeasuredProperty": {
+            "@type": "VolumeFraction",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 0
+            },
+            "hasMeasurementUnit": "unit:PERCENT"
+          }
+        }
+      ]
+    },
+    "hasSolute": {
+      "@type": "Solute",
+      "hasConstituent": {
+        "@type": "PotassiumChloride",
+        "hasMeasuredProperty": {
+          "@type": "AmountConcentration",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 1
+          },
+          "hasMeasurementUnit": "unit:MOL-PER-L"
+        }
+      }
+    },
+    "hasMeasuredProperty": [
+      {
+        "@type": "Volume",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 100
+        },
+        "hasMeasurementUnit": "unit:MilliL"
+      },
+      {
+        "@type": "VolumeFlowRate",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 5.0
+        },
+        "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+      },
+      {
+        "@type": "Pressure",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 1.0
+        },
+        "hasMeasurementUnit": "unit:MilliBAR"
+      },
+      {
+        "@type": "ElectrolyticConductivity",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 8
+        },
+        "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
+        "pH": {
+          "rdfs:comment": 4.5
+        }
+      },
+      {
+        "@type": "Density",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 1.3
+        },
+        "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+      },
+      {
+        "@type": "CelsiusTemperature",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 25
+        },
+        "hasMeasurementUnit": "unit:DEG_C"
+      }
+    ]
+  },
+  "hasSeparator": {
+    "@type": [
+      "Separator",
+      "IonExchangeMembrane",
+      "BilayerMembrane"
+    ],
+    "hasElectrolyte": [
+      {
+        "@type": "CationExchangeMembrane",
+        "hasConstituent": [
+          {
+            "@type": "PolytetrafluoroEthylene"
+          },
+          {
+            "@type": "PerfluoroSulfonicAcid"
+          }
+        ],
+        "hasMeasuredProperty": [
+          {
+            "@type": "Thickness",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 500
+            },
+            "hasMeasurementUnit": "unit:MicroM"
+          },
+          {
+            "@type": "ElectrolyticConductivity",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 8
+            },
+            "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+          }
+        ],
+        "schema:manufacturer": {
+          "@type": "schema:Organization",
+          "schema:name": "Chemours"
+        },
+        "schema:productID": {
+          "rdfs:comment": "Nafion D502CS"
+        }
+      },
+      {
+        "@type": "AnionExchangeMembrane",
+        "hasConstituent": [
+          {
+            "@type": "PerfluoroSulfonicAcid"
+          },
+          {
+            "@type": "Immidazolium"
+          }
+        ],
+        "hasMeasuredProperty": [
+          {
+            "@type": "Thickness",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 500
+            },
+            "hasMeasurementUnit": "unit:MicroM"
+          },
+          {
+            "@type": "ElectrolyticConductivity",
+            "hasNumericalPart": {
+              "@type": "emmo:RealData",
+              "hasNumberValue": 8
+            },
+            "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+          }
+        ],
+        "schema:manufacturer": {
+          "@type": "schema:Organization",
+          "schema:name": "Dioxide Materials"
+        },
+        "schema:productID": {
+          "rdfs:comment": "Sustantion X37-50"
+        }
+      }
+    ],
+    "hasMeasuredProperty": {
+      "@type": "Area",
+      "hasNumericalPart": {
+        "@type": "emmo:RealData",
+        "hasNumberValue": 4
+      },
+      "hasMeasurementUnit": "unit:CentiM2"
+    }
+  },
+  "hasCase": {
+    "rdfs:comment": "FlowField",
+    "schema:manufacturer": {
+      "@type": "schema:Organization",
+      "schema:name": "Fuel Cell Store"
+    }
+  },
+  "hasComponent": [
+    {
+      "@type": "CatholyteCompartment",
+      "hasMeasuredProperty": [
+        {
+          "@type": "Width",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 1
+          },
+          "hasMeasurementUnit": "unit:MilliM"
+        },
+        {
+          "@type": "Volume",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 100
+          },
+          "hasMeasurementUnit": "unit:MilliL"
+        }
+      ],
+      "hasReferenceElectrode": {
+        "@type": [
+          "ReferenceElectrode",
+          "SilverChlorideElectrode"
+        ]
+      }
+    },
+    {
+      "@type": "CatholyteTank",
+      "hasMeasuredProperty": {
+        "@type": "Volume",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 500
+        },
+        "hasMeasurementUnit": "unit:MilliL"
+      }
+    },
+    {
+      "@type": "AnolyteCompartment",
+      "hasMeasuredProperty": [
+        {
+          "@type": "Width",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 1
+          },
+          "hasMeasurementUnit": "unit:MilliM"
+        },
+        {
+          "@type": "Volume",
+          "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 100
+          },
+          "hasMeasurementUnit": "unit:MilliL"
+        }
+      ]
+    },
+    {
+      "@type": "AnolyteTank",
+      "hasMeasuredProperty": {
+        "@type": "Volume",
+        "hasNumericalPart": {
+          "@type": "emmo:RealData",
+          "hasNumberValue": 500
+        },
+        "hasMeasurementUnit": "unit:MilliL"
+      }
+    }
+  ]
 }
