@@ -3,11 +3,11 @@ import streamlit as st
 markdown_content = """
 
 ## Excel metadata files
-Here you will find an Excel file template that you can fill out with your metadata
-We will add more template for other cell types in the future. Be sure to check out!
+Here you will find Excel templates that you can fill out with your metadata.
+We will add more template for other cell types in the future. Be sure to check them out!
 
 Please note that the empty file cannot be submitted to conversion directly as the blank file lacks 4 required fields: CellID, Date of cell assembly, Institution/company and Scientist/technician/operator.
-These fields are needed to be filled before the file can be subjected to the conversion. 
+These fields must be filled before the file can be sbmitted for conversion. 
 
 
 ### Blank Excel metadata template file
