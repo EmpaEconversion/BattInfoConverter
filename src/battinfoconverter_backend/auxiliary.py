@@ -695,6 +695,57 @@ def add_to_structure(
 
             # -------- final-value branch -------------------------------- #
             if last and unit == "No Unit":
+                if part == "schema:manufacturer":
+                    manufacturer_payload = {"@type": "schema:Organization"}
+                    if isinstance(value, str) and value:
+                        manufacturer_payload["schema:name"] = value
+                        if value in unique_id["Item"].values:
+                            uid = get_information_value(
+                                df=unique_id,
+                                row_to_look=value,
+                                col_to_look="ID",
+                                col_to_match="Item",
+                            )
+                            if not pd.isna(uid):
+                                manufacturer_payload["@id"] = uid
+
+                    registry_entries = []
+                    if not is_multi_connector and isinstance(current_level, dict):
+                        connector_parent_path: tuple[str, ...] = parent_path[:-1]
+                        connector_key: str | None = (
+                            parent_path[-1] if parent_path else None
+                        )
+                        if connector_parent_path and connector_key:
+                            for entry in _get_registry_entries(connector_parent_path):
+                                if entry.get("connector") != connector_key:
+                                    continue
+                                node = entry.get("node")
+                                if isinstance(node, dict):
+                                    registry_entries.append(entry)
+
+                    if registry_entries:
+                        selected = _select_entry(
+                            metadata, registry_entries, part, traversed
+                        )
+                        if selected is not None:
+                            target = selected["node"]
+                            target[part] = manufacturer_payload
+                            if part in current_level and current_level[part] in (
+                                None,
+                                {},
+                            ):
+                                current_level.pop(part)
+                            _update_entry_tokens(
+                                parent_path,
+                                target,
+                                metadata,
+                                value if isinstance(value, str) else None,
+                            )
+                            break
+
+                    current_level[part] = manufacturer_payload
+                    break
+
                 if part == "hasStringValue" and isinstance(value, str):
                     if isinstance(current_level, list):
                         target_node = current_level[-1]
