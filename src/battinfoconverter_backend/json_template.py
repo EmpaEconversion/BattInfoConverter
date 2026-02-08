@@ -42,7 +42,7 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                     }
                 ],
                 "hasNext": {
-                    "@type": "Hold",
+                    "@type": "VoltageHold",
                     "hasInput": [
                         {
                             "@type": "Voltage",
@@ -133,7 +133,7 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                     }
                 ],
                 "hasNext": {
-                    "@type": "Hold",
+                    "@type": "VoltageHold",
                     "hasInput": [
                         {
                             "@type": "Voltage",
