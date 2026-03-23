@@ -6,7 +6,7 @@ from pathlib import Path
 import simplejson as json
 import streamlit as st
 
-from battinfoconverter_backend import __version__, json_convert
+from battinfoconverter_backend import __version__, convert_excel_to_jsonld
 
 st.set_page_config(page_title="BattINFO Converter", page_icon="battinfoconverter-logo.png", layout="wide")
 
@@ -76,7 +76,7 @@ def main() -> None:
         base_name = Path(uploaded_file.name).stem
 
         # Convert the uploaded Excel file to JSON-LD
-        jsonld_output = json_convert.convert_excel_to_jsonld(uploaded_file)
+        jsonld_output = convert_excel_to_jsonld(uploaded_file)
         jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         # Download button
