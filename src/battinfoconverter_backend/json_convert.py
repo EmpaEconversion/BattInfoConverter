@@ -12,8 +12,8 @@ from pandas import DataFrame
 from . import auxiliary as aux
 from .excel_tools import ExcelContainer
 from .json_template import (
-    SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE,
-    SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE,
+    rated_cap_vs_graphite,
+    rated_cap_vs_li,
 )
 
 APP_VERSION = version("battinfoconverter-backend")
@@ -182,53 +182,26 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
     """
     original_dict = json_dict.copy()
     try:
-        ##Positive electrode
-        # Extract the values
-        pos_dict = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]
-        sub_dict = pos_dict["hasInput"]
-        pos_1 = sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_2 = sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
-        pos_3 = sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        pos_4 = sub_dict["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_5 = sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        pos_6 = sub_dict["ConstantCurrentDischarging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
-
-        # Load the template and update the values
-        new_dict = SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE.copy()
-        sub_dict = new_dict["hasMeasurementParameter"]["hasTask"]
-        sub_dict["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_1
-        sub_dict["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_2
-        sub_dict["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_3
-        sub_dict["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_4
-        sub_dict["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = pos_5
-        sub_dict["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = pos_6
-
-        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = new_dict
-
-        ### Negative electrode
-        # Extract the values
-        neg_dict = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]
-        sub_dict = neg_dict["hasInput"]
-        neg_1 = sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_2 = sub_dict["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        neg_3 = sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"]
-        neg_4 = sub_dict["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_5 = sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"]
-        neg_6 = sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"]
-
-        # Load the template and update the values
-        new_dict = SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE.copy()
-        sub_dict = new_dict["hasMeasurementParameter"]["hasTask"]
-        sub_dict["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_1
-        sub_dict["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_2
-        sub_dict["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_3
-        sub_dict["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_4
-        sub_dict["hasNext"]["hasNext"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"] = neg_5
-        sub_dict["hasNext"]["hasNext"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"] = neg_6
-
-        # Assign to output
-        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = new_dict
-
+        # Positive electrode
+        sub_dict = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = rated_cap_vs_graphite(
+            sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentDischarging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"],
+        )
+        # Negative electrode
+        sub_dict = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = rated_cap_vs_li(
+            sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantVoltageCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
+            sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"],
+        )
     except (KeyError, IndexError):
         # If not enough inputs provided to reformat, use original formatting
         return original_dict
