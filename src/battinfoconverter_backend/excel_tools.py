@@ -90,7 +90,7 @@ def read_excel_preserve_decimals(
 
 @dataclass
 class ExcelContainer:
-    """Wrapper for BattINFO excel files.
+    """Wrapper for BattINFO Excel files.
 
     Abstracts Excel sheet name changes, loads data.
     """

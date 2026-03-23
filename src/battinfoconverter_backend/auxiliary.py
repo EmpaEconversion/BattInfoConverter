@@ -21,7 +21,7 @@ def add_to_structure(
     data_container: ExcelContainer,
     metadata: str | None = None,
 ) -> None:
-    """Add a value to a JSON-LD structure, incorporating units and othercontextual information.
+    """Add a value to a JSON-LD structure, incorporating units and other contextual information.
 
     This function processes a path to traverse or modify the JSON-LD structure and handles special
     cases like measured properties, ontology links, and unique identifiers. It uses data from the
@@ -267,7 +267,7 @@ def add_to_structure(
         store entries under a dedicated ``("__root__",)`` bucket so they can be
         retrieved consistently across registration and lookup calls.
         """
-        return parent_path if parent_path else ("__root__",)
+        return parent_path or ("__root__",)
 
     def _register_connector_entry(
         parent_path: tuple[str, ...],
@@ -478,7 +478,7 @@ def add_to_structure(
                             base = match.group("base")
                             if base.startswith("has"):
                                 segment_base = base
-                                path_key = tuple(normalized_path + [segment_base])
+                                path_key = (*normalized_path, segment_base)
                                 multi_paths_seen.add(path_key)
                                 if idx < len(connectors_in_link) - 1:
                                     multi_paths_with_children.add(path_key)
@@ -568,7 +568,8 @@ def add_to_structure(
             # -------- measured-property block --------------------------- #
             if penultimate and unit != "No Unit":
                 if pd.isna(unit):
-                    raise ValueError(f"Value '{value}' missing unit.")
+                    msg = f"Value '{value}' missing unit."
+                    raise ValueError(msg)
                 unit_info = unit_map.get(unit, {})
                 mp_entry = {
                     "@type": _extract_type(path[-1]),
@@ -753,7 +754,7 @@ def add_to_structure(
                         break
 
                 if is_multi_connector:
-                    connector_path = parent_path + (part,)
+                    connector_path = (*parent_path, part)
                     registry_entries = [
                         entry
                         for entry in _get_registry_entries(parent_path, current_level)
