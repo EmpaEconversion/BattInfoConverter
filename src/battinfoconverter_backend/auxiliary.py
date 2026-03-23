@@ -1,44 +1,50 @@
+"""Auxiliary functions."""
+
 import inspect
 import re
-import traceback
 from decimal import Decimal
 from typing import Any, Optional
+
 import pandas as pd
 
+from .excel_tools import ExcelContainer
+from .json_convert import get_information_value
+
 DEBUG_STATUS = False
+
 
 def add_to_structure(
     jsonld: dict,
     path: list[str],
     value: Any,
     unit: str,
-    data_container: "json_convert.ExcelContainer",
+    data_container: ExcelContainer,
     metadata: str | None = None,
 ) -> None:
+    """Add a value to a JSON-LD structure, incorporating units and othercontextual information.
+
+    This function processes a path to traverse or modify the JSON-LD structure and handles special
+    cases like measured properties, ontology links, and unique identifiers. It uses data from the
+    provided ExcelContainer to resolve unit mappings and context connectors.
+
+    Args:
+        jsonld (dict): The JSON-LD structure to modify.
+        path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where
+            the value should be added.
+        value (any): The value to be inserted at the specified path.
+        unit (str): The unit associated with the value, can be 'No Unit'.
+        data_container (ExcelContainer): ExcelContainer object containing supporting data.
+        metadata (str | None): Optional metadata label from the schema sheet, used to align repeated
+            connector entries.
+
+    Returns:
+        None: This function modifies the JSON-LD structure in place.
+
+    Raises:
+        ValueError: For invalid values, missing required units, or path traversal errors.
+        RuntimeError: If any unexpected error arises while processing the value and path.
+
     """
-    Adds a value to a JSON-LD structure at a specified path, incorporating units and other contextual information.
-
-        This function processes a path to traverse or modify the JSON-LD structure and handles special cases like 
-        measured properties, ontology links, and unique identifiers. It uses data from the provided ExcelContainer 
-        to resolve unit mappings and context connectors.
-
-        Args:
-            jsonld (dict): The JSON-LD structure to modify.
-            path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where the value should be added.
-            value (any): The value to be inserted at the specified path.
-            unit (str): The unit associated with the value. If 'No Unit', the value is treated as unitless.
-            data_container (ExcelContainer): An instance of the ExcelContainer dataclass (from son_convert module) containing supporting data
-                                            for unit mappings, connectors, and unique identifiers.
-            metadata (str | None): Optional metadata label from the schema sheet, used to align repeated connector entries.
-        Returns:
-            None: This function modifies the JSON-LD structure in place.
-
-        Raises:
-            ValueError: If the value is invalid, a required unit is missing, or an error occurs during path processing.
-            RuntimeError: If any unexpected error arises while processing the value and path.
-    """
-    from .json_convert import get_information_value
-
     # ------------------------------------------------------------------ #
     # helper functions                                                   #
     # ------------------------------------------------------------------ #
@@ -46,7 +52,6 @@ def add_to_structure(
 
     def _is_simple_connector(segment: str) -> bool:
         """Return True if ``segment`` looks like a standalone connector token."""
-
         return ":" not in segment and "_" not in segment
 
     def _split_multi_connector(part: str) -> tuple[str, int | None]:
@@ -57,8 +62,8 @@ def add_to_structure(
 
         Returns:
             tuple[str, int | None]: The base connector and optional zero-based index.
-        """
 
+        """
         match = MULTI_CONNECTOR_SUFFIX.match(part)
         if match and _is_simple_connector(part):
             base = match.group("base")
@@ -75,11 +80,8 @@ def add_to_structure(
         value: Any,
     ) -> dict[str, Any]:
         """Return the connector node at ``index``, creating placeholders as needed."""
-
         entries_for_parent = _get_registry_entries(parent_path, parent)
-        registry_entries = [
-            entry for entry in entries_for_parent if entry.get("connector") == connector
-        ]
+        registry_entries = [entry for entry in entries_for_parent if entry.get("connector") == connector]
         while len(registry_entries) <= index:
             is_target = len(registry_entries) == index
             holder = parent.get(connector)
@@ -101,11 +103,7 @@ def add_to_structure(
                 parent,
             )
             entries_for_parent = _get_registry_entries(parent_path, parent)
-            registry_entries = [
-                entry
-                for entry in entries_for_parent
-                if entry.get("connector") == connector
-            ]
+            registry_entries = [entry for entry in entries_for_parent if entry.get("connector") == connector]
         return registry_entries[index]["node"]
 
     # NOTE: Multi connectors are inferred from suffixes or typed child segments.
@@ -119,8 +117,8 @@ def add_to_structure(
 
         Returns:
             None: This helper mutates ``node`` in place.
-        """
 
+        """
         if "@type" not in node:
             node["@type"] = new_type
         else:
@@ -131,9 +129,7 @@ def add_to_structure(
             elif existing_type != new_type:
                 node["@type"] = [existing_type, new_type]
 
-    def _add_or_extend_list(
-        node: dict[str, Any], key: str, entry: dict[str, Any]
-    ) -> None:
+    def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -> None:
         """Add ``entry`` to ``node[key]`` while normalizing the holder to a list.
 
         Args:
@@ -143,8 +139,8 @@ def add_to_structure(
 
         Returns:
             None: This helper mutates ``node`` in place.
-        """
 
+        """
         current_value = node.get(key)
         if current_value in (None, {}):
             node[key] = entry
@@ -161,8 +157,8 @@ def add_to_structure(
 
         Returns:
             str: The extracted type value if the prefix is present, otherwise the original segment.
-        """
 
+        """
         return segment.split("|", 1)[1] if segment.startswith("type|") else segment
 
     def _new_item(parent: dict[str, Any], key: str) -> dict[str, Any]:
@@ -174,8 +170,8 @@ def add_to_structure(
 
         Returns:
             dict[str, Any]: The freshly created dictionary stored at ``parent[key]``.
-        """
 
+        """
         value = parent.get(key)
         if value in (None, {}):
             parent[key] = {}
@@ -196,14 +192,14 @@ def add_to_structure(
 
         Returns:
             None: The registry is stored on ``data_container`` for later lookups.
-        """
 
+        """
         if not path_key:
             return
         history = getattr(data_container, "_last_nodes", None)
         if history is None:
             history = {}
-            setattr(data_container, "_last_nodes", history)
+            data_container._last_nodes = history
         history[path_key] = node
 
     def _get_last(path_key: tuple[str, ...]) -> dict[str, Any] | None:
@@ -214,8 +210,8 @@ def add_to_structure(
 
         Returns:
             dict[str, Any] | None: The remembered node if present; otherwise ``None``.
-        """
 
+        """
         history = getattr(data_container, "_last_nodes", None)
         if not history:
             return None
@@ -229,12 +225,12 @@ def add_to_structure(
 
         Returns:
             int: The index assigned to the next occurrence of ``path_key``.
-        """
 
+        """
         counters = getattr(data_container, "_path_counts", None)
         if counters is None:
             counters = {}
-            setattr(data_container, "_path_counts", counters)
+            data_container._path_counts = counters
         value = counters.get(path_key, 0)
         counters[path_key] = value + 1
         return value
@@ -247,8 +243,8 @@ def add_to_structure(
 
         Returns:
             tuple[str, ...]: A tuple of lowercase alphanumeric tokens.
-        """
 
+        """
         return tuple(re.findall(r"[A-Za-z0-9]+", label.lower()))
 
     def _registry() -> dict[tuple[str, ...], list[dict[str, Any]]]:
@@ -256,12 +252,12 @@ def add_to_structure(
 
         Returns:
             dict[tuple[str, ...], list[dict[str, Any]]]: The registry indexed by connector paths.
-        """
 
+        """
         registry = getattr(data_container, "_connector_registry", None)
         if registry is None:
             registry = {}
-            setattr(data_container, "_connector_registry", registry)
+            data_container._connector_registry = registry
         return registry
 
     def _registry_key_for(parent_path: tuple[str, ...]) -> tuple[str, ...]:
@@ -271,7 +267,6 @@ def add_to_structure(
         store entries under a dedicated ``("__root__",)`` bucket so they can be
         retrieved consistently across registration and lookup calls.
         """
-
         return parent_path if parent_path else ("__root__",)
 
     def _register_connector_entry(
@@ -293,8 +288,8 @@ def add_to_structure(
 
         Returns:
             None: The registry entry is appended for later retrieval.
-        """
 
+        """
         registry = _registry()
         entries = registry.setdefault(_registry_key_for(parent_path), [])
         tokens: set[str] = set()
@@ -313,9 +308,7 @@ def add_to_structure(
             }
         )
 
-    def _update_entry_tokens(
-        parent_path: tuple[str, ...], node: dict[str, Any], *labels: str | None
-    ) -> None:
+    def _update_entry_tokens(parent_path: tuple[str, ...], node: dict[str, Any], *labels: str | None) -> None:
         """Augment alias tokens for entries tied to ``parent_path`` and ``node``.
 
         Args:
@@ -325,8 +318,8 @@ def add_to_structure(
 
         Returns:
             None: The registry entry is updated in place when found.
-        """
 
+        """
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
             return
@@ -351,8 +344,8 @@ def add_to_structure(
 
         Returns:
             list[dict[str, Any]]: The list of registered entries for the path.
-        """
 
+        """
         registry = getattr(data_container, "_connector_registry", None)
         if not registry:
             return []
@@ -378,8 +371,8 @@ def add_to_structure(
 
         Returns:
             dict[str, Any] | None: The chosen entry, or ``None`` if no match is appropriate.
-        """
 
+        """
         if not entries:
             return None
         chosen: dict[str, Any] | None = None
@@ -406,14 +399,10 @@ def add_to_structure(
                     continue
                 subset_flag = 1 if entry_tokens <= tokens else 0
                 unique_base_hits = sum(
-                    1
-                    for token in tokens
-                    if token in base_tokens and base_occurrence.get(token, 0) == 1
+                    1 for token in tokens if token in base_tokens and base_occurrence.get(token, 0) == 1
                 )
                 unique_hits = sum(
-                    1
-                    for token in tokens
-                    if token in entry_tokens and token_occurrence.get(token, 0) == 1
+                    1 for token in tokens if token in entry_tokens and token_occurrence.get(token, 0) == 1
                 )
                 score = (
                     unique_base_hits,
@@ -452,19 +441,13 @@ def add_to_structure(
     # ------------------------------------------------------------------ #
     try:
         current_level = jsonld
-        unit_map = (
-            data_container.data["unit_map"].set_index("Item").to_dict("index")
-        )
+        unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
         context_connector = data_container.data["context_connector"]
         connectors = set(context_connector["Item"])
         context_toplevel = data_container.data.get("context_toplevel")
-        top_level_connectors = (
-            set(context_toplevel["Item"]) if context_toplevel is not None else set()
-        )
+        top_level_connectors = set(context_toplevel["Item"]) if context_toplevel is not None else set()
         multi_connector_candidates = connectors | top_level_connectors
-        collapsible_multi_paths = getattr(
-            data_container, "_collapsible_multi_paths", None
-        )
+        collapsible_multi_paths = getattr(data_container, "_collapsible_multi_paths", None)
         schema = data_container.data.get("schema")
         if schema is not None and "Ontology link" in schema:
             if collapsible_multi_paths is None:
@@ -530,10 +513,7 @@ def add_to_structure(
             value is None
             or (isinstance(value, str) and value.strip() == "")
             or (isinstance(value, float) and pd.isna(value))
-            or (
-                isinstance(value, (int, float, Decimal))
-                and pd.isna(pd.Series([value])[0])
-            )
+            or (isinstance(value, (int, float, Decimal)) and pd.isna(pd.Series([value])[0]))
         ):
             return
         # ---------------------------------------------------------------- #
@@ -556,7 +536,8 @@ def add_to_structure(
                 if command == "rev":
                     current_level = current_level.setdefault("@reverse", {})
                 else:
-                    raise ValueError(f"Unknown command {command} in {parts}")
+                    msg = f"Unknown command {command} in {parts}"
+                    raise ValueError(msg)
 
             part, connector_index = _split_multi_connector(part)
 
@@ -569,23 +550,16 @@ def add_to_structure(
 
             traversed.append(part)
             parent_path = tuple(traversed[:-1])
-            is_multi_connector = (
-                part in multi_connector_candidates
-                and (connector_index is not None or (next_segment and next_segment.startswith("type|")))
+            is_multi_connector = part in multi_connector_candidates and (
+                connector_index is not None or (next_segment and next_segment.startswith("type|"))
             )
             # Suffix indices apply at every multi-connector level.
 
             # -------- create node if missing ---------------------------- #
             if part not in current_level and (value or unit):
                 if part in connectors:
-                    connector_type = context_connector.loc[
-                        context_connector["Item"] == part, "Key"
-                    ].values[0]
-                    current_level[part] = (
-                        {}
-                        if pd.isna(connector_type)
-                        else {"@type": connector_type}
-                    )
+                    connector_type = context_connector.loc[context_connector["Item"] == part, "Key"].values[0]
+                    current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
                 else:
                     current_level[part] = {}
 
@@ -612,9 +586,7 @@ def add_to_structure(
                 connector_parent_path = tuple(traversed[:-1])
                 registry_entries = [
                     entry
-                    for entry in _get_registry_entries(
-                        connector_parent_path, current_level
-                    )
+                    for entry in _get_registry_entries(connector_parent_path, current_level)
                     if entry.get("connector") == part
                 ]
                 if connector_index is not None:
@@ -630,9 +602,7 @@ def add_to_structure(
                             None,
                         )
                     _register_last(tuple(traversed), target_node)
-                    _update_entry_tokens(
-                        connector_parent_path, target_node, metadata
-                    )
+                    _update_entry_tokens(connector_parent_path, target_node, metadata)
                     current_level = target_node
                     continue
 
@@ -651,9 +621,7 @@ def add_to_structure(
                             selected = entry
                             break
                 if selected is None:
-                    selected = _select_entry(
-                        metadata, registry_entries, part, traversed
-                    )
+                    selected = _select_entry(metadata, registry_entries, part, traversed)
                 if selected is not None and desired_type:
                     existing_type = selected["node"].get("@type")
                     if isinstance(existing_type, list):
@@ -664,9 +632,7 @@ def add_to_structure(
                 if selected is not None:
                     target_node = selected["node"]
                 else:
-                    entries_for_parent = _get_registry_entries(
-                        connector_parent_path, current_level
-                    )
+                    entries_for_parent = _get_registry_entries(connector_parent_path, current_level)
                     holder = current_level.get(part)
                     if (
                         isinstance(holder, dict)
@@ -676,9 +642,7 @@ def add_to_structure(
                         target_node = holder
                     else:
                         target_node = _new_item(current_level, part)
-                        entries_for_parent = _get_registry_entries(
-                            connector_parent_path, current_level
-                        )
+                        entries_for_parent = _get_registry_entries(connector_parent_path, current_level)
                     if not any(entry.get("node") is target_node for entry in entries_for_parent):
                         _register_connector_entry(
                             connector_parent_path,
@@ -712,9 +676,7 @@ def add_to_structure(
                     registry_entries = []
                     if not is_multi_connector and isinstance(current_level, dict):
                         connector_parent_path: tuple[str, ...] = parent_path[:-1]
-                        connector_key: str | None = (
-                            parent_path[-1] if parent_path else None
-                        )
+                        connector_key: str | None = parent_path[-1] if parent_path else None
                         if connector_parent_path and connector_key:
                             for entry in _get_registry_entries(connector_parent_path):
                                 if entry.get("connector") != connector_key:
@@ -724,9 +686,7 @@ def add_to_structure(
                                     registry_entries.append(entry)
 
                     if registry_entries:
-                        selected = _select_entry(
-                            metadata, registry_entries, part, traversed
-                        )
+                        selected = _select_entry(metadata, registry_entries, part, traversed)
                         if selected is not None:
                             target = selected["node"]
                             target[part] = manufacturer_payload
@@ -747,18 +707,13 @@ def add_to_structure(
                     break
 
                 if part == "hasStringValue" and isinstance(value, str):
-                    if isinstance(current_level, list):
-                        target_node = current_level[-1]
-                    else:
-                        target_node = current_level
+                    target_node = current_level[-1] if isinstance(current_level, list) else current_level
                     target_node[part] = value
                     break
                 registry_entries = []
                 if not is_multi_connector and isinstance(current_level, dict):
                     connector_parent_path: tuple[str, ...] = parent_path[:-1]
-                    connector_key: str | None = (
-                        parent_path[-1] if parent_path else None
-                    )
+                    connector_key: str | None = parent_path[-1] if parent_path else None
                     if connector_parent_path and connector_key:
                         for entry in _get_registry_entries(connector_parent_path):
                             if entry.get("connector") != connector_key:
@@ -775,7 +730,7 @@ def add_to_structure(
                         if not isinstance(holder, dict):
                             target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
                         target_node = target[part]
-                        if value in unique_id["Item"].values:
+                        if value in unique_id["Item"].to_numpy():
                             uid = get_information_value(
                                 df=unique_id,
                                 row_to_look=value,
@@ -875,19 +830,16 @@ def add_to_structure(
 
             current_level = next_level
 
-    except Exception as e:  
-        traceback.print_exc()
-        raise RuntimeError(
-            f"Error occurred with value '{value}' and path '{path}': {str(e)}"
-        )
+    except Exception as e:
+        msg = f"Error occurred with value '{value}' and path '{path}'"
+        raise RuntimeError(msg) from e
 
 
 def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = DEBUG_STATUS):
-    """
-    Print Line Function (PLF).
+    """Print Line Function (PLF).
 
-    This function is used for debugging purposes. It prints the current line number, 
-    along with the provided value, part, and optionally the current level, if debugging 
+    This function is used for debugging purposes. It prints the current line number,
+    along with the provided value, part, and optionally the current level, if debugging
     is enabled via the `debug_switch` parameter.
 
     Args:
@@ -898,13 +850,14 @@ def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switc
 
     Returns:
         None: This function does not return any value.
+
     """
     if debug_switch:
         current_frame = inspect.currentframe()
         line_number = current_frame.f_back.f_lineno
         if current_level is not None:
-            print(f'pass line {line_number}, value:', value,'AND part:', part, 'AND current_level:', current_level)
+            print(f"pass line {line_number}, value: {value} AND part: {part} AND current_level: {current_level}")
         else:
-            print(f'pass line {line_number}, value:', value,'AND part:', part)
+            print(f"pass line {line_number}, value:", value, "AND part:", part)
     else:
-        pass 
+        pass
