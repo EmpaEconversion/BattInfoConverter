@@ -1,9 +1,8 @@
 """Auxiliary functions."""
 
-import inspect
 import re
 from decimal import Decimal
-from typing import Any, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -834,31 +833,3 @@ def add_to_structure(
     except Exception as e:
         msg = f"Error occurred with value '{value}' and path '{path}'"
         raise RuntimeError(msg) from e
-
-
-def plf(value: Any, part: str, current_level: Optional[dict] = None, debug_switch: bool = DEBUG_STATUS):
-    """Print Line Function (PLF).
-
-    This function is used for debugging purposes. It prints the current line number,
-    along with the provided value, part, and optionally the current level, if debugging
-    is enabled via the `debug_switch` parameter.
-
-    Args:
-        value (Any): The value being processed or debugged.
-        part (Any): The part of the JSON-LD or data structure being processed.
-        current_level (Optional[dict]): The current level of the JSON-LD or data structure, if applicable.
-        debug_switch (bool): A flag to enable or disable debug output. Defaults to True.
-
-    Returns:
-        None: This function does not return any value.
-
-    """
-    if debug_switch:
-        current_frame = inspect.currentframe()
-        line_number = current_frame.f_back.f_lineno
-        if current_level is not None:
-            print(f"pass line {line_number}, value: {value} AND part: {part} AND current_level: {current_level}")
-        else:
-            print(f"pass line {line_number}, value:", value, "AND part:", part)
-    else:
-        pass
