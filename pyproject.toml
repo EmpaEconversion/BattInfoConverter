@@ -15,8 +15,6 @@ dependencies = [
   "pandas>=2,<3",
   "openpyxl>=3.1",
   "simplejson",
-  'tomli',
-  "streamlit>=1.50.0",
 ]
 
 classifiers = [
@@ -25,6 +23,8 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Intended Audience :: Science/Research",
@@ -43,7 +43,9 @@ where = ["src"]
 include = ["battinfoconverter_backend*"]
 
 [project.optional-dependencies]
-app = ["streamlit"]
+app = [
+  "streamlit>=1.50.0",
+]
 dev = [
   "pytest>=8.4.2",
 ]
