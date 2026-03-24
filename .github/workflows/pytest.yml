@@ -34,7 +34,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install pytest pytest-cov
           uv pip install .[dev]
 
       - name: Run tests with pytest
