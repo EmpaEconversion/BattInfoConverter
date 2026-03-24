@@ -3,8 +3,12 @@
 import copy
 import io
 import json
+import re
 from decimal import Decimal
 from pathlib import Path
+
+from pyld import jsonld
+from pyld.jsonld import JsonLdProcessor
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 
@@ -52,6 +56,40 @@ def _normalize_jsonld(payload: dict) -> dict:
     return normalized
 
 
+def _find_dropped_terms(doc: dict) -> list[str]:
+    """Find any terms that do not resolve to aboslute IRIs.
+
+    This does not check values.
+    """
+    # Use pyld to process the context and fetch remotes
+    processor = JsonLdProcessor()
+    active_ctx = processor.process_context(processor._get_initial_context({}), doc["@context"], {})
+
+    # active_ctx["mappings"] is a dict of term -> {"@id": "<absolute IRI>", ...}
+    mapped_terms = set(active_ctx.get("mappings", {}).keys())
+
+    # Collect compact term names used as keys in the raw doc
+    def raw_term_keys(obj: list | dict | str | float, seen: set | None = None) -> set:
+        """Recursive search for all terms."""
+        if seen is None:
+            seen = set()
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if not k.startswith("@") and not re.match(r"^[A-Za-z][A-Za-z0-9+\-.]*:", k):
+                    seen.add(k)
+                raw_term_keys(v, seen)
+        elif isinstance(obj, list):
+            for i in obj:
+                raw_term_keys(i, seen)
+        return seen
+
+    # Get all the terms in the json-ld
+    raw_terms = raw_term_keys(doc)
+
+    # Anything not in mapped_terms was not resolved by any context
+    return [t for t in raw_terms if t not in mapped_terms]
+
+
 def test_standard_battinfo() -> None:
     """Check that coin cell Excel conversion matches expected JSON-LD output."""
     converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
@@ -95,3 +133,26 @@ def test_conversion_different_inputs() -> None:
 
     # Should not affect the results
     assert res1 == res2 == res3 == res4
+
+
+def test_valid_jsonld() -> None:
+    """Check that the JSON-LD output canonizes without error."""
+    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
+    # This should run without errors
+    jsonld.normalize(converted, {"algorithm": "URDNA2015", "format": "application/n-quads"})
+    jsonld.expand(converted)
+
+
+def test_no_dropped_terms():
+    """Check there are no unmapped terms in the JSON-LD."""
+    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
+    dropped = _find_dropped_terms(converted)
+    assert not dropped, (
+        f"{len(dropped)} term(s) were silently dropped during expansion "
+        f"(not in any context, including the remote base):\n" + "\n".join(f"  {t!r}" for t in sorted(dropped))
+    )
+
+    # Sanity check, it should fail with missing terms
+    converted["hasSomethingThatDoesntExist"] = converted.pop("hasCase")
+    dropped = _find_dropped_terms(converted)
+    assert dropped == ["hasSomethingThatDoesntExist"]
