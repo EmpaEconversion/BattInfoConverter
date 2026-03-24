@@ -29,6 +29,8 @@ STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.jso
 MAPPED_TERMS_PATH = FIXTURE_DIR / "mapped_terms.json"
 MAPPED_TERMS = set(json.load(MAPPED_TERMS_PATH.open("r")))
 
+jsonld.set_document_loader(jsonld.requests_document_loader())
+
 
 def _coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
     """Recursively convert ``Decimal`` instances within ``value`` to floats."""
