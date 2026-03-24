@@ -8,7 +8,6 @@ from decimal import Decimal
 from pathlib import Path
 
 from pyld import jsonld
-from pyld.jsonld import JsonLdProcessor
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 
@@ -26,6 +25,9 @@ STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standa
 
 STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
 STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
+
+MAPPED_TERMS_PATH = FIXTURE_DIR / "mapped_terms.json"
+MAPPED_TERMS = set(json.load(MAPPED_TERMS_PATH.open("r")))
 
 
 def _coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
@@ -61,12 +63,6 @@ def _find_dropped_terms(doc: dict) -> list[str]:
 
     This does not check values.
     """
-    # Use pyld to process the context and fetch remotes
-    processor = JsonLdProcessor()
-    active_ctx = processor.process_context(processor._get_initial_context({}), doc["@context"], {})
-
-    # active_ctx["mappings"] is a dict of term -> {"@id": "<absolute IRI>", ...}
-    mapped_terms = set(active_ctx.get("mappings", {}).keys())
 
     # Collect compact term names used as keys in the raw doc
     def raw_term_keys(obj: list | dict | str | float, seen: set | None = None) -> set:
@@ -87,7 +83,7 @@ def _find_dropped_terms(doc: dict) -> list[str]:
     raw_terms = raw_term_keys(doc)
 
     # Anything not in mapped_terms was not resolved by any context
-    return [t for t in raw_terms if t not in mapped_terms]
+    return [t for t in raw_terms if t not in MAPPED_TERMS]
 
 
 def test_standard_battinfo() -> None:
