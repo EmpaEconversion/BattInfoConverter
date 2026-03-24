@@ -1,45 +1,46 @@
-"""
-This module contains template for certain parts that are too complicated to be instructed using Excel template.
-"""
+"""Templates for sections that are too complicated for the Excel ontology link."""
 
-SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
-    "@type": "BatteryTest",
-    "hasTestObject": {
-        "ElectrochemicalCell": {
-            "@type": "ElectrochemicalCell",
-            "hasNegativeElectrode": {
-                "@type": "Graphite"
+
+def rated_cap_vs_graphite(
+    charge_current_density: float,
+    upper_voltage_limit: float,
+    upper_voltage_hold: float,
+    cutoff_current: float,
+    discharge_current_density: float,
+    lower_voltage_limit: float,
+) -> dict:
+    """Convert rated capacity vs graphite counter electrode to new format."""
+    return {
+        "@type": "BatteryTest",
+        "hasTestObject": {
+            "ElectrochemicalCell": {
+                "@type": "ElectrochemicalCell",
+                "hasNegativeElectrode": {"@type": "Graphite"},
             }
-          }
         },
         "hasMeasurementParameter": {
-            "@type": [
-                "ConstantCurrentConstantVoltageCycling"
-            ],
+            "@type": ["ConstantCurrentConstantVoltageCycling"],
             "rdfs:label": "GeneratedBatteryTestProcedure",
             "rdfs:comment": "A description of a generated battery testing procedure",
             "hasTask": {
                 "@type": "Charging",
                 "hasInput": [
                     {
-                        "@type": "ElectricCurrentDensity" ,
+                        "@type": "ElectricCurrentDensity",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<POS_1-original=0.1>>>>"
+                            "hasNumberValue": charge_current_density,
                         },
-                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
+                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
                     },
                     {
-                        "@type": [
-                            "UpperVoltageLimit",
-                            "TerminationQuantity" 
-                        ],
+                        "@type": ["UpperVoltageLimit", "TerminationQuantity"],
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<POS_2-original=4.2>>>>"
+                            "hasNumberValue": upper_voltage_limit,
                         },
-                        "hasMeasurementUnit": "emmo:Volt"
-                    }
+                        "hasMeasurementUnit": "emmo:Volt",
+                    },
                 ],
                 "hasNext": {
                     "@type": "VoltageHold",
@@ -48,60 +49,62 @@ SNIPPTED_RATED_CAPACITY_POSITIVE_ELECTRODE = {
                             "@type": "Voltage",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<POS_3-original=4.2>>>>"
+                                "hasNumberValue": upper_voltage_hold,
                             },
-                            "hasMeasurementUnit": "emmo:Volt"
+                            "hasMeasurementUnit": "emmo:Volt",
                         },
                         {
-                            "@type": [
-                                "LowerCurrentDensityLimit",
-                                "TerminationQuantity" 
-                            ],
+                            "@type": ["LowerCurrentDensityLimit", "TerminationQuantity"],
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<POS_4-original=0.01>>>>"
+                                "hasNumberValue": cutoff_current,
                             },
-                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
-                        }
+                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                        },
                     ],
                     "hasNext": {
                         "@type": "Discharging",
                         "hasInput": [
                             {
-                                "@type": "ElectricCurrentDensity" ,
+                                "@type": "ElectricCurrentDensity",
                                 "hasNumericalPart": {
                                     "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<POS_5-original=0.1>>>>"
+                                    "hasNumberValue": discharge_current_density,
                                 },
-                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
+                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
                             },
                             {
-                                "@type": [
-                                    "LowerVoltageLimit",
-                                    "TerminationQuantity" 
-                                ],
+                                "@type": ["LowerVoltageLimit", "TerminationQuantity"],
                                 "hasNumericalPart": {
                                     "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<POS_6-original=3.0>>>>"
+                                    "hasNumberValue": lower_voltage_limit,
                                 },
-                                "hasMeasurementUnit": "emmo:Volt"
-                            }
-                        ]
-                }
-            }
-        }
+                                "hasMeasurementUnit": "emmo:Volt",
+                            },
+                        ],
+                    },
+                },
+            },
+        },
     }
-}
 
-SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
-    "@type": "BatteryTest",
-    "hasTestObject": {
-        "ElectrochemicalHalfCell": {
-            "@type": "ElectrochemicalHalfCell",
-            "hasReferenceElectrode": {
-                "@type": "LithiumElectrode"
-                }
-              }
+
+def rated_cap_vs_li(
+    discharge_current_density: float,
+    lower_voltage_limit: float,
+    lower_voltage_hold: float,
+    cutoff_current: float,
+    charge_current_density: float,
+    upper_voltage_limit: float,
+) -> dict:
+    """Convert rated capacity vs Lithium electrode to new format."""
+    return {
+        "@type": "BatteryTest",
+        "hasTestObject": {
+            "ElectrochemicalHalfCell": {
+                "@type": "ElectrochemicalHalfCell",
+                "hasReferenceElectrode": {"@type": "LithiumElectrode"},
+            }
         },
         "hasMeasurementParameter": {
             "@type": [
@@ -113,24 +116,21 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                 "@type": "Discharging",
                 "hasInput": [
                     {
-                        "@type": "ElectricCurrentDensity" ,
+                        "@type": "ElectricCurrentDensity",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<NEG_1-original=0.1>>>"
+                            "hasNumberValue": discharge_current_density,
                         },
-                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
+                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
                     },
                     {
-                        "@type": [
-                            "LowerVoltageLimit",
-                            "TerminationQuantity" 
-                        ],
+                        "@type": ["LowerVoltageLimit", "TerminationQuantity"],
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
-                            "hasNumberValue": "<<<<NEG_2-original=0.01>>>"
+                            "hasNumberValue": lower_voltage_limit,
                         },
-                        "hasMeasurementUnit": "emmo:Volt"
-                    }
+                        "hasMeasurementUnit": "emmo:Volt",
+                    },
                 ],
                 "hasNext": {
                     "@type": "VoltageHold",
@@ -139,48 +139,41 @@ SNIPPTED_RATED_CAPACITY_NEGATIVE_ELECTRODE = {
                             "@type": "Voltage",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<NEG_3-original=0.01>>>"        
+                                "hasNumberValue": lower_voltage_hold,
                             },
-                            "hasMeasurementUnit": "emmo:Volt"
+                            "hasMeasurementUnit": "emmo:Volt",
                         },
                         {
-                            "@type": [
-                                "LowerCurrentDensityLimit",
-                                "TerminationQuantity" 
-                            ],
+                            "@type": ["LowerCurrentDensityLimit", "TerminationQuantity"],
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
-                                "hasNumberValue": "<<<<NEG_4-original=0.01>>>"
+                                "hasNumberValue": cutoff_current,
                             },
-                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
-                        }
+                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                        },
                     ],
                     "hasNext": {
                         "@type": "Charging",
                         "hasInput": [
                             {
-                                "@type": "ElectricCurrentDensity" ,
+                                "@type": "ElectricCurrentDensity",
                                 "hasNumericalPart": {
                                     "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<NEG_5-original=0.1>>>"
+                                    "hasNumberValue": charge_current_density,
                                 },
-                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre"
+                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
                             },
                             {
-                                "@type": [
-                                    "LowerVoltageLimit",
-                                    "TerminationQuantity" 
-                                ],
+                                "@type": ["UpperVoltageLimit", "TerminationQuantity"],
                                 "hasNumericalPart": {
                                     "@type": "emmo:RealData",
-                                    "hasNumberValue": "<<<<NEG_6-original=1.0>>>"
+                                    "hasNumberValue": upper_voltage_limit,
                                 },
-                                "hasMeasurementUnit": "emmo:Volt"
-                            }
-                        ]
-                }
-            }
-        }
+                                "hasMeasurementUnit": "emmo:Volt",
+                            },
+                        ],
+                    },
+                },
+            },
+        },
     }
-}
-

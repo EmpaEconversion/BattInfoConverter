@@ -48,4 +48,22 @@ app = [
 ]
 dev = [
   "pytest>=8.4.2",
+  "ruff>=0.15.7",
+  "pre-commit>=4.5.1",
 ]
+
+[tool.ruff]
+line-length = 120
+lint.select = ["ALL"]
+lint.ignore = [
+    "N803",
+    "N806",
+    "N815",
+    "PLR2004",
+    "TD002",
+    "TD003",
+    "D203",
+    "D213",
+    "COM812",
+]
+fix = true

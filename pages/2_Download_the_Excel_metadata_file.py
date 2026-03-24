@@ -15,8 +15,4 @@ These fields must be filled before the file can be sbmitted for conversion.
 [Example-filled coin cell battery template version 1.1.16](https://github.com/EmpaEconversion/BattInfoConverter/raw/refs/heads/main/Excel%20for%20reference/BattINFO_converter_standard_Excel_version_1.1.16_filled.xlsx)
 """
 
-#####################################################################
-
 st.markdown(markdown_content, unsafe_allow_html=True)
-
-
