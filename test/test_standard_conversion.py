@@ -17,8 +17,8 @@ IGNORED_COMMENT_PREFIXES = (
     "Schema version:",
 )
 
-STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.16.xlsx"
-STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standard_JSON_version_1.1.16.json"
+STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.17.xlsx"
+STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standard_JSON_version_1.1.17.json"
 
 STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
 STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
