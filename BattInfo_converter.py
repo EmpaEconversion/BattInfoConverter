@@ -6,7 +6,8 @@ from pathlib import Path
 import simplejson as json
 import streamlit as st
 
-from battinfoconverter_backend import __version__, convert_excel_to_jsonld
+from battinfoconverter_backend import __version__
+from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 
 st.set_page_config(page_title="BattINFO Converter", page_icon="battinfoconverter-logo.png", layout="wide")
 
