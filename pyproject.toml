@@ -52,6 +52,7 @@ dev = [
   "pre-commit>=4.5.1",
   "pyld>=2.0.4",
   "pytest-cov>=7.1.0",
+  "rdflib>=7.6.0",
   "requests>=2.32.5",
 ]
 
