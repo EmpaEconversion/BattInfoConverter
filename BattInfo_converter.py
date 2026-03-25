@@ -34,6 +34,7 @@ def collect_warnings(logger_name: str = "battinfoconverter_backend.validate") ->
     finally:
         logger.removeHandler(handler)
 
+
 st.set_page_config(page_title="BattINFO Converter", page_icon="battinfoconverter-logo.png", layout="wide")
 
 badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.streamlit.app"
