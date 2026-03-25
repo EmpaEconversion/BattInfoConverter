@@ -42,6 +42,9 @@ package-dir = { "" = "src" }
 where = ["src"]
 include = ["battinfoconverter_backend*"]
 
+[tool.setuptools.package-data]
+"battinfoconverter_backend" = ["_context/*.json"]
+
 [project.optional-dependencies]
 app = [
   "streamlit>=1.50.0",
