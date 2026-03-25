@@ -140,3 +140,40 @@ def test_against_cached_context() -> None:
     bad_jsonld = converted.copy()
     bad_jsonld["hasComponent"] = "ThisDoesNotExist"
     validate_jsonld(bad_jsonld, errors="raise")
+
+
+def test_bad_jsonld_context(caplog: pytest.LogCaptureFixture) -> None:
+    """Check if expected validation warnings/errors trigger."""
+    doc = {
+        "@context": [
+            "https://w3id.org/emmo/domain/battery/context",
+            "https://w3id.org/emmo/domain/electrochemistry/context",
+        ],
+        "@type": "CoinCell",
+    }
+    with pytest.raises(ValueError, match="There are multiple 'default' vocabularies, you are only allowed one"):
+        validate_jsonld(doc, errors="raise")
+
+    doc = {
+        "@context": {
+            "battery": "https://w3id.org/emmo/domain/batterie",
+        },
+        "@type": "CoinCell",
+    }
+    with pytest.raises(ValueError, match=r"Maybe you meant (https://w3id.org/emmo/domain/battery#)?"):
+        validate_jsonld(doc, errors="raise")
+
+    caplog.clear()
+    doc = {
+        "@context": {
+            "missing": "https://w3id.org/emmo/domain/somethingwrong",
+        },
+        "@type": "CoinCell",
+        "hasComponent": {
+            "@id": "missing:StuffThatCannotBeFound",
+        },
+    }
+    validate_jsonld(doc, errors="warn")
+    assert "The URL for 'missing' (https://w3id.org/emmo/domain/somethingwrong) is not a known namespace" in caplog.text
+    assert "'CoinCell' has no prefix, but there is no default namespace" in caplog.text
+    assert "Term 'missing:StuffThatCannotBeFound' was not found because 'missing' is empty" in caplog.text
