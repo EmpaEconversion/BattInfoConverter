@@ -11,7 +11,6 @@ import streamlit as st
 
 from battinfoconverter_backend import __version__
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
-from battinfoconverter_backend.validate import validate_jsonld
 
 
 # Catch warnings emitted by logging, for displaying nicely in streamlit
@@ -22,6 +21,7 @@ class _CollectWarnings(logging.Handler):
 
     def emit(self, record: logging.LogRecord) -> None:
         self.records.append(record.getMessage())
+
 
 @contextmanager
 def collect_warnings(logger_name: str = "battinfoconverter_backend.validate") -> Generator[list[str], None, None]:
@@ -107,9 +107,12 @@ def main() -> None:
         jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         with collect_warnings() as warnings:
-            validate_jsonld(jsonld_output, errors="warn")
+            jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
+
         if warnings:
             st.warning(f"**{len(warnings)} Validation Warnings**  \n  \n" + "  \n".join(["- " + w for w in warnings]))
+
+        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         # Download button
         to_download = BytesIO(jsonld_str.encode())
