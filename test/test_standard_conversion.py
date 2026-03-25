@@ -3,13 +3,14 @@
 import copy
 import io
 import json
-import re
 from decimal import Decimal
 from pathlib import Path
 
+import pytest
 from pyld import jsonld
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
+from battinfoconverter_backend.validate import validate_jsonld
 
 FIXTURE_DIR = Path(__file__).resolve().parent
 
@@ -25,9 +26,6 @@ STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standa
 
 STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
 STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
-
-MAPPED_TERMS_PATH = FIXTURE_DIR / "mapped_terms.json"
-MAPPED_TERMS = set(json.load(MAPPED_TERMS_PATH.open("r")))
 
 jsonld.set_document_loader(jsonld.requests_document_loader())
 
@@ -59,33 +57,6 @@ def _normalize_jsonld(payload: dict) -> dict:
 
     return normalized
 
-
-def _find_dropped_terms(doc: dict) -> list[str]:
-    """Find any terms that do not resolve to aboslute IRIs.
-
-    This does not check values.
-    """
-
-    # Collect compact term names used as keys in the raw doc
-    def raw_term_keys(obj: list | dict | str | float, seen: set | None = None) -> set:
-        """Recursive search for all terms."""
-        if seen is None:
-            seen = set()
-        if isinstance(obj, dict):
-            for k, v in obj.items():
-                if not k.startswith("@") and not re.match(r"^[A-Za-z][A-Za-z0-9+\-.]*:", k):
-                    seen.add(k)
-                raw_term_keys(v, seen)
-        elif isinstance(obj, list):
-            for i in obj:
-                raw_term_keys(i, seen)
-        return seen
-
-    # Get all the terms in the json-ld
-    raw_terms = raw_term_keys(doc)
-
-    # Anything not in mapped_terms was not resolved by any context
-    return [t for t in raw_terms if t not in MAPPED_TERMS]
 
 
 def test_standard_battinfo() -> None:
@@ -141,16 +112,32 @@ def test_valid_jsonld() -> None:
     jsonld.expand(converted)
 
 
-def test_no_dropped_terms():
-    """Check there are no unmapped terms in the JSON-LD."""
-    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False)
-    dropped = _find_dropped_terms(converted)
-    assert not dropped, (
-        f"{len(dropped)} term(s) were silently dropped during expansion "
-        f"(not in any context, including the remote base):\n" + "\n".join(f"  {t!r}" for t in sorted(dropped))
-    )
+def test_against_cached_context() -> None:
+    """Make sure all terms are mapped in the cached context."""
+    # The standard filled excel template must pass
+    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH)
+    validate_jsonld(converted, errors="raise")
 
-    # Sanity check, it should fail with missing terms
-    converted["hasSomethingThatDoesntExist"] = converted.pop("hasCase")
-    dropped = _find_dropped_terms(converted)
-    assert dropped == ["hasSomethingThatDoesntExist"]
+    # Validation should not modify original dict
+    assert converted == convert_excel_to_jsonld(STANDARD_EXCEL_PATH)
+
+    # Sanity check - these should all fail
+    bad_jsonld = converted.copy()
+    bad_jsonld["hasSomethingNotAllowed"] = {"@id": "CoinCell"}
+    with pytest.raises(ValueError, match="'hasSomethingNotAllowed' was not found"):
+        validate_jsonld(bad_jsonld, errors="raise")
+
+    bad_jsonld = converted.copy()
+    bad_jsonld["hasComponent"] = {"@id": "ThisDoesNotExist"}
+    with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
+        validate_jsonld(bad_jsonld, errors="raise")
+
+    bad_jsonld = converted.copy()
+    bad_jsonld["hasComponent"] = {"@type": ["CoinCell", "ThisDoesNotExist"]}
+    with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
+        validate_jsonld(bad_jsonld, errors="raise")
+
+    # This is currently allowed - string literal with no IRI
+    bad_jsonld = converted.copy()
+    bad_jsonld["hasComponent"] = "ThisDoesNotExist"
+    validate_jsonld(bad_jsonld, errors="raise")
