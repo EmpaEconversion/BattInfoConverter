@@ -15,6 +15,7 @@ from .json_template import (
     rated_cap_vs_graphite,
     rated_cap_vs_li,
 )
+from .validate import validate_jsonld
 
 APP_VERSION = version("battinfoconverter-backend")
 
@@ -209,7 +210,12 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
         return json_dict
 
 
-def convert_excel_to_jsonld(excel_file: str | Path | IO[bytes], *, debug_mode: bool = False) -> dict:
+def convert_excel_to_jsonld(
+    excel_file: str | Path | IO[bytes],
+    *,
+    validate: bool = True,
+    debug_mode: bool = False,
+) -> dict:
     """Convert an Excel file into a JSON-LD representation.
 
     This function initializes a new session for converting an Excel file, processes the data using
@@ -219,7 +225,8 @@ def convert_excel_to_jsonld(excel_file: str | Path | IO[bytes], *, debug_mode: b
 
     Args:
         excel_file (ExcelContainer): ExcelContainer of the Excel file to be converted.
-        debug_mode (bool): Flag to enable or disable debug mode. Default is True.
+        validate (bool): Whether to warn about possible issues in the output. Default is True.
+        debug_mode (bool): Flag to enable or disable debug mode. Default is False.
 
     Returns:
         dict: A JSON-LD dictionary representing the entire structured information.
@@ -236,4 +243,7 @@ def convert_excel_to_jsonld(excel_file: str | Path | IO[bytes], *, debug_mode: b
 
     # Generate JSON-LD using the data container
     jsonld_output = create_jsonld_with_conditions(data_container)
-    return reformat_json_rated_capacity(jsonld_output)
+    jsonld_output = reformat_json_rated_capacity(jsonld_output)
+    if validate:
+        validate_jsonld(jsonld_output, errors="warn")
+    return jsonld_output

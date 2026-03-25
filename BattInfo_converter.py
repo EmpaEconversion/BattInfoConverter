@@ -1,5 +1,8 @@
 """Streamlit web app interface."""
 
+import logging
+from collections.abc import Generator
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 
@@ -8,6 +11,29 @@ import streamlit as st
 
 from battinfoconverter_backend import __version__
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
+
+
+# Catch warnings emitted by logging, for displaying nicely in streamlit
+class _CollectWarnings(logging.Handler):
+    def __init__(self) -> None:
+        super().__init__(logging.WARNING)
+        self.records: list[str] = []
+
+    def emit(self, record: logging.LogRecord) -> None:
+        self.records.append(record.getMessage())
+
+
+@contextmanager
+def collect_warnings(logger_name: str = "battinfoconverter_backend.validate") -> Generator[list[str], None, None]:
+    """Context manager, grabs warnings, returns as list."""
+    handler = _CollectWarnings()
+    logger = logging.getLogger(logger_name)
+    logger.addHandler(handler)
+    try:
+        yield handler.records
+    finally:
+        logger.removeHandler(handler)
+
 
 st.set_page_config(page_title="BattINFO Converter", page_icon="battinfoconverter-logo.png", layout="wide")
 
@@ -78,6 +104,14 @@ def main() -> None:
 
         # Convert the uploaded Excel file to JSON-LD
         jsonld_output = convert_excel_to_jsonld(uploaded_file)
+        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
+
+        with collect_warnings() as warnings:
+            jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
+
+        if warnings:
+            st.warning(f"**{len(warnings)} Validation Warnings**  \n  \n" + "  \n".join(["- " + w for w in warnings]))
+
         jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         # Download button

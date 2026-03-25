@@ -42,6 +42,9 @@ package-dir = { "" = "src" }
 where = ["src"]
 include = ["battinfoconverter_backend*"]
 
+[tool.setuptools.package-data]
+"battinfoconverter_backend" = ["_context/*.json"]
+
 [project.optional-dependencies]
 app = [
   "streamlit>=1.50.0",
@@ -50,6 +53,10 @@ dev = [
   "pytest>=8.4.2",
   "ruff>=0.15.7",
   "pre-commit>=4.5.1",
+  "pyld>=2.0.4",
+  "pytest-cov>=7.1.0",
+  "rdflib>=7.6.0",
+  "requests>=2.32.5",
 ]
 
 [tool.ruff]
