@@ -24,6 +24,7 @@ STRING_LITERAL_PREDICATES = {
     "schema:serialNumber",
     "schema:url",
     "rdfs:label",
+    "rdfs:comment",
     "SMILESReference",
     "InChIReference",
     "CASReference",
@@ -571,30 +572,22 @@ def add_to_structure(
                 current_level[part] = manufacturer_payload
                 break
 
-            # Special case: comments
-            if part == "rdfs:comment":
-                logger.debug("Adding key and value as a comment")
-                target_node = current_level[-1] if isinstance(current_level, list) else current_level
-                # Add the 'key' (metadata) to the comment if exists
-                prefix = f"{metadata}: " if metadata is not None else ""
-                suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
-                new_comment = f"{prefix}{value}{suffix}"
-
-                # Don't overwrite existing comments, append if needed
-                if old_comment := target_node.get("rdfs:comment"):
-                    if isinstance(old_comment, str):
-                        target_node["rdfs:comment"] = [old_comment, new_comment]
-                    elif isinstance(old_comment, list):
-                        target_node["rdfs:comment"].append(new_comment)
-                else:
-                    target_node["rdfs:comment"] = new_comment
-                break
-
             # Special case: string literals - no @id lookup needed.
             if part in STRING_LITERAL_PREDICATES:
-                logger.debug("Special case - setting '%s' as string literal value", metadata)
+                if part == "rdfs:comment":
+                    # Comments also get the key and unit included if they exist
+                    prefix = f"{metadata}: " if metadata is not None else ""
+                    suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
+                    value = f"{prefix}{value}{suffix}"
+                logger.debug("Special case - adding value '%s' to '%s' as a string literal", value, part)
                 target_node = current_level[-1] if isinstance(current_level, list) else current_level
-                target_node[part] = str(value)
+                if (existing_value := target_node.get(part)):
+                    if isinstance(existing_value, str):
+                        target_node[part] = [existing_value, str(value)]
+                    elif isinstance(existing_value, list):
+                        target_node[part].append(str(value))
+                else:
+                    target_node[part] = str(value)
                 break
 
             # General case: ontology node / @id
