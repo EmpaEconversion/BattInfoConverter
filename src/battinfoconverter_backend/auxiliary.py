@@ -24,6 +24,7 @@ STRING_LITERAL_PREDICATES = {
     "schema:productID",
     "schema:serialNumber",
     "schema:url",
+    "rdfs:label",
     "SMILESReference",
     "InChIReference",
     "CASReference",
