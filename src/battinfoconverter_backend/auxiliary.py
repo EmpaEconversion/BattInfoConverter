@@ -11,7 +11,6 @@ from .json_convert import get_information_value
 from .registry import Registry, tokenize
 
 logger = logging.getLogger(__name__)
-DEBUG_STATUS = False
 
 # Regex used to detect multi-connector suffixes such as "hasSolventA"
 _MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")

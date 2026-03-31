@@ -1,6 +1,6 @@
 """Functions to perform Excel -> JSON conversion."""
 
-import datetime
+import logging
 from importlib.metadata import version
 from pathlib import Path
 from typing import IO
@@ -17,6 +17,8 @@ from .json_template import (
 )
 from .registry import Registry
 from .validate import validate_jsonld
+
+logger = logging.getLogger(__name__)
 
 APP_VERSION = version("battinfoconverter-backend")
 
@@ -231,15 +233,26 @@ def convert_excel_to_jsonld(
         ValueError: If any required fields in the Excel file are missing or contain invalid data.
 
     """
-    if debug_mode:
-        print("*********************************************************")
-        print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
-        print("*********************************************************")
-    data_container = ExcelContainer(excel_file)
+    pkg_logger = logging.getLogger("battinfoconverter_backend")
+    handler = None
 
-    # Generate JSON-LD using the data container
-    jsonld_output = create_jsonld_with_conditions(data_container)
-    jsonld_output = reformat_json_rated_capacity(jsonld_output)
-    if validate:
-        validate_jsonld(jsonld_output, errors="warn")
-    return jsonld_output
+    if debug_mode:
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(fmt="[%(levelname)s] %(message)s")
+        handler.setFormatter(formatter)
+        pkg_logger.setLevel(logging.DEBUG)
+        pkg_logger.addHandler(handler)
+        logger.debug("Started Excel file conversion with debug messages")
+
+    try:
+        data_container = ExcelContainer(excel_file)
+        jsonld_output = create_jsonld_with_conditions(data_container)
+        jsonld_output = reformat_json_rated_capacity(jsonld_output)
+        if validate:
+            validate_jsonld(jsonld_output, errors="warn")
+        return jsonld_output
+    finally:
+        if handler is not None:
+            pkg_logger.removeHandler(handler)
+            pkg_logger.setLevel(logging.INFO)
