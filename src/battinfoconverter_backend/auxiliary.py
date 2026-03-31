@@ -32,11 +32,10 @@ STRING_LITERAL_PREDICATES = {
 
 # Deprecation warning for terms that get put in as comments
 COMMENT_WARNING = (
-    "DEPRECATION WARNING. "
-    "Value '%s' is not understood as an ontology term. "
-    "Putting it in as a comment. "
-    "In future versions, this will be treated as a string literal. "
-    "If you want comments, put 'Comment' at the end of the path."
+    "DEPRECATION: "
+    "'%s' is not understood as an ontology term, adding it as a comment. "
+    "Implicit comments will be removed in future versions. "
+    "To add comments, put 'rdfs:comment' or 'Comment' at the end of the path."
 )
 
 

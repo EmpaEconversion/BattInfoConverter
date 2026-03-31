@@ -24,7 +24,7 @@ class _CollectWarnings(logging.Handler):
 
 
 @contextmanager
-def collect_warnings(logger_name: str = "battinfoconverter_backend.validate") -> Generator[list[str], None, None]:
+def collect_warnings(logger_name: str = "battinfoconverter_backend") -> Generator[list[str], None, None]:
     """Context manager, grabs warnings, returns as list."""
     handler = _CollectWarnings()
     logger = logging.getLogger(logger_name)
@@ -103,14 +103,15 @@ def main() -> None:
         base_name = Path(uploaded_file.name).stem
 
         # Convert the uploaded Excel file to JSON-LD
-        jsonld_output = convert_excel_to_jsonld(uploaded_file)
-        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
-
         with collect_warnings() as warnings:
             jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
+        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
         if warnings:
-            st.warning(f"**{len(warnings)} Validation Warnings**  \n  \n" + "  \n".join(["- " + w for w in warnings]))
+            st.warning(
+                f"**{len(warnings)} Warning{'' if len(warnings) == 1 else 's'}**  \n  \n"
+                + "  \n".join(["- " + w for w in warnings])
+            )
 
         jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
