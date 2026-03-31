@@ -266,9 +266,7 @@
             "schema:name": "Customcells",
             "@id": "https://www.wikidata.org/wiki/Q120784603"
         },
-        "schema:productID": {
-            "rdfs:comment": 100000030
-        }
+        "schema:productID": "100000030"
     },
     "hasNegativeElectrode": {
         "@type": "Electrode",
@@ -498,9 +496,7 @@
             "schema:name": "Customcells",
             "@id": "https://www.wikidata.org/wiki/Q120784603"
         },
-        "schema:productID": {
-            "rdfs:comment": "11113, A-1594"
-        }
+        "schema:productID": "11113, A-1594"
     },
     "hasElectrolyte": {
         "@type": "OrganicElectrolyte",
@@ -677,9 +673,7 @@
             "schema:name": "Celgard",
             "@id": "https://www.wikidata.org/wiki/Q122199856"
         },
-        "schema:productID": {
-            "rdfs:comment": 2500
-        }
+        "schema:productID": "2500"
     },
     "hasCase": {
         "@type": [
@@ -705,9 +699,7 @@
             "schema:name": "Hohsen",
             "@id": "https://www.wikidata.org/wiki/Q138027768"
         },
-        "schema:productID": {
-            "rdfs:comment": "2032, SUS316L"
-        }
+        "schema:productID": "2032, SUS316L"
     },
     "hasComponent": [
         {
