@@ -5,7 +5,6 @@ that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
 from collections.abc import Sequence
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import IO, Any
 
@@ -88,42 +87,40 @@ def read_excel_preserve_decimals(
     return df
 
 
-@dataclass
 class ExcelContainer:
     """Wrapper for BattINFO Excel files.
 
     Abstracts Excel sheet name changes, loads data.
     """
 
-    excel_file: str | Path | IO[bytes]
-    data: dict = field(init=False)
+    data: dict
 
-    def __post_init__(self) -> None:
+    def __init__(self, excel_file: str | Path | IO[bytes]) -> None:
         """Read all Excel sheets to dict of pandas dataframes."""
         try:
-            schema = read_excel_preserve_decimals(self.excel_file, sheet_name="@Schema")
+            schema = read_excel_preserve_decimals(excel_file, sheet_name="@Schema")
         except KeyError:
-            schema = read_excel_preserve_decimals(self.excel_file, sheet_name="Schema")
+            schema = read_excel_preserve_decimals(excel_file, sheet_name="Schema")
 
         try:
-            unit_map = read_excel_preserve_decimals(self.excel_file, sheet_name="@Units")
+            unit_map = read_excel_preserve_decimals(excel_file, sheet_name="@Units")
         except KeyError:
-            unit_map = read_excel_preserve_decimals(self.excel_file, sheet_name="Ontology - Unit")
+            unit_map = read_excel_preserve_decimals(excel_file, sheet_name="Ontology - Unit")
 
         try:
-            context_toplevel = read_excel_preserve_decimals(self.excel_file, sheet_name="@Context")
+            context_toplevel = read_excel_preserve_decimals(excel_file, sheet_name="@Context")
         except KeyError:
-            context_toplevel = read_excel_preserve_decimals(self.excel_file, sheet_name="@context-TopLevel")
+            context_toplevel = read_excel_preserve_decimals(excel_file, sheet_name="@context-TopLevel")
 
         try:
-            context_connector = read_excel_preserve_decimals(self.excel_file, sheet_name="@Predicates")
+            context_connector = read_excel_preserve_decimals(excel_file, sheet_name="@Predicates")
         except KeyError:
-            context_connector = read_excel_preserve_decimals(self.excel_file, sheet_name="@context-Connector")
+            context_connector = read_excel_preserve_decimals(excel_file, sheet_name="@context-Connector")
 
         try:
-            unique_id = read_excel_preserve_decimals(self.excel_file, sheet_name="@Classes")
+            unique_id = read_excel_preserve_decimals(excel_file, sheet_name="@Classes")
         except KeyError:
-            unique_id = read_excel_preserve_decimals(self.excel_file, sheet_name="Unique ID")
+            unique_id = read_excel_preserve_decimals(excel_file, sheet_name="Unique ID")
 
         self.data = {
             "schema": schema,
@@ -132,6 +129,3 @@ class ExcelContainer:
             "context_connector": context_connector,
             "unique_id": unique_id,
         }
-        self._last_nodes: dict[tuple[str, ...], dict] = {}
-        self._path_counts: dict[tuple[str, ...], int] = {}
-        self._connector_registry: dict[tuple[str, ...], list[dict]] = {}

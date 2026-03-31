@@ -15,6 +15,7 @@ from .json_template import (
     rated_cap_vs_graphite,
     rated_cap_vs_li,
 )
+from .registry import Registry
 from .validate import validate_jsonld
 
 APP_VERSION = version("battinfoconverter-backend")
@@ -120,29 +121,23 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             "@id": dict_harvest_id["Institution/company"],
             "schema:name": dict_harvested_info["Institution/company"],
         },
-        "rdfs:comment": [],
+        "rdfs:comment": [
+            f"BattINFO Converter version: {APP_VERSION}",
+            f"Software credit: This JSON-LD was created using BattINFO converter "
+            f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
+            f"and the schema version: {schema_version}, "
+            "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
+            "Science and Technology in the Laboratory Materials for Energy Conversion",
+        ],
     }
 
     for _, row in context_toplevel.iterrows():
         jsonld["@context"][1][row["Item"]] = row["Key"]
-
-    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
-    jsonld["rdfs:comment"].append(
-        f"Software credit: This JSON-LD was created using BattINFO converter "
-        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
-        f"and the schema version: {jsonld['schema:version']}, "
-        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
-        "Science and Technology in the Laboratory Materials for Energy Conversion"
-    )
-
-    data_container._last_nodes = {}
-    data_container._path_counts = {}
-    data_container._connector_registry = {}
-
+    registry = Registry(data_container)
     for _, row in schema.iterrows():
         if pd.isna(row["Value"]) or row["Ontology link"] == "NotOntologize":
             continue
-        if row["Ontology link"] == "Comment":
+        if row["Ontology link"] == "Comment":  # 'Comment' always adds a comment at the base level
             if row["Unit"] == "No Unit":
                 jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
             else:
@@ -155,12 +150,13 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         if pd.isna(row["Unit"]):
             msg = f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
             raise ValueError(msg)
+
         aux.add_to_structure(
             jsonld,
             ontology_path,
             row["Value"],
             row["Unit"],
-            data_container,
+            registry,
             metadata=row["Metadata"],
         )
     return jsonld
