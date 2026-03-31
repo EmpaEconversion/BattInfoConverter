@@ -364,6 +364,9 @@ def add_to_structure(
             else:
                 msg = f"Path segment '{parts}' contains special character |, without rev| or"
                 raise ValueError(msg)
+        if part in {"Comment", "comment"}:
+            logger.debug("Treating 'comment' as 'rdfs:comment'")
+            part = "rdfs:comment"
 
         # Strip A/B/C suffix to get the base connector name and its index
         part, connector_index = _split_multi_connector(part, data_container.multi_connector_candidates)
@@ -570,12 +573,12 @@ def add_to_structure(
                 break
 
             # Special case: comments
-            if part in {"Comment", "comment", "rdfs:comment"}:
+            if part == "rdfs:comment":
                 logger.debug("Adding key and value as a comment")
                 target_node = current_level[-1] if isinstance(current_level, list) else current_level
                 # Add the 'key' (metadata) to the comment if exists
                 prefix = f"{metadata}: " if metadata is not None else ""
-                suffix = f" {unit}" if unit is not None else ""
+                suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
                 new_comment = f"{prefix}{value}{suffix}"
 
                 # Don't overwrite existing comments, append if needed
