@@ -74,9 +74,7 @@
         "@type": "schema:Organization",
         "schema:name": "Sigracet"
       },
-      "schema:productID": {
-        "rdfs:comment": "38AA"
-      }
+      "schema:productID": "38AA"
     },
     "hasCoating": {
       "@type": "ElectrodeCoating",
@@ -121,9 +119,7 @@
           "@type": "schema:Organization",
           "schema:name": "Arkema"
         },
-        "schema:productID": {
-          "rdfs:comment": "Kynar 500"
-        }
+        "schema:productID": "Kynar 500"
       },
       "hasElectrolyte": {
         "@type": "IonomerCompound",
@@ -155,9 +151,7 @@
           "@type": "schema:Organization",
           "schema:name": "Chemours"
         },
-        "schema:productID": {
-          "rdfs:comment": "Nafion D502CS"
-        }
+        "schema:productID": "Nafion D502CS"
       },
       "hasMeasuredProperty": {
         "@type": "Thickness",
@@ -173,9 +167,7 @@
       "schema:name": "Empa",
       "@id": "https://www.wikidata.org/wiki/Q683116"
     },
-    "schema:productID": {
-      "rdfs:comment": "15p_Cu"
-    },
+    "schema:productID": "15p_Cu",
     "hasGasFlow": {
       "hasConstituent": [
         {
@@ -268,9 +260,7 @@
         "@type": "schema:Organization",
         "schema:name": "GoodFellows"
       },
-      "schema:productID": {
-        "rdfs:comment": 1000214960
-      }
+      "schema:productID": "1000214960"
     },
     "hasCoating": {
       "@type": "ElectrodeCoating",
@@ -298,9 +288,7 @@
       "schema:name": "Empa",
       "@id": "https://www.wikidata.org/wiki/Q683116"
     },
-    "schema:productID": {
-      "rdfs:comment": "18x_Ti"
-    },
+    "schema:productID": "18x_Ti",
     "hasMeasuredProperty": {
       "@type": "Area",
       "hasNumericalPart": {
@@ -546,9 +534,7 @@
           "@type": "schema:Organization",
           "schema:name": "Chemours"
         },
-        "schema:productID": {
-          "rdfs:comment": "Nafion D502CS"
-        }
+        "schema:productID": "Nafion D502CS"
       },
       {
         "@type": "AnionExchangeMembrane",
@@ -582,9 +568,7 @@
           "@type": "schema:Organization",
           "schema:name": "Dioxide Materials"
         },
-        "schema:productID": {
-          "rdfs:comment": "Sustantion X37-50"
-        }
+        "schema:productID": "Sustantion X37-50"
       }
     ],
     "hasMeasuredProperty": {

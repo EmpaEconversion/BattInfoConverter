@@ -1,6 +1,6 @@
 """Functions to perform Excel -> JSON conversion."""
 
-import datetime
+import logging
 from importlib.metadata import version
 from pathlib import Path
 from typing import IO
@@ -15,7 +15,10 @@ from .json_template import (
     rated_cap_vs_graphite,
     rated_cap_vs_li,
 )
+from .registry import Registry
 from .validate import validate_jsonld
+
+logger = logging.getLogger(__name__)
 
 APP_VERSION = version("battinfoconverter-backend")
 
@@ -120,29 +123,23 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             "@id": dict_harvest_id["Institution/company"],
             "schema:name": dict_harvested_info["Institution/company"],
         },
-        "rdfs:comment": [],
+        "rdfs:comment": [
+            f"BattINFO Converter version: {APP_VERSION}",
+            f"Software credit: This JSON-LD was created using BattINFO converter "
+            f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
+            f"and the schema version: {schema_version}, "
+            "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
+            "Science and Technology in the Laboratory Materials for Energy Conversion",
+        ],
     }
 
     for _, row in context_toplevel.iterrows():
         jsonld["@context"][1][row["Item"]] = row["Key"]
-
-    jsonld["rdfs:comment"].append(f"BattINFO Converter version: {APP_VERSION}")
-    jsonld["rdfs:comment"].append(
-        f"Software credit: This JSON-LD was created using BattINFO converter "
-        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
-        f"and the schema version: {jsonld['schema:version']}, "
-        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
-        "Science and Technology in the Laboratory Materials for Energy Conversion"
-    )
-
-    data_container._last_nodes = {}
-    data_container._path_counts = {}
-    data_container._connector_registry = {}
-
+    registry = Registry(data_container)
     for _, row in schema.iterrows():
         if pd.isna(row["Value"]) or row["Ontology link"] == "NotOntologize":
             continue
-        if row["Ontology link"] == "Comment":
+        if row["Ontology link"] == "Comment":  # 'Comment' always adds a comment at the base level
             if row["Unit"] == "No Unit":
                 jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
             else:
@@ -155,12 +152,13 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         if pd.isna(row["Unit"]):
             msg = f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
             raise ValueError(msg)
+
         aux.add_to_structure(
             jsonld,
             ontology_path,
             row["Value"],
             row["Unit"],
-            data_container,
+            registry,
             metadata=row["Metadata"],
         )
     return jsonld
@@ -235,15 +233,28 @@ def convert_excel_to_jsonld(
         ValueError: If any required fields in the Excel file are missing or contain invalid data.
 
     """
-    if debug_mode:
-        print("*********************************************************")
-        print(f"Initialize new session of Excel file conversion, started at {datetime.datetime.now()}")
-        print("*********************************************************")
-    data_container = ExcelContainer(excel_file)
+    pkg_logger = logging.getLogger("battinfoconverter_backend")
+    handler = None
 
-    # Generate JSON-LD using the data container
-    jsonld_output = create_jsonld_with_conditions(data_container)
-    jsonld_output = reformat_json_rated_capacity(jsonld_output)
-    if validate:
-        validate_jsonld(jsonld_output, errors="warn")
-    return jsonld_output
+    if debug_mode:
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(fmt="[%(levelname)s] %(message)s")
+        handler.setFormatter(formatter)
+        pkg_logger.setLevel(logging.DEBUG)
+        pkg_logger.addHandler(handler)
+        pkg_logger.propagate = False
+        logger.debug("Started Excel file conversion with debug messages")
+
+    try:
+        data_container = ExcelContainer(excel_file)
+        jsonld_output = create_jsonld_with_conditions(data_container)
+        jsonld_output = reformat_json_rated_capacity(jsonld_output)
+        if validate:
+            validate_jsonld(jsonld_output, errors="warn")
+        return jsonld_output
+    finally:
+        if handler is not None:
+            pkg_logger.removeHandler(handler)
+            pkg_logger.setLevel(logging.INFO)
+            pkg_logger.propagate = True

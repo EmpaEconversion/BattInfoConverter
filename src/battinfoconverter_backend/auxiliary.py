@@ -1,835 +1,768 @@
-"""Auxiliary functions."""
+"""Auxiliary functions for building JSON-LD structures from tabular data."""
 
+import logging
 import re
 from decimal import Decimal
 from typing import Any
 
 import pandas as pd
 
-from .excel_tools import ExcelContainer
 from .json_convert import get_information_value
+from .registry import Registry, tokenize
 
-DEBUG_STATUS = False
+logger = logging.getLogger(__name__)
+
+# Regex used to detect multi-connector suffixes such as "hasSolventA"
+_MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
+
+# The following properties/predicates are allowed string literal values, rather than nodes
+STRING_LITERAL_PREDICATES = {
+    "hasStringValue",
+    "schema:name",
+    "schema:description",
+    "schema:productID",
+    "schema:serialNumber",
+    "schema:url",
+    "rdfs:label",
+    "rdfs:comment",
+    "SMILESReference",
+    "InChIReference",
+    "CASReference",
+}
+
+# Deprecation warning for terms that get put in as comments
+COMMENT_WARNING = (
+    "DEPRECATION: "
+    "'%s' is not understood as an ontology term, adding it as a comment. "
+    "Implicit comments will be removed in future versions. "
+    "To add comments, put 'rdfs:comment' or 'Comment' at the end of the path."
+)
+
+
+def _select_entry(
+    label: str | None,
+    entries: list[dict[str, Any]],
+    part: str,
+    traversed: list[str],
+    data_container: Registry,
+) -> dict[str, Any] | None:
+    """Pick the best existing connector node for an incoming value.
+
+    Selection strategy (in order of preference):
+    1. Token-overlap scoring against metadata label.
+       The score tuple is (unique_base_hits, unique_hits, subset_flag,
+       overlap, -order).
+    2. Round-robin via ``next_index`` when no tokens match.
+    3. Find any entry whose node does not yet have ``part`` populated.
+    4. Check ``get_last`` as a last resort.
+
+    Returns ``None`` if no suitable entry exists (caller should create one).
+    """
+    if not entries:
+        return None
+
+    tokens = set(tokenize(label)) if label else set()
+
+    if tokens:
+        # Pre-compute how many entries share each token - rare tokens are
+        # more discriminative and get higher weight in the score.
+        token_occurrence: dict[str, int] = {}
+        base_occurrence: dict[str, int] = {}
+        for entry in entries:
+            combined = entry.get("base_tokens", set()) | entry.get("alias_tokens", set())
+            base_tokens = entry.get("base_tokens", set())
+            for t in combined:
+                token_occurrence[t] = token_occurrence.get(t, 0) + 1
+            for t in base_tokens:
+                base_occurrence[t] = base_occurrence.get(t, 0) + 1
+
+        chosen: dict[str, Any] | None = None
+        best_score: tuple[int, int, int, int, int] | None = None
+
+        for entry in entries:
+            base_tokens = entry.get("base_tokens", set())
+            entry_tokens = base_tokens | entry.get("alias_tokens", set())
+            if not entry_tokens:
+                continue
+
+            overlap = len(tokens & entry_tokens)
+            if overlap == 0:
+                continue
+
+            # 1. unique_base_hits: tokens that only appear in this entry's
+            #    base (not alias) token set -> strongest signal of a direct match.
+            unique_base_hits = sum(1 for t in tokens if t in base_tokens and base_occurrence.get(t, 0) == 1)
+            # 2. unique_hits: tokens that only appear in one entry overall
+            #    (base + alias) -> good discriminator when base tokens tie.
+            unique_hits = sum(1 for t in tokens if t in entry_tokens and token_occurrence.get(t, 0) == 1)
+            # 3. subset_flag: 1 if the entry's entire token set is covered by
+            #    the incoming label tokens (tight match, no extra noise).
+            subset_flag = 1 if entry_tokens <= tokens else 0
+
+            score = (unique_base_hits, unique_hits, subset_flag, overlap, -entry["order"])
+
+            if best_score is None or score > best_score:
+                best_score = score
+                chosen = entry
+
+        if chosen is not None:
+            return chosen
+
+    # Fallback 1: round-robin assignment
+    path_key = tuple(traversed)
+    index = data_container.next_index(path_key)
+    if index < len(entries):
+        return entries[index]
+
+    # Fallback 2: find an entry whose target slot is still empty
+    for entry in entries:
+        if entry["node"].get(part) in (None, {}):
+            return entry
+
+    # Fallback 3: return the most recently visited entry
+    last_key_base = tuple(traversed[:-1])
+    for entry in entries:
+        connector = entry.get("connector")
+        last_key = (*last_key_base, connector)
+        if data_container.get_last(last_key) is entry["node"]:
+            return entry
+
+    return None
+
+
+# ===========================================================================
+# JSON-LD node mutation helpers
+# ===========================================================================
+
+
+def _merge_type(node: dict[str, Any], new_type: str) -> None:
+    """Add ``new_type`` to the ``@type`` field without duplicating it.
+
+    Handles the three possible states of ``@type``:
+    - missing -> set directly
+    - a single string -> promote to list if different
+    - already a list -> append if not present
+    """
+    if "@type" not in node:
+        node["@type"] = new_type
+    else:
+        existing = node["@type"]
+        if isinstance(existing, list):
+            if new_type not in existing:
+                existing.append(new_type)
+        elif existing != new_type:
+            node["@type"] = [existing, new_type]
+
+
+def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -> None:
+    """Append ``entry`` under ``node[key]``, normalizing to a list when needed.
+
+    - Empty / missing -> store directly (avoids unnecessary single-item lists)
+    - Single dict already present -> promote to [existing, entry]
+    - Already a list -> append
+    """
+    current = node.get(key)
+    if current in (None, {}):
+        node[key] = entry
+    elif isinstance(current, list):
+        current.append(entry)
+    else:
+        node[key] = [current, entry]
+
+
+def _new_item(parent: dict[str, Any], key: str) -> dict[str, Any]:
+    """Create a fresh empty dict as a new sibling under ``parent[key]``.
+
+    This is how multi-connector nodes are extended: the first occurrence is
+    stored directly, subsequent ones cause promotion to a list.
+    """
+    value = parent.get(key)
+    if value in (None, {}):
+        parent[key] = {}
+        return parent[key]
+    if isinstance(value, list):
+        fresh: dict[str, Any] = {}
+        value.append(fresh)
+        return fresh
+    # Single dict already present - promote to list
+    parent[key] = [value, {}]
+    return parent[key][-1]
+
+
+def _extract_type(segment: str) -> str:
+    """Strip the ``type|`` command prefix if present.
+
+    Path segments like ``type|emmo:Liquid`` carry a type annotation for the
+    *measured-property* wrapper.  This helper returns just ``emmo:Liquid``.
+    """
+    return segment.split("|", 1)[1] if segment.startswith("type|") else segment
+
+
+# ===========================================================================
+# Multi-connector path analysis
+# ===========================================================================
+
+
+def _is_simple_connector(segment: str) -> bool:
+    """Return True if ``segment`` looks like a plain camelCase connector.
+
+    Connectors with colons (``emmo:hasProperty``) or underscores are namespace-
+    qualified and never have A/B/C suffixes.
+    """
+    return ":" not in segment and "_" not in segment
+
+
+def _split_multi_connector(
+    part: str,
+    multi_connector_candidates: set[str],
+) -> tuple[str, int | None]:
+    """Detect and strip A/B/C suffixes from multi-connector path segments.
+
+    ``hasSolventA`` -> (``hasSolvent``, 0)
+    ``hasSolventB`` -> (``hasSolvent``, 1)
+    ``hasStringValue`` -> (``hasStringValue``, None)   ← no suffix stripping
+
+    The suffix is only stripped when the *base* name appears in
+    ``multi_connector_candidates`` but the *suffixed* form does not - this
+    avoids mis-parsing connectors whose names happen to end in a capital letter.
+    """
+    match = _MULTI_CONNECTOR_SUFFIX.match(part)
+    if match and _is_simple_connector(part):
+        base = match.group("base")
+        if base in multi_connector_candidates and part not in multi_connector_candidates:
+            return base, ord(match.group("suffix")) - ord("A")
+    return part, None
+
+
+# ===========================================================================
+# Indexed multi-connector node management
+# ===========================================================================
+
+
+def _ensure_indexed_connector_node(
+    parent: dict[str, Any],
+    connector: str,
+    parent_path: tuple[str, ...],
+    index: int,
+    metadata: str | None,
+    value: str | float | None,
+    data_container: Registry,
+) -> dict[str, Any]:
+    """Return the connector node at position ``index``, creating placeholders as needed.
+
+    If the registry only has 0 entries but we need index 2, this creates
+    placeholder nodes at indices 0 and 1 first, then the real node at 2.
+    """
+    entries = [e for e in data_container.get_entries(parent_path, parent) if e.get("connector") == connector]
+
+    while len(entries) <= index:
+        is_target = len(entries) == index
+        holder = parent.get(connector)
+
+        # Reuse an existing empty node rather than creating a new sibling,
+        # but only if it hasn't already been registered.
+        if (
+            isinstance(holder, dict)
+            and (not holder or list(holder.keys()) == ["@type"])
+            and not any(e.get("node") is holder for e in data_container.get_entries(parent_path, parent))
+            and len(entries) == 0
+        ):
+            target_node = holder
+        else:
+            target_node = _new_item(parent, connector)
+
+        data_container.register(
+            parent_path,
+            connector,
+            target_node,
+            metadata if is_target else None,
+            value if is_target else None,
+            parent,
+        )
+        entries = [e for e in data_container.get_entries(parent_path, parent) if e.get("connector") == connector]
+
+    return entries[index]["node"]
+
+
+# ===========================================================================
+# Main entry point
+# ===========================================================================
 
 
 def add_to_structure(
     jsonld: dict,
     path: list[str],
-    value: Any,
+    value: str | float | None,
     unit: str,
-    data_container: ExcelContainer,
+    data_container: Registry,
     metadata: str | None = None,
 ) -> None:
-    """Add a value to a JSON-LD structure, incorporating units and other contextual information.
-
-    This function processes a path to traverse or modify the JSON-LD structure and handles special
-    cases like measured properties, ontology links, and unique identifiers. It uses data from the
-    provided ExcelContainer to resolve unit mappings and context connectors.
+    """Insert ``value`` into the JSON-LD structure at the location described by ``path``.
 
     Args:
-        jsonld (dict): The JSON-LD structure to modify.
-        path (list[str]): A list of strings representing the hierarchical path in the JSON-LD where
-            the value should be added.
-        value (any): The value to be inserted at the specified path.
-        unit (str): The unit associated with the value, can be 'No Unit'.
-        data_container (ExcelContainer): ExcelContainer object containing supporting data.
-        metadata (str | None): Optional metadata label from the schema sheet, used to align repeated
-            connector entries.
+        jsonld:
+            The JSON-LD document being built (mutated in place).
+        path:
+            Ordered list of path segments. E.g.
+            - A plain connector name, e.g. "hasSolvent"
+            - A multi-connector with suffix, e.g. "hasSolventA"
+            - A type command, e.g. "type|emmo:Liquid" (sets ``@type``, no traversal)
+            - A reverse command, e.g. "rev|isPartOf" (writes under ``@reverse``)
+            - An ontology type leaf, e.g. "emmo:MassPercentage" (used in measured-
+              property wrappers)
+        value:
+            The value to store.
+        unit:
+            Looked up in the "unit_map".
+        data_container:
+            The Registry object providing data and tracking nodes
+        metadata:
+            Column label from the schema sheet.
 
     Returns:
-        None: This function modifies the JSON-LD structure in place.
-
-    Raises:
-        ValueError: For invalid values, missing required units, or path traversal errors.
-        RuntimeError: If any unexpected error arises while processing the value and path.
+        None - mutates jsonld dict in place.
 
     """
-    # ------------------------------------------------------------------ #
-    # helper functions                                                   #
-    # ------------------------------------------------------------------ #
-    MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
-
-    def _is_simple_connector(segment: str) -> bool:
-        """Return True if ``segment`` looks like a standalone connector token."""
-        return ":" not in segment and "_" not in segment
-
-    def _split_multi_connector(part: str) -> tuple[str, int | None]:
-        """Split multi-connector suffixes (e.g. ``hasSolventA`` -> ``hasSolvent``, 0).
-
-        Args:
-            part (str): The raw path segment.
-
-        Returns:
-            tuple[str, int | None]: The base connector and optional zero-based index.
-
-        """
-        match = MULTI_CONNECTOR_SUFFIX.match(part)
-        if match and _is_simple_connector(part):
-            base = match.group("base")
-            if base in multi_connector_candidates and part not in multi_connector_candidates:
-                return base, ord(match.group("suffix")) - ord("A")
-        return part, None
-
-    def _ensure_indexed_connector_node(
-        parent: dict[str, Any],
-        connector: str,
-        parent_path: tuple[str, ...],
-        index: int,
-        metadata_label: str | None,
-        value: Any,
-    ) -> dict[str, Any]:
-        """Return the connector node at ``index``, creating placeholders as needed."""
-        entries_for_parent = _get_registry_entries(parent_path, parent)
-        registry_entries = [entry for entry in entries_for_parent if entry.get("connector") == connector]
-        while len(registry_entries) <= index:
-            is_target = len(registry_entries) == index
-            holder = parent.get(connector)
-            if (
-                isinstance(holder, dict)
-                and (not holder or list(holder.keys()) == ["@type"])
-                and not any(entry.get("node") is holder for entry in entries_for_parent)
-                and len(registry_entries) == 0
-            ):
-                target_node = holder
-            else:
-                target_node = _new_item(parent, connector)
-            _register_connector_entry(
-                parent_path,
-                connector,
-                target_node,
-                metadata_label if is_target else None,
-                value if is_target else None,
-                parent,
-            )
-            entries_for_parent = _get_registry_entries(parent_path, parent)
-            registry_entries = [entry for entry in entries_for_parent if entry.get("connector") == connector]
-        return registry_entries[index]["node"]
-
-    # NOTE: Multi connectors are inferred from suffixes or typed child segments.
-
-    def _merge_type(node: dict[str, Any], new_type: str) -> None:
-        """Ensure the ``@type`` entry on ``node`` includes ``new_type``.
-
-        Args:
-            node (dict[str, Any]): The JSON-LD node whose ``@type`` should be updated.
-            new_type (str): The type value to merge into the node.
-
-        Returns:
-            None: This helper mutates ``node`` in place.
-
-        """
-        if "@type" not in node:
-            node["@type"] = new_type
-        else:
-            existing_type = node["@type"]
-            if isinstance(existing_type, list):
-                if new_type not in existing_type:
-                    existing_type.append(new_type)
-            elif existing_type != new_type:
-                node["@type"] = [existing_type, new_type]
-
-    def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -> None:
-        """Add ``entry`` to ``node[key]`` while normalizing the holder to a list.
-
-        Args:
-            node (dict[str, Any]): The parent node whose key should hold the entry.
-            key (str): The key on ``node`` where the entry should be inserted.
-            entry (dict[str, Any]): The dictionary representing the new list item.
-
-        Returns:
-            None: This helper mutates ``node`` in place.
-
-        """
-        current_value = node.get(key)
-        if current_value in (None, {}):
-            node[key] = entry
-        elif isinstance(current_value, list):
-            current_value.append(entry)
-        else:
-            node[key] = [current_value, entry]
-
-    def _extract_type(segment: str) -> str:
-        """Return the type payload when ``segment`` contains the ``type|`` prefix.
-
-        Args:
-            segment (str): The path segment being evaluated.
-
-        Returns:
-            str: The extracted type value if the prefix is present, otherwise the original segment.
-
-        """
-        return segment.split("|", 1)[1] if segment.startswith("type|") else segment
-
-    def _new_item(parent: dict[str, Any], key: str) -> dict[str, Any]:
-        """Create and return a new dictionary entry under ``parent[key]``.
-
-        Args:
-            parent (dict[str, Any]): The JSON-LD node that holds the collection.
-            key (str): The key that should receive a new dictionary entry.
-
-        Returns:
-            dict[str, Any]: The freshly created dictionary stored at ``parent[key]``.
-
-        """
-        value = parent.get(key)
-        if value in (None, {}):
-            parent[key] = {}
-            return parent[key]
-        if isinstance(value, list):
-            fresh = {}
-            value.append(fresh)
-            return fresh
-        parent[key] = [value, {}]
-        return parent[key][-1]
-
-    def _register_last(path_key: tuple[str, ...], node: dict[str, Any]) -> None:
-        """Remember the most recent ``node`` encountered for ``path_key``.
-
-        Args:
-            path_key (tuple[str, ...]): The connector path associated with ``node``.
-            node (dict[str, Any]): The node that was most recently created or visited.
-
-        Returns:
-            None: The registry is stored on ``data_container`` for later lookups.
-
-        """
-        if not path_key:
-            return
-        history = getattr(data_container, "_last_nodes", None)
-        if history is None:
-            history = {}
-            data_container._last_nodes = history
-        history[path_key] = node
-
-    def _get_last(path_key: tuple[str, ...]) -> dict[str, Any] | None:
-        """Fetch the previously registered node for ``path_key`` if available.
-
-        Args:
-            path_key (tuple[str, ...]): The connector path used to track nodes.
-
-        Returns:
-            dict[str, Any] | None: The remembered node if present; otherwise ``None``.
-
-        """
-        history = getattr(data_container, "_last_nodes", None)
-        if not history:
-            return None
-        return history.get(path_key)
-
-    def _next_index(path_key: tuple[str, ...]) -> int:
-        """Provide a sequential index for ``path_key`` to balance assignments.
-
-        Args:
-            path_key (tuple[str, ...]): The connector path to count occurrences for.
-
-        Returns:
-            int: The index assigned to the next occurrence of ``path_key``.
-
-        """
-        counters = getattr(data_container, "_path_counts", None)
-        if counters is None:
-            counters = {}
-            data_container._path_counts = counters
-        value = counters.get(path_key, 0)
-        counters[path_key] = value + 1
-        return value
-
-    def _tokenize(label: str) -> tuple[str, ...]:
-        """Split ``label`` into alphanumeric tokens for fuzzy matching.
-
-        Args:
-            label (str): The label from which to extract normalized tokens.
-
-        Returns:
-            tuple[str, ...]: A tuple of lowercase alphanumeric tokens.
-
-        """
-        return tuple(re.findall(r"[A-Za-z0-9]+", label.lower()))
-
-    def _registry() -> dict[tuple[str, ...], list[dict[str, Any]]]:
-        """Return the connector registry stored on ``data_container``.
-
-        Returns:
-            dict[tuple[str, ...], list[dict[str, Any]]]: The registry indexed by connector paths.
-
-        """
-        registry = getattr(data_container, "_connector_registry", None)
-        if registry is None:
-            registry = {}
-            data_container._connector_registry = registry
-        return registry
-
-    def _registry_key_for(parent_path: tuple[str, ...]) -> tuple[str, ...]:
-        """Return a stable key for connector registries.
-
-        ``parent_path`` may be empty for top-level connectors. In that case we
-        store entries under a dedicated ``("__root__",)`` bucket so they can be
-        retrieved consistently across registration and lookup calls.
-        """
-        return parent_path or ("__root__",)
-
-    def _register_connector_entry(
-        parent_path: tuple[str, ...],
-        connector: str,
-        node: dict[str, Any],
-        metadata_label: str | None,
-        value: Any,
-        parent_node: dict[str, Any] | None = None,
-    ) -> None:
-        """Store a new connector entry with tokenized metadata and values.
-
-        Args:
-            parent_path (tuple[str, ...]): The parent connector path for the entry.
-            connector (str): The connector key associated with the entry.
-            node (dict[str, Any]): The node corresponding to the connector occurrence.
-            metadata_label (str | None): Optional metadata label to seed matching tokens.
-            value (Any): The raw value that may provide additional matching tokens.
-
-        Returns:
-            None: The registry entry is appended for later retrieval.
-
-        """
-        registry = _registry()
-        entries = registry.setdefault(_registry_key_for(parent_path), [])
-        tokens: set[str] = set()
-        if metadata_label:
-            tokens.update(_tokenize(metadata_label))
-        if isinstance(value, str):
-            tokens.update(_tokenize(value))
-        entries.append(
-            {
-                "connector": connector,
-                "node": node,
-                "base_tokens": tokens,
-                "alias_tokens": set(),
-                "order": len(entries),
-                "parent_id": id(parent_node) if parent_node is not None else None,
-            }
-        )
-
-    def _update_entry_tokens(parent_path: tuple[str, ...], node: dict[str, Any], *labels: str | None) -> None:
-        """Augment alias tokens for entries tied to ``parent_path`` and ``node``.
-
-        Args:
-            parent_path (tuple[str, ...]): The connector path used to look up entries.
-            node (dict[str, Any]): The specific connector node whose entry should be updated.
-            *labels (str | None): Optional labels whose tokens help future lookups.
-
-        Returns:
-            None: The registry entry is updated in place when found.
-
-        """
-        registry = getattr(data_container, "_connector_registry", None)
-        if not registry:
-            return
-        entries = registry.get(_registry_key_for(parent_path))
-        if not entries:
-            return
-        for entry in entries:
-            if entry["node"] is node:
-                alias_tokens = entry.setdefault("alias_tokens", set())
-                for label in labels:
-                    if isinstance(label, str) and label:
-                        alias_tokens.update(_tokenize(label))
-                break
-
-    def _get_registry_entries(
-        parent_path: tuple[str, ...], parent_node: dict[str, Any] | None = None
-    ) -> list[dict[str, Any]]:
-        """Return registry entries registered for ``parent_path``.
-
-        Args:
-            parent_path (tuple[str, ...]): The connector path to search.
-
-        Returns:
-            list[dict[str, Any]]: The list of registered entries for the path.
-
-        """
-        registry = getattr(data_container, "_connector_registry", None)
-        if not registry:
-            return []
-        entries = registry.get(_registry_key_for(parent_path), [])
-        if parent_node is None:
-            return entries
-        parent_id = id(parent_node)
-        return [entry for entry in entries if entry.get("parent_id") == parent_id]
-
-    def _select_entry(
-        label: str | None,
-        entries: list[dict[str, Any]],
-        part: str,
-        traversed: list[str],
-    ) -> dict[str, Any] | None:
-        """Select the most appropriate connector entry for the incoming value.
-
-        Args:
-            label (str | None): The metadata label to aid selection.
-            entries (list[dict[str, Any]]): Candidate entries to compare against.
-            part (str): The final property part being populated.
-            traversed (list[str]): The path segments already processed.
-
-        Returns:
-            dict[str, Any] | None: The chosen entry, or ``None`` if no match is appropriate.
-
-        """
-        if not entries:
-            return None
-        chosen: dict[str, Any] | None = None
-        best_score: tuple[int, int, int, int, int] | None = None
-        tokens = set(_tokenize(label)) if label else set()
-        token_occurrence: dict[str, int] = {}
-        base_occurrence: dict[str, int] = {}
-        if tokens:
-            for entry in entries:
-                combined = entry.get("base_tokens", set()) | entry.get("alias_tokens", set())
-                base_tokens = entry.get("base_tokens", set())
-                for token in combined:
-                    token_occurrence[token] = token_occurrence.get(token, 0) + 1
-                for token in base_tokens:
-                    base_occurrence[token] = base_occurrence.get(token, 0) + 1
-        if tokens:
-            for entry in entries:
-                base_tokens = entry.get("base_tokens", set())
-                entry_tokens = base_tokens | entry.get("alias_tokens", set())
-                if not entry_tokens:
-                    continue
-                overlap = len(tokens & entry_tokens)
-                if overlap == 0:
-                    continue
-                subset_flag = 1 if entry_tokens <= tokens else 0
-                unique_base_hits = sum(
-                    1 for token in tokens if token in base_tokens and base_occurrence.get(token, 0) == 1
-                )
-                unique_hits = sum(
-                    1 for token in tokens if token in entry_tokens and token_occurrence.get(token, 0) == 1
-                )
-                score = (
-                    unique_base_hits,
-                    unique_hits,
-                    subset_flag,
-                    overlap,
-                    -entry["order"],
-                )
-                if best_score is None or score > best_score:
-                    best_score = score
-                    chosen = entry
-        if chosen is not None:
-            return chosen
-
-        path_key = tuple(traversed)
-        index = _next_index(path_key)
-        if index < len(entries):
-            return entries[index]
-
-        for entry in entries:
-            existing = entry["node"].get(part)
-            if existing in (None, {}):
-                return entry
-
-        last_key_base = tuple(traversed[:-1])
-        for entry in entries:
-            connector = entry.get("connector")
-            last_key = last_key_base + (connector,)
-            remembered = _get_last(last_key)
-            if remembered is entry["node"]:
-                return entry
-        return None
-
-    # ------------------------------------------------------------------ #
-    # main body                                                          #
-    # ------------------------------------------------------------------ #
-    try:
-        current_level = jsonld
-        unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
-        context_connector = data_container.data["context_connector"]
-        connectors = set(context_connector["Item"])
-        context_toplevel = data_container.data.get("context_toplevel")
-        top_level_connectors = set(context_toplevel["Item"]) if context_toplevel is not None else set()
-        multi_connector_candidates = connectors | top_level_connectors
-        collapsible_multi_paths = getattr(data_container, "_collapsible_multi_paths", None)
-        schema = data_container.data.get("schema")
-        if schema is not None and "Ontology link" in schema:
-            if collapsible_multi_paths is None:
-                collapsible_multi_paths = set()
-                multi_paths_with_children: set[tuple[str, ...]] = set()
-                multi_paths_seen: set[tuple[str, ...]] = set()
-                for link in schema["Ontology link"]:
-                    if not isinstance(link, str):
-                        continue
-                    if link in ("NotOntologize", "Comment"):
-                        continue
-                    connectors_in_link: list[str] = []
-                    for raw in link.split("-"):
-                        if raw.startswith("type|"):
-                            continue
-                        if "|" in raw:
-                            command, remainder = raw.split("|", 1)
-                            if command == "rev":
-                                raw = remainder
-                            else:
-                                continue
-                        connectors_in_link.append(raw)
-                    normalized_path: list[str] = []
-                    for idx, segment in enumerate(connectors_in_link):
-                        segment_base = segment
-                        match = MULTI_CONNECTOR_SUFFIX.match(segment)
-                        if match and _is_simple_connector(segment):
-                            base = match.group("base")
-                            if base.startswith("has"):
-                                segment_base = base
-                                path_key = (*normalized_path, segment_base)
-                                multi_paths_seen.add(path_key)
-                                if idx < len(connectors_in_link) - 1:
-                                    multi_paths_with_children.add(path_key)
-                        normalized_path.append(segment_base)
-                for path_key in multi_paths_seen:
-                    if path_key not in multi_paths_with_children:
-                        collapsible_multi_paths.add(path_key)
-                data_container._collapsible_multi_paths = collapsible_multi_paths
-            for link in schema["Ontology link"]:
-                if not isinstance(link, str):
-                    continue
-                if link in ("NotOntologize", "Comment"):
-                    continue
-                for segment in link.split("-"):
-                    if segment.startswith("type|"):
-                        continue
-                    if "|" in segment:
-                        command, remainder = segment.split("|", 1)
-                        if command == "rev":
-                            segment = remainder
-                        else:
-                            continue
-                    match = MULTI_CONNECTOR_SUFFIX.match(segment)
-                    if match and _is_simple_connector(segment):
-                        base = match.group("base")
-                        if base.startswith("has"):
-                            multi_connector_candidates.add(base)
-        unique_id = data_container.data["unique_id"]
-
-        # ---- skip only true empties (0 and 0.0 are valid) ------------- #
-        if (
-            value is None
-            or (isinstance(value, str) and value.strip() == "")
-            or (isinstance(value, float) and pd.isna(value))
-            or (isinstance(value, (int, float, Decimal)) and pd.isna(pd.Series([value])[0]))
-        ):
-            return
-        # ---------------------------------------------------------------- #
-
-        traversed: list[str] = []
-
-        for index, parts in enumerate(path):
-            # ---------- special-command parsing ------------------------- #
-            if "|" not in parts:
-                part = parts
-            elif "type|" in parts:
+    # Skip empty / NaN values
+    if (
+        value is None
+        or (isinstance(value, str) and value.strip() == "")
+        or (isinstance(value, float) and pd.isna(value))
+        or (isinstance(value, (int, float, Decimal)) and pd.isna(pd.Series([value])[0]))
+    ):
+        return
+
+    # Load lookup tables from the ExcelContainer Registry
+    unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
+    context_connector = data_container.data["context_connector"]
+    connectors = set(context_connector["Item"])
+    unique_id = data_container.data["unique_id"]
+
+    # Walk the path
+    current_level = jsonld
+    traversed: list[str] = []  # segments successfully visited so far
+    logger.debug("'%s': Inserting value '%s' into %s", metadata, value, path)
+    for index, parts in enumerate(path):
+        logger.debug("Checking %d: %s", index, parts)
+
+        part = parts
+        if "|" in parts:
+            if parts.startswith("type|"):
+                # type| segments annotate the *current* node and are not
+                # traversal steps - they do not advance current_level.
                 _, typ = parts.split("|", 1)
+                logger.debug("It's a type, annotating with '@%s'", typ)
                 if typ:
                     _merge_type(current_level, typ)
                     parent_path = tuple(traversed[:-1]) if traversed else ()
-                    _update_entry_tokens(parent_path, current_level, typ)
-                continue
-            else:  # rev|
-                command, part = parts.split("|", 1)
-                if command == "rev":
-                    current_level = current_level.setdefault("@reverse", {})
-                else:
-                    msg = f"Unknown command {command} in {parts}"
-                    raise ValueError(msg)
+                    data_container.update_tokens(parent_path, current_level, typ)
+                continue  # Go to the next path part
+            if parts.startswith("rev|"):
+                _, part = parts.split("|", 1)
+                # rev| writes into the @reverse block (back-reference in JSON-LD)
+                current_level = current_level.setdefault("@reverse", {})
+            else:
+                msg = f"Path segment '{parts}' contains special character |, without rev| or"
+                raise ValueError(msg)
+        if part in {"Comment", "comment"}:
+            logger.debug("Treating 'comment' as 'rdfs:comment'")
+            part = "rdfs:comment"
 
-            part, connector_index = _split_multi_connector(part)
+        # Strip A/B/C suffix to get the base connector name and its index
+        part, connector_index = _split_multi_connector(part, data_container.multi_connector_candidates)
 
-            if isinstance(current_level, list):
-                current_level = current_level[-1]
+        # Lists can appear when a connector already has multiple nodes;
+        # always target the last (most recently created) item.
+        if isinstance(current_level, list):
+            current_level = current_level[-1]
 
-            last = index == len(path) - 1
-            penultimate = index == len(path) - 2
-            next_segment = path[index + 1] if index + 1 < len(path) else None
+        last = index == len(path) - 1
+        penultimate = index == len(path) - 2
+        next_segment = path[index + 1] if index + 1 < len(path) else None
 
-            traversed.append(part)
-            parent_path = tuple(traversed[:-1])
-            is_multi_connector = part in multi_connector_candidates and (
-                connector_index is not None or (next_segment and next_segment.startswith("type|"))
+        traversed.append(part)
+        parent_path = tuple(traversed[:-1])
+
+        # A segment is a "multi-connector" if its base name is a known
+        # multi-connector AND either an explicit suffix index was found OR
+        # the next segment is a type| command (which implies this node
+        # will have typed siblings).
+        is_multi_connector = bool(
+            part in data_container.multi_connector_candidates
+            and (connector_index is not None or (next_segment and next_segment.startswith("type|")))
+        )
+
+        # Ensure the key exists in the current dict
+        if part not in current_level and (value or unit):
+            if part in connectors:
+                connector_type = context_connector.loc[context_connector["Item"] == part, "Key"].to_numpy()[0]
+                current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
+            else:
+                current_level[part] = {}
+
+        next_level = current_level[part]
+
+        # ==============================================================
+        # CASE 1 - Measured property
+        # ==============================================================
+        # When we're at the *penultimate* segment and a unit is present,
+        # the final segment is the ontology type of the measurement, not a
+        # plain property name.  Wrap the value in the EMMO measured-property
+        # structure and stop.
+        if penultimate and unit != "No Unit":
+            if pd.isna(unit):
+                msg = f"Value '{value}' at path '{path}' is missing a required unit."
+                raise ValueError(msg)
+            unit_info = unit_map.get(unit, {})
+            mp_entry = {
+                "@type": _extract_type(path[-1]),
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": value,
+                },
+                "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
+            }
+            parent = current_level[-1] if isinstance(current_level, list) else current_level
+            logger.debug(
+                "Adding an object with type %s, numerical part %s, measurement unit %s",
+                _extract_type(path[-1]),
+                value,
+                unit_info.get("Key", "UnknownUnit"),
             )
-            # Suffix indices apply at every multi-connector level.
+            _add_or_extend_list(parent, part, mp_entry)
+            break
 
-            # -------- create node if missing ---------------------------- #
-            if part not in current_level and (value or unit):
-                if part in connectors:
-                    connector_type = context_connector.loc[context_connector["Item"] == part, "Key"].values[0]
-                    current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
+        # ==============================================================
+        # CASE 2 - Multi-connector traversal (not the final segment)
+        # ==============================================================
+        # We're at an intermediate multi-connector and need to navigate
+        # into the correct child node (creating it if necessary).
+        if is_multi_connector and not last:
+            logger.debug("Found a multiconnector, need to figure out where it goes")
+            connector_parent_path = tuple(traversed[:-1])
+            registry_entries = [
+                e
+                for e in data_container.get_entries(connector_parent_path, current_level)
+                if e.get("connector") == part
+            ]
+
+            if connector_index is not None:
+                logger.debug("Has connector index '%s'", connector_index)
+                # Explicit suffix index (hasSolventA -> index 0) - navigate
+                # directly to (or create) the node at that index.
+                if connector_index < len(registry_entries):
+                    target_node = registry_entries[connector_index]["node"]
                 else:
-                    current_level[part] = {}
-
-            next_level = current_level[part]
-
-            # -------- measured-property block --------------------------- #
-            if penultimate and unit != "No Unit":
-                if pd.isna(unit):
-                    msg = f"Value '{value}' missing unit."
-                    raise ValueError(msg)
-                unit_info = unit_map.get(unit, {})
-                mp_entry = {
-                    "@type": _extract_type(path[-1]),
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": value,
-                    },
-                    "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
-                }
-                parent = current_level[-1] if isinstance(current_level, list) else current_level
-                _add_or_extend_list(parent, part, mp_entry)
-                break
-
-            if is_multi_connector and not last:
-                connector_parent_path = tuple(traversed[:-1])
-                registry_entries = [
-                    entry
-                    for entry in _get_registry_entries(connector_parent_path, current_level)
-                    if entry.get("connector") == part
-                ]
-                if connector_index is not None:
-                    if connector_index < len(registry_entries):
-                        target_node = registry_entries[connector_index]["node"]
-                    else:
-                        target_node = _ensure_indexed_connector_node(
-                            current_level,
-                            part,
-                            connector_parent_path,
-                            connector_index,
-                            metadata,
-                            None,
-                        )
-                    _register_last(tuple(traversed), target_node)
-                    _update_entry_tokens(connector_parent_path, target_node, metadata)
-                    current_level = target_node
-                    continue
-
-                desired_type: str | None = None
-                if next_segment and next_segment.startswith("type|"):
-                    _, desired_type = next_segment.split("|", 1)
-                selected = None
-                if desired_type:
-                    for entry in registry_entries:
-                        existing_type = entry["node"].get("@type")
-                        if isinstance(existing_type, list):
-                            if desired_type in existing_type:
-                                selected = entry
-                                break
-                        elif existing_type == desired_type:
-                            selected = entry
-                            break
-                if selected is None:
-                    selected = _select_entry(metadata, registry_entries, part, traversed)
-                if selected is not None and desired_type:
-                    existing_type = selected["node"].get("@type")
-                    if isinstance(existing_type, list):
-                        if desired_type not in existing_type:
-                            selected = None
-                    elif existing_type != desired_type:
-                        selected = None
-                if selected is not None:
-                    target_node = selected["node"]
-                else:
-                    entries_for_parent = _get_registry_entries(connector_parent_path, current_level)
-                    holder = current_level.get(part)
-                    if (
-                        isinstance(holder, dict)
-                        and (not holder or list(holder.keys()) == ["@type"])
-                        and not any(entry.get("node") is holder for entry in entries_for_parent)
-                    ):
-                        target_node = holder
-                    else:
-                        target_node = _new_item(current_level, part)
-                        entries_for_parent = _get_registry_entries(connector_parent_path, current_level)
-                    if not any(entry.get("node") is target_node for entry in entries_for_parent):
-                        _register_connector_entry(
-                            connector_parent_path,
-                            part,
-                            target_node,
-                            metadata,
-                            None,
-                            current_level,
-                        )
-                _register_last(tuple(traversed), target_node)
-                _update_entry_tokens(connector_parent_path, target_node, metadata)
+                    target_node = _ensure_indexed_connector_node(
+                        current_level,
+                        part,
+                        connector_parent_path,
+                        connector_index,
+                        metadata,
+                        None,
+                        data_container,
+                    )
+                data_container.remember_last(tuple(traversed), target_node)
+                data_container.update_tokens(connector_parent_path, target_node, metadata)
                 current_level = target_node
                 continue
 
-            # -------- final-value branch -------------------------------- #
-            if last and unit == "No Unit":
-                if part == "schema:manufacturer":
-                    manufacturer_payload = {"@type": "schema:Organization"}
-                    if isinstance(value, str) and value:
-                        manufacturer_payload["schema:name"] = value
-                        if value in unique_id["Item"].values:
-                            uid = get_information_value(
-                                df=unique_id,
-                                row_to_look=value,
-                                col_to_look="ID",
-                                col_to_match="Item",
-                            )
-                            if not pd.isna(uid):
-                                manufacturer_payload["@id"] = uid
+            # No explicit index - use type matching or token scoring to
+            # find the right existing node, or create a new one.
+            logger.debug("No connector index found, trying to guess where it should go")
+            desired_type: str | None = None
+            if next_segment and next_segment.startswith("type|"):
+                _, desired_type = next_segment.split("|", 1)
+                logger.debug("Next node has type %s, will look for that", desired_type)
 
-                    registry_entries = []
-                    if not is_multi_connector and isinstance(current_level, dict):
-                        connector_parent_path: tuple[str, ...] = parent_path[:-1]
-                        connector_key: str | None = parent_path[-1] if parent_path else None
-                        if connector_parent_path and connector_key:
-                            for entry in _get_registry_entries(connector_parent_path):
-                                if entry.get("connector") != connector_key:
-                                    continue
-                                node = entry.get("node")
-                                if isinstance(node, dict):
-                                    registry_entries.append(entry)
+            # Prefer a node that already has the desired @type
+            selected = None
+            if desired_type:
+                for entry in registry_entries:
+                    existing_type = entry["node"].get("@type")
+                    types = existing_type if isinstance(existing_type, list) else [existing_type]
+                    if desired_type in types:
+                        logger.debug("Found an existing node with type '%s'", desired_type)
+                        selected = entry
+                        break
 
-                    if registry_entries:
-                        selected = _select_entry(metadata, registry_entries, part, traversed)
-                        if selected is not None:
-                            target = selected["node"]
-                            target[part] = manufacturer_payload
-                            if part in current_level and current_level[part] in (
-                                None,
-                                {},
-                            ):
-                                current_level.pop(part)
-                            _update_entry_tokens(
-                                parent_path,
-                                target,
-                                metadata,
-                                value if isinstance(value, str) else None,
-                            )
-                            break
+            if selected is None:
+                logger.debug("Could not find existing node with suffix, trying other strategies")
+                selected = _select_entry(metadata, registry_entries, part, traversed, data_container)
 
-                    current_level[part] = manufacturer_payload
-                    break
+            # Discard the match if the type doesn't align
+            if selected is not None and desired_type:
+                existing_type = selected["node"].get("@type")
+                types = existing_type if isinstance(existing_type, list) else [existing_type]
+                if desired_type not in types:
+                    logger.debug("Couldn't find the desired type %s", desired_type)
+                    selected = None
 
-                if part == "hasStringValue" and isinstance(value, str):
-                    target_node = current_level[-1] if isinstance(current_level, list) else current_level
-                    target_node[part] = value
-                    break
-                registry_entries = []
-                if not is_multi_connector and isinstance(current_level, dict):
-                    connector_parent_path: tuple[str, ...] = parent_path[:-1]
-                    connector_key: str | None = parent_path[-1] if parent_path else None
-                    if connector_parent_path and connector_key:
-                        for entry in _get_registry_entries(connector_parent_path):
-                            if entry.get("connector") != connector_key:
-                                continue
-                            node = entry.get("node")
-                            if isinstance(node, dict):
-                                registry_entries.append(entry)
+            if selected is not None:
+                target_node = selected["node"]
+            else:
+                # No suitable existing node - create one
+                entries_for_parent = data_container.get_entries(connector_parent_path, current_level)
+                holder = current_level.get(part)
+                if (
+                    isinstance(holder, dict)
+                    and (not holder or list(holder.keys()) == ["@type"])
+                    and not any(e.get("node") is holder for e in entries_for_parent)
+                ):
+                    target_node = holder
+                else:
+                    target_node = _new_item(current_level, part)
 
+                entries_for_parent = data_container.get_entries(connector_parent_path, current_level)
+                if not any(e.get("node") is target_node for e in entries_for_parent):
+                    data_container.register(
+                        connector_parent_path,
+                        part,
+                        target_node,
+                        metadata,
+                        None,
+                        current_level,
+                    )
+
+            data_container.remember_last(tuple(traversed), target_node)
+            data_container.update_tokens(connector_parent_path, target_node, metadata)
+            current_level = target_node
+            continue
+
+        # ==============================================================
+        # CASE 3 - Final value assignment  (unit == "No Unit")
+        # ==============================================================
+        if last:
+            logger.debug("At last section with part '%s'", part)
+            # Special case: schema:manufacturer
+            # Manufacturers are stored as typed Organisation nodes with an
+            # optional @id looked up from the unique_id sheet.
+            if part == "schema:manufacturer":
+                logger.debug("Special case schema:manufacturer - looking up id")
+                manufacturer_payload: dict[str, Any] = {"@type": "schema:Organization"}
+                if isinstance(value, str) and value:
+                    manufacturer_payload["schema:name"] = value
+                    if value in unique_id["Item"].values:
+                        uid = get_information_value(
+                            df=unique_id,
+                            row_to_look=value,
+                            col_to_look="ID",
+                            col_to_match="Item",
+                        )
+                        if not pd.isna(uid):
+                            manufacturer_payload["@id"] = uid
+
+                registry_entries = _get_connector_entries_for_parent(
+                    parent_path, current_level, data_container, is_multi_connector
+                )
                 if registry_entries:
-                    selected = _select_entry(metadata, registry_entries, part, traversed)
+                    selected = _select_entry(metadata, registry_entries, part, traversed, data_container)
                     if selected is not None:
-                        target = selected["node"]
-                        holder = target.get(part)
-                        if not isinstance(holder, dict):
-                            target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
-                        target_node = target[part]
-                        if value in unique_id["Item"].to_numpy():
-                            uid = get_information_value(
-                                df=unique_id,
-                                row_to_look=value,
-                                col_to_look="ID",
-                                col_to_match="Item",
-                            )
-                            if not pd.isna(uid):
-                                target_node["@id"] = uid
-                            _merge_type(target_node, value)
-                        elif value:
-                            target_node["rdfs:comment"] = value
+                        selected["node"][part] = manufacturer_payload
                         if part in current_level and current_level[part] in (None, {}):
                             current_level.pop(part)
-                        _update_entry_tokens(
+                        data_container.update_tokens(
                             parent_path,
-                            target,
+                            selected["node"],
                             metadata,
                             value if isinstance(value, str) else None,
                         )
                         break
 
-                if is_multi_connector:
-                    connector_path = (*parent_path, part)
-                    registry_entries = [
-                        entry
-                        for entry in _get_registry_entries(parent_path, current_level)
-                        if entry.get("connector") == part
-                    ]
-                    if (
-                        connector_index is not None
-                        and connector_path in (collapsible_multi_paths or set())
-                        and connector_index == 0
-                        and not registry_entries
-                    ):
-                        holder = current_level.get(part)
-                        if isinstance(holder, dict):
-                            target_node = holder
-                        elif holder in (None, {}):
-                            current_level[part] = {}
-                            target_node = current_level[part]
-                        elif isinstance(holder, list) and holder:
-                            target_node = holder[0]
-                            current_level[part] = target_node
-                        else:
-                            current_level[part] = {}
-                            target_node = current_level[part]
-                        _register_connector_entry(
-                            parent_path,
-                            part,
-                            target_node,
-                            metadata,
-                            value,
-                            current_level,
-                        )
-                    elif connector_index is not None:
-                        target_node = _ensure_indexed_connector_node(
-                            current_level,
-                            part,
-                            parent_path,
-                            connector_index,
-                            metadata,
-                            value,
-                        )
-                    else:
-                        target_node = _new_item(current_level, part)
-                        _register_connector_entry(
-                            parent_path,
-                            part,
-                            target_node,
-                            metadata,
-                            value,
-                            current_level,
-                        )
-                    _register_last(tuple(traversed), target_node)
+                current_level[part] = manufacturer_payload
+                break
+
+            # Special case: string literals - no @id lookup needed.
+            if part in STRING_LITERAL_PREDICATES:
+                if part == "rdfs:comment":
+                    # Comments also get the key and unit included if they exist
+                    prefix = f"{metadata}: " if metadata is not None else ""
+                    suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
+                    value = f"{prefix}{value}{suffix}"
+                logger.debug("Special case - adding value '%s' to '%s' as a string literal", value, part)
+                target_node = current_level[-1] if isinstance(current_level, list) else current_level
+                if (existing_value := target_node.get(part)):
+                    if isinstance(existing_value, str):
+                        target_node[part] = [existing_value, str(value)]
+                    elif isinstance(existing_value, list):
+                        target_node[part].append(str(value))
                 else:
-                    target_node = next_level
-                if value in unique_id["Item"].values:
-                    uid = get_information_value(
-                        df=unique_id,
-                        row_to_look=value,
-                        col_to_look="ID",
-                        col_to_match="Item",
-                    )
-                    if not pd.isna(uid):
-                        target_node["@id"] = uid
-                    _merge_type(target_node, value)
-                elif value:
-                    target_node["rdfs:comment"] = value
-                if is_multi_connector:
-                    _update_entry_tokens(
+                    target_node[part] = str(value)
+                break
+
+            # General case: ontology node / @id
+            registry_entries = _get_connector_entries_for_parent(
+                parent_path, current_level, data_container, is_multi_connector
+            )
+
+            if registry_entries:
+                # Route the value to the best-matching registered node
+                selected = _select_entry(metadata, registry_entries, part, traversed, data_container)
+                if selected is not None:
+                    target = selected["node"]
+                    holder = target.get(part)
+                    if not isinstance(holder, dict):
+                        target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
+                    target_node = target[part]
+
+                    if value in unique_id["Item"].to_numpy():
+                        # Known ontology term -> link via @id and @type
+                        logger.debug("Value '%s' is a known ontology term, linking with @id and @type", value)
+                        uid = get_information_value(
+                            df=unique_id,
+                            row_to_look=value,
+                            col_to_look="ID",
+                            col_to_match="Item",
+                        )
+                        if not pd.isna(uid):
+                            target_node["@id"] = uid
+                        _merge_type(target_node, value)
+                    elif value:
+                        # Unknown term -> write as a comment but WARN
+                        logger.warning(COMMENT_WARNING, value)
+                        target_node["rdfs:comment"] = value
+
+                    if part in current_level and current_level[part] in (None, {}):
+                        current_level.pop(part)
+                    data_container.update_tokens(
                         parent_path,
-                        target_node,
+                        target,
                         metadata,
                         value if isinstance(value, str) else None,
                     )
-                break
+                    break
 
-            current_level = next_level
+            # No registry entry - handle multi-connector leaf or plain write
+            if is_multi_connector:
+                # Figure out which connector to use
+                target_node = _assign_multi_connector_leaf(
+                    current_level,
+                    part,
+                    parent_path,
+                    connector_index,
+                    metadata,
+                    value,
+                    data_container,
+                )
+                data_container.update_tokens(
+                    parent_path,
+                    target_node,
+                    metadata,
+                    value if isinstance(value, str) else None,
+                )
+            else:
+                # Just continue on the path
+                target_node = next_level
 
-    except Exception as e:
-        msg = f"Error occurred with value '{value}' and path '{path}'"
-        raise RuntimeError(msg) from e
+            # Write the value into target_node
+            if value in unique_id["Item"].values:
+                uid = get_information_value(
+                    df=unique_id,
+                    row_to_look=value,
+                    col_to_look="ID",
+                    col_to_match="Item",
+                )
+                if not pd.isna(uid):
+                    target_node["@id"] = uid
+                _merge_type(target_node, value)
+            elif value:
+                # Legacy behaviour: do not store with metadata, overwrite existing values
+                logger.warning(COMMENT_WARNING, value)
+                target_node["rdfs:comment"] = value
+            break
+
+        # Did not match any of the 3 cases: step into the next level
+        current_level = next_level
+
+
+def _get_connector_entries_for_parent(
+    parent_path: tuple[str, ...],
+    current_level: dict[str, Any],
+    data_container: Registry,
+    is_multi_connector: bool,
+) -> list[dict[str, Any]]:
+    """Return registry entries for the connector that owns the current level.
+
+    For single-valued connectors we look one level up (the *parent* connector
+    registered in the registry) so a value like ``hasStringValue`` lands on
+    the correct sibling node when multiple siblings exist.
+
+    Returns an empty list for multi-connectors (caller handles those directly).
+    """
+    if is_multi_connector or not isinstance(current_level, dict):
+        return []
+
+    connector_parent_path: tuple[str, ...] = parent_path[:-1]
+    connector_key: str | None = parent_path[-1] if parent_path else None
+    if not (connector_parent_path and connector_key):
+        return []
+
+    return [
+        entry
+        for entry in data_container.get_entries(connector_parent_path)
+        if entry.get("connector") == connector_key and isinstance(entry.get("node"), dict)
+    ]
+
+
+def _assign_multi_connector_leaf(
+    current_level: dict[str, Any],
+    part: str,
+    parent_path: tuple[str, ...],
+    connector_index: int | None,
+    metadata: str | None,
+    value: str | float | None,
+    data_container: Registry,
+) -> dict[str, Any]:
+    """Create or retrieve the target node for a multi-connector *leaf* segment.
+
+    Three sub-cases:
+
+    1. Collapsible + index 0 + not yet registered -> reuse or create a single
+       node (no list promotion).  Used when the schema guarantees at most one
+       occurrence of this connector.
+
+    2. Explicit suffix index -> delegate to ``_ensure_indexed_connector_node``.
+
+    3. No index -> always create a new sibling node.
+    """
+    connector_path = (*parent_path, part)
+    registry_entries = [e for e in data_container.get_entries(parent_path, current_level) if e.get("connector") == part]
+
+    if (
+        connector_index is not None
+        and connector_path in (data_container.collapsible_multi_paths or set())
+        and connector_index == 0
+        and not registry_entries
+    ):
+        # Collapsible leaf - store as a plain dict, not a list
+        holder = current_level.get(part)
+        if isinstance(holder, dict):
+            target_node = holder
+        elif holder in (None, {}):
+            current_level[part] = {}
+            target_node = current_level[part]
+        elif isinstance(holder, list) and holder:
+            target_node = holder[0]
+            current_level[part] = target_node  # collapse list back to dict
+        else:
+            current_level[part] = {}
+            target_node = current_level[part]
+        data_container.register(parent_path, part, target_node, metadata, value, current_level)
+
+    elif connector_index is not None:
+        target_node = _ensure_indexed_connector_node(
+            current_level,
+            part,
+            parent_path,
+            connector_index,
+            metadata,
+            value,
+            data_container,
+        )
+    else:
+        # No index - always a new sibling
+        target_node = _new_item(current_level, part)
+        data_container.register(parent_path, part, target_node, metadata, value, current_level)
+
+    data_container.remember_last((*tuple(parent_path), part), target_node)
+    return target_node
