@@ -243,6 +243,7 @@ def convert_excel_to_jsonld(
         handler.setFormatter(formatter)
         pkg_logger.setLevel(logging.DEBUG)
         pkg_logger.addHandler(handler)
+        pkg_logger.propagate = False
         logger.debug("Started Excel file conversion with debug messages")
 
     try:
@@ -256,3 +257,4 @@ def convert_excel_to_jsonld(
         if handler is not None:
             pkg_logger.removeHandler(handler)
             pkg_logger.setLevel(logging.INFO)
+            pkg_logger.propagate = True
