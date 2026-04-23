@@ -110,16 +110,6 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     if val := get_val("Schema version"):
         jsonld["schema:version"] = val
 
-    # Add a comment, this can also be appended to
-    jsonld["rdfs:comment"] = [
-        f"BattINFO Converter version: {APP_VERSION}",
-        f"Software credit: This JSON-LD was created using BattINFO converter "
-        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
-        f"and the schema version: {schema_version}, "
-        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
-        "Science and Technology in the Laboratory Materials for Energy Conversion",
-    ]
-
     # Add everything else in the sheet
     registry = Registry(data_container)
     for _, row in schema.iterrows():
@@ -141,6 +131,21 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             registry,
             metadata=row["Metadata"],
         )
+
+    # Add or prepend root level comment
+    root_comment = [
+        f"BattINFO Converter version: {APP_VERSION}",
+        f"Software credit: This JSON-LD was created using BattINFO converter "
+        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
+        f"and the schema version: {schema_version}, "
+        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
+        "Science and Technology in the Laboratory Materials for Energy Conversion",
+    ]
+    current_comment = jsonld.get("rdfs:comment", [])
+    if not isinstance(current_comment, list):
+        current_comment = [current_comment]
+    jsonld["rdfs:comment"] = [*root_comment, *current_comment]
+
     return jsonld
 
 
