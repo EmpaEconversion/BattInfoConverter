@@ -14,7 +14,7 @@
   "@type": "ElectrolyticCell",
   "schema:version": 0.1,
   "schema:productID": "Empa__ecid_000001",
-  "schema:dateCreated": "01/05/2026",
+  "schema:dateCreated": "2026-05-01",
   "schema:creator": {
     "@type": "schema:Person",
     "@id": "https://orcid.org/0000-0002-5003-1134",

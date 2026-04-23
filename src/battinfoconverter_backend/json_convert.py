@@ -112,7 +112,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         "@type": dict_harvested_info["Cell type"],
         "schema:version": schema_version,
         "schema:productID": dict_harvested_info["Cell ID"],
-        "schema:dateCreated": dict_harvested_info["Date of cell assembly"],
+        "schema:dateCreated": aux.coerce_date_to_iso(dict_harvested_info["Date of cell assembly"]),
         "schema:creator": {
             "@type": "schema:Person",
             "@id": dict_harvest_id["Scientist/technician/operator"],
