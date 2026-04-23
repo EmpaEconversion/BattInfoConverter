@@ -2,6 +2,8 @@
 
 import logging
 import re
+from contextlib import suppress
+from datetime import datetime
 from decimal import Decimal
 from typing import Any
 
@@ -776,3 +778,20 @@ def _assign_multi_connector_leaf(
 
     data_container.remember_last((*tuple(parent_path), part), target_node)
     return target_node
+
+def coerce_date_to_iso(date: str | datetime) -> str:
+    """Coerce a date to ISO8601 format (YYYY-MM-DD)."""
+    if isinstance(date, datetime):
+        return date.date().isoformat()
+    if isinstance(date, str):
+        seps = ["-","/","."]
+        orders = [
+            ["%Y","%m","%d"],
+            ["%d","%m","%Y"],
+        ]
+        formats = [s.join(parts) for s in seps for parts in orders]
+        for fmt in formats:
+            with suppress(ValueError):
+                return datetime.strptime(date.strip(), fmt).date().isoformat()  # noqa: DTZ007
+    msg = f"Unable to parse date string: {date!r}. Please use YYYY-MM-DD."
+    raise ValueError(msg)
