@@ -13,7 +13,8 @@
     ],
     "@type": "CoinCell",
     "schema:version": "1.1.16",
-    "schema:productID": "Empa-bco-000007",
+    "schema:productID": "empa__ccid_123456",
+    "rdfs:label": "240616_bco_gr-NMC_01",
     "schema:dateCreated": "2024-06-16",
     "schema:creator": {
         "@type": "schema:Person",
