@@ -576,7 +576,12 @@ def add_to_structure(
                 if uid := unique_id_map.get(value):
                     payload["@id"] = uid
                 else:
-                    logger.warning("For '%s', we recommend including a unique ID in classes", part)
+                    logger.warning(
+                        "'%s' has value '%s'. This is a '%s' - we recommend adding a unique ID in the @Classes tab.",
+                        metadata,
+                        value,
+                        part,
+                    )
 
                 registry_entries = _get_connector_entries_for_parent(
                     parent_path, current_level, data_container, is_multi_connector
