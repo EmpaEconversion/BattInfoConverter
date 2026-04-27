@@ -128,9 +128,11 @@ class ExcelContainer:
                 missing_vals = schema[mask][missing_mask]["Metadata"].to_list()
                 missing_vals_str = ", ".join(["'" + f + "'" for f in missing_vals])
                 loggerfunc(
-                    "Missing %d/%d required values: %s",
+                    "%sMissing %d/%d %s values: %s",
+                    "IMPORTANT: " if priority == "required" else "",
                     sum(missing_mask),
                     sum(mask),
+                    priority,
                     missing_vals_str,
                 )
 
