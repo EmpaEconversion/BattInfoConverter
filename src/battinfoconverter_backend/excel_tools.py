@@ -4,6 +4,7 @@ read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
+import logging
 from collections.abc import Sequence
 from pathlib import Path
 from typing import IO, Any
@@ -12,6 +13,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.cell.cell import Cell
 
+logger = logging.getLogger(__name__)
 # robust import for format_cell (new path / old path / fallback)
 try:  # official since openpyxl 3.1
     from openpyxl.utils.formatting import format_cell
@@ -115,14 +117,22 @@ class ExcelContainer:
         context_connector = _find_sheet(["@Predicates", "@context-Connector"])
         unique_id = _find_sheet(["@Classes", "Unique ID"])
 
-        # Raise error is any 'required' values are missing
-        mask = schema["Priority"] == "required"
-        missing = schema[mask]["Value"].isna()
-        if any(missing):
-            missing_vals = schema[mask][missing]["Metadata"].to_list()
-            missing_vals_str = ", ".join(["'" + f + "'" for f in missing_vals])
-            msg = f"Missing values for required fields {missing_vals_str}"
-            raise ValueError(msg)
+        # Log missing required, recommended, and optional terms
+        for priority, loggerfunc in (
+            ("required", logger.critical),
+            ("recommended", logger.warning),
+        ):
+            mask = schema["Priority"] == priority
+            missing_mask = schema[mask]["Value"].isna()
+            if any(missing_mask):
+                missing_vals = schema[mask][missing_mask]["Metadata"].to_list()
+                missing_vals_str = ", ".join(["'" + f + "'" for f in missing_vals])
+                loggerfunc(
+                    "Missing %d/%d required values: %s",
+                    sum(missing_mask),
+                    sum(mask),
+                    missing_vals_str,
+                )
 
         unique_id_from_val: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
 
