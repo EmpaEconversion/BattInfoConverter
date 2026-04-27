@@ -14,8 +14,8 @@ from battinfoconverter_backend.validate import validate_jsonld
 
 FIXTURE_DIR = Path(__file__).resolve().parent
 
-STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.17.xlsx"
-STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standard_JSON_version_1.1.17.json"
+STANDARD_COINCELL_EXCEL_PATH = FIXTURE_DIR / "standard_coincell_excel_schema.xlsx"
+STANDARD_COINCELL_JSON_PATH = FIXTURE_DIR / "standard_coincell_json_schema.json"
 
 STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
 STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
@@ -23,8 +23,8 @@ STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.jso
 
 def test_standard_battinfo() -> None:
     """Check that coin cell Excel conversion matches expected JSON-LD output."""
-    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False, validate=False)
-    with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
+    converted = convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, debug_mode=False, validate=False)
+    with STANDARD_COINCELL_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
     assert normalize_jsonld(converted) == normalize_jsonld(expected)
 
@@ -46,7 +46,7 @@ def test_standard_battinfo_hardcoded_header(tmpdir: Path) -> None:
         "Schema name": "Comment",
         "Schema version": "Comment",
     }
-    wb = load_workbook(STANDARD_EXCEL_PATH)
+    wb = load_workbook(STANDARD_COINCELL_EXCEL_PATH)
     sheet = wb["@Schema"]
     for row in sheet.iter_rows():
         col_a = row[0].value
@@ -54,7 +54,7 @@ def test_standard_battinfo_hardcoded_header(tmpdir: Path) -> None:
             row[4].value = values_to_update[col_a]
     wb.save(new_excel)  # Overwrites in place, or use a new name
     converted = convert_excel_to_jsonld(new_excel, debug_mode=False, validate=False)
-    with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
+    with STANDARD_COINCELL_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 
     assert normalize_jsonld(converted) == normalize_jsonld(expected)
@@ -71,7 +71,7 @@ def test_standard_catinfo() -> None:
 
 def test_valid_json() -> None:
     """Make sure the JSON-LD output is valid."""
-    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, validate=False)
+    converted = convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, validate=False)
     # This should run without errors
     json.dumps(converted)
 
@@ -79,13 +79,13 @@ def test_valid_json() -> None:
 def test_conversion_different_inputs() -> None:
     """Users should be able to read files in different ways."""
     # pathlib.Path object
-    res1 = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, validate=False)
+    res1 = convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, validate=False)
 
     # String object
-    res2 = convert_excel_to_jsonld(str(STANDARD_EXCEL_PATH), validate=False)
+    res2 = convert_excel_to_jsonld(str(STANDARD_COINCELL_EXCEL_PATH), validate=False)
 
     # Buffered reader object
-    with STANDARD_EXCEL_PATH.open("rb") as f:
+    with STANDARD_COINCELL_EXCEL_PATH.open("rb") as f:
         excel_bytesio = io.BytesIO(f.read())
         res3 = convert_excel_to_jsonld(f, validate=False)
 
@@ -98,7 +98,7 @@ def test_conversion_different_inputs() -> None:
 
 def test_valid_jsonld() -> None:
     """Check that the JSON-LD output canonizes without error."""
-    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, validate=False)
+    converted = convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, validate=False)
     # This should run without errors
     jsonld.normalize(converted, {"algorithm": "URDNA2015", "format": "application/n-quads"})
     jsonld.expand(converted)
@@ -107,11 +107,11 @@ def test_valid_jsonld() -> None:
 def test_against_cached_context() -> None:
     """Make sure all terms are mapped in the cached context."""
     # The standard filled excel template must pass
-    converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, validate=True)
+    converted = convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, validate=True)
     validate_jsonld(converted, errors="raise")
 
     # Validation should not modify original dict
-    assert converted == convert_excel_to_jsonld(STANDARD_EXCEL_PATH, validate=True)
+    assert converted == convert_excel_to_jsonld(STANDARD_COINCELL_EXCEL_PATH, validate=True)
 
     # Sanity check - these should all fail
     bad_jsonld = converted.copy()
