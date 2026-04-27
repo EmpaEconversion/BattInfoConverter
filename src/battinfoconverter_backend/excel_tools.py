@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import IO, Any
 
 import pandas as pd
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import Cell
 
 logger = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ def _clean_cell(cell: Cell) -> Any:
 
 
 def read_excel_preserve_decimals(
-    path: str | Path | IO[bytes],
+    path: str | Path | IO[bytes] | Workbook,
     sheet_name: str | int = 0,
     header: int | Sequence[int] | None = 0,
     **pd_kwargs: Any,
@@ -60,7 +60,7 @@ def read_excel_preserve_decimals(
     Keeps the same number of decimals as is visible in Excel.
     Reproduces pandas header logic (Unnamed columns + de-duplication).
     """
-    wb = load_workbook(path, data_only=True)
+    wb = path if isinstance(path, Workbook) else load_workbook(path, read_only=True)
     ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
 
     # Read all rows, fixing numeric cells
@@ -97,9 +97,9 @@ class ExcelContainer:
 
     data: dict
 
-    def __init__(self, excel_file: str | Path | IO[bytes]) -> None:
+    def __init__(self, excel_file: str | Path | IO[bytes] | Workbook) -> None:
         """Read all Excel sheets to dict of pandas dataframes."""
-        wb = load_workbook(excel_file, read_only=True)
+        wb = excel_file if isinstance(excel_file, Workbook) else load_workbook(excel_file, read_only=True)
         available_sheets = set(wb.sheetnames)
         wb.close()
 
