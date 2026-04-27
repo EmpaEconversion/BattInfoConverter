@@ -4,6 +4,7 @@ read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
+import logging
 from collections.abc import Sequence
 from pathlib import Path
 from typing import IO, Any
@@ -12,6 +13,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.cell.cell import Cell
 
+logger = logging.getLogger(__name__)
 # robust import for format_cell (new path / old path / fallback)
 try:  # official since openpyxl 3.1
     from openpyxl.utils.formatting import format_cell
@@ -97,30 +99,42 @@ class ExcelContainer:
 
     def __init__(self, excel_file: str | Path | IO[bytes]) -> None:
         """Read all Excel sheets to dict of pandas dataframes."""
-        try:
-            schema = read_excel_preserve_decimals(excel_file, sheet_name="@Schema")
-        except KeyError:
-            schema = read_excel_preserve_decimals(excel_file, sheet_name="Schema")
+        wb = load_workbook(excel_file, read_only=True)
+        available_sheets = set(wb.sheetnames)
+        wb.close()
 
-        try:
-            unit_map = read_excel_preserve_decimals(excel_file, sheet_name="@Units")
-        except KeyError:
-            unit_map = read_excel_preserve_decimals(excel_file, sheet_name="Ontology - Unit")
+        def _find_sheet(candidates: list[str]) -> pd.DataFrame:
+            """Read the first sheet found in candidates to dataframe."""
+            for name in candidates:
+                if name in available_sheets:
+                    return read_excel_preserve_decimals(excel_file, sheet_name=name)
+            msg = f"None of {candidates} found in workbook"
+            raise KeyError(msg)
 
-        try:
-            context_toplevel = read_excel_preserve_decimals(excel_file, sheet_name="@Context")
-        except KeyError:
-            context_toplevel = read_excel_preserve_decimals(excel_file, sheet_name="@context-TopLevel")
+        schema = _find_sheet(["@Schema", "Schema"])
+        unit_map = _find_sheet(["@Units", "Ontology - Unit"])
+        context_toplevel = _find_sheet(["@Context", "@context-TopLevel"])
+        context_connector = _find_sheet(["@Predicates", "@context-Connector"])
+        unique_id = _find_sheet(["@Classes", "Unique ID"])
 
-        try:
-            context_connector = read_excel_preserve_decimals(excel_file, sheet_name="@Predicates")
-        except KeyError:
-            context_connector = read_excel_preserve_decimals(excel_file, sheet_name="@context-Connector")
-
-        try:
-            unique_id = read_excel_preserve_decimals(excel_file, sheet_name="@Classes")
-        except KeyError:
-            unique_id = read_excel_preserve_decimals(excel_file, sheet_name="Unique ID")
+        # Log missing required, recommended, and optional terms
+        for priority, loggerfunc in (
+            ("required", logger.critical),
+            ("recommended", logger.warning),
+        ):
+            mask = schema["Priority"] == priority
+            missing_mask = schema[mask]["Value"].isna()
+            if any(missing_mask):
+                missing_vals = schema[mask][missing_mask]["Metadata"].to_list()
+                missing_vals_str = ", ".join(["'" + f + "'" for f in missing_vals])
+                loggerfunc(
+                    "%sMissing %d/%d %s values: %s",
+                    "IMPORTANT: " if priority == "required" else "",
+                    sum(missing_mask),
+                    sum(mask),
+                    priority,
+                    missing_vals_str,
+                )
 
         unique_id_from_val: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
 
