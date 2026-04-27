@@ -19,6 +19,10 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
+TEMPLATES_DIR = Path(__file__).parent
+
+COINCELL_TEMPLATE_PATH = TEMPLATES_DIR / "coincell.json"
+
 # Excel theme colors to color keys
 THEME_INDEX_TO_NAME = {
     1: "grey",
@@ -252,11 +256,9 @@ def _write_sectioned_table(ws, columns: list[str], sections: dict[str, dict], em
             current_row += 1
 
 
-def xlsx_to_dict(xlsx_path: str | Path) -> dict:
-    """Read XLSX into dictionary description."""
-    wb = load_workbook(xlsx_path, data_only=True)
+def workbook_to_dict(wb: Workbook) -> dict:
+    """Read Excel workbook into dictionary description."""
     output = {}
-
     for name in wb.sheetnames:
         ws = wb[name]
         if name in SECTIONED_SHEETS:
@@ -266,14 +268,20 @@ def xlsx_to_dict(xlsx_path: str | Path) -> dict:
     return output
 
 
+def xlsx_to_dict(xlsx_path: str | Path) -> dict:
+    """Read XLSX into dictionary description."""
+    wb = load_workbook(xlsx_path, data_only=True)
+    return workbook_to_dict(wb)
+
+
 def xlsx_to_json(xlsx_path: str | Path, json_path: str | Path) -> None:
     output = xlsx_to_dict(xlsx_path)
     with Path(json_path).open("w", encoding="utf-8") as f:
         f.write(json.dumps(output, indent=2, ensure_ascii=False))
 
 
-def dict_to_xlsx(data: dict, xlsx_path: str | Path, empty: bool = False) -> None:
-    """Write XLSX from dictionary description."""
+def dict_to_workbook(data: dict, *, empty: bool = False) -> Workbook:
+    """Write Excel workbook from dictionary description."""
     wb = Workbook()
     wb.remove(wb.active)  # remove default empty sheet
     for sheet_name, sheet_data in data.items():
@@ -283,6 +291,12 @@ def dict_to_xlsx(data: dict, xlsx_path: str | Path, empty: bool = False) -> None
             _write_sectioned_table(ws, sheet_data["header"], sheet_data["data"], empty=empty)
         else:
             _write_simple_table(ws, sheet_data["header"], sheet_data["data"])
+    return wb
+
+
+def dict_to_xlsx(data: dict, xlsx_path: str | Path, *, empty: bool = False) -> None:
+    """Write XLSX from dictionary description."""
+    wb = dict_to_workbook(data, empty=empty)
     wb.save(xlsx_path)
 
 
