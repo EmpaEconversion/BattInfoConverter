@@ -40,7 +40,7 @@
           },
           {
             "Metadata": "Date of cell assembly",
-            "Value": "2024-06-16T00:00:00",
+            "Value": "2024-06-16",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "schema:dateCreated",
@@ -229,7 +229,7 @@
             "Value": "yes",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell",
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-rdfs:comment",
             "Comment": null
           },
           {
@@ -541,7 +541,7 @@
             "Value": "yes",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell",
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-rdfs:comment",
             "Comment": null
           },
           {
@@ -1074,7 +1074,7 @@
           },
           {
             "Metadata": "Cell case lid coating material",
-            "Value": "none",
+            "Value": "Aluminium",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasCase-hasComponentA-type|CellLid-hasCoating",
