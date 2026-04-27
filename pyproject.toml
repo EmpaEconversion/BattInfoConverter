@@ -44,6 +44,7 @@ include = ["battinfoconverter_backend*"]
 
 [tool.setuptools.package-data]
 "battinfoconverter_backend" = ["_context/*.json"]
+"battinfoconverter_backend.templates" = ["*.json"]
 
 [project.optional-dependencies]
 app = [
