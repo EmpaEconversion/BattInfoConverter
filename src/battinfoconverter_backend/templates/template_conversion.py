@@ -93,10 +93,10 @@ ROWS_TO_KEEP = {
 
 def _serialize(value: datetime | date | str | float | None) -> str | float | None:
     """Convert dates to JSON serializable strings."""
-    if isinstance(value, datetime):
-        return value.isoformat()
     if isinstance(value, date):
         return value.strftime("%Y-%m-%d")
+    if isinstance(value, datetime):
+        return value.isoformat()
     return value
 
 
