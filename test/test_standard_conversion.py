@@ -1,12 +1,11 @@
 """Test module for standard Excel to JSON-LD conversion."""
 
-import copy
 import io
 import json
-from decimal import Decimal
 from pathlib import Path
 
 import pytest
+from conftest import normalize_jsonld
 from openpyxl import load_workbook
 from pyld import jsonld
 
@@ -15,48 +14,11 @@ from battinfoconverter_backend.validate import validate_jsonld
 
 FIXTURE_DIR = Path(__file__).resolve().parent
 
-IGNORED_COMMENT_PREFIXES = (
-    "BattINFO Converter version:",
-    "Software credit:",
-    "BattINFO CoinCellSchema version:",
-    "Schema version:",
-)
-
 STANDARD_EXCEL_PATH = FIXTURE_DIR / "BattINFO_converter_standard_Excel_version_1.1.17.xlsx"
 STANDARD_JSON_PATH = FIXTURE_DIR / "BattINFO_converter_BattINFO_converter_standard_JSON_version_1.1.17.json"
 
 STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
 STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
-
-jsonld.set_document_loader(jsonld.requests_document_loader())
-
-
-def _coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
-    """Recursively convert ``Decimal`` instances within ``value`` to floats."""
-    if isinstance(value, Decimal):
-        return float(value)
-    if isinstance(value, dict):
-        return {key: _coerce_decimals(item) for key, item in value.items()}
-    if isinstance(value, list):
-        return [_coerce_decimals(item) for item in value]
-    return value
-
-
-def _normalize_jsonld(payload: dict) -> dict:
-    """Return a copy of ``payload`` with version metadata removed for comparison."""
-    normalized = _coerce_decimals(copy.deepcopy(payload))
-    assert isinstance(normalized, dict)
-    normalized.pop("schema:version", None)
-
-    comments = normalized.get("rdfs:comment")
-    if isinstance(comments, list):
-        filtered_comments = [comment for comment in comments if not comment.startswith(IGNORED_COMMENT_PREFIXES)]
-        if filtered_comments:
-            normalized["rdfs:comment"] = filtered_comments
-        else:
-            normalized.pop("rdfs:comment", None)
-
-    return normalized
 
 
 def test_standard_battinfo() -> None:
@@ -64,8 +26,7 @@ def test_standard_battinfo() -> None:
     converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False, validate=False)
     with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
-
-    assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+    assert normalize_jsonld(converted) == normalize_jsonld(expected)
 
 
 def test_standard_battinfo_hardcoded_header(tmpdir: Path) -> None:
@@ -96,7 +57,7 @@ def test_standard_battinfo_hardcoded_header(tmpdir: Path) -> None:
     with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 
-    assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+    assert normalize_jsonld(converted) == normalize_jsonld(expected)
 
 
 def test_standard_catinfo() -> None:
@@ -105,7 +66,7 @@ def test_standard_catinfo() -> None:
     with STANDARD_CATALYSIS_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 
-    assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+    assert normalize_jsonld(converted) == normalize_jsonld(expected)
 
 
 def test_valid_json() -> None:
