@@ -7,6 +7,7 @@ from decimal import Decimal
 from pathlib import Path
 
 import pytest
+from openpyxl import load_workbook
 from pyld import jsonld
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
@@ -61,6 +62,37 @@ def _normalize_jsonld(payload: dict) -> dict:
 def test_standard_battinfo() -> None:
     """Check that coin cell Excel conversion matches expected JSON-LD output."""
     converted = convert_excel_to_jsonld(STANDARD_EXCEL_PATH, debug_mode=False, validate=False)
+    with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
+        expected = json.load(json_file)
+
+    assert _normalize_jsonld(converted) == _normalize_jsonld(expected)
+
+
+def test_standard_battinfo_hardcoded_header(tmpdir: Path) -> None:
+    """Check that coin cell Excel conversion matches expected JSON-LD output when using hardcoded header.
+
+    Required for backwards compatibility.
+    """
+    new_excel = tmpdir / "NotOntologizeTest.xlsx"
+    values_to_update = {
+        "Cell type": "NotOntologize",
+        "Cell ID": "NotOntologize",
+        "Date of cell assembly": "NotOntologize",
+        "Institution/company": "NotOntologize",
+        "Scientist/technician/operator": "NotOntologize",
+        "Project": "Comment",
+        "Assembled manually or by robot": "Comment",
+        "Schema name": "Comment",
+        "Schema version": "Comment",
+    }
+    wb = load_workbook(STANDARD_EXCEL_PATH)
+    sheet = wb["@Schema"]
+    for row in sheet.iter_rows():
+        col_a = row[0].value
+        if col_a in values_to_update:
+            row[4].value = values_to_update[col_a]
+    wb.save(new_excel)  # Overwrites in place, or use a new name
+    converted = convert_excel_to_jsonld(new_excel, debug_mode=False, validate=False)
     with STANDARD_JSON_PATH.open(encoding="utf-8") as json_file:
         expected = json.load(json_file)
 

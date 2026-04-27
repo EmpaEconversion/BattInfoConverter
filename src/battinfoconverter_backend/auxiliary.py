@@ -42,6 +42,22 @@ STRING_LITERAL_PREDICATES = {
     "CASReference",
 }
 
+# These will be coerced into ISO8601
+DATE_PREDICATES = {
+    "schema:dateCreated",
+    "schema:dateModified",
+    "schema:uploadDate",
+    "schema:datePublished",
+}
+
+# The following keys will create an object with @type value, and look up a unique ID in @Classes
+# E.g. "schema:manufacturer": "Empa"
+# becomes {"@type": "schema:Organisation", "@id": id-lookedup-from-@Classes, "schema:name": "Empa"}
+TYPES_WITH_ID = {
+    "schema:manufacturer": "schema:Organization",
+    "schema:creator": "schema:Person",
+}
+
 # Deprecation warning for terms that get put in as comments
 COMMENT_WARNING = (
     "DEPRECATION: "
@@ -348,7 +364,7 @@ def add_to_structure(
     unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
     context_connector = data_container.data["context_connector"]
     connectors = set(context_connector["Item"])
-    unique_id = data_container.data["unique_id"]
+    unique_id_map = data_container.data["unique_id_map"]
 
     # Walk the path
     current_level = jsonld
@@ -368,6 +384,8 @@ def add_to_structure(
                     _merge_type(current_level, typ)
                     parent_path = tuple(traversed[:-1]) if traversed else ()
                     data_container.update_tokens(parent_path, current_level, typ)
+                else:  # Set the type of the current level to the value
+                    current_level["@type"] = value
                 continue  # Go to the next path part
             if parts.startswith("rev|"):
                 _, part = parts.split("|", 1)
@@ -546,23 +564,24 @@ def add_to_structure(
         # ==============================================================
         if last:
             logger.debug("At last section with part '%s'", part)
-            # Special case: schema:manufacturer
-            # Manufacturers are stored as typed Organisation nodes with an
-            # optional @id looked up from the unique_id sheet.
-            if part == "schema:manufacturer":
-                logger.debug("Special case schema:manufacturer - looking up id")
-                manufacturer_payload: dict[str, Any] = {"@type": "schema:Organization"}
-                if isinstance(value, str) and value:
-                    manufacturer_payload["schema:name"] = value
-                    if value in unique_id["Item"].values:
-                        uid = get_information_value(
-                            df=unique_id,
-                            row_to_look=value,
-                            col_to_look="ID",
-                            col_to_match="Item",
-                        )
-                        if not pd.isna(uid):
-                            manufacturer_payload["@id"] = uid
+
+            # Special case: value transformed to a dict with a @type and @id
+            if part in TYPES_WITH_ID:
+                logger.debug("Special case - looking up id")
+
+                payload: dict[str, Any] = {
+                    "@type": TYPES_WITH_ID[part],
+                    "schema:name": value,
+                }
+                if uid := unique_id_map.get(value):
+                    payload["@id"] = uid
+                else:
+                    logger.warning(
+                        "'%s' has value '%s'. This is a '%s' - we recommend adding a unique ID in the @Classes tab.",
+                        metadata,
+                        value,
+                        part,
+                    )
 
                 registry_entries = _get_connector_entries_for_parent(
                     parent_path, current_level, data_container, is_multi_connector
@@ -570,7 +589,7 @@ def add_to_structure(
                 if registry_entries:
                     selected = _select_entry(metadata, registry_entries, part, traversed, data_container)
                     if selected is not None:
-                        selected["node"][part] = manufacturer_payload
+                        selected["node"][part] = payload
                         if part in current_level and current_level[part] in (None, {}):
                             current_level.pop(part)
                         data_container.update_tokens(
@@ -581,7 +600,7 @@ def add_to_structure(
                         )
                         break
 
-                current_level[part] = manufacturer_payload
+                current_level[part] = payload
                 break
 
             # Special case: string literals - no @id lookup needed.
@@ -591,9 +610,11 @@ def add_to_structure(
                     prefix = f"{metadata}: " if metadata is not None else ""
                     suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
                     value = f"{prefix}{value}{suffix}"
+                if part in DATE_PREDICATES:
+                    value = coerce_date_to_iso(value)
                 logger.debug("Special case - adding value '%s' to '%s' as a string literal", value, part)
                 target_node = current_level[-1] if isinstance(current_level, list) else current_level
-                if (existing_value := target_node.get(part)):
+                if existing_value := target_node.get(part):
                     if isinstance(existing_value, str):
                         target_node[part] = [existing_value, str(value)]
                     elif isinstance(existing_value, list):
@@ -617,16 +638,10 @@ def add_to_structure(
                         target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
                     target_node = target[part]
 
-                    if value in unique_id["Item"].to_numpy():
+                    if value in unique_id_map:
                         # Known ontology term -> link via @id and @type
                         logger.debug("Value '%s' is a known ontology term, linking with @id and @type", value)
-                        uid = get_information_value(
-                            df=unique_id,
-                            row_to_look=value,
-                            col_to_look="ID",
-                            col_to_match="Item",
-                        )
-                        if not pd.isna(uid):
+                        if uid := unique_id_map.get(value):
                             target_node["@id"] = uid
                         _merge_type(target_node, value)
                     elif value:
@@ -667,14 +682,8 @@ def add_to_structure(
                 target_node = next_level
 
             # Write the value into target_node
-            if value in unique_id["Item"].values:
-                uid = get_information_value(
-                    df=unique_id,
-                    row_to_look=value,
-                    col_to_look="ID",
-                    col_to_match="Item",
-                )
-                if not pd.isna(uid):
+            if value in unique_id_map:
+                if uid := unique_id_map.get(value):
                     target_node["@id"] = uid
                 _merge_type(target_node, value)
             elif value:
@@ -779,15 +788,16 @@ def _assign_multi_connector_leaf(
     data_container.remember_last((*tuple(parent_path), part), target_node)
     return target_node
 
+
 def coerce_date_to_iso(date: str | datetime) -> str:
     """Coerce a date to ISO8601 format (YYYY-MM-DD)."""
     if isinstance(date, datetime):
         return date.date().isoformat()
     if isinstance(date, str):
-        seps = ["-","/","."]
+        seps = ["-", "/", "."]
         orders = [
-            ["%Y","%m","%d"],
-            ["%d","%m","%Y"],
+            ["%Y", "%m", "%d"],
+            ["%d", "%m", "%Y"],
         ]
         formats = [s.join(parts) for s in seps for parts in orders]
         for fmt in formats:

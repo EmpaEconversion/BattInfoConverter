@@ -122,10 +122,13 @@ class ExcelContainer:
         except KeyError:
             unique_id = read_excel_preserve_decimals(excel_file, sheet_name="Unique ID")
 
+        unique_id_from_val: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
+
         self.data = {
             "schema": schema,
             "unit_map": unit_map,
             "context_toplevel": context_toplevel,
             "context_connector": context_connector,
             "unique_id": unique_id,
+            "unique_id_map": unique_id_from_val,
         }

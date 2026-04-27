@@ -63,87 +63,57 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     """
     schema = data_container.data["schema"]
     context_toplevel = data_container.data["context_toplevel"]
+    id_from_val: dict[str, str] = data_container.data["unique_id_map"]
 
-    # Harvest the information for the required section of the schemas
-    ls_info_to_harvest = [
-        "Cell type",
-        "Cell ID",
-        "Date of cell assembly",
-        "Institution/company",
-        "Scientist/technician/operator",
-    ]
-
-    dict_harvested_info = {}
-
-    # Harvest the required value from the schema sheet.
-    for field in ls_info_to_harvest:
-        if get_information_value(df=schema, row_to_look=field) is np.nan:
-            msg = f"Missing information in the schema, please fill in the field '{field}'"
-            raise ValueError(msg)
-        dict_harvested_info[field] = get_information_value(df=schema, row_to_look=field)
-
-    # Harvest unique ID value for the required value from the schema sheet.
-    ls_id_info_to_harvest = ["Institution/company", "Scientist/technician/operator"]
-    dict_harvest_id = {}
-    for uid in ls_id_info_to_harvest:
-        dict_harvest_id[uid] = get_information_value(
-            df=data_container.data["unique_id"],
-            row_to_look=dict_harvested_info[uid],
-            col_to_look="ID",
-            col_to_match="Item",
-        )
-        if dict_harvest_id[uid] is None:
-            msg = f"Missing unique ID for the field '{uid}'"
-            raise ValueError(msg)
-
-    schema_version = None
-    try:
-        schema_version = get_information_value(df=schema, row_to_look="Schema version")
-    except Exception:
-        schema_version = None
-    if schema_version is None or pd.isna(schema_version):
-        schema_version = get_information_value(df=schema, row_to_look="BattINFO CoinCellSchema version")
-    if schema_version is None or pd.isna(schema_version):
+    schema_version_mask = schema["Metadata"].isin({"Schema version", "BattINFO CoinCellSchema version"})
+    filtered = schema[schema_version_mask]
+    if len(filtered) == 0:
         msg = "Missing schema version in the schema sheet"
         raise ValueError(msg)
+    schema_version = filtered["Value"].iloc[0]
 
-    jsonld = {
-        "@context": ["https://w3id.org/emmo/domain/battery/context", {}],
-        "@type": dict_harvested_info["Cell type"],
-        "schema:version": schema_version,
-        "schema:productID": dict_harvested_info["Cell ID"],
-        "schema:dateCreated": aux.coerce_date_to_iso(dict_harvested_info["Date of cell assembly"]),
-        "schema:creator": {
-            "@type": "schema:Person",
-            "@id": dict_harvest_id["Scientist/technician/operator"],
-            "schema:name": dict_harvested_info["Scientist/technician/operator"],
-        },
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "@id": dict_harvest_id["Institution/company"],
-            "schema:name": dict_harvested_info["Institution/company"],
-        },
-        "rdfs:comment": [
-            f"BattINFO Converter version: {APP_VERSION}",
-            f"Software credit: This JSON-LD was created using BattINFO converter "
-            f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
-            f"and the schema version: {schema_version}, "
-            "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
-            "Science and Technology in the Laboratory Materials for Energy Conversion",
+    jsonld: dict[str, str | list | dict | float] = {
+        "@context": [
+            "https://w3id.org/emmo/domain/battery/context",
+            {row["Item"]: row["Key"] for _, row in context_toplevel.iterrows()},
         ],
     }
 
-    for _, row in context_toplevel.iterrows():
-        jsonld["@context"][1][row["Item"]] = row["Key"]
+    # Special hardcoded NotOntologize fields - required for backwards compatibility
+    not_ontologize_mask = schema["Ontology link"] == "NotOntologize"
+
+    def get_val(key):
+        mask = schema[not_ontologize_mask]["Metadata"] == key
+        filtered = schema[not_ontologize_mask][mask]
+        if len(filtered) == 1:
+            return filtered.iloc[0]["Value"]
+        return None
+
+    if val := get_val("Cell type"):
+        jsonld["@type"] = val
+    if val := get_val("Cell ID"):
+        jsonld["schema:productID"] = val
+    if val := get_val("Date of cell assembly"):
+        jsonld["schema:dateCreated"] = aux.coerce_date_to_iso(val)
+    if val := get_val("Scientist/technician/operator"):
+        jsonld["schema:creator"] = {
+            "@type": "schema:Person",
+            "@id": id_from_val[val],
+            "schema:name": val,
+        }
+    if val := get_val("Institution/company"):
+        jsonld["schema:manufacturer"] = {
+            "@type": "schema:Organization",
+            "@id": id_from_val[val],
+            "schema:name": val,
+        }
+    if val := get_val("Schema version"):
+        jsonld["schema:version"] = val
+
+    # Add everything else in the sheet
     registry = Registry(data_container)
     for _, row in schema.iterrows():
         if pd.isna(row["Value"]) or row["Ontology link"] == "NotOntologize":
-            continue
-        if row["Ontology link"] == "Comment":  # 'Comment' always adds a comment at the base level
-            if row["Unit"] == "No Unit":
-                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']}")
-            else:
-                jsonld["rdfs:comment"].append(f"{row['Metadata']}: {row['Value']} {row['Unit']}")
             continue
 
         ontology_path = row["Ontology link"].split("-")
@@ -161,6 +131,21 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             registry,
             metadata=row["Metadata"],
         )
+
+    # Add or prepend root level comment
+    root_comment = [
+        f"BattINFO Converter version: {APP_VERSION}",
+        f"Software credit: This JSON-LD was created using BattINFO converter "
+        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
+        f"and the schema version: {schema_version}, "
+        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
+        "Science and Technology in the Laboratory Materials for Energy Conversion",
+    ]
+    current_comment = jsonld.get("rdfs:comment", [])
+    if not isinstance(current_comment, list):
+        current_comment = [current_comment]
+    jsonld["rdfs:comment"] = [*root_comment, *current_comment]
+
     return jsonld
 
 
