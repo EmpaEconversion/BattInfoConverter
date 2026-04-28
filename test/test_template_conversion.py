@@ -41,3 +41,28 @@ def test_template_gives_expected_jsonld(coincell_jsonld: dict) -> None:
     wb = dict_to_workbook(data)
     output_jsonld = convert_excel_to_jsonld(wb)
     assert normalize_jsonld(output_jsonld) == normalize_jsonld(coincell_jsonld)
+
+
+def test_empty_template() -> None:
+    """Test that asking for empty template actually gives empty template."""
+    with COINCELL_TEMPLATE_PATH.open("r") as f:
+        data1 = json.load(f)
+    rows1 = data1["@Schema"]["data"]["Cell identification"]["rows"]
+    rows1 = {v["Metadata"]: v["Value"] for v in rows1}
+    wb1 = dict_to_workbook(data1, empty=True)
+    data2 = workbook_to_dict(wb1)
+    rows2 = data2["@Schema"]["data"]["Cell identification"]["rows"]
+    rows2 = {v["Metadata"]: v["Value"] for v in rows2}
+    kept = {"Cell type", "Schema name", "Schema version"}
+    dropped = set(rows1.keys()) - kept
+    for v in kept:
+        assert rows1[v] is not None
+        assert rows1[v] == rows2[v]
+    for v in dropped:
+        assert rows1[v] is not None
+        assert rows2[v] is None
+
+    for group in data1["@Schema"]["data"]:
+        if group != "Cell identification":
+            for row in data2["@Schema"]["data"][group]["rows"]:
+                assert row["Value"] is None
