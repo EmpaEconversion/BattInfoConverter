@@ -84,7 +84,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "rdfs:comment",
-            "Comment": "Name of this CoinCell Schema, do not change"
+            "Comment": "Name of this BattINFO schema, do not change"
           },
           {
             "Metadata": "Schema version",
@@ -92,7 +92,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "rdfs:comment",
-            "Comment": "Version of this CoinCell Schema, do not change"
+            "Comment": "Version of this BattINFO schema, do not change"
           }
         ]
       },
