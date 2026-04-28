@@ -5,8 +5,8 @@ from importlib.metadata import version
 from pathlib import Path
 from typing import IO
 
-import numpy as np
 import pandas as pd
+from openpyxl import Workbook
 from pandas import DataFrame
 
 from . import auxiliary as aux
@@ -194,7 +194,7 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
 
 
 def convert_excel_to_jsonld(
-    excel_file: str | Path | IO[bytes],
+    excel_file: str | Path | IO[bytes] | Workbook,
     *,
     validate: bool = True,
     debug_mode: bool = False,

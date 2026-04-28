@@ -241,7 +241,7 @@
                 "@type": "RatedCapacity",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 1.1
+                    "hasNumberValue": 1.056
                 },
                 "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
             },
@@ -471,7 +471,7 @@
                 "@type": "RatedCapacity",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 1.2
+                    "hasNumberValue": 1.19
                 },
                 "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
             },
@@ -685,7 +685,7 @@
             {
                 "@type": "CellLid",
                 "hasCoating": {
-                    "rdfs:comment": "none"
+                    "@type": "Aluminium"
                 }
             },
             {
