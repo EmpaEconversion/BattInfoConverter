@@ -35,7 +35,7 @@ def collect_warnings(logger_name: str = "battinfoconverter_backend") -> Generato
         logger.removeHandler(handler)
 
 
-st.set_page_config(page_title="BattINFO Converter", page_icon="battinfoconverter-logo.png", layout="wide")
+st.set_page_config(page_title="BattINFO Converter", page_icon="battinfo-logo-only.svg", layout="centered")
 
 badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.streamlit.app"
 st.image(badge_url)
@@ -87,12 +87,10 @@ Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**
 [doi.org/10.1002/batt.202500151](https://doi.org/10.1002/batt.202500151)
 """
 
-image_url = "https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/battinfoconverter.png"
-
 
 def main() -> None:
     """Define layout of app."""
-    st.image(image_url)
+    st.image("battinfo-long.svg", width="stretch")
 
     st.markdown(f"__App Version: {__version__}__")
 
@@ -129,10 +127,7 @@ def main() -> None:
         st.text_area("JSON-LD Output", jsonld_str, height=1000)
 
     st.markdown(markdown_content, unsafe_allow_html=True)
-    st.image(
-        "https://raw.githubusercontent.com/EmpaEconversion/BattInfoConverter/refs/heads/main/sponsor.png",
-        width=700,
-    )
+    st.image("sponsor.png", width="stretch")
 
 
 if __name__ == "__main__":
