@@ -124,7 +124,7 @@ def main() -> None:
         )
 
         # Convert JSON-LD output to a string to display in text area (for preview)
-        st.text_area("JSON-LD Output", jsonld_str, height=1000)
+        st.code(jsonld_str, height=1000, language="json")
 
     st.markdown(markdown_content, unsafe_allow_html=True)
     st.image("sponsor.png", width="stretch")
