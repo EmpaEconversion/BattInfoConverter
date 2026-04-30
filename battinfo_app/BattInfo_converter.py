@@ -37,7 +37,7 @@ def collect_warnings(logger_name: str = "battinfoconverter_backend") -> Generato
 
 st.set_page_config(
     page_title="BattINFO Converter",
-    page_icon="streamlit/assets/battinfo-logo-only.svg",
+    page_icon="battinfo_app/assets/battinfo-logo-only.svg",
     layout="centered",
 )
 
@@ -93,7 +93,7 @@ Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**
 
 def main() -> None:
     """Define layout of app."""
-    st.image("streamlit/assets/battinfo-long.svg", width="stretch")
+    st.image("battinfo_app/assets/battinfo-long.svg", width=700)
 
     st.markdown(f"__App Version: {__version__}__")
 
@@ -130,7 +130,7 @@ def main() -> None:
         st.code(jsonld_str, height=1000, language="json")
 
     st.markdown(markdown_content, unsafe_allow_html=True)
-    st.image("sponsor.png", width="stretch")
+    st.image("./battinfo_app/assets/sponsor.png", width=700)
 
 
 if __name__ == "__main__":
