@@ -35,7 +35,11 @@ def collect_warnings(logger_name: str = "battinfoconverter_backend") -> Generato
         logger.removeHandler(handler)
 
 
-st.set_page_config(page_title="BattINFO Converter", page_icon="battinfo-logo-only.svg", layout="centered")
+st.set_page_config(
+    page_title="BattINFO Converter",
+    page_icon="streamlit/assets/battinfo-logo-only.svg",
+    layout="centered",
+)
 
 badge_url = "https://visitor-badge.laobi.icu/badge?page_id=battinfoconverter.streamlit.app"
 st.image(badge_url)
@@ -60,20 +64,20 @@ your scientific publication or in open-access data repositories such as
 [Zenodo](https://zenodo.org).
 Example Excel metadata files for a coin cell battery are provided. We plan to add more Excel
 metadata files for other cell types in the future. For additional information on how to fill the
-Excel file, please click the respective link on the left.
+Excel file, see the links on the left.
 
 For advanced users, we also provide our backend for Excel to JSON-LD conversion as a pip-installable
-python package. Please check out our Github page. For issues, feature suggestions or bug report,
+Python package. Please check out our Github page. For issues, feature suggestions or bug reports,
 please make an issue in our [Github: BattINFO
 converter](https://github.com/EmpaEconversion/BattInfoConverter) page, or send us an email at
 econversion@empa.ch
 
 ### Acknowledgement
-The BattINFO converter web application was developed by Dr. Nukorn Plainpan and Prof. Dr. Corsin
-Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories for Materials Science and
-Technology in the Laboratory [Materials for Energy Conversion](https://www.empa.ch/web/s501).
-We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF as well as the help
-of Dr. Graham Kimbell, Empa.
+The BattINFO converter web application was developed by Dr. Nukorn Plainpan, Dr. Graham Kimbell, and
+Prof. Corsin Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories for Materials
+Science and Technology in the Laboratory
+[Materials for Energy Conversion](https://www.empa.ch/web/s501).
+We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF.
 The development of BattINFO converter was supported by funding for the
 [Battery2030+](https://battery2030.eu/) initiative from the European Union's research and innovation
 program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for
@@ -81,8 +85,7 @@ Education, Research, and Innovation (SERI) under contract No. 2300313 as well as
 [PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board
 
 ### Citation
-If you find BattINFO converter useful, please cite our publication:
-[1] Nukorn Plainpan, Simon Clark, and Corsin Battaglia. "BattINFO Converter: An Automated Tool for
+Nukorn Plainpan, Simon Clark, and Corsin Battaglia. "BattINFO Converter: An Automated Tool for
 Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**): 2500151.
 [doi.org/10.1002/batt.202500151](https://doi.org/10.1002/batt.202500151)
 """
@@ -90,7 +93,7 @@ Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**
 
 def main() -> None:
     """Define layout of app."""
-    st.image("battinfo-long.svg", width="stretch")
+    st.image("streamlit/assets/battinfo-long.svg", width="stretch")
 
     st.markdown(f"__App Version: {__version__}__")
 
