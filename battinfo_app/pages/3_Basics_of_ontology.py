@@ -4,7 +4,7 @@ st.title("Basics of Ontology")
 
 st.markdown(
     """
-    To share scientific data unambiguously, we want every piece of metadata to have a precise, agreed-upon meaning, this
+    To share scientific data unambiguously, we want every piece of metadata to have a precise, agreed-upon meaning; this
     is what an ontology provides.
 
     Each term in your JSON-LD metadata file should point to an **Internationalized Resource Identifier (IRI)** -- a
@@ -21,7 +21,8 @@ st.markdown(
     domain to agree on definitions. Our default context is the
     [EMMO domain-battery](https://w3id.org/emmo/domain/battery/context) context.
 
-    This is a large map of terms, so that when we write, e.g., `Aluminium`, it looks up this term in our context and resolves it to:
+    This is a large map of terms, so that when we write, e.g., `Aluminium`, it looks up this term in our context and
+    resolves it to:
     """
 )
 

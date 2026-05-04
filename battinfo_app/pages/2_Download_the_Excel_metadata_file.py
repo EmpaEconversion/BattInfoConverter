@@ -1,4 +1,4 @@
-"""Downloads for excel templates."""
+"""Downloads for Excel templates."""
 
 import json
 from io import BytesIO
@@ -34,7 +34,7 @@ xlsx_bytes_empty, _ = get_xlsx_bytes(COINCELL_TEMPLATE_PATH, empty=True)
 
 st.title("Download the Excel metadata file")
 st.text("Here you will find Excel templates that you can fill out with your metadata.")
-st.subheader("Excel template files")
+st.subheader("Coin cell templates")
 st.download_button(
     label=f"⬇️ Coin cell battery template v{version} - empty",
     data=xlsx_bytes_empty,

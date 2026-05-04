@@ -55,7 +55,7 @@ To learn more about ontologizing your metadata, we invite you to visit our page 
 metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main).
 While there are many benefits of this process, it can be a daunting task in practice. With this in
 mind, we developed the open-source
-[Github: BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application
+[GitHub: BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application
 to streamline and expedite this intricate task, making it more manageable for you and your team.
 
 BattINFO converter converts an Excel file collecting the metadata of a battery cell provided by the
@@ -67,8 +67,8 @@ metadata files for other cell types in the future. For additional information on
 Excel file, see the links on the left.
 
 For advanced users, we also provide our backend for Excel to JSON-LD conversion as a pip-installable
-Python package. Please check out our Github page. For issues, feature suggestions or bug reports,
-please make an issue in our [Github: BattINFO
+Python package. Please check out our GitHub page. For issues, feature suggestions or bug reports,
+please make an issue in our [GitHub: BattINFO
 converter](https://github.com/EmpaEconversion/BattInfoConverter) page, or send us an email at
 econversion@empa.ch
 
@@ -82,7 +82,7 @@ The development of BattINFO converter was supported by funding for the
 [Battery2030+](https://battery2030.eu/) initiative from the European Union's research and innovation
 program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for
 Education, Research, and Innovation (SERI) under contract No. 2300313 as well as funding for the
-[PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board
+[PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board.
 
 ### Citation
 Nukorn Plainpan, Simon Clark, and Corsin Battaglia. "BattINFO Converter: An Automated Tool for
