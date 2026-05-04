@@ -1,5 +1,13 @@
 ![BattINFO Converter](./battinfo_app/assets/battinfo-long.svg)
 
+
+[![PyPI version](https://img.shields.io/pypi/v/battinfoconverter-backend.svg)](https://pypi.org/project/battinfoconverter-backend/)
+[![License](https://img.shields.io/github/license/empaeconversion/battinfoconverter?color=blue)](https://github.com/empaeconversion/battinfoconverter/blob/main/LICENSE)
+[![Python Versions](https://img.shields.io/pypi/pyversions/battinfoconverter-backend.svg)](https://pypi.org/project/battinfoconverter/)
+[![Checks](https://img.shields.io/github/actions/workflow/status/empaeconversion/battinfoconverter/pytest.yml)](https://github.com/empaeconversion/battinfoconverter/actions/workflows/pytest.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/empaeconversion/battinfoconverter)](https://app.codecov.io/gh/empaeconversion/battinfoconverter)
+
+
 **BattINFO Converter** is a Python-based web application that simplifies the semantic annotation of battery metadata. It converts coin cell battery metadata from an Excel-based schema into a **JSON-LD** format using the [BattINFO ontology](https://github.com/BIG-MAP/BattINFO), ensuring standardized and machine-readable metadata. This tool is designed for non-technical users, eliminating the need for manual JSON-LD creation. Researchers only need to fill in an Excel template, and the converter automates the transformation process, enhancing data interoperability, reproducibility, and [FAIRness](https://www.go-fair.org/fair-principles/). By adopting **BattINFO Converter**, research groups can ensure that their battery metadata is structured, shareable, and reusable, facilitating better collaboration and advancing battery research.
 
 🔗 Vist **[BattINFO converter](https://battinfoconverter.streamlit.app/)** to use the app.
