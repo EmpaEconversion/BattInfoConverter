@@ -14,6 +14,12 @@ from openpyxl import Workbook, load_workbook
 logger = logging.getLogger(__name__)
 
 
+def _strip_df(df: pd.DataFrame) -> pd.DataFrame:
+    """Strip whitespace from all string values and column names."""
+    df.columns = df.columns.str.strip()
+    return df.apply(lambda col: col.map(lambda x: x.strip() if isinstance(x, str) else x))
+
+
 def _read_excel_or_wb(
     excel_file: str | Path | IO[bytes] | Workbook,
     sheet_name: str,
@@ -25,6 +31,7 @@ def _read_excel_or_wb(
         df = pd.DataFrame(data, columns=headers)
     else:
         df = pd.read_excel(excel_file, sheet_name)
+    df = _strip_df(df)
     return df.where(df.notna(), None)
 
 
