@@ -46,31 +46,22 @@ st.image(badge_url)
 
 markdown_content = """
 ### Overview
-BattINFO converter helps you ontologize the metadata of your battery cells based on the
-[BattINFO ontology](https://github.com/BIG-MAP/BattINFO), which builds on the [EMMO
-ontology](https://github.com/emmo-repo/EMMO).
-Ontologizing your metadata significantly enhances the interoperability of your data across various
-digital platforms and research groups.
-To learn more about ontologizing your metadata, we invite you to visit our page on [ontologizing
-metadata](https://github.com/ord-premise/interoperability-guidelines/tree/main).
-While there are many benefits of this process, it can be a daunting task in practice. With this in
-mind, we developed the open-source
-[GitHub: BattINFO converter](https://github.com/EmpaEconversion/BattInfoConverter) web application
-to streamline and expedite this intricate task, making it more manageable for you and your team.
+BattINFO converter helps you ontologize battery cell metadata using the
+[EMMO](https://emmo-repo.github.io/)
+[domain-battery ontology](https://emmo-repo.github.io/domain-battery/),
+improving data interoperability across platforms and research groups.
+In practice, ontologizing metadata can be complex and tedious, so we developed this open-source
+web application to streamline and simplify the process.
 
-BattINFO converter converts an Excel file collecting the metadata of a battery cell provided by the
-user into a fully ontologized JSON-LD file, which can be published as supporting information with
-your scientific publication or in open-access data repositories such as
-[Zenodo](https://zenodo.org).
-Example Excel metadata files for a coin cell battery are provided. We plan to add more Excel
-metadata files for other cell types in the future. For additional information on how to fill the
-Excel file, see the links on the left.
+BattINFO converter converts a user-fillable Excel file into a fully ontologized JSON-LD file.
+Templates are provided for coin cell batteries.
+Most users can fill the Excel, drag and drop the file here, and get an ontologized JSON-LD.
 
-For advanced users, we also provide our backend for Excel to JSON-LD conversion as a pip-installable
-Python package. Please check out our GitHub page. For issues, feature suggestions or bug reports,
-please make an issue in our [GitHub: BattINFO
-converter](https://github.com/EmpaEconversion/BattInfoConverter) page, or send us an email at
-econversion@empa.ch
+Advanced users can modify the Excel templates for their teams, and we also provide the backend
+powering this app as a standalone pip-installable Python package with
+`pip install battinfoconverter-backend`.
+For problems and suggestions, please make an issue in our [GitHub: BattINFO
+converter](https://github.com/EmpaEconversion/BattInfoConverter) page.
 
 ### Acknowledgement
 The BattINFO converter web application was developed by Dr. Nukorn Plainpan, Dr. Graham Kimbell, and

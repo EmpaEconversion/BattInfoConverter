@@ -3,10 +3,13 @@
 import copy
 import json
 from decimal import Decimal
+from functools import cached_property
 from pathlib import Path
 
 import pytest
 from pyld import jsonld
+
+from battinfoconverter_backend.templates.template_conversion import COINCELL_TEMPLATE_PATH
 
 jsonld.set_document_loader(jsonld.requests_document_loader())
 
@@ -17,39 +20,60 @@ IGNORED_COMMENT_PREFIXES = (
     "Schema version:",
 )
 
-FIXTURE_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
-STANDARD_COINCELL_EXCEL_PATH = FIXTURE_DIR / "standard_coincell_excel_schema.xlsx"
-STANDARD_COINCELL_JSON_PATH = FIXTURE_DIR / "standard_coincell_json_schema.json"
+CELL_TYPES = ["coincell"]
 
-STANDARD_CATALYSIS_EXCEL_PATH = FIXTURE_DIR / "standard_catalysis_excel_schema.xlsx"
-STANDARD_CATALYSIS_JSON_PATH = FIXTURE_DIR / "standard_catalysis_json_schema.json"
+EXCEL_PATHS = {
+    "coincell": DATA_DIR / "coincell_excel_schema.xlsx",
+}
 
+JSONLD_PATHS = {
+    "coincell": DATA_DIR / "coincell_jsonld_result.json",
+}
 
-@pytest.fixture
-def coincell_excel_path() -> Path:
-    """Path to standard coin cell excel."""
-    return STANDARD_COINCELL_EXCEL_PATH
-
-
-@pytest.fixture
-def coincell_jsonld() -> dict:
-    """Get dict of expected json-ld output."""
-    with STANDARD_COINCELL_JSON_PATH.open(encoding="utf-8") as f:
-        return json.load(f)
+TEMPLATE_PATHS = {
+    "coincell": COINCELL_TEMPLATE_PATH,
+}
 
 
-@pytest.fixture
-def catalysis_excel_path() -> Path:
-    """Path to standard catalysis excel."""
-    return STANDARD_CATALYSIS_EXCEL_PATH
+class CellFixtures:
+    """Lazy fixtures for tests."""
+
+    def __init__(self, request: pytest.FixtureRequest) -> None:
+        """Initialize object, don't load anything."""
+        self._param = request.param
+
+    @cached_property
+    def excel(self) -> Path:
+        """Get path to excel schema."""
+        return EXCEL_PATHS[self._param]
+
+    @cached_property
+    def jsonld(self) -> dict:
+        """Get path to expected JSON-LD output."""
+        path = JSONLD_PATHS[self._param]
+        with path.open("r") as f:
+            return json.load(f)
+
+    @cached_property
+    def template(self) -> dict:
+        """Get path to JSON template."""
+        path = TEMPLATE_PATHS[self._param]
+        with path.open("r") as f:
+            return json.load(f)
 
 
-@pytest.fixture
-def catalysis_jsonld() -> dict:
-    """Get dict of expected json-ld output."""
-    with STANDARD_CATALYSIS_JSON_PATH.open(encoding="utf-8") as f:
-        return json.load(f)
+@pytest.fixture(params=CELL_TYPES)
+def schema(request: pytest.FixtureRequest) -> CellFixtures:
+    """Get object to access all fixtures for a given cell type."""
+    return CellFixtures(request)
+
+
+@pytest.fixture(params=["coincell"])
+def coincell(request: pytest.FixtureRequest) -> CellFixtures:
+    """Get object to access all fixtures for the coin cell."""
+    return CellFixtures(request)
 
 
 def coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:

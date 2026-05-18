@@ -1,9 +1,9 @@
 import streamlit as st
 
-st.title("Modifying the template")
+st.title("Modifying a template")
 st.markdown(
     """
-    To change what metadata is included in the output JSON-LD, you can modify the Excel template file.
+    To change what metadata is included in the output JSON-LD, you can modify an Excel template file.
     """
 )
 
@@ -61,9 +61,9 @@ st.markdown(
     - We use the [BattINFO ontology](https://w3id.org/emmo/domain/battery/context) as the default namespace.
     - We have additional namespaces in the `@Context` tab, e.g. `"schema": "https://schema.org/"`.
     - You can add more prefixes as shorthands for URLs here.
-    - You can then use `your_prefix:your_suffix` notation in Value and Ontology link columns in `@Schema`.
-    - Note that we have cached terms from our provided namespaces for validation, we do not validate against arbitrary
-      namespaces.
+    - You can then use `your_prefix:your_suffix` notation in the Value and Ontology link columns in `@Schema`.
+    - Note that we only validate against cached terms from our provided namespaces; arbitrary 
+      namespaces are not validated.
     """
 )
 

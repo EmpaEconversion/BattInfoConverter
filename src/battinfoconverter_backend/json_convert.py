@@ -65,12 +65,19 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     context_toplevel = data_container.data["context_toplevel"]
     id_from_val: dict[str, str] = data_container.data["unique_id_map"]
 
-    schema_version_mask = schema["Metadata"].isin({"Schema version", "BattINFO CoinCellSchema version"})
-    filtered = schema[schema_version_mask]
-    if len(filtered) == 0:
-        msg = "Missing schema version in the schema sheet"
-        raise ValueError(msg)
-    schema_version = filtered["Value"].iloc[0]
+    filtered = schema.loc[schema["Metadata"].isin({"Schema version", "BattINFO CoinCellSchema version"}), "Value"]
+    schema_version = filtered.iloc[0] if not filtered.empty else None
+    if filtered.empty:
+        logger.warning("Missing schema version in the schema sheet")
+
+    filtered = schema.loc[schema["Metadata"] == "Schema name", "Value"]
+    if not filtered.empty:
+        schema_name = filtered.iloc[0]
+    elif "BattINFO CoinCellSchema version" in schema["Metadata"].to_numpy():
+        schema_name = "CoinCellSchema"
+    else:
+        schema_name = None
+        logger.warning("Missing schema version in the schema sheet")
 
     jsonld: dict[str, str | list | dict | float] = {
         "@context": [
@@ -133,13 +140,24 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         )
 
     # Add or prepend root level comment
+    software_credit = (
+        f"Software credit: This JSON-LD was created using BattINFO converter v{APP_VERSION} "
+        "(https://battinfoconverter.streamlit.app/)"
+    )
+    if schema_name and schema_version:
+        software_credit += f" with schema: {schema_name} v{schema_version}"
+    elif schema_name:
+        software_credit += f" with schema: {schema_name}, unspecified version"
+    elif schema_version:
+        software_credit += f" with unspecified schema v{schema_version}"
+    software_credit += (
+        ". "
+        "BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials "
+        "Science and Technology in the Laboratory Materials for Energy Conversion."
+    )
     root_comment = [
         f"BattINFO Converter version: {APP_VERSION}",
-        f"Software credit: This JSON-LD was created using BattINFO converter "
-        f"(https://battinfoconverter.streamlit.app/) version: {APP_VERSION} "
-        f"and the schema version: {schema_version}, "
-        "this web application was developed at Empa, Swiss Federal Laboratories for Materials "
-        "Science and Technology in the Laboratory Materials for Energy Conversion",
+        software_credit,
     ]
     current_comment = jsonld.get("rdfs:comment", [])
     if not isinstance(current_comment, list):

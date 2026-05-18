@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Basics of Ontology")
+st.title("Basics of ontology")
 
 st.markdown(
     """
@@ -18,8 +18,8 @@ st.subheader("Context")
 st.markdown(
     """
     In ontology, the "context" is both a way for us to avoid writing out every single IRI, and a way for users within a
-    domain to agree on definitions. Our default context is the
-    [EMMO domain-battery](https://w3id.org/emmo/domain/battery/context) context.
+    domain to agree on definitions. Our default context is
+    [EMMO domain-battery](https://w3id.org/emmo/domain/battery/context).
 
     This is a large map of terms, so that when we write, e.g., `Aluminium`, it looks up this term in our context and
     resolves it to:
@@ -45,7 +45,7 @@ st.markdown(
     add the prefix `schema:`, tools will replace this with the link provided, so e.g. `schema:name` expands to the valid
     IRI `https://schema.org/name`.
 
-    There is nothing clever happening here, it is just a shorthand for a link.
+    There is nothing clever happening here -- it is just a shorthand for a link.
     """
 )
 
