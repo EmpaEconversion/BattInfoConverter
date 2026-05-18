@@ -20,16 +20,16 @@ IGNORED_COMMENT_PREFIXES = (
     "Schema version:",
 )
 
-FIXTURE_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(__file__).resolve().parent / "data"
 
 CELL_TYPES = ["coincell"]
 
 EXCEL_PATHS = {
-    "coincell": FIXTURE_DIR / "standard_coincell_excel_schema.xlsx",
+    "coincell": DATA_DIR / "coincell_excel_schema.xlsx",
 }
 
 JSONLD_PATHS = {
-    "coincell": FIXTURE_DIR / "standard_coincell_json_schema.json",
+    "coincell": DATA_DIR / "coincell_jsonld_result.json",
 }
 
 TEMPLATE_PATHS = {
