@@ -55,7 +55,7 @@ In practice, ontologizing metadata can be complex and tedious, so we developed t
 web application to streamline and simplify the process.
 
 BattINFO converter converts a user-fillable Excel file into a fully ontologized JSON-LD file.
-Templates are provided for coin cell batteries.
+Templates are provided for coin cell batteries and electrolysis cells.
 Most users can fill the Excel, drag and drop the file here, and get an ontologized JSON-LD.
 
 Advanced users can modify the Excel templates for their teams, and we also provide the backend
