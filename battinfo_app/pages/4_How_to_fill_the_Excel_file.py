@@ -1,11 +1,11 @@
 import streamlit as st
 
-st.title("How to fill the Excel metadata file")
+st.title("How to fill the Excel file")
 
 st.markdown(
     """
     - Most users should just have to modify the 'Value' column of the `@Schema` tab.
-    - Additional ontology terms can be added in the `@Units`, and `@Classes` tab as needed.
+    - Additional ontology terms can be added in the `@Units` and `@Classes` tab as needed.
     - Do not change tab names or column names in the file - they are essential for the web app.
     """
 )
@@ -31,7 +31,7 @@ st.markdown(
 
     All terms that point to an IRI should be listed in the `@Classes` tab.
 
-    When adding a term from the Excel to the JSON-LD, there are four ways for the app to proceed:
+    When adding a term from the Excel file to the JSON-LD, there are four ways for the app to proceed:
 
     __1) The item is in `@Classes` with a unique ID__
     - The app will add the 'item' as its `@type`, and the 'ID' as the `@id` in the resulting JSON-LD file.
@@ -54,4 +54,4 @@ st.subheader("Going further")
 
 st.markdown("If you want to add new units or entirely new metadata rows, see the next page:")
 
-st.page_link("pages/5_Modifying_the_template.py", icon="➡️")
+st.page_link("pages/5_Modifying_a_template.py", icon="➡️")
