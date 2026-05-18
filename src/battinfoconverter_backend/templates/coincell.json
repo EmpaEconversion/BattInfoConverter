@@ -20,7 +20,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "type|",
-            "Comment": "REQUIRED, CANNOT BE CHANGED"
+            "Comment": "Required, do not change"
           },
           {
             "Metadata": "Cell ID",
@@ -28,7 +28,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "schema:productID",
-            "Comment": "REQUIRED, CANNOT BE CHANGED, unique ID for cell"
+            "Comment": "Unique ID for cell"
           },
           {
             "Metadata": "Cell name",
@@ -44,7 +44,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "schema:dateCreated",
-            "Comment": "REQUIRED, CANNOT BE CHANGED, assembly date in ISO8601 format (YYYY-MM-DD)"
+            "Comment": "Assembly date in ISO8601 format (YYYY-MM-DD)"
           },
           {
             "Metadata": "Institution/company",
@@ -52,7 +52,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "schema:manufacturer",
-            "Comment": "REQUIRED, CANNOT BE CHANGED, value should be in @classes with ID"
+            "Comment": "Organisation that made the cell, value should be in @classes with ID"
           },
           {
             "Metadata": "Scientist/technician/operator",
@@ -60,7 +60,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "schema:creator",
-            "Comment": "REQUIRED, CANNOT BE CHANGED, value should be in @classes with ID"
+            "Comment": "Person that made the cell, value should be in @classes with ID"
           },
           {
             "Metadata": "Project",
@@ -76,7 +76,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Ontology link": "rdfs:comment",
-            "Comment": null
+            "Comment": "'manually' or 'by robot'"
           },
           {
             "Metadata": "Schema name",
@@ -84,7 +84,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "rdfs:comment",
-            "Comment": "Name of this BattINFO schema, do not change"
+            "Comment": "Name of this schema, do not change"
           },
           {
             "Metadata": "Schema version",
@@ -92,7 +92,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "rdfs:comment",
-            "Comment": "Version of this BattINFO schema, do not change"
+            "Comment": "Version of this schema, do not change"
           }
         ]
       },
