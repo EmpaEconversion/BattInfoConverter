@@ -23,6 +23,7 @@ TEMPLATES_DIR = Path(__file__).parent
 
 COINCELL_TEMPLATE_PATH = TEMPLATES_DIR / "coincell.json"
 FLOWCELL_TEMPLATE_PATH = TEMPLATES_DIR / "flowcell.json"
+ELECTROLYSIS_TEMPLATE_PATH = TEMPLATES_DIR / "electrolysis.json"
 
 # Excel theme colors to color keys
 THEME_INDEX_TO_NAME = {
