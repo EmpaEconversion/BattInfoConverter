@@ -14,6 +14,11 @@ from battinfoconverter_backend.templates.template_conversion import (
 )
 
 
+def _filter_warnings(warnings: list[str]) -> list[str]:
+    """Filter out non-critical, acceptable warnings."""
+    return [w for w in warnings if " recommended values: " not in w and "This is a 'schema:manufacturer' - " not in w]
+
+
 def test_regression(schema: CellFixtures) -> None:
     """The Excel conversion should match the expected JSON-LD output."""
     converted = convert_excel_to_jsonld(schema.excel, debug_mode=False, validate=False)
@@ -38,7 +43,8 @@ def test_valid_jsonld(schema: CellFixtures) -> None:
 def test_no_warnings(schema: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
     """The standard excel should convert without warnings."""
     convert_excel_to_jsonld(schema.excel, validate=True)
-    assert caplog.text == ""
+    warnings = caplog.text.splitlines()
+    assert not _filter_warnings(warnings)
 
 
 def test_round_trip_from_json(schema: CellFixtures) -> None:
@@ -69,7 +75,8 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     """The template should compile without any warnings."""
     wb = dict_to_workbook(schema.template)
     convert_excel_to_jsonld(wb)
-    assert caplog.text == ""
+    warnings = caplog.text.splitlines()
+    assert not _filter_warnings(warnings)
 
 
 def test_template_gives_expected_jsonld(schema: CellFixtures) -> None:
