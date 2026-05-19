@@ -161,7 +161,7 @@
             "Value": "Used two 280 µm carbon papers",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasPositiveElectrode-Substrate",
+            "Ontology link": "hasPositiveElectrode-Substrate-rdfs:comment",
             "Comment": "Describe stacking of multiple electrode components, leave empty if single elctrode was used"
           },
           {
@@ -201,7 +201,7 @@
             "Value": "Untreated electrode",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasPositiveElectrode-Substrate",
+            "Ontology link": "hasPositiveElectrode-Substrate-rdfs:comment",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)"
           }
         ]
@@ -279,7 +279,7 @@
             "Value": "Used two 280 µm carbon papers",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-Substrate",
+            "Ontology link": "hasNegativeElectrode-Substrate-rdfs:comment",
             "Comment": "Describe stacking of multiple electrode components, leave empty if single elctrode was used"
           },
           {
@@ -319,7 +319,7 @@
             "Value": "Untreated electrode",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasNegativeElectrode-Substrate",
+            "Ontology link": "hasNegativeElectrode-Substrate-rdfs:comment",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)"
           }
         ]
@@ -373,7 +373,7 @@
             "Value": "Purity considered",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-rdfs:comment",
             "Comment": "State if purity was considered in concentration calculations or not"
           },
           {
@@ -485,7 +485,7 @@
             "Value": "Purity considered",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-rdfs:comment",
             "Comment": "State if purity was considered in concentration calculations or not"
           },
           {
@@ -541,7 +541,7 @@
             "Value": "Purity considered",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-rdfs:comment",
             "Comment": "State if purity was considered in concentration calculations or not"
           },
           {
@@ -589,7 +589,7 @@
             "Value": "Flow calibrated with cell in series",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasCatholyte-hasMeasuredProperty-VolumeFlowRate",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-VolumeFlowRate-rdfs:comment",
             "Comment": "Comment if calibrated differently"
           },
           {
@@ -723,7 +723,7 @@
             "Value": "Purity considered",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-rdfs:comment",
             "Comment": "State if purity was considered in concentration calculations or not"
           },
           {
@@ -939,7 +939,7 @@
             "Value": "Flow calibrated with cell in series",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasAnolyte-hasMeasuredProperty-VolumeFlowRate",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-VolumeFlowRate-rdfs:comment",
             "Comment": "Comment if calibrated differently"
           },
           {
@@ -1054,7 +1054,7 @@
           },
           {
             "Metadata": "Membrane material A",
-            "Value": "PolyEtherEtherKetone",
+            "Value": "PolyetherEtherKetone",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasSeparator-hasConstituentA",
@@ -1128,7 +1128,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasCase-schema:manufacturer",
-            "Comment": "Fuel Cell Technologies, Pinflow,…"
+            "Comment": "Fuel Cell Technologies, Pinflow,â€¦"
           },
           {
             "Metadata": "Cell case manufacturer product ID",
@@ -1151,7 +1151,7 @@
             "Value": "Serpentine",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasComponent-FlowField",
+            "Ontology link": "hasComponent-FlowField-schema:description",
             "Comment": null
           },
           {
@@ -1444,6 +1444,16 @@
         "Item": "Water",
         "ID": null,
         "Note": null
+      },
+      {
+        "Item": "Viton",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PolyetherEtherKetone",
+        "ID": null,
+        "Note": null
       }
     ]
   },
@@ -1475,7 +1485,7 @@
         "Key": "unit:GM-PER-CentiM3"
       },
       {
-        "Item": "°C",
+        "Item": "Â°C",
         "Key": "unit:DEG_C"
       },
       {
