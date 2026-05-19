@@ -357,7 +357,7 @@
             "Value": "H2O",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -413,7 +413,7 @@
             "Value": null,
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -469,7 +469,7 @@
             "Value": "K4Fe(CN)6 * 3 H2O",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -525,7 +525,7 @@
             "Value": "K3Fe(CN)6",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -707,7 +707,7 @@
             "Value": "H2O",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -763,7 +763,7 @@
             "Value": null,
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -819,7 +819,7 @@
             "Value": "KCrC11H18N2O10",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -875,7 +875,7 @@
             "Value": "C11H18N2O8",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-hasMeasuredProperty-type|molecularFormula-hasStringValue",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-hasDatum-type|molecularFormula-hasStringValue",
             "Comment": null
           },
           {
@@ -1485,7 +1485,7 @@
         "Key": "unit:GM-PER-CentiM3"
       },
       {
-        "Item": "Â°C",
+        "Item": "°C",
         "Key": "unit:DEG_C"
       },
       {
