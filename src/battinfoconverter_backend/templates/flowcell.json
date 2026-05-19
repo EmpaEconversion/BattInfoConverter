@@ -1256,7 +1256,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasCase-schema:manufacturer",
-            "Comment": "Fuel Cell Technologies, Pinflow,â€¦"
+            "Comment": "Fuel Cell Technologies, Pinflow, etc."
           },
           {
             "Metadata": "Cell case manufacturer product ID",
