@@ -7,7 +7,6 @@ from typing import IO
 
 import pandas as pd
 from openpyxl import Workbook
-from pandas import DataFrame
 
 from . import auxiliary as aux
 from .excel_tools import ExcelContainer
@@ -21,27 +20,6 @@ from .validate import validate_jsonld
 logger = logging.getLogger(__name__)
 
 APP_VERSION = version("battinfoconverter-backend")
-
-
-def get_information_value(
-    df: DataFrame, row_to_look: str, col_to_look: str = "Value", col_to_match: str = "Metadata"
-) -> str | None:
-    """Retrieve the value from a specified column where a different column matches a given value.
-
-    Args:
-        df (DataFrame): The DataFrame to search within.
-        row_to_look (str): The value to match within the column specified by col_to_match.
-        col_to_look (str): The name of the column from which to get the value. Default is "Key".
-        col_to_match (str): The name of the column to search for row_to_look. Default is "Item".
-
-    Returns:
-        str | None: The value from the column col_to_look if a match is found; otherwise, None.
-
-    """
-    if row_to_look.endswith(" "):  # Check if the string ends with a space
-        row_to_look = row_to_look.rstrip(" ")  # Remove only trailing spaces
-    result = df.query(f"{col_to_match} == @row_to_look")[col_to_look]
-    return result.iloc[0] if not result.empty else None
 
 
 def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
