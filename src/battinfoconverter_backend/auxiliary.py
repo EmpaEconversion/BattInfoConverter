@@ -444,6 +444,7 @@ def add_to_structure(
                 raise ValueError(msg)
             if not unit_map.get(unit):
                 msg = f"The unit '{unit}' was not found in the @Units tab."
+                raise ValueError(msg)
             mp_entry = {
                 "@type": _extract_type(path[-1]),
                 "hasNumericalPart": {
