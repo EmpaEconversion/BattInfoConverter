@@ -16,9 +16,8 @@ logger = logging.getLogger(__name__)
 # Regex used to detect multi-connector suffixes such as "hasSolventA"
 _MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
 
-# The following properties/predicates are allowed string literal values, rather than nodes
-STRING_LITERAL_PREDICATES = {
-    "hasStringValue",
+# The following properties/predicates are allowed literal values, rather than nodes
+LITERAL_PREDICATES = {
     "schema:name",
     "schema:version",
     "schema:description",
@@ -39,6 +38,29 @@ STRING_LITERAL_PREDICATES = {
     "SMILESReference",
     "InChIReference",
     "CASReference",
+    "hasANSICode",
+    "hasDataValue",
+    "hasDateOfCalibration",
+    "hasDimensionString",
+    "hasIECCode",
+    "hasIUPACName",
+    "hasJSONValue",
+    "hasManufacturer",
+    "hasORCID",
+    "hasPrefixMultiplier",
+    "hasPrefixSymbol",
+    "hasSIConversionMultiplier",
+    "hasSIConversionOffset",
+    "hasSIQuantityValue",
+    "hasStringValue",
+    "hasSymbolValue",
+    "hasURIValue",
+    "hasURLValue",
+    "hasURNValue",
+    "hasUniqueID",
+    "hasNumberValue",
+    "hasIUPAC2016AtomicMass",
+    "hasAtomicNumber",
 }
 
 # These will be coerced into ISO8601
@@ -47,6 +69,14 @@ DATE_PREDICATES = {
     "schema:dateModified",
     "schema:uploadDate",
     "schema:datePublished",
+    "hasDateOfCalibration",
+}
+
+# These are not coerced to strings
+NUMBER_PREDICATES = {
+    "hasNumberValue",
+    "hasIUPAC2016AtomicMass",
+    "hasAtomicNumber",
 }
 
 # The following keys will create an object with @type value, and look up a unique ID in @Classes
@@ -604,8 +634,8 @@ def add_to_structure(
                 current_level[part] = payload
                 break
 
-            # Special case: string literals - no @id lookup needed.
-            if part in STRING_LITERAL_PREDICATES:
+            # Special case: literal values - no @id lookup needed.
+            if part in LITERAL_PREDICATES:
                 if part == "rdfs:comment":
                     # Comments also get the key and unit included if they exist
                     prefix = f"{metadata}: " if metadata is not None else ""
@@ -613,15 +643,17 @@ def add_to_structure(
                     value = f"{prefix}{value}{suffix}"
                 if part in DATE_PREDICATES:
                     value = coerce_date_to_iso(value)
-                logger.debug("Special case - adding value '%s' to '%s' as a string literal", value, part)
+                elif part not in NUMBER_PREDICATES:
+                    value = str(value)
+                logger.debug("Special case - adding value '%s' to '%s' as a literal", value, part)
                 target_node = current_level[-1] if isinstance(current_level, list) else current_level
                 if existing_value := target_node.get(part):
                     if isinstance(existing_value, str):
-                        target_node[part] = [existing_value, str(value)]
+                        target_node[part] = [existing_value, value]
                     elif isinstance(existing_value, list):
-                        target_node[part].append(str(value))
+                        target_node[part].append(value)
                 else:
-                    target_node[part] = str(value)
+                    target_node[part] = value
                 break
 
             # General case: ontology node / @id
