@@ -1,6 +1,7 @@
 """Streamlit web app interface."""
 
 import logging
+import traceback
 from collections.abc import Generator
 from contextlib import contextmanager
 from io import BytesIO
@@ -95,30 +96,34 @@ def main() -> None:
         base_name = Path(uploaded_file.name).stem
 
         # Convert the uploaded Excel file to JSON-LD
-        with collect_warnings() as warnings:
-            jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
-        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
+        try:
+            with collect_warnings() as warnings:
+                jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
+        except Exception as e:
+            st.error(f"Error encountered during conversion:  \n  \n{e}")
+            with st.expander("💥 See full error traceback"):
+                st.code(traceback.format_exc(), language="python")
+        else:
+            if warnings:
+                st.warning(
+                    f"**{len(warnings)} Warning{'' if len(warnings) == 1 else 's'}**  \n  \n"
+                    + "  \n".join(["- " + w for w in warnings])
+                )
 
-        if warnings:
-            st.warning(
-                f"**{len(warnings)} Warning{'' if len(warnings) == 1 else 's'}**  \n  \n"
-                + "  \n".join(["- " + w for w in warnings])
+            jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
+
+            # Download button
+            to_download = BytesIO(jsonld_str.encode())
+            output_file_name = f"BattINFO_converter_{base_name}.json"
+            st.download_button(
+                label="Download JSON-LD",
+                data=to_download,
+                file_name=output_file_name,
+                mime="application/json",
             )
 
-        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
-
-        # Download button
-        to_download = BytesIO(jsonld_str.encode())
-        output_file_name = f"BattINFO_converter_{base_name}.json"
-        st.download_button(
-            label="Download JSON-LD",
-            data=to_download,
-            file_name=output_file_name,
-            mime="application/json",
-        )
-
-        # Convert JSON-LD output to a string to display in text area (for preview)
-        st.code(jsonld_str, height=1000, language="json")
+            # Convert JSON-LD output to a string to display in text area (for preview)
+            st.code(jsonld_str, height=1000, language="json")
 
     st.markdown(markdown_content, unsafe_allow_html=True)
     st.image("./battinfo_app/assets/sponsor.png", width=700)
