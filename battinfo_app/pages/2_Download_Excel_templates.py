@@ -15,7 +15,7 @@ from battinfoconverter_backend.templates.template_conversion import (
 @st.cache_data
 def get_xlsx_bytes(schema_path: Path, *, empty: bool) -> tuple[bytes, str]:
     """Create xlsx bytes object, and get version."""
-    with schema_path.open("r") as f:
+    with schema_path.open("r", encoding="utf-8") as f:
         data = json.load(f)
     version = next(
         (
