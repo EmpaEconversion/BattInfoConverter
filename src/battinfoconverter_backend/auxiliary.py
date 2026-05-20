@@ -9,7 +9,6 @@ from typing import Any
 
 import pandas as pd
 
-from .json_convert import get_information_value
 from .registry import Registry, tokenize
 
 logger = logging.getLogger(__name__)
@@ -361,7 +360,7 @@ def add_to_structure(
         return
 
     # Load lookup tables from the ExcelContainer Registry
-    unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
+    unit_map = data_container.data["unit_map"]
     context_connector = data_container.data["context_connector"]
     connectors = set(context_connector["Item"])
     unique_id_map = data_container.data["unique_id_map"]
@@ -443,21 +442,22 @@ def add_to_structure(
             if pd.isna(unit):
                 msg = f"Value '{value}' at path '{path}' is missing a required unit."
                 raise ValueError(msg)
-            unit_info = unit_map.get(unit, {})
+            if not unit_map.get(unit):
+                msg = f"The unit '{unit}' was not found in the @Units tab."
             mp_entry = {
                 "@type": _extract_type(path[-1]),
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": value,
                 },
-                "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
+                "hasMeasurementUnit": unit_map[unit],
             }
             parent = current_level[-1] if isinstance(current_level, list) else current_level
             logger.debug(
                 "Adding an object with type %s, numerical part %s, measurement unit %s",
                 _extract_type(path[-1]),
                 value,
-                unit_info.get("Key", "UnknownUnit"),
+                unit_map[unit],
             )
             _add_or_extend_list(parent, part, mp_entry)
             break

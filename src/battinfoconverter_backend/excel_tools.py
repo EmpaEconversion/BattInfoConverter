@@ -58,7 +58,7 @@ class ExcelContainer:
             raise KeyError(msg)
 
         schema = _find_sheet(["@Schema", "Schema"])
-        unit_map = _find_sheet(["@Units", "Ontology - Unit"])
+        units_df = _find_sheet(["@Units", "Ontology - Unit"])
         context_toplevel = _find_sheet(["@Context", "@context-TopLevel"])
         context_connector = _find_sheet(["@Predicates", "@context-Connector"])
         unique_id = _find_sheet(["@Classes", "Unique ID"])
@@ -82,7 +82,8 @@ class ExcelContainer:
                     missing_vals_str,
                 )
 
-        unique_id_from_val: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
+        unique_id_map: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
+        unit_map: dict[str, str] = {r["Item"]: r["Key"] for _, r in units_df.iterrows()}
 
         self.data = {
             "schema": schema,
@@ -90,5 +91,5 @@ class ExcelContainer:
             "context_toplevel": context_toplevel,
             "context_connector": context_connector,
             "unique_id": unique_id,
-            "unique_id_map": unique_id_from_val,
+            "unique_id_map": unique_id_map,
         }
