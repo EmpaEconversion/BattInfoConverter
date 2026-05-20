@@ -6,6 +6,8 @@ from difflib import get_close_matches
 from pathlib import Path
 from typing import Literal
 
+from battinfoconverter_backend.auxiliary import LITERAL_PREDICATES
+
 logger = logging.getLogger(__name__)
 _MAPPED_TERMS: dict[str, list] | None = None
 
@@ -93,6 +95,13 @@ def get_all_terms(obj: list | dict | str | float, seen: set | None = None) -> se
                         seen.add(el)
             elif not k.startswith("@"):
                 seen.add(k)
+                if k not in LITERAL_PREDICATES:
+                    if isinstance(v, str):
+                        seen.add(v)
+                    elif isinstance(v, list):
+                        for el in v:
+                            if isinstance(el, str):
+                                seen.add(el)
             get_all_terms(v, seen)
     elif isinstance(obj, list):
         for i in obj:

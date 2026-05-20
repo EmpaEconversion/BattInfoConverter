@@ -8,6 +8,9 @@ from conftest import CellFixtures, normalize_jsonld
 from openpyxl import load_workbook
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
+from battinfoconverter_backend.templates.template_conversion import (
+    dict_to_workbook,
+)
 from battinfoconverter_backend.validate import validate_jsonld
 
 
@@ -87,10 +90,10 @@ def test_against_cached_context(coincell: CellFixtures) -> None:
     with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
         validate_jsonld(bad_jsonld, errors="raise")
 
-    # This is currently allowed - string literal with no IRI
     bad_jsonld = converted.copy()
     bad_jsonld["hasComponent"] = "ThisDoesNotExist"
-    validate_jsonld(bad_jsonld, errors="raise")
+    with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
+        validate_jsonld(bad_jsonld, errors="raise")
 
 
 def test_bad_jsonld_context(caplog: pytest.LogCaptureFixture) -> None:
@@ -128,3 +131,59 @@ def test_bad_jsonld_context(caplog: pytest.LogCaptureFixture) -> None:
     assert "The URL for 'missing' (https://w3id.org/emmo/domain/somethingwrong) is not a known namespace" in caplog.text
     assert "'CoinCell' has no prefix, but there is no default namespace" in caplog.text
     assert "Term 'missing:StuffThatCannotBeFound' was not found because 'missing' is empty" in caplog.text
+
+
+def test_bad_prefixed_unit(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
+    """Check that unit missing from prefixed namespace warns."""
+    template = coincell.template.copy()
+    template["@Units"]["data"].append({"Item": "foo", "Key": "unit:thisDoesNotExist"})
+    template["@Schema"]["data"]["Positive electrode (cathode when battery is discharged)"]["rows"].append(
+        {
+            "Metadata": "Some made up quantity with a unit missing an IRI",
+            "Value": 1.2345,
+            "Unit": "foo",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-hasMeasuredProperty-Density",
+            "Comment": None,
+        },
+    )
+    wb = dict_to_workbook(template)
+    convert_excel_to_jsonld(wb, validate=True)
+    assert "Term 'unit:thisDoesNotExist' was not found in 'unit'" in caplog.text
+
+
+def test_bad_default_unit(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
+    """Check that unit missing from default namespace warns."""
+    template = coincell.template.copy()
+    template["@Units"]["data"].append({"Item": "foo", "Key": "thisDoesNotExist"})
+    template["@Schema"]["data"]["Positive electrode (cathode when battery is discharged)"]["rows"].append(
+        {
+            "Metadata": "Some made up quantity with a unit missing an IRI",
+            "Value": 1.2345,
+            "Unit": "foo",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-hasMeasuredProperty-Density",
+            "Comment": None,
+        },
+    )
+    wb = dict_to_workbook(template)
+    convert_excel_to_jsonld(wb, validate=True)
+    assert "Term 'thisDoesNotExist' was not found in the default namespace" in caplog.text
+
+
+def test_missing_unit(coincell: CellFixtures) -> None:
+    """Check that missing unit in @Units tab errors."""
+    template = coincell.template.copy()
+    template["@Schema"]["data"]["Positive electrode (cathode when battery is discharged)"]["rows"].append(
+        {
+            "Metadata": "Some made up quantity with a unit missing an IRI",
+            "Value": 1.2345,
+            "Unit": "foo",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-hasMeasuredProperty-Density",
+            "Comment": None,
+        },
+    )
+    wb = dict_to_workbook(template)
+    with pytest.raises(ValueError, match=r"The unit 'foo' was not found in the @Units tab."):
+        convert_excel_to_jsonld(wb, validate=True)

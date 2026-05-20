@@ -9,7 +9,6 @@ from typing import Any
 
 import pandas as pd
 
-from .json_convert import get_information_value
 from .registry import Registry, tokenize
 
 logger = logging.getLogger(__name__)
@@ -17,9 +16,8 @@ logger = logging.getLogger(__name__)
 # Regex used to detect multi-connector suffixes such as "hasSolventA"
 _MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
 
-# The following properties/predicates are allowed string literal values, rather than nodes
-STRING_LITERAL_PREDICATES = {
-    "hasStringValue",
+# The following properties/predicates are allowed literal values, rather than nodes
+LITERAL_PREDICATES = {
     "schema:name",
     "schema:version",
     "schema:description",
@@ -40,6 +38,29 @@ STRING_LITERAL_PREDICATES = {
     "SMILESReference",
     "InChIReference",
     "CASReference",
+    "hasANSICode",
+    "hasDataValue",
+    "hasDateOfCalibration",
+    "hasDimensionString",
+    "hasIECCode",
+    "hasIUPACName",
+    "hasJSONValue",
+    "hasManufacturer",
+    "hasORCID",
+    "hasPrefixMultiplier",
+    "hasPrefixSymbol",
+    "hasSIConversionMultiplier",
+    "hasSIConversionOffset",
+    "hasSIQuantityValue",
+    "hasStringValue",
+    "hasSymbolValue",
+    "hasURIValue",
+    "hasURLValue",
+    "hasURNValue",
+    "hasUniqueID",
+    "hasNumberValue",
+    "hasIUPAC2016AtomicMass",
+    "hasAtomicNumber",
 }
 
 # These will be coerced into ISO8601
@@ -48,6 +69,14 @@ DATE_PREDICATES = {
     "schema:dateModified",
     "schema:uploadDate",
     "schema:datePublished",
+    "hasDateOfCalibration",
+}
+
+# These are not coerced to strings
+NUMBER_PREDICATES = {
+    "hasNumberValue",
+    "hasIUPAC2016AtomicMass",
+    "hasAtomicNumber",
 }
 
 # The following keys will create an object with @type value, and look up a unique ID in @Classes
@@ -361,7 +390,7 @@ def add_to_structure(
         return
 
     # Load lookup tables from the ExcelContainer Registry
-    unit_map = data_container.data["unit_map"].set_index("Item").to_dict("index")
+    unit_map = data_container.data["unit_map"]
     context_connector = data_container.data["context_connector"]
     connectors = set(context_connector["Item"])
     unique_id_map = data_container.data["unique_id_map"]
@@ -443,21 +472,23 @@ def add_to_structure(
             if pd.isna(unit):
                 msg = f"Value '{value}' at path '{path}' is missing a required unit."
                 raise ValueError(msg)
-            unit_info = unit_map.get(unit, {})
+            if not unit_map.get(unit):
+                msg = f"The unit '{unit}' was not found in the @Units tab."
+                raise ValueError(msg)
             mp_entry = {
                 "@type": _extract_type(path[-1]),
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": value,
                 },
-                "hasMeasurementUnit": unit_info.get("Key", "UnknownUnit"),
+                "hasMeasurementUnit": unit_map[unit],
             }
             parent = current_level[-1] if isinstance(current_level, list) else current_level
             logger.debug(
                 "Adding an object with type %s, numerical part %s, measurement unit %s",
                 _extract_type(path[-1]),
                 value,
-                unit_info.get("Key", "UnknownUnit"),
+                unit_map[unit],
             )
             _add_or_extend_list(parent, part, mp_entry)
             break
@@ -603,8 +634,8 @@ def add_to_structure(
                 current_level[part] = payload
                 break
 
-            # Special case: string literals - no @id lookup needed.
-            if part in STRING_LITERAL_PREDICATES:
+            # Special case: literal values - no @id lookup needed.
+            if part in LITERAL_PREDICATES:
                 if part == "rdfs:comment":
                     # Comments also get the key and unit included if they exist
                     prefix = f"{metadata}: " if metadata is not None else ""
@@ -612,15 +643,17 @@ def add_to_structure(
                     value = f"{prefix}{value}{suffix}"
                 if part in DATE_PREDICATES:
                     value = coerce_date_to_iso(value)
-                logger.debug("Special case - adding value '%s' to '%s' as a string literal", value, part)
+                elif part not in NUMBER_PREDICATES:
+                    value = str(value)
+                logger.debug("Special case - adding value '%s' to '%s' as a literal", value, part)
                 target_node = current_level[-1] if isinstance(current_level, list) else current_level
                 if existing_value := target_node.get(part):
                     if isinstance(existing_value, str):
-                        target_node[part] = [existing_value, str(value)]
+                        target_node[part] = [existing_value, value]
                     elif isinstance(existing_value, list):
-                        target_node[part].append(str(value))
+                        target_node[part].append(value)
                 else:
-                    target_node[part] = str(value)
+                    target_node[part] = value
                 break
 
             # General case: ontology node / @id

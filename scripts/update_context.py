@@ -88,17 +88,17 @@ def update_context_cache() -> None:
 
             for s in g.subjects(RDF.type, OWL.Class):
                 for label in g.objects(s, RDFS.label):
-                    if label.language == "en":
+                    if label.language in {"en", None}:
                         terms.add(label.value)
 
             for s in g.subjects(RDF.type, OWL.ObjectProperty):
                 for label in g.objects(s, RDFS.label):
-                    if label.language == "en":
+                    if label.language in {"en", None}:
                         terms.add(label.value)
 
             for s in g.subjects(RDF.type, OWL.DatatypeProperty):
                 for label in g.objects(s, RDFS.label):
-                    if label.language == "en":
+                    if label.language in {"en", None}:
                         terms.add(label.value)
 
             for s in g.subjects(RDF.type, QUDT.Unit):
