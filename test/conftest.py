@@ -53,14 +53,14 @@ class CellFixtures:
     def jsonld(self) -> dict:
         """Get path to expected JSON-LD output."""
         path = JSONLD_PATHS[self._param]
-        with path.open("r") as f:
+        with path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
     @cached_property
     def template(self) -> dict:
         """Get path to JSON template."""
         path = TEMPLATE_PATHS[self._param]
-        with path.open("r") as f:
+        with path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
 

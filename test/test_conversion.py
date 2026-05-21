@@ -5,6 +5,7 @@ import json
 import pytest
 from conftest import CellFixtures, normalize_jsonld
 from pyld import jsonld
+from openpyxl import load_workbook
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import (
@@ -40,13 +41,26 @@ def test_no_warnings(schema: CellFixtures, caplog: pytest.LogCaptureFixture) -> 
     assert caplog.text == ""
 
 
-def test_round_trip(schema: CellFixtures) -> None:
-    """The template should survive roundtrips to excel and JSON."""
+def test_round_trip_from_json(schema: CellFixtures) -> None:
+    """The template should survive roundtrip starting from JSON template."""
     data1 = schema.template
     wb1 = dict_to_workbook(data1)
     data2 = workbook_to_dict(wb1)
     wb2 = dict_to_workbook(data2)
     data3 = workbook_to_dict(wb2)
+    assert data1 == data2
+    assert data2 == data3
+
+
+def test_round_trip_from_excel(schema: CellFixtures) -> None:
+    """The template should survive roundtrip starting from Excel test file."""
+    wb1 = load_workbook(schema.excel)
+    data1 = workbook_to_dict(wb1)
+    wb2 = dict_to_workbook(data1)
+    data2 = workbook_to_dict(wb2)
+
+    data3 = schema.template  # must also match the template
+
     assert data1 == data2
     assert data2 == data3
 

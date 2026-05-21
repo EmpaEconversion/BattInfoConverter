@@ -110,7 +110,7 @@ def main() -> None:
                     + "  \n".join(["- " + w for w in warnings])
                 )
 
-            jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
+            jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True, ensure_ascii=False)
 
             # Download button
             to_download = BytesIO(jsonld_str.encode())
