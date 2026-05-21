@@ -98,7 +98,7 @@
                 }
             ],
             "rdfs:comment": [
-                "Positive electrode substrate thickness comment: Used two 280 \u00c2\u00b5m carbon papers",
+                "Positive electrode substrate thickness comment: Used two 280 µm carbon papers",
                 "Positive electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
             ]
         }
@@ -169,7 +169,7 @@
                 }
             ],
             "rdfs:comment": [
-                "Negative electrode substrate thickness comment: Used two 280 \u00c2\u00b5m carbon papers",
+                "Negative electrode substrate thickness comment: Used two 280 µm carbon papers",
                 "Negative electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
             ]
         }
