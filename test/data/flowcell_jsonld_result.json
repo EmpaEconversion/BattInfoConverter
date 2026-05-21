@@ -42,6 +42,7 @@
             "schema:name": "Empa",
             "@id": "https://www.wikidata.org/wiki/Q683116"
         },
+        "schema:productID": "Pristine",
         "Substrate": {
             "@type": [
                 "CarbonPaper",
@@ -95,6 +96,14 @@
                         "hasNumberValue": 450
                     },
                     "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Weight",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 53.2
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM"
                 }
             ],
             "rdfs:comment": [
@@ -113,6 +122,7 @@
             "schema:name": "Empa",
             "@id": "https://www.wikidata.org/wiki/Q683116"
         },
+        "schema:productID": "Pristine",
         "Substrate": {
             "@type": [
                 "CarbonPaper",
@@ -166,6 +176,14 @@
                         "hasNumberValue": 450
                     },
                     "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Weight",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 52.3
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM"
                 }
             ],
             "rdfs:comment": [
@@ -181,46 +199,59 @@
             "schema:name": "Empa",
             "@id": "https://www.wikidata.org/wiki/Q683116"
         },
+        "schema:productID": "Posolyte 0.5M",
         "hasSolvent": {
             "@type": "Solvent",
-            "hasConstituent": {
-                "@type": "Water",
-                "hasDatum": [
-                    {
-                        "@type": "ChemicalName",
-                        "hasStringValue": "Water"
-                    },
-                    {
-                        "@type": "ChemicalFormula",
-                        "hasStringValue": "H2O"
-                    }
-                ],
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "Purity",
-                        "hasNumericalPart": {
-                            "@type": "emmo:RealData",
-                            "hasNumberValue": 100
+            "hasConstituent": [
+                {
+                    "@type": "Water",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "Water"
                         },
-                        "hasMeasurementUnit": "unit:PERCENT"
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "H2O"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    ],
+                    "rdfs:comment": "Positive electrolyte solvent A purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Empa",
+                        "@id": "https://www.wikidata.org/wiki/Q683116"
                     },
-                    {
+                    "schema:productID": "MilliQ"
+                },
+                {
+                    "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
                             "@type": "emmo:RealData",
-                            "hasNumberValue": 100
+                            "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
                     }
-                ],
-                "rdfs:comment": "Positive electrolyte solvent A purity considered in calculation?: Purity considered",
-                "schema:manufacturer": {
-                    "@type": "schema:Organization",
-                    "schema:name": "Empa",
-                    "@id": "https://www.wikidata.org/wiki/Q683116"
-                },
-                "schema:productID": "MilliQ"
-            }
+                }
+            ]
         },
         "hasSolute": {
             "@type": "Solute",
@@ -324,12 +355,36 @@
                 }
             },
             {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 155.6
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "DynamicViscosity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.34
+                },
+                "hasMeasurementUnit": "unit:MilliPA-SEC"
+            },
+            {
                 "@type": "pH",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": 7.7
                 },
                 "hasMeasurementUnit": "unit:UNITLESS"
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.13
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
             },
             {
                 "@type": "CelsiusTemperature",
@@ -339,30 +394,81 @@
                 },
                 "hasMeasurementUnit": "unit:DEG_C"
             }
-        ],
-        "hasComponent": {
+        ]
+    },
+    "hasComponent": [
+        {
+            "@type": "CatholyteTank",
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 50
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            "rdfs:comment": "Positive electrolyte tank convection?: No"
+        },
+        {
             "@type": "AnolyteTank",
-            "hasMeasuredProperty": [
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 50
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            "rdfs:comment": "Negative electrolyte tank convection?: Bubbled with gas"
+        },
+        {
+            "@type": "FlowField",
+            "hasDatum": [
                 {
-                    "@type": "Volume",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 50
-                    },
-                    "hasMeasurementUnit": "unit:MilliL"
+                    "@type": "ChemicalName",
+                    "hasStringValue": "Graphite"
                 },
                 {
-                    "@type": "Volume",
-                    "hasNumericalPart": {
-                        "@type": "emmo:RealData",
-                        "hasNumberValue": 50
-                    },
-                    "hasMeasurementUnit": "unit:MilliL"
+                    "@type": "ChemicalFormula",
+                    "hasStringValue": "C"
                 }
             ],
-            "rdfs:comment": "Negative electrolyte tank convection?: Bubbled with gas"
+            "schema:description": "Serpentine",
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Fuel Cell Store",
+                "@id": "https://www.wikidata.org/wiki/Q27868725"
+            },
+            "schema:productID": "5SCH-PB"
+        },
+        {
+            "@type": "Gasket",
+            "hasDatum": {
+                "@type": "ChemicalName",
+                "hasStringValue": "Viton"
+            },
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Maagtechnic AG"
+            },
+            "schema:productID": "17965343",
+            "hasMeasuredProperty": {
+                "@type": "Thickness",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 450
+                },
+                "hasMeasurementUnit": "unit:MicroM"
+            }
+        },
+        {
+            "@type": "Connector",
+            "rdfs:comment": [
+                "Connector type: Banana plug connected via crocodile clamp",
+                "Connection type: 4-point"
+            ]
         }
-    },
+    ],
     "hasAnolyte": {
         "@type": "Electrolyte",
         "schema:manufacturer": {
@@ -370,6 +476,7 @@
             "schema:name": "Empa",
             "@id": "https://www.wikidata.org/wiki/Q683116"
         },
+        "schema:productID": "Negolyte 1M",
         "hasSolvent": {
             "@type": "Solvent",
             "hasConstituent": [
@@ -461,9 +568,11 @@
                         "@type": "schema:Organization",
                         "schema:name": "Empa",
                         "@id": "https://www.wikidata.org/wiki/Q683116"
-                    }
+                    },
+                    "schema:productID": "KCrPDTA-Fall-25"
                 },
                 {
+                    "@type": "OrganicAcid",
                     "hasDatum": [
                         {
                             "@type": "ChemicalName",
@@ -523,12 +632,36 @@
                 }
             },
             {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 48.4
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "DynamicViscosity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 2.32
+                },
+                "hasMeasurementUnit": "unit:MilliPA-SEC"
+            },
+            {
                 "@type": "pH",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": 8.7
                 },
                 "hasMeasurementUnit": "unit:UNITLESS"
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.21
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
             },
             {
                 "@type": "CelsiusTemperature",
@@ -539,7 +672,27 @@
                 "hasMeasurementUnit": "unit:DEG_C"
             }
         ],
-        "rdfs:comment": "Negative electrolyte gas: Bubbled with Argon"
+        "hasBubbledGas": {
+            "@type": "Argon",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "VolumeFlowRate",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 2.5
+                    },
+                    "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+                },
+                {
+                    "@type": "Pressure",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 10
+                    },
+                    "hasMeasurementUnit": "unit:MilliBAR"
+                }
+            ]
+        }
     },
     "hasSeparator": {
         "@type": "CationExchangeMembrane",
@@ -599,53 +752,6 @@
                 "hasNumberValue": 6
             },
             "hasMeasurementUnit": "unit:N-M"
-        }
-    },
-    "hasComponent": {
-        "FlowField": {
-            "@type": "Graphite",
-            "hasDatum": [
-                {
-                    "@type": "ChemicalName",
-                    "hasStringValue": "Graphite"
-                },
-                {
-                    "@type": "ChemicalFormula",
-                    "hasStringValue": "C"
-                }
-            ],
-            "schema:description": "Serpentine",
-            "schema:manufacturer": {
-                "@type": "schema:Organization",
-                "schema:name": "Fuel Cell Store",
-                "@id": "https://www.wikidata.org/wiki/Q27868725"
-            },
-            "schema:productID": "5SCH-PB"
-        },
-        "Gasket": {
-            "@type": "PolymerCompound",
-            "hasDatum": {
-                "@type": "ChemicalName",
-                "hasStringValue": "Viton"
-            },
-            "schema:manufacturer": {
-                "@type": "schema:Organization",
-                "schema:name": "Maagtechnic AG"
-            }
-        },
-        "hasMeasuredProperty": {
-            "@type": "Thickness",
-            "hasNumericalPart": {
-                "@type": "emmo:RealData",
-                "hasNumberValue": 450
-            },
-            "hasMeasurementUnit": "unit:MicroM"
-        },
-        "Connector": {
-            "rdfs:comment": [
-                "Connector type: Banana plug connected via crocodile clamp",
-                "Connection type: 4-point"
-            ]
         }
     }
 }

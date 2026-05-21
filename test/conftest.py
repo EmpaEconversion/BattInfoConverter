@@ -109,7 +109,7 @@ def old_schema(request: pytest.FixtureRequest) -> Path:
 def add_pending_terms() -> None:
     """Add pending terms to context for validation."""
     ctx = get_context()  # populates global _MAPPED_TERMS
-    ctx["https://w3id.org/emmo/domain/battery#"] += ["pH", "Purity", "Gasket"]  # mutate global in place
+    ctx["https://w3id.org/emmo/domain/battery#"] += ["pH", "Purity", "Gasket", "hasBubbledGas"]  # mutate global in place
 
 
 def coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
