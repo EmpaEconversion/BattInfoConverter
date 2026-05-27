@@ -150,8 +150,8 @@
                         "hasTestObject": {
                             "ElectrochemicalCell": {
                                 "@type": "ElectrochemicalCell",
-                                "hasNegativeElectrode": {
-                                    "@type": "Graphite"
+                                "hasReferenceElectrode": {
+                                    "@type": "Lithium"
                                 }
                             }
                         },
@@ -381,7 +381,7 @@
                             "ElectrochemicalHalfCell": {
                                 "@type": "ElectrochemicalHalfCell",
                                 "hasReferenceElectrode": {
-                                    "@type": "LithiumElectrode"
+                                    "@type": "Lithium"
                                 }
                             }
                         },

@@ -11,8 +11,8 @@ from openpyxl import Workbook
 from . import auxiliary as aux
 from .excel_tools import ExcelContainer
 from .json_template import (
-    rated_cap_vs_graphite,
-    rated_cap_vs_li,
+    half_cell_chg_cap,
+    half_cell_dchg_cap,
 )
 from .registry import Registry
 from .validate import validate_jsonld
@@ -164,7 +164,8 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
     try:
         # Positive electrode
         sub_dict = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
-        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = rated_cap_vs_graphite(
+        json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = half_cell_chg_cap(
+            sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]["@type"][-1],
             sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
@@ -174,7 +175,8 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
         )
         # Negative electrode
         sub_dict = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
-        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = rated_cap_vs_li(
+        json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = half_cell_dchg_cap(
+            sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]["@type"][-1],
             sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
