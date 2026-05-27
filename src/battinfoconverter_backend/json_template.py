@@ -1,7 +1,8 @@
 """Templates for sections that are too complicated for the Excel ontology link."""
 
 
-def rated_cap_vs_graphite(
+def half_cell_chg_cap(
+    ref_electrode_type: str,
     charge_current_density: float,
     upper_voltage_limit: float,
     upper_voltage_hold: float,
@@ -15,7 +16,7 @@ def rated_cap_vs_graphite(
         "hasTestObject": {
             "ElectrochemicalCell": {
                 "@type": "ElectrochemicalCell",
-                "hasNegativeElectrode": {"@type": "Graphite"},
+                "hasReferenceElectrode": {"@type": ref_electrode_type},
             }
         },
         "hasMeasurementParameter": {
@@ -89,7 +90,8 @@ def rated_cap_vs_graphite(
     }
 
 
-def rated_cap_vs_li(
+def half_cell_dchg_cap(
+    ref_electrode_type: str,
     discharge_current_density: float,
     lower_voltage_limit: float,
     lower_voltage_hold: float,
@@ -103,7 +105,7 @@ def rated_cap_vs_li(
         "hasTestObject": {
             "ElectrochemicalHalfCell": {
                 "@type": "ElectrochemicalHalfCell",
-                "hasReferenceElectrode": {"@type": "LithiumElectrode"},
+                "hasReferenceElectrode": {"@type": ref_electrode_type},
             }
         },
         "hasMeasurementParameter": {
