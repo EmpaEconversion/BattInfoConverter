@@ -37,6 +37,25 @@ TEMPLATE_PATHS = {
 }
 
 
+REF_DIR = Path(__file__).resolve().parent.parent / "Excel for reference"
+
+REGRESSION_FILES = [
+    "241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.0.0_filled.xlsx",
+    "250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.2_filled.xlsx",
+    "250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.7_filled.xlsx",
+    "250515_241125_Battery2030+_CoinCellBattery_Schema_Ontologized_1.1.8_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.9_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.10.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.11_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.12_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.13_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.14_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.15_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.16_filled.xlsx",
+    "BattINFO_converter_standard_Excel_version_1.1.17_filled.xlsx",
+]
+
+
 class CellFixtures:
     """Lazy fixtures for tests."""
 
@@ -74,6 +93,12 @@ def schema(request: pytest.FixtureRequest) -> CellFixtures:
 def coincell(request: pytest.FixtureRequest) -> CellFixtures:
     """Get object to access all fixtures for the coin cell."""
     return CellFixtures(request)
+
+
+@pytest.fixture(params=REGRESSION_FILES)
+def old_schema(request: pytest.FixtureRequest) -> Path:
+    """Get path to old xlsx templates."""
+    return Path(REF_DIR / request.param)
 
 
 def coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
