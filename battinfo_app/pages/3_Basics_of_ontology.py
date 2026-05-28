@@ -8,8 +8,7 @@ st.markdown(
     is what an ontology provides.
 
     Each term in your JSON-LD metadata file should point to an **Internationalized Resource Identifier (IRI)** -- a
-    unique web address that defines the term -- or be a raw value such as a date, a number, or certain strings like
-    names and dates.
+    unique web address that defines the term -- or be a raw 'literal' value like a number, name, or date.
     """
 )
 
