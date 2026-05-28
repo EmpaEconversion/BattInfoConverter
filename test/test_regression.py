@@ -10,4 +10,19 @@ def test_conversion_old_schema(old_schema: Path) -> None:
 
     Warnings / outputs may change with new backend versions.
     """
-    convert_excel_to_jsonld(old_schema)
+    res = convert_excel_to_jsonld(old_schema)
+    assert isinstance(res, dict)
+    assert len(res) >= 13
+    assert "@context" in res
+    assert "@type" in res
+    terms = [
+        "hasPositiveElectrode",
+        "hasNegativeElectrode",
+        "hasElectrolyte",
+        "hasSeparator",
+        "hasCase",
+    ]
+    for term in terms:
+        assert term in res
+        assert "@type" in res[term]
+        assert len(res[term]) >= 4
