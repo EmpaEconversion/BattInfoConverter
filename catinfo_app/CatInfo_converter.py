@@ -64,15 +64,13 @@ For problems and suggestions, please make an issue in our [GitHub: BattINFO
 converter](https://github.com/EmpaEconversion/BattInfoConverter) page.
 
 ### Acknowledgement
-The CatINFO converter web application was developed by Dr. Nukorn Plainpan, Dr. Graham Kimbell, and
-Prof. Corsin Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories for Materials
+The CatINFO converter web application was developed by Graham Kimbell, Nukorn Plainpan, and Prof.
+Corsin Battaglia at [Empa](https://www.empa.ch/), the Swiss Federal Laboratories for Materials
 Science and Technology in the Laboratory
-[Materials for Energy Conversion](https://www.empa.ch/web/s501).
-We acknowledge stimulating discussions and support from Dr. Simon Clark, SINTEF.
-The development of CatINFO converter was supported by funding for the
-[Battery2030+](https://battery2030.eu/) initiative from the European Union's research and innovation
-program under grant agreement No. 957213 and No. 101104022 and from the Swiss State Secretariat for
-Education, Research, and Innovation (SERI) under contract No. 2300313 as well as funding for the
+[Materials for Energy Conversion](https://www.empa.ch/web/s501), with support from Simon Clark
+(SINTEF). The app is based on [BattINFO converter](https://battinfoconverter.streamlit.app), using
+the [same backend](https://github.com/empaeconversion/battinfoconverter).
+The development of CatINFO converter was supported by funding from the
 [PREMISE](https://ord-premise.org/) project from the open research data program of the ETH Board.
 
 ### Citation
