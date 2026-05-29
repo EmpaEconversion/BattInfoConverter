@@ -64,6 +64,27 @@ COLORS = {
             "FFFCE4D6",
         ],
     },
+    "red": {
+        "header": "FFDA9694",
+        "rows": [
+            None,
+            "FFF2DCDB",
+        ],
+    },
+    "purple": {
+        "header": "FFB1A0C7",
+        "rows": [
+            None,
+            "FFE4DFEC",
+        ],
+    },
+    "cyan": {
+        "header": "FF92CDDC",
+        "rows": [
+            None,
+            "FFDAEEF3",
+        ],
+    },
 }
 HEX_TO_NAME = {v["header"]: k for k, v in COLORS.items()}
 
