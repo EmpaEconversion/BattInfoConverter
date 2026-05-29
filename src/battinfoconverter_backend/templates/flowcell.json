@@ -748,7 +748,7 @@
       },
       "Negative electrolyte / negolyte / anolyte": {
         "type": "section",
-        "color": "grey",
+        "color": "purple",
         "rows": [
           {
             "Metadata": "Negative electrolyte manufacturer",
@@ -1138,7 +1138,7 @@
       },
       "Membrane": {
         "type": "section",
-        "color": "grey",
+        "color": "red",
         "rows": [
           {
             "Metadata": "Membrane type",
@@ -1256,7 +1256,7 @@
       },
       "Cell assembly": {
         "type": "section",
-        "color": "green",
+        "color": "grey",
         "rows": [
           {
             "Metadata": "Cell case type",
