@@ -13,8 +13,9 @@
     ],
     "@type": "CoinCell",
     "schema:version": "1.1.16",
-    "schema:productID": "Empa-bco-000007",
-    "schema:dateCreated": "16/6/2024",
+    "schema:productID": "empa__ccid_123456",
+    "schema:name": "240616_bco_gr-NMC_01",
+    "schema:dateCreated": "2024-06-16",
     "schema:creator": {
         "@type": "schema:Person",
         "@id": "https://orcid.org/0000-0002-5003-1134",
@@ -149,8 +150,8 @@
                         "hasTestObject": {
                             "ElectrochemicalCell": {
                                 "@type": "ElectrochemicalCell",
-                                "hasNegativeElectrode": {
-                                    "@type": "Graphite"
+                                "hasReferenceElectrode": {
+                                    "@type": "Lithium"
                                 }
                             }
                         },
@@ -240,7 +241,7 @@
                 "@type": "RatedCapacity",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 1.1
+                    "hasNumberValue": 1.056
                 },
                 "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
             },
@@ -266,9 +267,7 @@
             "schema:name": "Customcells",
             "@id": "https://www.wikidata.org/wiki/Q120784603"
         },
-        "schema:productID": {
-            "rdfs:comment": 100000030
-        }
+        "schema:productID": "100000030"
     },
     "hasNegativeElectrode": {
         "@type": "Electrode",
@@ -382,7 +381,7 @@
                             "ElectrochemicalHalfCell": {
                                 "@type": "ElectrochemicalHalfCell",
                                 "hasReferenceElectrode": {
-                                    "@type": "LithiumElectrode"
+                                    "@type": "Lithium"
                                 }
                             }
                         },
@@ -451,7 +450,7 @@
                                             },
                                             {
                                                 "@type": [
-                                                    "LowerVoltageLimit",
+                                                    "UpperVoltageLimit",
                                                     "TerminationQuantity"
                                                 ],
                                                 "hasNumericalPart": {
@@ -472,7 +471,7 @@
                 "@type": "RatedCapacity",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
-                    "hasNumberValue": 1.2
+                    "hasNumberValue": 1.19
                 },
                 "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
             },
@@ -498,9 +497,7 @@
             "schema:name": "Customcells",
             "@id": "https://www.wikidata.org/wiki/Q120784603"
         },
-        "schema:productID": {
-            "rdfs:comment": "11113, A-1594"
-        }
+        "schema:productID": "11113, A-1594"
     },
     "hasElectrolyte": {
         "@type": "OrganicElectrolyte",
@@ -677,9 +674,7 @@
             "schema:name": "Celgard",
             "@id": "https://www.wikidata.org/wiki/Q122199856"
         },
-        "schema:productID": {
-            "rdfs:comment": 2500
-        }
+        "schema:productID": "2500"
     },
     "hasCase": {
         "@type": [
@@ -690,7 +685,7 @@
             {
                 "@type": "CellLid",
                 "hasCoating": {
-                    "rdfs:comment": "none"
+                    "@type": "Aluminium"
                 }
             },
             {
@@ -705,9 +700,7 @@
             "schema:name": "Hohsen",
             "@id": "https://www.wikidata.org/wiki/Q138027768"
         },
-        "schema:productID": {
-            "rdfs:comment": "2032, SUS316L"
-        }
+        "schema:productID": "2032, SUS316L"
     },
     "hasComponent": [
         {

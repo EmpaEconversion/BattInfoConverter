@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "battinfoconverter-backend"
-version = "3.1.2"
+version = "3.2.0"
 description = "Backend conversion module for BattInfoConverter"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -42,10 +42,39 @@ package-dir = { "" = "src" }
 where = ["src"]
 include = ["battinfoconverter_backend*"]
 
+[tool.setuptools.package-data]
+"battinfoconverter_backend" = ["_context/*.json"]
+"battinfoconverter_backend.templates" = ["*.json"]
+
 [project.optional-dependencies]
 app = [
   "streamlit>=1.50.0",
 ]
 dev = [
   "pytest>=8.4.2",
+  "ruff>=0.15.7",
+  "pre-commit>=4.5.1",
+  "pyld>=2.0.4",
+  "pytest-cov>=7.1.0",
+  "rdflib>=7.6.0",
+  "requests>=2.32.5",
 ]
+
+[tool.ruff]
+line-length = 120
+lint.select = ["ALL"]
+lint.ignore = [
+    "N803",
+    "N806",
+    "N815",
+    "PLR2004",
+    "TD002",
+    "TD003",
+    "D203",
+    "D213",
+    "COM812",
+]
+fix = true
+
+[project.scripts]
+battinfoconverter-template = "battinfoconverter_backend.templates.template_conversion:main"

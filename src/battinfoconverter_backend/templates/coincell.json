@@ -1,0 +1,1566 @@
+{
+  "@Schema": {
+    "type": "sectioned",
+    "header": [
+      "Metadata",
+      "Value",
+      "Unit",
+      "Priority",
+      "Comment",
+      "Ontology link"
+    ],
+    "data": {
+      "Cell identification": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell type",
+            "Value": "CoinCell",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Required, do not change",
+            "Ontology link": "type|"
+          },
+          {
+            "Metadata": "Cell ID",
+            "Value": "empa__ccid_123456",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Unique ID for cell",
+            "Ontology link": "schema:productID"
+          },
+          {
+            "Metadata": "Cell name",
+            "Value": "240616_bco_gr-NMC_01",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": "Human-friendly name for the cell",
+            "Ontology link": "schema:name"
+          },
+          {
+            "Metadata": "Date of cell assembly",
+            "Value": "2024-06-16",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Assembly date in ISO8601 format (YYYY-MM-DD)",
+            "Ontology link": "schema:dateCreated"
+          },
+          {
+            "Metadata": "Institution/company",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Organisation that made the cell, value should be in @classes with ID",
+            "Ontology link": "schema:manufacturer"
+          },
+          {
+            "Metadata": "Scientist/technician/operator",
+            "Value": "Corsin Battaglia",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Person that made the cell, value should be in @classes with ID",
+            "Ontology link": "schema:creator"
+          },
+          {
+            "Metadata": "Project",
+            "Value": "Battery2030+/PREMISE",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "rdfs:comment"
+          },
+          {
+            "Metadata": "Assembled manually or by robot",
+            "Value": "manually",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": "'manually' or 'by robot'",
+            "Ontology link": "rdfs:comment"
+          },
+          {
+            "Metadata": "Schema name",
+            "Value": "CoinCellSchema",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Name of this schema, do not change",
+            "Ontology link": "rdfs:comment"
+          },
+          {
+            "Metadata": "Schema version",
+            "Value": "1.1.17",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": "Version of this schema, do not change",
+            "Ontology link": "rdfs:comment"
+          }
+        ]
+      },
+      "Positive electrode (cathode when battery is discharged)": {
+        "type": "section",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Positive electrode current collector material",
+            "Value": "Aluminium",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector"
+          },
+          {
+            "Metadata": "Positive electrode current collector thickness",
+            "Value": 15,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Positive electrode coating active material",
+            "Value": "LithiumNickelManganeseCobaltOxide",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Positive electrode coating active material chemical composition",
+            "Value": "LiNi0.6Mn0.2Co0.2O2",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-type|molecularFormula-hasStringValue"
+          },
+          {
+            "Metadata": "Positive electrode coating active material mass fraction",
+            "Value": 96,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Positive electrode coating binder material",
+            "Value": "PolyvinylideneFluoride",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasBinder"
+          },
+          {
+            "Metadata": "Positive electrode coating binder material mass fraction",
+            "Value": 2,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasBinder-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Positive electrode coating conductive additive material",
+            "Value": "CarbonBlack",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive"
+          },
+          {
+            "Metadata": "Positive electrode coating conductive additive material mass fraction",
+            "Value": 2,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Positive electrode coating active material mass loading",
+            "Value": 6.6,
+            "Unit": "mg/cm2",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading"
+          },
+          {
+            "Metadata": "Positive electrode coating thickness after drying and calendering",
+            "Value": 16,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-CalenderedCoatingThickness"
+          }
+        ]
+      },
+      "Positive electrode optional microstructral/physical parameters": {
+        "type": "subsection",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Positive electrode coating porosity",
+            "Value": 35,
+            "Unit": "%",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-Porosity"
+          },
+          {
+            "Metadata": "Positive electrode coating tortuosity",
+            "Value": 2.5,
+            "Unit": "unitless",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-Tortuosity"
+          },
+          {
+            "Metadata": "Positive electrode coating active material mean particle size",
+            "Value": 8,
+            "Unit": "um",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-D50ParticleSize"
+          }
+        ]
+      },
+      "Positive electrode optional half-cell data": {
+        "type": "subsection",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Positive electrode in half-cell configuration",
+            "Value": "yes",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-rdfs:comment"
+          },
+          {
+            "Metadata": "Reference electrode in half-cell configuration",
+            "Value": "Lithium",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-hasReferenceElectrode"
+          },
+          {
+            "Metadata": "Half cell constant current charging lower voltage limit",
+            "Value": 2.5,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant current charging current density",
+            "Value": 0.1,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-ElectricCurrentDensity"
+          },
+          {
+            "Metadata": "Half cell constant current charging upper voltage limit",
+            "Value": 4.2,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging upper voltage limit",
+            "Value": 4.2,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging lower current density limit",
+            "Value": 0.01,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-LowerCurrentDensityLimit"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current upper voltage limit",
+            "Value": 4.2,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current density",
+            "Value": 0.1,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-ElectricCurrentDensity"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current lower voltage limit",
+            "Value": 2.5,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging lower voltage limit",
+            "Value": 2.5,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Positive electrode rated areal discharge capacity",
+            "Value": 1.056,
+            "Unit": "mAh/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity"
+          },
+          {
+            "Metadata": "Positive electrode rated specific discharge capacity",
+            "Value": 160,
+            "Unit": "mAh/g",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-type|RatedCapacity"
+          }
+        ]
+      },
+      "Positive electrode optional component manufacturer information": {
+        "type": "subsection",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Positive electrode manufacturer",
+            "Value": "Customcells",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-schema:manufacturer"
+          },
+          {
+            "Metadata": "Positive electrode manufacturer product ID",
+            "Value": 100000030,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-schema:productID"
+          },
+          {
+            "Metadata": "Positive electrode current collector material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-schema:manufacturer"
+          },
+          {
+            "Metadata": "Positive electrode current collector material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCurrentCollector-schema:productID"
+          },
+          {
+            "Metadata": "Positive electrode coating active material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-schema:manufacturer"
+          },
+          {
+            "Metadata": "Positive electrode coating active material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-schema:productID"
+          },
+          {
+            "Metadata": "Positive electrode coating binder material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasBinder-schema:manufacturer"
+          },
+          {
+            "Metadata": "Positive electrode coating binder material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasBinder-schema:productID"
+          },
+          {
+            "Metadata": "Positive electrode coating conductive additive material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-schema:manufacturer"
+          },
+          {
+            "Metadata": "Positive electrode coating conductive additive material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-schema:productID"
+          }
+        ]
+      },
+      "Negative electrode (anode when battery is discharged)": {
+        "type": "section",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Negative electrode current collector material",
+            "Value": "Copper",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCurrentCollector"
+          },
+          {
+            "Metadata": "Negative electrode current collector thickness",
+            "Value": 15,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCurrentCollector-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Negative electrode coating active material",
+            "Value": "Graphite",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Negative electrode coating active material mass fraction",
+            "Value": 95,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Negative electrode coating binder material",
+            "Value": "PolyvinylideneFluoride",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasBinder"
+          },
+          {
+            "Metadata": "Negative electrode coating binder material mass fraction",
+            "Value": 3,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasBinder-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Negative electrode coating conductive additive material",
+            "Value": "CarbonBlack",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive"
+          },
+          {
+            "Metadata": "Negative electrode coating conductive additive material mass fraction",
+            "Value": 2,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Negative electrode coating active material mass loading",
+            "Value": 3.4,
+            "Unit": "mg/cm2",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading"
+          },
+          {
+            "Metadata": "Negative electrode coating thickness after drying and calendering",
+            "Value": 20,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-CalenderedCoatingThickness"
+          }
+        ]
+      },
+      "Negative electrode optional microstructural/physical parameters": {
+        "type": "subsection",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Negative electrode coating porosity",
+            "Value": 35,
+            "Unit": "%",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-Porosity"
+          },
+          {
+            "Metadata": "Negative electrode coating tortuosity",
+            "Value": 2.5,
+            "Unit": "unitless",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasMeasuredProperty-Tortuosity"
+          },
+          {
+            "Metadata": "Negative electrode coating active material mean particle size",
+            "Value": 10,
+            "Unit": "um",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-hasMeasuredProperty-D50ParticleSize"
+          }
+        ]
+      },
+      "Negative electrode optional half-cell data": {
+        "type": "subsection",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Negative electrode in half-cell configuration",
+            "Value": "yes",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-rdfs:comment"
+          },
+          {
+            "Metadata": "Reference electrode in half-cell configuration",
+            "Value": "Lithium",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ElectrochemicalHalfCell-hasReferenceElectrode"
+          },
+          {
+            "Metadata": "Half cell constant current charging upper voltage limit",
+            "Value": 1,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant current charging current density",
+            "Value": 0.1,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-ElectricCurrentDensity"
+          },
+          {
+            "Metadata": "Half cell constant current charging lower voltage limit",
+            "Value": 0.01,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentCharging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging lower voltage limit",
+            "Value": 0.01,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging lower current density limit",
+            "Value": 0.01,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-LowerCurrentDensityLimit"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current lower voltage limit",
+            "Value": 0.01,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-LowerVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current density",
+            "Value": 0.1,
+            "Unit": "mA/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-ElectricCurrentDensity"
+          },
+          {
+            "Metadata": "Half cell constant current discharging current upper voltage limit",
+            "Value": 1,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantCurrentDischarging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Half cell constant voltage charging upper voltage limit",
+            "Value": 1,
+            "Unit": "V",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity-rev|hasOutput-type|Measurement-hasInput-ConstantVoltageCharging-hasInput-UpperVoltageLimit"
+          },
+          {
+            "Metadata": "Negative electrode rated areal discharge capacity",
+            "Value": 1.19,
+            "Unit": "mAh/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity"
+          },
+          {
+            "Metadata": "Negative electrode rated specific discharge capacity",
+            "Value": 350,
+            "Unit": "mAh/g",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-type|RatedCapacity"
+          }
+        ]
+      },
+      "Negative electrode optional component manufacturer information": {
+        "type": "subsection",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Negative electrode manufacturer",
+            "Value": "Customcells",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-schema:manufacturer"
+          },
+          {
+            "Metadata": "Negative electrode manufacturer product ID",
+            "Value": "11113, A-1594",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-schema:productID"
+          },
+          {
+            "Metadata": "Negative electrode current collector material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCurrentCollector-schema:manufacturer"
+          },
+          {
+            "Metadata": "Negative electrode current collector material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCurrentCollector-schema:productID"
+          },
+          {
+            "Metadata": "Negative electrode coating active material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-schema:manufacturer"
+          },
+          {
+            "Metadata": "Negative electrode coating active material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasActiveMaterial-schema:productID"
+          },
+          {
+            "Metadata": "Negative electrode coating binder material manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasBinder-schema:manufacturer"
+          },
+          {
+            "Metadata": "Negative electrode coating binder material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasBinder-schema:productID"
+          },
+          {
+            "Metadata": "Negative electrode coating conductive additive manufacturer supplier",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-schema:manufacturer"
+          },
+          {
+            "Metadata": "Negative electrode coating conductive additive material manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-type|ElectrodeCoating-hasConductiveAdditive-schema:productID"
+          }
+        ]
+      },
+      "Electrolyte": {
+        "type": "section",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Electrolyte solvent A",
+            "Value": "EthyleneCarbonate",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentA"
+          },
+          {
+            "Metadata": "Electrolyte solvent A volume fraction",
+            "Value": 30,
+            "Unit": "%",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentA-hasMeasuredProperty-VolumeFraction"
+          },
+          {
+            "Metadata": "Electrolyte solvent B",
+            "Value": "EthylMethylCarbonate",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentB"
+          },
+          {
+            "Metadata": "Electrolyte solvent B volume fraction",
+            "Value": 70,
+            "Unit": "%",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentB-hasMeasuredProperty-VolumeFraction"
+          },
+          {
+            "Metadata": "Electrolyte solute A",
+            "Value": "LithiumHexafluorophosphate",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentA"
+          },
+          {
+            "Metadata": "Electrolyte solute A molarity",
+            "Value": 1,
+            "Unit": "mol/L",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentA-hasMeasuredProperty-AmountConcentration"
+          },
+          {
+            "Metadata": "Electrolyte solute B",
+            "Value": "LithiumBisfluorosulfonylimide",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentB"
+          },
+          {
+            "Metadata": "Electrolyte solute B molarity",
+            "Value": 0,
+            "Unit": "mol/L",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentB-hasMeasuredProperty-AmountConcentration"
+          },
+          {
+            "Metadata": "Electrolyte additive A",
+            "Value": "VinyleneCarbonate",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentA"
+          },
+          {
+            "Metadata": "Electrolyte additive A molarity",
+            "Value": 0.16,
+            "Unit": "mol/L",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentA-hasMeasuredProperty-AmountConcentration"
+          },
+          {
+            "Metadata": "Electrolyte additive B",
+            "Value": "TrisTrimethylsilyPhosphite",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentB"
+          },
+          {
+            "Metadata": "Electrolyte additive B molarity",
+            "Value": 0,
+            "Unit": "mol/L",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentB-hasMeasuredProperty-AmountConcentration"
+          }
+        ]
+      },
+      "Electrolyte optional physical parameters": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Electrolyte conductivity",
+            "Value": 8,
+            "Unit": "mS/cm",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasMeasuredProperty-ElectrolyticConductivity"
+          },
+          {
+            "Metadata": "Electrolyte viscosity",
+            "Value": 3,
+            "Unit": "mPa.s",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasMeasuredProperty-DynamicViscosity"
+          },
+          {
+            "Metadata": "Electrolyte density",
+            "Value": 1.3,
+            "Unit": "g/cm3",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasMeasuredProperty-Density"
+          },
+          {
+            "Metadata": "Electrolyte temperature",
+            "Value": 25,
+            "Unit": "°C",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasMeasuredProperty-CelsiusTemperature"
+          }
+        ]
+      },
+      "Electrolyte optional component manufacturer information": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Electrolyte manufacturer",
+            "Value": "Solvionic",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte solvent A manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentA-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte solvent A manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentA-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte solvent B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentB-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte solvent B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolvent-hasConstituentB-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte solute A manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentA-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte solute A manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentA-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte solute B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentB-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte solute B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasConstituentB-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte additive A manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentA-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte additive A manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentA-schema:productID"
+          },
+          {
+            "Metadata": "Electrolyte additive B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentB-schema:manufacturer"
+          },
+          {
+            "Metadata": "Electrolyte additive B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasSolute-hasAdditive-hasConstituentB-schema:productID"
+          }
+        ]
+      },
+      "Separator": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Separator material",
+            "Value": "Polypropylene",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasSeparator"
+          },
+          {
+            "Metadata": "Separator thickness",
+            "Value": 25,
+            "Unit": "um",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasSeparator-hasMeasuredProperty-Thickness"
+          }
+        ]
+      },
+      "Separator optional microstructural/physical parameters": {
+        "type": "subsection",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Separator porosity",
+            "Value": 55,
+            "Unit": "%",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasSeparator-hasMeasuredProperty-Porosity"
+          },
+          {
+            "Metadata": "Separator tortuosity",
+            "Value": 2.5,
+            "Unit": "unitless",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasSeparator-hasMeasuredProperty-Tortuosity"
+          }
+        ]
+      },
+      "Separator optional component manufacturer information": {
+        "type": "subsection",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Separator manufacturer",
+            "Value": "Celgard",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasSeparator-schema:manufacturer"
+          },
+          {
+            "Metadata": "Separator manufacturer product ID",
+            "Value": 2500,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasSeparator-schema:productID"
+          }
+        ]
+      },
+      "Cell assembly": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell case",
+            "Value": "R2032",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasCase"
+          },
+          {
+            "Metadata": "Cell case material",
+            "Value": "StainlessSteel",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasCase"
+          },
+          {
+            "Metadata": "Cell case lid coating material",
+            "Value": "Aluminium",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasCase-hasComponentA-type|CellLid-hasCoating"
+          },
+          {
+            "Metadata": "Cell case can coating material",
+            "Value": "Aluminium",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasCase-hasComponentB-type|CellCan-hasCoating"
+          },
+          {
+            "Metadata": "Cell spring diameter",
+            "Value": 15,
+            "Unit": "mm",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasComponentA-type|Spring-hasMeasuredProperty-Diameter"
+          },
+          {
+            "Metadata": "Cell spring thickness",
+            "Value": 1.4,
+            "Unit": "mm",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasComponentA-type|Spring-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Cell spacer diameter",
+            "Value": 16,
+            "Unit": "mm",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasComponentB-type|Spacer-hasMeasuredProperty-Diameter"
+          },
+          {
+            "Metadata": "Cell spacer thickness",
+            "Value": 1,
+            "Unit": "mm",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasComponentB-type|Spacer-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Positive electrode diameter",
+            "Value": 14,
+            "Unit": "mm",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-Diameter"
+          },
+          {
+            "Metadata": "Negative electrode diameter",
+            "Value": 15,
+            "Unit": "mm",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-Diameter"
+          },
+          {
+            "Metadata": "Separator diameter",
+            "Value": 16,
+            "Unit": "mm",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasSeparator-hasMeasuredProperty-Diameter"
+          },
+          {
+            "Metadata": "Electrolyte volume",
+            "Value": 100,
+            "Unit": "uL",
+            "Priority": "required",
+            "Comment": null,
+            "Ontology link": "hasElectrolyte-hasMeasuredProperty-Volume"
+          },
+          {
+            "Metadata": "Cell assembly sequence",
+            "Value": "CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rdfs:comment"
+          }
+        ]
+      },
+      "Cell optional component supplier information": {
+        "type": "subsection",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell case manufacturer",
+            "Value": "Hohsen",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasCase-schema:manufacturer"
+          },
+          {
+            "Metadata": "Cell case manufacturer product ID",
+            "Value": "2032, SUS316L",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasCase-schema:productID"
+          }
+        ]
+      }
+    }
+  },
+  "@Context": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "schema",
+        "Key": "https://schema.org/"
+      },
+      {
+        "Item": "emmo",
+        "Key": "https://w3id.org/emmo#"
+      },
+      {
+        "Item": "echem",
+        "Key": "https://w3id.org/emmo/domain/electrochemistry#"
+      },
+      {
+        "Item": "battery",
+        "Key": "https://w3id.org/emmo/domain/battery#"
+      },
+      {
+        "Item": "chemical",
+        "Key": "https://w3id.org/emmo/domain/chemical-substance#"
+      },
+      {
+        "Item": "unit",
+        "Key": "https://qudt.org/vocab/unit/"
+      },
+      {
+        "Item": "rdfs",
+        "Key": "http://www.w3.org/2000/01/rdf-schema#"
+      }
+    ]
+  },
+  "@Predicates": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "hasActiveMaterial",
+        "Key": null
+      },
+      {
+        "Item": "hasBinder",
+        "Key": "Binder"
+      },
+      {
+        "Item": "hasCase",
+        "Key": null
+      },
+      {
+        "Item": "hasCoating",
+        "Key": null
+      },
+      {
+        "Item": "hasConductiveAdditive",
+        "Key": "ConductiveAdditive"
+      },
+      {
+        "Item": "hasCurrentCollector",
+        "Key": "CurrentCollector"
+      },
+      {
+        "Item": "hasElectrolyte",
+        "Key": "OrganicElectrolyte"
+      },
+      {
+        "Item": "hasNegativeElectrode",
+        "Key": "Electrode"
+      },
+      {
+        "Item": "hasPositiveElectrode",
+        "Key": "Electrode"
+      },
+      {
+        "Item": "hasSeparator",
+        "Key": "Separator"
+      },
+      {
+        "Item": "hasSolute",
+        "Key": "Solute"
+      },
+      {
+        "Item": "hasSolvent",
+        "Key": "Solvent"
+      },
+      {
+        "Item": "hasConstituent",
+        "Key": null
+      },
+      {
+        "Item": "hasInput",
+        "Key": null
+      },
+      {
+        "Item": "hasProperty",
+        "Key": null
+      },
+      {
+        "Item": "hasMeasuredProperty",
+        "Key": null
+      },
+      {
+        "Item": "hasOutput",
+        "Key": null
+      },
+      {
+        "Item": "hasReferenceElectrode",
+        "Key": "ReferenceElectrode"
+      },
+      {
+        "Item": "hasAdditive",
+        "Key": "Additive"
+      },
+      {
+        "Item": "hasStringValue",
+        "Key": null
+      }
+    ]
+  },
+  "@Classes": {
+    "type": "table",
+    "header": [
+      "Item",
+      "ID",
+      "Note"
+    ],
+    "data": [
+      {
+        "Item": "Aluminium",
+        "ID": null,
+        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No unique is required. "
+      },
+      {
+        "Item": "Copper",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumNickelManganeseCobaltOxide",
+        "ID": null,
+        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+      },
+      {
+        "Item": "Graphite",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PolyvinylideneFluoride",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonBlack",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "EthyleneCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "EthylMethylCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumHexafluorophosphate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "VinyleneCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumBisfluorosulfonylimide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TrisTrimethylsilyPhosphite",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Polyolefin",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Empa",
+        "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Note": null
+      },
+      {
+        "Item": "Customcells",
+        "ID": "https://www.wikidata.org/wiki/Q120784603",
+        "Note": null
+      },
+      {
+        "Item": "Solvionic",
+        "ID": "https://www.wikidata.org/wiki/Q30285492",
+        "Note": null
+      },
+      {
+        "Item": "Celgard",
+        "ID": "https://www.wikidata.org/wiki/Q122199856",
+        "Note": null
+      },
+      {
+        "Item": "Hohsen",
+        "ID": "https://www.wikidata.org/wiki/Q138027768",
+        "Note": null
+      },
+      {
+        "Item": "Corsin Battaglia",
+        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Note": null
+      },
+      {
+        "Item": "Nukorn Plainpan",
+        "ID": "https://orcid.org/0009-0002-6447-8057",
+        "Note": null
+      },
+      {
+        "Item": "Graham Kimbell",
+        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Note": null
+      },
+      {
+        "Item": "Enea Svaluto-Ferro",
+        "ID": "https://orcid.org/0009-0004-4673-7806",
+        "Note": null
+      },
+      {
+        "Item": "R2032",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ElectrochemicalHalfCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonBlack",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "StainlessSteel",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Polypropylene",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Lithium",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarboxymethylCellulose",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "StyreneButadiene",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "FluoroethyleneCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GlassFibreSeparator",
+        "ID": null,
+        "Note": null
+      }
+    ]
+  },
+  "@Units": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "mm",
+        "Key": "unit:MilliM"
+      },
+      {
+        "Item": "mAh/g",
+        "Key": "unit:MilliA-HR-PER-GM"
+      },
+      {
+        "Item": "mg/cm2",
+        "Key": "unit:MilliGM-PER-CentiM2"
+      },
+      {
+        "Item": "mAh",
+        "Key": "unit:MilliA-HR"
+      },
+      {
+        "Item": "mg",
+        "Key": "unit:MilliGM"
+      },
+      {
+        "Item": "%",
+        "Key": "unit:PERCENT"
+      },
+      {
+        "Item": "M",
+        "Key": "unit:MOL"
+      },
+      {
+        "Item": "uL",
+        "Key": "unit:MicroL"
+      },
+      {
+        "Item": "um",
+        "Key": "emmo:MicroMetre"
+      },
+      {
+        "Item": "V",
+        "Key": "unit:V"
+      },
+      {
+        "Item": "mA/cm2",
+        "Key": "emmo:MilliAmperePerSquareCentiMetre"
+      },
+      {
+        "Item": "mAh/cm2",
+        "Key": "emmo:MilliAmpereHourPerSquareCentiMetre"
+      },
+      {
+        "Item": "mol/L",
+        "Key": "unit:MOL-PER-L"
+      },
+      {
+        "Item": "mS/cm",
+        "Key": "unit:MilliS-PER-CentiM"
+      },
+      {
+        "Item": "mPa.s",
+        "Key": "unit:MilliPA-SEC"
+      },
+      {
+        "Item": "g/cm3",
+        "Key": "emmo:GramPerCubicCentiMetre"
+      },
+      {
+        "Item": "°C",
+        "Key": "emmo:CelsiusTemperature"
+      },
+      {
+        "Item": "unitless",
+        "Key": "emmo:UnitOne"
+      }
+    ]
+  }
+}

@@ -1,94 +1,95 @@
-"""
-excel_tools.py
+"""Helper functions for Excel.
+
 read_excel_preserve_decimals(): a drop-in replacement for pandas.read_excel
 that *keeps the exact number of decimal places* a user sees in Excel.
 """
 
-from collections.abc import Sequence
+import logging
 from pathlib import Path
-from typing import IO, Any
+from typing import IO
 
 import pandas as pd
-from openpyxl import load_workbook
+from openpyxl import Workbook, load_workbook
 
-# ------------------------------------------------------------------ #
-# robust import for format_cell (new path / old path / fallback)     #
-# ------------------------------------------------------------------ #
-try:  # official since openpyxl 3.1
-    from openpyxl.utils.formatting import format_cell  # type: ignore
-except ImportError:
-    try:  # provisional path in some wheels
-        from openpyxl.utils.cell import format_cell  # type: ignore
-    except ImportError:
-        # very small local fallback
-        def format_cell(cell) -> str:  # type: ignore
-            v = cell.value
-            if v is None:
-                return ""
-            fmt = getattr(cell, "number_format", "")
-            if not isinstance(v, (int, float)) or "." not in fmt:
-                return str(v)
-            decs = fmt.split(".", 1)[1].split(";")[0]
-            n_dec = sum(ch == "0" for ch in decs)
-            return f"{v:.{n_dec}f}"
+logger = logging.getLogger(__name__)
 
 
-# ------------------------------------------------------------------ #
-# internal helper                                                    #
-# ------------------------------------------------------------------ #
-def _clean_cell(cell) -> Any:
-    """Return a value that respects the cell’s displayed decimals."""
-    if cell.data_type != "n":          # not numeric
-        return cell.value
-
-    shown = format_cell(cell)          # text Excel would display
-    if "e" in shown.lower():           # scientific notation → leave as float
-        return cell.value
-
-    if "." in shown:                   # count decimal places and round
-        n_dec = len(shown.split(".", 1)[1])
-        return round(float(cell.value), n_dec)
-    return cell.value                  # integer-like
+def _strip_df(df: pd.DataFrame) -> pd.DataFrame:
+    """Strip whitespace from all string values and column names."""
+    df.columns = df.columns.str.strip()
+    return df.apply(lambda col: col.map(lambda x: x.strip() if isinstance(x, str) else x))
 
 
-# ------------------------------------------------------------------ #
-# public API                                                         #
-# ------------------------------------------------------------------ #
-def read_excel_preserve_decimals(
-    path: str | Path | IO[bytes],
-    sheet_name: Any = 0,
-    header: int | Sequence[int] | None = 0,
-    **pd_kwargs,
+def _read_excel_or_wb(
+    excel_file: str | Path | IO[bytes] | Workbook,
+    sheet_name: str,
 ) -> pd.DataFrame:
+    """Load an Excel sheet from file or workbook, replaces NaN with None."""
+    if isinstance(excel_file, Workbook):
+        data = excel_file[sheet_name].values
+        headers = next(data)
+        df = pd.DataFrame(data, columns=headers)
+    else:
+        df = pd.read_excel(excel_file, sheet_name)
+    df = _strip_df(df)
+    return df.where(df.notna(), None)
+
+
+class ExcelContainer:
+    """Wrapper for BattINFO Excel files.
+
+    Abstracts Excel sheet name changes, loads data.
     """
-    Load an Excel sheet while preserving user-visible decimals **and**
-    reproduce pandas’ header logic (Unnamed columns + de-duplication).
-    """
-    wb = load_workbook(path, data_only=True)
-    ws = wb[sheet_name] if isinstance(sheet_name, str) else wb.worksheets[sheet_name]
 
-    # 1 — read all rows, fixing numeric cells
-    rows: list[list[Any]] = [[_clean_cell(c) for c in row] for row in ws.iter_rows()]
+    data: dict
 
-    # 2 — build DataFrame without headers first
-    df = pd.DataFrame(rows, **pd_kwargs)
+    def __init__(self, excel_file: str | Path | IO[bytes] | Workbook) -> None:
+        """Read all Excel sheets to dict of pandas dataframes."""
+        wb = excel_file if isinstance(excel_file, Workbook) else load_workbook(excel_file, read_only=True)
+        available_sheets = set(wb.sheetnames)
+        wb.close()
 
-    # 3 — mimic pandas header behaviour
-    if header is not None:
-        hdr_row = df.iloc[header].tolist()
+        def _find_sheet(candidates: list[str]) -> pd.DataFrame:
+            """Read the first sheet found in candidates to dataframe."""
+            for name in candidates:
+                if name in available_sheets:
+                    return _read_excel_or_wb(excel_file, name)
+            msg = f"None of {candidates} found in workbook"
+            raise KeyError(msg)
 
-        # convert None → 'Unnamed: {i}', Decimal → str, then de-duplicate
-        seen: dict[str, int] = {}
-        clean_hdr: list[str] = []
-        for i, col in enumerate(hdr_row):
-            base = str(col) if col is not None else f"Unnamed: {i}"
-            cnt = seen.get(base, 0)
-            clean = base if cnt == 0 else f"{base}.{cnt}"
-            seen[base] = cnt + 1
-            clean_hdr.append(clean)
+        schema = _find_sheet(["@Schema", "Schema"])
+        units_df = _find_sheet(["@Units", "Ontology - Unit"])
+        context_toplevel = _find_sheet(["@Context", "@context-TopLevel"])
+        context_connector = _find_sheet(["@Predicates", "@context-Connector"])
+        unique_id = _find_sheet(["@Classes", "Unique ID"])
 
-        df.columns = clean_hdr
-        df = df.drop(index=list(range(header + 1))).reset_index(drop=True)
+        # Log missing required, recommended, and optional terms
+        for priority, loggerfunc in (
+            ("required", logger.critical),
+            ("recommended", logger.warning),
+        ):
+            mask = schema["Priority"] == priority
+            missing_mask = schema[mask]["Value"].isna()
+            if any(missing_mask):
+                missing_vals = schema[mask][missing_mask]["Metadata"].to_list()
+                missing_vals_str = ", ".join(["'" + f + "'" for f in missing_vals])
+                loggerfunc(
+                    "%sMissing %d/%d %s values: %s",
+                    "IMPORTANT: " if priority == "required" else "",
+                    sum(missing_mask),
+                    sum(mask),
+                    priority,
+                    missing_vals_str,
+                )
 
-    return df
+        unique_id_map: dict[str, str] = {r["Item"]: r["ID"] for _, r in unique_id.iterrows()}
+        unit_map: dict[str, str] = {r["Item"]: r["Key"] for _, r in units_df.iterrows()}
 
+        self.data = {
+            "schema": schema,
+            "unit_map": unit_map,
+            "context_toplevel": context_toplevel,
+            "context_connector": context_connector,
+            "unique_id": unique_id,
+            "unique_id_map": unique_id_map,
+        }

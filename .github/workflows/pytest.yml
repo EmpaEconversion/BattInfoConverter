@@ -34,8 +34,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install pytest pytest-cov
-          uv pip install .
+          uv pip install .[dev]
 
       - name: Run tests with pytest
-        run: pytest --cov=battinfoconverter_backend --cov-report=term
+        run: pytest --cov=battinfoconverter_backend --cov-report=term --cov-report=xml
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
