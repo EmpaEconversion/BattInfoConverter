@@ -27,10 +27,10 @@
     "schema:dateCreated": "2026-05-01",
     "rdfs:comment": [
         "BattINFO Converter version: 3.2.0",
-        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: RFBCellSchema v0.1.0. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: RFBCellSchema v0.1.1. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: SNSF Ambizione Z00P2_209078",
         "Schema name: RFBCellSchema",
-        "Schema version: 0.1.0"
+        "Schema version: 0.1.1"
     ],
     "hasPositiveElectrode": {
         "@type": [
@@ -217,7 +217,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 100
@@ -270,7 +270,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
@@ -308,7 +308,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 98
@@ -371,7 +371,7 @@
                 "hasMeasurementUnit": "unit:MilliPA-SEC"
             },
             {
-                "@type": "pH",
+                "@type": "PH",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": 7.7
@@ -442,7 +442,7 @@
             "schema:productID": "5SCH-PB"
         },
         {
-            "@type": "Gasket",
+            "@type": "echem:Gasket",
             "hasDatum": {
                 "@type": "ChemicalName",
                 "hasStringValue": "Viton"
@@ -494,7 +494,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 100
@@ -547,7 +547,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
@@ -585,7 +585,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "Purity",
+                            "@type": "echem:Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
@@ -648,7 +648,7 @@
                 "hasMeasurementUnit": "unit:MilliPA-SEC"
             },
             {
-                "@type": "pH",
+                "@type": "PH",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": 8.7
@@ -672,7 +672,7 @@
                 "hasMeasurementUnit": "unit:DEG_C"
             }
         ],
-        "hasBubbledGas": {
+        "hasConstituent": {
             "@type": "Argon",
             "hasMeasuredProperty": [
                 {

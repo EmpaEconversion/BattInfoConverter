@@ -80,7 +80,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.1.0",
+            "Value": "0.1.1",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -406,7 +406,7 @@
             "Unit": "%",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-hasMeasuredProperty-Purity"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Positive electrolyte solvent A purity considered in calculation?",
@@ -470,7 +470,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-hasMeasuredProperty-Purity"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Positive electrolyte solvent B purity considered in calculation?",
@@ -534,7 +534,7 @@
             "Unit": "%",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-hasMeasuredProperty-Purity"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Positive electrolyte solute A purity considered in calculation?",
@@ -598,7 +598,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-hasMeasuredProperty-Purity"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Positive electrolyte solute B purity considered in calculation?",
@@ -686,7 +686,7 @@
             "Unit": "unitless",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasMeasuredProperty-pH"
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-PH"
           },
           {
             "Metadata": "Positive electrolyte density",
@@ -726,7 +726,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "Bubbled with Argon, Nitrogen, leave empty if none",
-            "Ontology link": "hasCatholyte-hasBubbledGas-hasParticipant"
+            "Ontology link": "hasCatholyte-hasConstituent"
           },
           {
             "Metadata": "Positive electrolyte gas flow rate",
@@ -734,7 +734,7 @@
             "Unit": "mL/min",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasBubbledGas-hasMeasuredProperty-VolumeFlowRate"
+            "Ontology link": "hasCatholyte-hasConstituent-hasMeasuredProperty-VolumeFlowRate"
           },
           {
             "Metadata": "Positive electrolyte gas pressure",
@@ -742,7 +742,7 @@
             "Unit": "mbar",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasCatholyte-hasBubbledGas-hasMeasuredProperty-Pressure"
+            "Ontology link": "hasCatholyte-hasConstituent-hasMeasuredProperty-Pressure"
           }
         ]
       },
@@ -796,7 +796,7 @@
             "Unit": "%",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-hasMeasuredProperty-Purity"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Negative electrolyte solvent A purity considered in calculation?",
@@ -860,7 +860,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-hasMeasuredProperty-Purity"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Negative electrolyte solvent B purity considered in calculation?",
@@ -924,7 +924,7 @@
             "Unit": "%",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-hasMeasuredProperty-Purity"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Negative electrolyte solute A purity considered in calculation?",
@@ -988,7 +988,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-hasMeasuredProperty-Purity"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-hasMeasuredProperty-echem:Purity"
           },
           {
             "Metadata": "Negative electrolyte solute B purity considered in calculation?",
@@ -1076,7 +1076,7 @@
             "Unit": "unitless",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasMeasuredProperty-pH"
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-PH"
           },
           {
             "Metadata": "Negative electrolyte density",
@@ -1116,7 +1116,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "e.g. Argon, Nitrogen, leave empty if none",
-            "Ontology link": "hasAnolyte-hasBubbledGas"
+            "Ontology link": "hasAnolyte-hasConstituent"
           },
           {
             "Metadata": "Negative electrolyte gas flow rate",
@@ -1124,7 +1124,7 @@
             "Unit": "mL/min",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasBubbledGas-hasMeasuredProperty-VolumeFlowRate"
+            "Ontology link": "hasAnolyte-hasConstituent-hasMeasuredProperty-VolumeFlowRate"
           },
           {
             "Metadata": "Negative electrolyte gas pressure",
@@ -1132,7 +1132,7 @@
             "Unit": "mbar",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasAnolyte-hasBubbledGas-hasMeasuredProperty-Pressure"
+            "Ontology link": "hasAnolyte-hasConstituent-hasMeasuredProperty-Pressure"
           }
         ]
       },
@@ -1336,7 +1336,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Ontology term, be as specific as possible",
-            "Ontology link": "hasComponent-type|Gasket"
+            "Ontology link": "hasComponent-type|echem:Gasket"
           },
           {
             "Metadata": "Gasket material chemical name",
@@ -1344,7 +1344,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasComponent-type|Gasket-hasDatumA-type|ChemicalName-hasStringValue"
+            "Ontology link": "hasComponent-type|echem:Gasket-hasDatumA-type|ChemicalName-hasStringValue"
           },
           {
             "Metadata": "Gasket material chemical formula",
@@ -1352,7 +1352,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasComponent-type|Gasket-hasDatumB-type|ChemicalFormula-hasStringValue"
+            "Ontology link": "hasComponent-type|echem:Gasket-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
           {
             "Metadata": "Gasket manufacturer",
@@ -1360,7 +1360,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasComponent-type|Gasket-schema:manufacturer"
+            "Ontology link": "hasComponent-type|echem:Gasket-schema:manufacturer"
           },
           {
             "Metadata": "Gasket manufacturer product ID",
@@ -1368,7 +1368,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasComponent-type|Gasket-schema:productID"
+            "Ontology link": "hasComponent-type|echem:Gasket-schema:productID"
           },
           {
             "Metadata": "Gasket thickness",

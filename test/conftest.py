@@ -10,7 +10,6 @@ import pytest
 from pyld import jsonld
 
 from battinfoconverter_backend.templates.template_conversion import COINCELL_TEMPLATE_PATH, FLOWCELL_TEMPLATE_PATH
-from battinfoconverter_backend.validate import get_context
 
 jsonld.set_document_loader(jsonld.requests_document_loader())
 
@@ -103,13 +102,6 @@ def coincell(request: pytest.FixtureRequest) -> CellFixtures:
 def old_schema(request: pytest.FixtureRequest) -> Path:
     """Get path to old xlsx templates."""
     return Path(REF_DIR / request.param)
-
-
-@pytest.fixture(scope="session", autouse=True)
-def add_pending_terms() -> None:
-    """Add pending terms to context for validation."""
-    ctx = get_context()  # populates global _MAPPED_TERMS
-    ctx["https://w3id.org/emmo/domain/battery#"] += ["pH", "Purity", "Gasket", "hasBubbledGas"]  # mutate global in place
 
 
 def coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
