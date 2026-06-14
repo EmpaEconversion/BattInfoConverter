@@ -112,20 +112,6 @@ def old_schema(request: pytest.FixtureRequest) -> Path:
     return Path(REF_DIR / request.param)
 
 
-@pytest.fixture(scope="session", autouse=True)
-def add_pending_terms() -> None:
-    """Add pending terms to context for validation."""
-    ctx = get_context()  # populates global _MAPPED_TERMS
-    ctx["https://w3id.org/emmo/domain/battery#"] += [
-        "ImmersionElectrode",
-        "NegativeElectrodeGasCompartment",
-        "PolyArylPiperidinium",
-        "PositiveElectrodeGasCompartment",
-        "hasSubstrate",
-        "pH",
-    ]
-
-
 def coerce_decimals(value: Decimal | float | dict | list) -> float | dict | list:
     """Recursively convert ``Decimal`` instances within ``value`` to floats."""
     if isinstance(value, Decimal):
