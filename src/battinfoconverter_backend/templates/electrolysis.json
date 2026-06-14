@@ -113,7 +113,7 @@
             "Value": "CarbonPaper",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate",
             "Comment": null
           },
           {
@@ -121,7 +121,7 @@
             "Value": "Carbon",
             "Unit": "No Unit",
             "Priority": "recommended",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate",
             "Comment": null
           },
           {
@@ -129,7 +129,7 @@
             "Value": "Polytetrafluoroethylene",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasCoating",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate-hasCoating",
             "Comment": null
           },
           {
@@ -137,7 +137,7 @@
             "Value": 315,
             "Unit": "um",
             "Priority": "recommended",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Thickness",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate-hasMeasuredProperty-Thickness",
             "Comment": null
           },
           {
@@ -215,7 +215,7 @@
             "Value": 85,
             "Unit": "%",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Porosity",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate-hasMeasuredProperty-Porosity",
             "Comment": null
           },
           {
@@ -253,7 +253,7 @@
             "Value": "SGLCarbon",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:manufacturer",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate-schema:manufacturer",
             "Comment": null
           },
           {
@@ -261,7 +261,7 @@
             "Value": "39BB",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:productID",
+            "Ontology link": "hasNegativeElectrode-echem:hasSubstrate-schema:productID",
             "Comment": null
           },
           {
@@ -304,7 +304,7 @@
         "rows": [
           {
             "Metadata": "Positive electrode type",
-            "Value": "ImmersionElectrode",
+            "Value": "echem:ImmersionElectrode",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasPositiveElectrode",
@@ -315,7 +315,7 @@
             "Value": "PerforatedFoil",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate",
             "Comment": null
           },
           {
@@ -323,7 +323,7 @@
             "Value": "Titanium",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate",
             "Comment": null
           },
           {
@@ -331,7 +331,7 @@
             "Value": 20,
             "Unit": "um",
             "Priority": "recommended",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Thickness",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate-hasMeasuredProperty-Thickness",
             "Comment": null
           },
           {
@@ -409,7 +409,7 @@
             "Value": 50,
             "Unit": "%",
             "Priority": "optional",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Porosity",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate-hasMeasuredProperty-Porosity",
             "Comment": null
           },
           {
@@ -447,7 +447,7 @@
             "Value": "Fuel Cell Store",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:manufacturer",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate-schema:manufacturer",
             "Comment": null
           },
           {
@@ -455,7 +455,7 @@
             "Value": 40050001,
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:productID",
+            "Ontology link": "hasPositiveElectrode-echem:hasSubstrate-schema:productID",
             "Comment": null
           },
           {
@@ -501,7 +501,7 @@
             "Value": "CarbonDioxide",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
             "Comment": null
           },
           {
@@ -509,7 +509,7 @@
             "Value": 100,
             "Unit": "%",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
             "Comment": null
           },
           {
@@ -517,7 +517,7 @@
             "Value": "Argon",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
             "Comment": null
           },
           {
@@ -525,7 +525,7 @@
             "Value": 0,
             "Unit": "%",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
             "Comment": null
           },
           {
@@ -533,7 +533,7 @@
             "Value": 5,
             "Unit": "mL/min",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
             "Comment": null
           },
           {
@@ -541,7 +541,7 @@
             "Value": 1,
             "Unit": "bar",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
             "Comment": null
           }
         ]
@@ -657,7 +657,7 @@
             "Value": 3.8,
             "Unit": "unitless",
             "Priority": "optional",
-            "Ontology link": "hasCatholyte-hasMeasuredProperty-pH",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-PH",
             "Comment": null
           },
           {
@@ -773,7 +773,7 @@
             "Value": "Nitrogen",
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
             "Comment": null
           },
           {
@@ -781,7 +781,7 @@
             "Value": 100,
             "Unit": "%",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
             "Comment": null
           },
           {
@@ -789,7 +789,7 @@
             "Value": null,
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
             "Comment": null
           },
           {
@@ -797,7 +797,7 @@
             "Value": null,
             "Unit": "%",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
             "Comment": null
           },
           {
@@ -805,7 +805,7 @@
             "Value": 4,
             "Unit": "mL/min",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
             "Comment": null
           },
           {
@@ -813,7 +813,7 @@
             "Value": 1,
             "Unit": "bar",
             "Priority": "optional",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
             "Comment": null
           }
         ]
@@ -929,7 +929,7 @@
             "Value": 0,
             "Unit": "No Unit",
             "Priority": "optional",
-            "Ontology link": "hasAnolyte-hasMeasuredProperty-pH",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-PH",
             "Comment": null
           },
           {
@@ -1066,7 +1066,7 @@
           },
           {
             "Metadata": "Membrane A material A (facing catholyte)",
-            "Value": "PolyArylPiperidinium",
+            "Value": "chemical:PolyArylPiperidinium",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasSeparator-hasElectrolyteA",
@@ -1199,7 +1199,7 @@
             "Value": "FlowField",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasComponent",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasComponent",
             "Comment": null
           },
           {
@@ -1207,7 +1207,7 @@
             "Value": 1,
             "Unit": "mm",
             "Priority": "required",
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasMeasuredProperty-Width",
+            "Ontology link": "hasComponentA-type|echem:NegativeElectrodeGasCompartment-hasMeasuredProperty-Width",
             "Comment": null
           },
           {
@@ -1287,7 +1287,7 @@
             "Value": 1,
             "Unit": "mm",
             "Priority": "required",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasMeasuredProperty-Width",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasMeasuredProperty-Width",
             "Comment": null
           },
           {
@@ -1295,7 +1295,7 @@
             "Value": "FlowField",
             "Unit": "No Unit",
             "Priority": "required",
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasComponent",
+            "Ontology link": "hasComponentD-type|echem:PositiveElectrodeGasCompartment-hasComponent",
             "Comment": null
           },
           {
@@ -1465,7 +1465,7 @@
         "Key": "ReferenceElectrode"
       },
       {
-        "Item": "hasSubstrate",
+        "Item": "echem:hasSubstrate",
         "Key": "Substrate"
       },
       {
@@ -1577,12 +1577,12 @@
         "Note": null
       },
       {
-        "Item": "NegativeElectrodeGasCompartment",
+        "Item": "echem:NegativeElectrodeGasCompartment",
         "ID": null,
         "Note": "requested"
       },
       {
-        "Item": "PositiveElectrodeGasCompartment",
+        "Item": "echem:PositiveElectrodeGasCompartment",
         "ID": null,
         "Note": "requested"
       },
@@ -1602,7 +1602,7 @@
         "Note": null
       },
       {
-        "Item": "ImmersionElectrode",
+        "Item": "echem:ImmersionElectrode",
         "ID": null,
         "Note": null
       },
@@ -1882,7 +1882,7 @@
         "Note": "Aemion+ by Ionomr (AEM). AF1 by Ionomr (AEM), requested"
       },
       {
-        "Item": "PolyArylPiperidinium",
+        "Item": "chemical:PolyArylPiperidinium",
         "ID": null,
         "Note": "Piperion by Versogen (AEM), requested"
       },
@@ -2107,7 +2107,7 @@
         "Note": null
       },
       {
-        "Item": "pH",
+        "Item": "PH",
         "ID": null,
         "Note": "requested"
       },

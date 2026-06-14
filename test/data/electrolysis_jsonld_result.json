@@ -26,8 +26,8 @@
         "@id": "https://orcid.org/0000-0002-5003-1134"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 3.1.2",
-        "Software credit: This JSON-LD was created using BattINFO converter v3.1.2 (https://battinfoconverter.streamlit.app/) with schema: ElectrolysisCellSchema v0.1.0. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "BattINFO Converter version: 3.2.0",
+        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: ElectrolysisCellSchema v0.1.0. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: ETHB PREMISE/NCCR Catalysis",
         "Assembled manually or by robot: manually",
         "Schema name: ElectrolysisCellSchema",
@@ -38,7 +38,7 @@
             "Electrode",
             "GasDiffusionElectrode"
         ],
-        "hasSubstrate": {
+        "echem:hasSubstrate": {
             "@type": [
                 "Substrate",
                 "CarbonPaper",
@@ -163,9 +163,9 @@
     "hasPositiveElectrode": {
         "@type": [
             "Electrode",
-            "ImmersionElectrode"
+            "echem:ImmersionElectrode"
         ],
-        "hasSubstrate": {
+        "echem:hasSubstrate": {
             "@type": [
                 "Substrate",
                 "PerforatedFoil",
@@ -283,7 +283,7 @@
     },
     "hasComponent": [
         {
-            "@type": "NegativeElectrodeGasCompartment",
+            "@type": "echem:NegativeElectrodeGasCompartment",
             "hasActiveMaterial": {
                 "@type": "GasMixture",
                 "hasConstituent": [
@@ -400,7 +400,7 @@
             }
         },
         {
-            "@type": "PositiveElectrodeGasCompartment",
+            "@type": "echem:PositiveElectrodeGasCompartment",
             "hasActiveMaterial": {
                 "@type": "GasMixture",
                 "hasConstituent": {
@@ -543,7 +543,7 @@
                 "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
             },
             {
-                "@type": "pH",
+                "@type": "PH",
                 "hasNumericalPart": {
                     "@type": "emmo:RealData",
                     "hasNumberValue": 3.8
@@ -641,7 +641,7 @@
                     "hasNumberValue": 800
                 },
                 "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
-                "pH": {}
+                "PH": {}
             },
             {
                 "@type": "Density",
@@ -677,7 +677,7 @@
             {
                 "@type": [
                     "AnionExchangeMembrane",
-                    "PolyArylPiperidinium"
+                    "chemical:PolyArylPiperidinium"
                 ],
                 "hasMeasuredProperty": [
                     {
