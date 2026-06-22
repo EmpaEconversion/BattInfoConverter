@@ -13,7 +13,7 @@ from battinfoconverter_backend import convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import json_to_xlsx
 
 for template in Path("src/battinfoconverter_backend/templates").glob("*.json"):
-    print(f"Converting {template}")
+    print(f"Updating {template.stem}")
     excel_path = Path(f"test/data/{template.stem}_excel_schema.xlsx")
     output_path = Path(f"test/data/{template.stem}_jsonld_result.json")
 
