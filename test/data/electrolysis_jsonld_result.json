@@ -39,7 +39,7 @@
             "Electrode",
             "GasDiffusionElectrode"
         ],
-        "echem:hasSubstrate": {
+        "hasSubstrate": {
             "@type": [
                 "Substrate",
                 "CarbonPaper",
@@ -164,9 +164,9 @@
     "hasPositiveElectrode": {
         "@type": [
             "Electrode",
-            "echem:ImmersionElectrode"
+            "ImmersionElectrode"
         ],
-        "echem:hasSubstrate": {
+        "hasSubstrate": {
             "@type": [
                 "Substrate",
                 "PerforatedFoil",
@@ -284,7 +284,7 @@
     },
     "hasComponent": [
         {
-            "@type": "echem:NegativeElectrodeGasCompartment",
+            "@type": "NegativeElectrodeGasCompartment",
             "hasActiveMaterial": {
                 "@type": "GasMixture",
                 "hasConstituent": [
@@ -401,7 +401,7 @@
             }
         },
         {
-            "@type": "echem:PositiveElectrodeGasCompartment",
+            "@type": "PositiveElectrodeGasCompartment",
             "hasActiveMaterial": {
                 "@type": "GasMixture",
                 "hasConstituent": {
