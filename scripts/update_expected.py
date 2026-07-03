@@ -19,5 +19,5 @@ for template in Path("src/battinfoconverter_backend/templates").glob("*.json"):
 
     json_to_xlsx(template, excel_path)
     res = convert_excel_to_jsonld(excel_path)
-    with output_path.open("w") as f:
+    with output_path.open("w", encoding="utf-8") as f:
         json.dump(res, f, indent=4, ensure_ascii=False)
