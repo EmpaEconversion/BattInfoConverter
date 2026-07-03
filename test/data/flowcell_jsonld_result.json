@@ -217,7 +217,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 100
@@ -270,7 +270,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
@@ -308,7 +308,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 98
@@ -442,7 +442,7 @@
             "schema:productID": "5SCH-PB"
         },
         {
-            "@type": "echem:Gasket",
+            "@type": "Gasket",
             "hasDatum": {
                 "@type": "ChemicalName",
                 "hasStringValue": "Viton"
@@ -494,7 +494,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 100
@@ -547,7 +547,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
@@ -585,7 +585,7 @@
                     ],
                     "hasMeasuredProperty": [
                         {
-                            "@type": "echem:Purity",
+                            "@type": "Purity",
                             "hasNumericalPart": {
                                 "@type": "emmo:RealData",
                                 "hasNumberValue": 99
