@@ -22,7 +22,11 @@ logger = logging.getLogger(__name__)
 APP_VERSION = version("battinfoconverter-backend")
 
 
-def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
+def create_jsonld_with_conditions(
+    data_container: ExcelContainer,
+    *,
+    software_credit: str | None = None,
+) -> dict:
     """Create JSON-LD structure based on the provided data container containing schema and context.
 
     This function extracts necessary information from the schema and context sheets of the provided
@@ -31,6 +35,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
 
     Args:
         data_container (ExcelContainer): ExcelContainer of the Excel file to be converted.
+        software_credit (str): String to add into comments for 'Software credit'.
 
     Returns:
         dict: A JSON-LD dictionary representing the structured information.
@@ -118,23 +123,26 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
         )
 
     # Add or prepend root level comment
-    software_credit = (
-        f"Software credit: This JSON-LD was created using BattINFO converter v{APP_VERSION} "
-        "(https://battinfoconverter.streamlit.app/)"
-    )
+    if software_credit:
+        software_credit = f"Software credit: {software_credit}"
+    else:
+        software_credit = (
+            "Software credit: This JSON-LD was created using the BattINFO Converter Python package "
+            "(https://github.com/EmpaEconversion/BattInfoConverter), "
+            "developed at Empa, Swiss Federal Laboratories for Materials Science and Technology "
+            "in the Laboratory Materials for Energy Conversion."
+        )
     if schema_name and schema_version:
-        software_credit += f" with schema: {schema_name} v{schema_version}"
+        schema_str = f"{schema_name} v{schema_version}"
     elif schema_name:
-        software_credit += f" with schema: {schema_name}, unspecified version"
+        schema_str = f"{schema_name}, unspecified version"
     elif schema_version:
-        software_credit += f" with unspecified schema v{schema_version}"
-    software_credit += (
-        ". "
-        "BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials "
-        "Science and Technology in the Laboratory Materials for Energy Conversion."
-    )
+        schema_str = f"unspecified schema v{schema_version}"
+    else:
+        schema_str = "unspecified"
     root_comment = [
-        f"BattINFO Converter version: {APP_VERSION}",
+        f"BattINFO Converter backend v{APP_VERSION}",
+        f"Using template: {schema_str}",
         software_credit,
     ]
     current_comment = jsonld.get("rdfs:comment", [])
@@ -194,6 +202,7 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
 def convert_excel_to_jsonld(
     excel_file: str | Path | IO[bytes] | Workbook,
     *,
+    software_credit: str | None = None,
     validate: bool = True,
     debug_mode: bool = False,
 ) -> dict:
@@ -206,6 +215,7 @@ def convert_excel_to_jsonld(
 
     Args:
         excel_file (ExcelContainer): ExcelContainer of the Excel file to be converted.
+        software_credit (str): String to add into comments for 'Software credit'.
         validate (bool): Whether to warn about possible issues in the output. Default is True.
         debug_mode (bool): Flag to enable or disable debug mode. Default is False.
 
@@ -231,7 +241,10 @@ def convert_excel_to_jsonld(
 
     try:
         data_container = ExcelContainer(excel_file)
-        jsonld_output = create_jsonld_with_conditions(data_container)
+        jsonld_output = create_jsonld_with_conditions(
+            data_container,
+            software_credit=software_credit,
+        )
         jsonld_output = reformat_json_rated_capacity(jsonld_output)
         if validate:
             validate_jsonld(jsonld_output, errors="warn")

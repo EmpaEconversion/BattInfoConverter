@@ -82,6 +82,13 @@ Semantic Annotation of Battery Cell Metadata." *Batteries & Supercaps* (**2025**
 [doi.org/10.1002/batt.202500151](https://doi.org/10.1002/batt.202500151)
 """
 
+SOFTWARE_CREDIT = (
+    "This JSON-LD was created using the BattINFO Converter web app "
+    "(https://battinfoconverter.streamlit.app), "
+    "developed at Empa, Swiss Federal Laboratories for Materials Science and Technology "
+    "in the Laboratory Materials for Energy Conversion."
+)
+
 
 def main() -> None:
     """Define layout of app."""
@@ -98,7 +105,11 @@ def main() -> None:
         # Convert the uploaded Excel file to JSON-LD
         try:
             with collect_warnings() as warnings:
-                jsonld_output = convert_excel_to_jsonld(uploaded_file, validate=True)
+                jsonld_output = convert_excel_to_jsonld(
+                    uploaded_file,
+                    software_credit=SOFTWARE_CREDIT,
+                    validate=True,
+                )
         except Exception as e:
             st.error(f"Error encountered during conversion:  \n  \n{e}")
             with st.expander("💥 See full error traceback"):
