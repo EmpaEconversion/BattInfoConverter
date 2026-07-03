@@ -26,8 +26,9 @@
         "@id": "https://orcid.org/0000-0002-5003-1134"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 3.2.0",
-        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: ElectrolysisCellSchema v0.1.1. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "BattINFO Converter backend v3.2.0",
+        "Using template: ElectrolysisCellSchema v0.1.1",
+        "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: ETHB PREMISE/NCCR Catalysis",
         "Assembled manually or by robot: manually",
         "Schema name: ElectrolysisCellSchema",
