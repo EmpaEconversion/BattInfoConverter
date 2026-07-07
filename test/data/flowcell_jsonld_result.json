@@ -27,10 +27,10 @@
     "schema:dateCreated": "2026-05-01",
     "rdfs:comment": [
         "BattINFO Converter version: 3.2.0",
-        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: RFBCellSchema v0.1.1. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: RFBCellSchema v0.1.2. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: SNSF Ambizione Z00P2_209078",
         "Schema name: RFBCellSchema",
-        "Schema version: 0.1.1"
+        "Schema version: 0.1.2"
     ],
     "hasPositiveElectrode": {
         "@type": [
@@ -110,6 +110,34 @@
                 "Positive electrode substrate thickness comment: Used two 280 µm carbon papers",
                 "Positive electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
             ]
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "TitaniumDioxide"
+                ],
+                "hasDatum": [
+                    {
+                        "@type": "ChemicalName",
+                        "hasStringValue": "Titanium dioxide"
+                    },
+                    {
+                        "@type": "ChemicalFormula",
+                        "hasStringValue": "TiO2"
+                    }
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassLoading",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1.3579
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                }
+            },
+            "rdfs:comment": "Positive electrode coating active material description: Liquid-phase deposition using a mixed solution of H3BO3 and (NH4)2TiF6"
         }
     },
     "hasNegativeElectrode": {
@@ -190,6 +218,34 @@
                 "Negative electrode substrate thickness comment: Used two 280 µm carbon papers",
                 "Negative electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
             ]
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "Bismuth"
+                ],
+                "hasDatum": [
+                    {
+                        "@type": "ChemicalName",
+                        "hasStringValue": "Bismuth"
+                    },
+                    {
+                        "@type": "ChemicalFormula",
+                        "hasStringValue": "Bi"
+                    }
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassLoading",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1.23456
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                }
+            },
+            "rdfs:comment": "Negative electrode coating active material description: Deposited from BiCl3 solution"
         }
     },
     "hasCatholyte": {
@@ -753,5 +809,13 @@
             },
             "hasMeasurementUnit": "unit:N-M"
         }
+    },
+    "hasMeasuredProperty": {
+        "@type": "ElectricResistance",
+        "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 25000
+        },
+        "hasMeasurementUnit": "unit:OHM"
     }
 }

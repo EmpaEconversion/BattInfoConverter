@@ -80,7 +80,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.1.1",
+            "Value": "0.1.2",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -219,6 +219,54 @@
             "Priority": "required",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)",
             "Ontology link": "hasPositiveElectrode-Substrate-rdfs:comment"
+          },
+          {
+            "Metadata": "Positive electrode coating active material type",
+            "Value": "Electrocatalyst",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Positive electrode coating active material class",
+            "Value": "TitaniumDioxide",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Ontology term, be as specific as possible",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Positive electrode coating active material chemical name",
+            "Value": "Titanium dioxide",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Important if specific ontology class not available",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasDatumA-type|ChemicalName-hasStringValue"
+          },
+          {
+            "Metadata": "Positive electrode coating active material chemical formula",
+            "Value": "TiO2",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Important if specific ontology class not available",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasDatumB-type|ChemicalFormula-hasStringValue"
+          },
+          {
+            "Metadata": "Positive electrode coating active material description",
+            "Value": "Liquid-phase deposition using a mixed solution of H3BO3 and (NH4)2TiF6",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Describe catalyst deposition procedure",
+            "Ontology link": "hasPositiveElectrode-hasCoating-rdfs:comment"
+          },
+          {
+            "Metadata": "Positive electrode coating active material mass loading",
+            "Value": 1.3579,
+            "Unit": "mg/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading"
           }
         ]
       },
@@ -353,6 +401,55 @@
             "Priority": "required",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)",
             "Ontology link": "hasNegativeElectrode-Substrate-rdfs:comment"
+          },
+          {
+            "Metadata": "Negative electrode coating active material type",
+            "Value": "Electrocatalyst",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Negative electrode coating active material class",
+            "Value": "Bismuth",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Ontology term, be as specific as possible",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial"
+          },
+          {
+            "Metadata": "Negative electrode coating active material chemical name",
+            "Value": "Bismuth",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Important if specific ontology class not available",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasDatumA-type|ChemicalName-hasStringValue"
+          },
+          {
+            "Metadata": "Negative electrode coating active material chemical formula",
+            "Value": "Bi",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Important if specific ontology class not available",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasDatumB-type|ChemicalFormula-hasStringValue"
+          },
+          
+          {
+            "Metadata": "Negative electrode coating active material description",
+            "Value": "Deposited from BiCl3 solution",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": "Describe catalyst deposition procedure",
+            "Ontology link": "hasNegativeElectrode-hasCoating-rdfs:comment"
+          },
+          {
+            "Metadata": "Negative electrode coating active material mass loading",
+            "Value": 1.23456,
+            "Unit": "mg/cm2",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading"
           }
         ]
       },
@@ -1401,6 +1498,14 @@
             "Priority": "recommended",
             "Comment": "Describe if other mode, e.g. 2-point",
             "Ontology link": "hasComponent-type|Connector-rdfs:comment"
+          },
+          {
+            "Metadata": "Assembled resistance",
+            "Value": 25000,
+            "Unit": "ohm",
+            "Priority": "recommended",
+            "Comment": "Resistance of the as-assembled cell, before any experiments",
+            "Ontology link": "hasMeasuredProperty-ElectricResistance"
           }
         ]
       }
@@ -1515,6 +1620,11 @@
         "Item": "hasSubstrate",
         "Key": "Substrate",
         "Note": "Carbon, CarbonPaper, CarbonFelt, CarbonCloth"
+      },
+      {
+        "Item": "hasCoating",
+        "Key": "Coating",
+        "Note": null
       }
     ]
   },
@@ -1588,6 +1698,21 @@
       },
       {
         "Item": "Graphite",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Bismuth",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TitaniumDioxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Electrocatalyst",
         "ID": null,
         "Note": null
       },
@@ -1725,6 +1850,14 @@
       {
         "Item": "mPa·s",
         "Key": "unit:MilliPA-SEC"
+      },
+      {
+        "Item": "mg/cm2",
+        "Key": "unit:MilliGM-PER-CentiM2"
+      },
+      {
+        "Item": "ohm",
+        "Key": "unit:OHM"
       }
     ]
   }
