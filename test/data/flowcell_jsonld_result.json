@@ -1,0 +1,821 @@
+{
+    "@context": [
+        "https://w3id.org/emmo/domain/battery/context",
+        {
+            "schema": "https://schema.org/",
+            "emmo": "https://w3id.org/emmo#",
+            "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+            "battery": "https://w3id.org/emmo/domain/battery#",
+            "chemical": "https://w3id.org/emmo/domain/chemical-substance#",
+            "unit": "https://qudt.org/vocab/unit/",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+        }
+    ],
+    "schema:creator": {
+        "@type": "schema:Person",
+        "@id": "https://orcid.org/0000-0002-4426-8717",
+        "schema:name": "David Reber"
+    },
+    "schema:manufacturer": {
+        "@type": "schema:Organization",
+        "@id": "https://www.wikidata.org/wiki/Q683116",
+        "schema:name": "Empa"
+    },
+    "@type": "RedoxFlowBattery",
+    "schema:productID": "empa_fcid_000001",
+    "schema:name": "260501_reda_1M-KCrPDTA_01",
+    "schema:dateCreated": "2026-05-01",
+    "rdfs:comment": [
+        "BattINFO Converter version: 3.2.0",
+        "Software credit: This JSON-LD was created using BattINFO converter v3.2.0 (https://battinfoconverter.streamlit.app/) with schema: RFBCellSchema v0.1.2. BattINFO converter was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "Project: SNSF Ambizione Z00P2_209078",
+        "Schema name: RFBCellSchema",
+        "Schema version: 0.1.2"
+    ],
+    "hasPositiveElectrode": {
+        "@type": [
+            "Electrode",
+            "PorousElectrode"
+        ],
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "Pristine",
+        "Substrate": {
+            "@type": [
+                "CarbonPaper",
+                "Carbon"
+            ],
+            "hasDatum": [
+                {
+                    "@type": "ChemicalName",
+                    "hasStringValue": "Carbon"
+                },
+                {
+                    "@type": "ChemicalFormula",
+                    "hasStringValue": "C"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "SGL Carbon",
+                "@id": "https://www.wikidata.org/wiki/Q320207"
+            },
+            "schema:productID": "Sigracet 39AA",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 560
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Porosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 80
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                {
+                    "@type": "Area",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 5
+                    },
+                    "hasMeasurementUnit": "unit:CentiM2"
+                },
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 450
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Weight",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 53.2
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM"
+                }
+            ],
+            "rdfs:comment": [
+                "Positive electrode substrate thickness comment: Used two 280 µm carbon papers",
+                "Positive electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
+            ]
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "TitaniumDioxide"
+                ],
+                "hasDatum": [
+                    {
+                        "@type": "ChemicalName",
+                        "hasStringValue": "Titanium dioxide"
+                    },
+                    {
+                        "@type": "ChemicalFormula",
+                        "hasStringValue": "TiO2"
+                    }
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassLoading",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1.3579
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                }
+            },
+            "rdfs:comment": "Positive electrode coating active material description: Liquid-phase deposition using a mixed solution of H3BO3 and (NH4)2TiF6"
+        }
+    },
+    "hasNegativeElectrode": {
+        "@type": [
+            "Electrode",
+            "PorousElectrode"
+        ],
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "Pristine",
+        "Substrate": {
+            "@type": [
+                "CarbonPaper",
+                "Carbon"
+            ],
+            "hasDatum": [
+                {
+                    "@type": "ChemicalName",
+                    "hasStringValue": "Carbon"
+                },
+                {
+                    "@type": "ChemicalFormula",
+                    "hasStringValue": "C"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "SGL Carbon",
+                "@id": "https://www.wikidata.org/wiki/Q320207"
+            },
+            "schema:productID": "Sigracet 39AA",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 560
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Porosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 80
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                {
+                    "@type": "Area",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 5
+                    },
+                    "hasMeasurementUnit": "unit:CentiM2"
+                },
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 450
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Weight",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 52.3
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM"
+                }
+            ],
+            "rdfs:comment": [
+                "Negative electrode substrate thickness comment: Used two 280 µm carbon papers",
+                "Negative electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
+            ]
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "Bismuth"
+                ],
+                "hasDatum": [
+                    {
+                        "@type": "ChemicalName",
+                        "hasStringValue": "Bismuth"
+                    },
+                    {
+                        "@type": "ChemicalFormula",
+                        "hasStringValue": "Bi"
+                    }
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassLoading",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1.23456
+                    },
+                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                }
+            },
+            "rdfs:comment": "Negative electrode coating active material description: Deposited from BiCl3 solution"
+        }
+    },
+    "hasCatholyte": {
+        "@type": "Electrolyte",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "Posolyte 0.5M",
+        "hasSolvent": {
+            "@type": "Solvent",
+            "hasConstituent": [
+                {
+                    "@type": "Water",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "Water"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "H2O"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    ],
+                    "rdfs:comment": "Positive electrolyte solvent A purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Empa",
+                        "@id": "https://www.wikidata.org/wiki/Q683116"
+                    },
+                    "schema:productID": "MilliQ"
+                },
+                {
+                    "hasMeasuredProperty": {
+                        "@type": "VolumeFraction",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 0
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                }
+            ]
+        },
+        "hasSolute": {
+            "@type": "Solute",
+            "hasConstituent": [
+                {
+                    "@type": "PotassiumSaltCompound",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "Potassium ferrocyanide trihydrate"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "K4Fe(CN)6 * 3 H2O"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 99
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "AmountConcentration",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 0.5
+                            },
+                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                        }
+                    ],
+                    "rdfs:comment": "Positive electrolyte solute A purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Thermo Fisher Scientific",
+                        "@id": "https://www.wikidata.org/wiki/Q643674"
+                    },
+                    "schema:productID": "10504474"
+                },
+                {
+                    "@type": "PotassiumSaltCompound",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "Potassium ferricyanide"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "K3Fe(CN)6"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 98
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "AmountConcentration",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 0.1
+                            },
+                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                        }
+                    ],
+                    "rdfs:comment": "Positive electrolyte solute B purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Thermo Fisher Scientific",
+                        "@id": "https://www.wikidata.org/wiki/Q643674"
+                    },
+                    "schema:productID": "10266370"
+                }
+            ]
+        },
+        "hasMeasuredProperty": [
+            {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 30
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            {
+                "@type": "VolumeFlowRate",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 60
+                },
+                "hasMeasurementUnit": "unit:MilliL-PER-MIN",
+                "VolumeFlowRate": {
+                    "rdfs:comment": "Positive electrolyte volume flow rate calibration: Flow calibrated with cell in series"
+                }
+            },
+            {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 155.6
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "DynamicViscosity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.34
+                },
+                "hasMeasurementUnit": "unit:MilliPA-SEC"
+            },
+            {
+                "@type": "PH",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 7.7
+                },
+                "hasMeasurementUnit": "unit:UNITLESS"
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.13
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+            },
+            {
+                "@type": "CelsiusTemperature",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 23
+                },
+                "hasMeasurementUnit": "unit:DEG_C"
+            }
+        ]
+    },
+    "hasComponent": [
+        {
+            "@type": "CatholyteTank",
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 50
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            "rdfs:comment": "Positive electrolyte tank convection?: No"
+        },
+        {
+            "@type": "AnolyteTank",
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 50
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            "rdfs:comment": "Negative electrolyte tank convection?: Bubbled with gas"
+        },
+        {
+            "@type": "FlowField",
+            "hasDatum": [
+                {
+                    "@type": "ChemicalName",
+                    "hasStringValue": "Graphite"
+                },
+                {
+                    "@type": "ChemicalFormula",
+                    "hasStringValue": "C"
+                }
+            ],
+            "schema:description": "Serpentine",
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Fuel Cell Store",
+                "@id": "https://www.wikidata.org/wiki/Q27868725"
+            },
+            "schema:productID": "5SCH-PB"
+        },
+        {
+            "@type": "Gasket",
+            "hasDatum": {
+                "@type": "ChemicalName",
+                "hasStringValue": "Viton"
+            },
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Maagtechnic AG"
+            },
+            "schema:productID": "17965343",
+            "hasMeasuredProperty": {
+                "@type": "Thickness",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 450
+                },
+                "hasMeasurementUnit": "unit:MicroM"
+            }
+        },
+        {
+            "@type": "Connector",
+            "rdfs:comment": [
+                "Connector type: Banana plug connected via crocodile clamp",
+                "Connection type: 4-point"
+            ]
+        }
+    ],
+    "hasAnolyte": {
+        "@type": "Electrolyte",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "Negolyte 1M",
+        "hasSolvent": {
+            "@type": "Solvent",
+            "hasConstituent": [
+                {
+                    "@type": "Water",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "Water"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "H2O"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    ],
+                    "rdfs:comment": "Negative electrolyte solvent A purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Empa",
+                        "@id": "https://www.wikidata.org/wiki/Q683116"
+                    },
+                    "schema:productID": "MilliQ"
+                },
+                {
+                    "hasMeasuredProperty": {
+                        "@type": "VolumeFraction",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 0
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                }
+            ]
+        },
+        "hasSolute": {
+            "@type": "Solute",
+            "hasConstituent": [
+                {
+                    "@type": "PotassiumSaltCompound",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "KCrPDTA * 2 H2O (potassium [1,3-propylenediaminetetraacetato]chromate(III) dihydrate)"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "KCrC11H18N2O10"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 99
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "AmountConcentration",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 1
+                            },
+                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                        }
+                    ],
+                    "rdfs:comment": "Negative electrolyte solute A purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Empa",
+                        "@id": "https://www.wikidata.org/wiki/Q683116"
+                    },
+                    "schema:productID": "KCrPDTA-Fall-25"
+                },
+                {
+                    "@type": "OrganicAcid",
+                    "hasDatum": [
+                        {
+                            "@type": "ChemicalName",
+                            "hasStringValue": "H4PDTA (1,3-propylenediaminetetraacetic acid)"
+                        },
+                        {
+                            "@type": "ChemicalFormula",
+                            "hasStringValue": "C11H18N2O8"
+                        }
+                    ],
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "Purity",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 99
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "AmountConcentration",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 0.1
+                            },
+                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                        }
+                    ],
+                    "rdfs:comment": "Negative electrolyte solute B purity considered in calculation?: Purity considered",
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "SigmaAldrich",
+                        "@id": "https://www.wikidata.org/wiki/Q680841"
+                    },
+                    "schema:productID": "33267"
+                }
+            ]
+        },
+        "hasMeasuredProperty": [
+            {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 10
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            {
+                "@type": "VolumeFlowRate",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 60
+                },
+                "hasMeasurementUnit": "unit:MilliL-PER-MIN",
+                "VolumeFlowRate": {
+                    "rdfs:comment": "Negative electrolyte volume flow rate calibration: Flow calibrated with cell in series"
+                }
+            },
+            {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 48.4
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "DynamicViscosity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 2.32
+                },
+                "hasMeasurementUnit": "unit:MilliPA-SEC"
+            },
+            {
+                "@type": "PH",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 8.7
+                },
+                "hasMeasurementUnit": "unit:UNITLESS"
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.21
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+            },
+            {
+                "@type": "CelsiusTemperature",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 23
+                },
+                "hasMeasurementUnit": "unit:DEG_C"
+            }
+        ],
+        "hasConstituent": {
+            "@type": "Argon",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "VolumeFlowRate",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 2.5
+                    },
+                    "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+                },
+                {
+                    "@type": "Pressure",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 10
+                    },
+                    "hasMeasurementUnit": "unit:MilliBAR"
+                }
+            ]
+        }
+    },
+    "hasSeparator": {
+        "@type": "CationExchangeMembrane",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Fumatech",
+            "@id": "https://www.wikidata.org/wiki/Q30254565"
+        },
+        "schema:productID": "E630-K",
+        "hasConstituent": {
+            "@type": "PolyetherEtherKetone",
+            "hasDatum": [
+                {
+                    "@type": "ChemicalName",
+                    "hasStringValue": "Polyether ether ketone (PEEK)"
+                },
+                {
+                    "@type": "ChemicalFormula",
+                    "hasStringValue": "(C19H12O3)n"
+                }
+            ]
+        },
+        "hasMeasuredProperty": [
+            {
+                "@type": "Thickness",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 30
+                },
+                "hasMeasurementUnit": "unit:MicroM"
+            },
+            {
+                "@type": "Area",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 10
+                },
+                "hasMeasurementUnit": "unit:CentiM2"
+            }
+        ],
+        "rdfs:comment": [
+            "Membrane storage: Water, >24 h, room temperature",
+            "Membrane pre-treatment: Untreated membrane"
+        ]
+    },
+    "hasCase": {
+        "@type": "FlowCell",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Fuel Cell Technologies"
+        },
+        "schema:productID": "5SCH",
+        "hasMeasuredProperty": {
+            "@type": "Torque",
+            "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 6
+            },
+            "hasMeasurementUnit": "unit:N-M"
+        }
+    },
+    "hasMeasuredProperty": {
+        "@type": "ElectricResistance",
+        "hasNumericalPart": {
+            "@type": "emmo:RealData",
+            "hasNumberValue": 25000
+        },
+        "hasMeasurementUnit": "unit:OHM"
+    }
+}

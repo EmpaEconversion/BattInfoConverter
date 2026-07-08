@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from pyld import jsonld
 
-from battinfoconverter_backend.templates.template_conversion import COINCELL_TEMPLATE_PATH
+from battinfoconverter_backend.templates.template_conversion import COINCELL_TEMPLATE_PATH, FLOWCELL_TEMPLATE_PATH
 
 jsonld.set_document_loader(jsonld.requests_document_loader())
 
@@ -22,18 +22,21 @@ IGNORED_COMMENT_PREFIXES = (
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
-CELL_TYPES = ["coincell"]
+CELL_TYPES = ["coincell", "flowcell"]
 
 EXCEL_PATHS = {
     "coincell": DATA_DIR / "coincell_excel_schema.xlsx",
+    "flowcell": DATA_DIR / "flowcell_excel_schema.xlsx",
 }
 
 JSONLD_PATHS = {
     "coincell": DATA_DIR / "coincell_jsonld_result.json",
+    "flowcell": DATA_DIR / "flowcell_jsonld_result.json",
 }
 
 TEMPLATE_PATHS = {
     "coincell": COINCELL_TEMPLATE_PATH,
+    "flowcell": FLOWCELL_TEMPLATE_PATH,
 }
 
 
