@@ -12,27 +12,27 @@
         }
     ],
     "@type": "CoinCell",
-    "schema:version": "1.1.16",
     "schema:productID": "empa__ccid_123456",
     "schema:name": "240616_bco_gr-NMC_01",
     "schema:dateCreated": "2024-06-16",
-    "schema:creator": {
-        "@type": "schema:Person",
-        "@id": "https://orcid.org/0000-0002-5003-1134",
-        "schema:name": "Corsin Battaglia"
-    },
     "schema:manufacturer": {
         "@type": "schema:Organization",
-        "@id": "https://www.wikidata.org/wiki/Q683116",
-        "schema:name": "Empa"
+        "schema:name": "Empa",
+        "@id": "https://www.wikidata.org/wiki/Q683116"
+    },
+    "schema:creator": {
+        "@type": "schema:Person",
+        "schema:name": "Corsin Battaglia",
+        "@id": "https://orcid.org/0000-0002-5003-1134"
     },
     "rdfs:comment": [
-        "BattINFO Converter version: 2.2.5",
-        "Software credit: This JSON-LD was created using BattINFO converter (https://battinfoconverter.streamlit.app/) version: 2.2.5 and the schema version: 1.1.16, this web application was developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion",
+        "BattINFO Converter backend v3.2.0",
+        "Using template: CoinCellSchema v1.1.17",
+        "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: Battery2030+/PREMISE",
         "Assembled manually or by robot: manually",
         "Schema name: CoinCellSchema",
-        "Schema version: 1.1.16",
+        "Schema version: 1.1.17",
         "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
     ],
     "hasPositiveElectrode": {

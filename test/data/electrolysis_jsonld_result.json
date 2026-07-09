@@ -1,0 +1,773 @@
+{
+    "@context": [
+        "https://w3id.org/emmo/domain/battery/context",
+        {
+            "schema": "https://schema.org/",
+            "emmo": "https://w3id.org/emmo#",
+            "echem": "https://w3id.org/emmo/domain/electrochemistry#",
+            "battery": "https://w3id.org/emmo/domain/battery#",
+            "chemical": "https://w3id.org/emmo/domain/chemical-substance#",
+            "unit": "https://qudt.org/vocab/unit/",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+        }
+    ],
+    "@type": "ElectrolyticCell",
+    "schema:productID": "empa__ecid_000001",
+    "schema:name": "240616_bco_gr-NMC_01",
+    "schema:dateCreated": "2024-05-01",
+    "schema:manufacturer": {
+        "@type": "schema:Organization",
+        "schema:name": "Empa",
+        "@id": "https://www.wikidata.org/wiki/Q683116"
+    },
+    "schema:creator": {
+        "@type": "schema:Person",
+        "schema:name": "Corsin Battaglia",
+        "@id": "https://orcid.org/0000-0002-5003-1134"
+    },
+    "rdfs:comment": [
+        "BattINFO Converter backend v3.2.0",
+        "Using template: ElectrolysisCellSchema v0.1.1",
+        "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
+        "Project: ETHB PREMISE/NCCR Catalysis",
+        "Assembled manually or by robot: manually",
+        "Schema name: ElectrolysisCellSchema",
+        "Schema version: 0.1.1"
+    ],
+    "hasNegativeElectrode": {
+        "@type": [
+            "Electrode",
+            "GasDiffusionElectrode"
+        ],
+        "hasSubstrate": {
+            "@type": [
+                "Substrate",
+                "CarbonPaper",
+                "Carbon"
+            ],
+            "hasCoating": {
+                "@type": [
+                    "Coating",
+                    "Polytetrafluoroethylene"
+                ]
+            },
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 315
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Porosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 85
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "SGLCarbon",
+                "@id": "https://www.wikidata.org/wiki/Q2361947"
+            },
+            "schema:productID": "39BB"
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "Copper"
+                ],
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "MassLoading",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 1.1
+                        },
+                        "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                    },
+                    {
+                        "@type": "MassFraction",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 90
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    {
+                        "@type": "D50ParticleSize",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 0.02
+                        },
+                        "hasMeasurementUnit": "unit:MicroM"
+                    }
+                ],
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Millipore Sigma",
+                    "@id": "https://www.wikidata.org/wiki/Q1669719"
+                },
+                "schema:productID": "774081"
+            },
+            "hasBinder": {
+                "@type": [
+                    "Binder",
+                    "IonomerCompound",
+                    "PerfluorosulfonicAcid"
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassFraction",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 10
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Chemours",
+                    "@id": "https://www.wikidata.org/wiki/Q15829006"
+                },
+                "schema:productID": "D521CS"
+            },
+            "hasMeasuredProperty": {
+                "@type": "Thickness",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 0.5
+                },
+                "hasMeasurementUnit": "unit:MicroM"
+            }
+        },
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "15p_Cu",
+        "hasMeasuredProperty": {
+            "@type": "Area",
+            "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 1
+            },
+            "hasMeasurementUnit": "unit:CentiM2"
+        }
+    },
+    "hasPositiveElectrode": {
+        "@type": [
+            "Electrode",
+            "ImmersionElectrode"
+        ],
+        "hasSubstrate": {
+            "@type": [
+                "Substrate",
+                "PerforatedFoil",
+                "Titanium"
+            ],
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 20
+                    },
+                    "hasMeasurementUnit": "unit:MicroM"
+                },
+                {
+                    "@type": "Porosity",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 50
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Fuel Cell Store",
+                "@id": "https://www.wikidata.org/wiki/Q27868725"
+            },
+            "schema:productID": "40050001"
+        },
+        "hasCoating": {
+            "@type": "Coating",
+            "hasActiveMaterial": {
+                "@type": [
+                    "Electrocatalyst",
+                    "IridiumIIIOxide"
+                ],
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "MassLoading",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 0.5
+                        },
+                        "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                    },
+                    {
+                        "@type": "MassFraction",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 90
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    {
+                        "@type": "D50ParticleSize",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 0.007
+                        },
+                        "hasMeasurementUnit": "unit:MicroM"
+                    }
+                ],
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Fuel Cell Store",
+                    "@id": "https://www.wikidata.org/wiki/Q27868725"
+                },
+                "schema:productID": "57080249"
+            },
+            "hasBinder": {
+                "@type": [
+                    "Binder",
+                    "IonomerCompound",
+                    "PerfluorosulfonicAcid"
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "MassFraction",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 10
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Chemours",
+                    "@id": "https://www.wikidata.org/wiki/Q15829006"
+                },
+                "schema:productID": "D521CS"
+            },
+            "hasMeasuredProperty": {
+                "@type": "Thickness",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 0.5
+                },
+                "hasMeasurementUnit": "unit:MicroM"
+            }
+        },
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "18x_Ti",
+        "hasMeasuredProperty": {
+            "@type": "Area",
+            "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 1
+            },
+            "hasMeasurementUnit": "unit:CentiM2"
+        }
+    },
+    "hasComponent": [
+        {
+            "@type": "NegativeElectrodeGasCompartment",
+            "hasActiveMaterial": {
+                "@type": "GasMixture",
+                "hasConstituent": [
+                    {
+                        "Gas": {
+                            "@type": "CarbonDioxide"
+                        },
+                        "hasMeasuredProperty": {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 100
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    },
+                    {
+                        "Gas": {
+                            "@type": "Argon"
+                        },
+                        "hasMeasuredProperty": {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "emmo:RealData",
+                                "hasNumberValue": 0
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    }
+                ],
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "VolumeFlowRate",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 5
+                        },
+                        "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+                    },
+                    {
+                        "@type": "Pressure",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 1
+                        },
+                        "hasMeasurementUnit": "unit:BAR"
+                    }
+                ]
+            },
+            "hasComponent": {
+                "@type": "FlowField"
+            },
+            "hasMeasuredProperty": {
+                "@type": "Width",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1
+                },
+                "hasMeasurementUnit": "unit:MilliM"
+            }
+        },
+        {
+            "@type": "CatholyteCompartment",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Width",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 0
+                    },
+                    "hasMeasurementUnit": "unit:MilliM"
+                },
+                {
+                    "@type": "Volume",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 0.065
+                    },
+                    "hasMeasurementUnit": "unit:MilliL"
+                }
+            ],
+            "hasReferenceElectrode": {
+                "@type": [
+                    "ReferenceElectrode",
+                    "SilverChlorideElectrode"
+                ]
+            }
+        },
+        {
+            "@type": "AnolyteCompartment",
+            "hasMeasuredProperty": [
+                {
+                    "@type": "Volume",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 0.065
+                    },
+                    "hasMeasurementUnit": "unit:MilliL"
+                },
+                {
+                    "@type": "Width",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 0
+                    },
+                    "hasMeasurementUnit": "unit:MilliM"
+                }
+            ],
+            "hasReferenceElectrode": {
+                "@type": [
+                    "ReferenceElectrode",
+                    "SilverChlorideElectrode"
+                ]
+            }
+        },
+        {
+            "@type": "PositiveElectrodeGasCompartment",
+            "hasActiveMaterial": {
+                "@type": "GasMixture",
+                "hasConstituent": {
+                    "Gas": {
+                        "@type": "Nitrogen"
+                    },
+                    "hasMeasuredProperty": {
+                        "@type": "VolumeFraction",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 100
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                },
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "VolumeFlowRate",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 4
+                        },
+                        "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+                    },
+                    {
+                        "@type": "Pressure",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 1
+                        },
+                        "hasMeasurementUnit": "unit:BAR"
+                    }
+                ]
+            },
+            "hasMeasuredProperty": {
+                "@type": "Width",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1
+                },
+                "hasMeasurementUnit": "unit:MilliM"
+            },
+            "hasComponent": {
+                "@type": "FlowField"
+            }
+        },
+        {
+            "@type": "CatholyteTank",
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 120
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            }
+        },
+        {
+            "@type": "AnolyteTank",
+            "hasMeasuredProperty": {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 120
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            }
+        }
+    ],
+    "hasCatholyte": {
+        "hasSolvent": {
+            "@type": "Solvent",
+            "hasConstituent": {
+                "@type": "Water",
+                "hasMeasuredProperty": {
+                    "@type": "VolumeFraction",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 100
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                }
+            }
+        },
+        "hasSolute": [
+            {
+                "@type": "Solute",
+                "hasConstituent": {
+                    "@type": "PotassiumCarbonate",
+                    "hasMeasuredProperty": {
+                        "@type": "AmountConcentration",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 1
+                        },
+                        "hasMeasurementUnit": "unit:MOL-PER-L"
+                    }
+                }
+            },
+            {
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Thermo Fisher Scientific",
+                    "@id": "https://www.wikidata.org/wiki/Q306455"
+                },
+                "schema:productID": "424090010"
+            }
+        ],
+        "hasMeasuredProperty": [
+            {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 100
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            {
+                "@type": "VolumeFlowRate",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 5
+                },
+                "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+            },
+            {
+                "@type": "Pressure",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1
+                },
+                "hasMeasurementUnit": "unit:BAR"
+            },
+            {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 100
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+            },
+            {
+                "@type": "PH",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 3.8
+                },
+                "hasMeasurementUnit": "unit:UNITLESS"
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.1
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+            },
+            {
+                "@type": "CelsiusTemperature",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 25
+                },
+                "hasMeasurementUnit": "unit:DEG_C"
+            }
+        ],
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "KCl_1M_catholyte"
+    },
+    "hasAnolyte": {
+        "hasSolvent": {
+            "@type": "Solvent",
+            "hasConstituent": {
+                "@type": "Water",
+                "hasMeasuredProperty": {
+                    "@type": "VolumeFraction",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 100
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                }
+            }
+        },
+        "hasSolute": {
+            "@type": "Solute",
+            "hasConstituent": {
+                "@type": "SulfuricAcid",
+                "hasMeasuredProperty": {
+                    "@type": "AmountConcentration",
+                    "hasNumericalPart": {
+                        "@type": "emmo:RealData",
+                        "hasNumberValue": 1
+                    },
+                    "hasMeasurementUnit": "unit:MOL-PER-L"
+                }
+            },
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Millipore Sigma",
+                "@id": "https://www.wikidata.org/wiki/Q1669719"
+            },
+            "schema:productID": "258105"
+        },
+        "hasMeasuredProperty": [
+            {
+                "@type": "Volume",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 100
+                },
+                "hasMeasurementUnit": "unit:MilliL"
+            },
+            {
+                "@type": "VolumeFlowRate",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 5
+                },
+                "hasMeasurementUnit": "unit:MilliL-PER-MIN"
+            },
+            {
+                "@type": "Pressure",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1
+                },
+                "hasMeasurementUnit": "unit:BAR"
+            },
+            {
+                "@type": "ElectrolyticConductivity",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 800
+                },
+                "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
+                "PH": {}
+            },
+            {
+                "@type": "Density",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 1.06
+                },
+                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+            },
+            {
+                "@type": "CelsiusTemperature",
+                "hasNumericalPart": {
+                    "@type": "emmo:RealData",
+                    "hasNumberValue": 25
+                },
+                "hasMeasurementUnit": "unit:DEG_C"
+            }
+        ],
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
+        },
+        "schema:productID": "H2SO4_1M_anolyte"
+    },
+    "hasSeparator": {
+        "@type": [
+            "Separator",
+            "IonExchangeMembrane",
+            "BilayerMembrane"
+        ],
+        "hasElectrolyte": [
+            {
+                "@type": [
+                    "AnionExchangeMembrane",
+                    "chemical:PolyArylPiperidinium"
+                ],
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "Thickness",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 80
+                        },
+                        "hasMeasurementUnit": "unit:MicroM"
+                    },
+                    {
+                        "@type": "AmountConcentration",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 2.1
+                        },
+                        "hasMeasurementUnit": "unit:MilliEQ-PER-HectoGM"
+                    },
+                    {
+                        "@type": "ElectrolyticConductivity",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 8
+                        },
+                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                    }
+                ],
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Fuel Cell Store",
+                    "@id": "https://www.wikidata.org/wiki/Q27868725"
+                },
+                "schema:productID": "72010015"
+            },
+            {
+                "@type": [
+                    "CationExchangeMembrane",
+                    "PerfluorosulfonicAcid"
+                ],
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "Thickness",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 80
+                        },
+                        "hasMeasurementUnit": "unit:MicroM"
+                    },
+                    {
+                        "@type": "AmountConcentration",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 2.1
+                        },
+                        "hasMeasurementUnit": "unit:MilliEQ-PER-HectoGM"
+                    },
+                    {
+                        "@type": "ElectrolyticConductivity",
+                        "hasNumericalPart": {
+                            "@type": "emmo:RealData",
+                            "hasNumberValue": 8
+                        },
+                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                    }
+                ],
+                "schema:manufacturer": {
+                    "@type": "schema:Organization",
+                    "schema:name": "Chemours",
+                    "@id": "https://www.wikidata.org/wiki/Q15829006"
+                },
+                "schema:productID": "N117"
+            }
+        ],
+        "hasMeasuredProperty": {
+            "@type": "Area",
+            "hasNumericalPart": {
+                "@type": "emmo:RealData",
+                "hasNumberValue": 1
+            },
+            "hasMeasurementUnit": "unit:CentiM2"
+        }
+    },
+    "hasCase": {
+        "@type": "FlowCell",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Fuel Cell Store",
+            "@id": "https://www.wikidata.org/wiki/Q27868725"
+        },
+        "schema:productID": "Micro Flow Cell"
+    }
+}
