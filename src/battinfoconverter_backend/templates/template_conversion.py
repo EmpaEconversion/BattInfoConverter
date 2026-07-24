@@ -106,11 +106,15 @@ COLUMN_WIDTHS = {
 # These sheets are treated as sectioned, others are simple tables
 SECTIONED_SHEETS = {"@Schema"}
 
+# These sheets are treated as keyed rows (label + variable-length list of values per row)
+KEYED_ROWS_SHEETS = {"@Extra"}
+
 # The values in these rows are kept even when --empty or empty=True is used
 ROWS_TO_KEEP = {
     "Cell type",
     "Schema name",
     "Schema version",
+    "Include this information",
 }
 
 
@@ -218,6 +222,50 @@ def _read_sectioned_table(ws: Worksheet) -> dict[str, dict]:
     return sections
 
 
+def _read_keyed_rows(ws: Worksheet) -> list[dict]:
+    """Convert a sheet of label + variable-length value rows into a list of row-dicts.
+
+    Each row is `{"key": <col A>, "values": [remaining cells]}`.
+    A row marked `"subheader": True` has the first two cells bold
+    (used e.g. for the "Authors" / "Affiliations" mini-header).
+    """
+    rows = []
+    for row in ws.iter_rows():
+        if all(c.value is None for c in row):
+            continue
+        key = _serialize(row[0].value)
+        values = [_serialize(c.value) for c in row[1:] if c.value is not None]
+        entry = {"key": key, "values": values}
+        key_bold = bool(row[0].font and row[0].font.b)
+        second_bold = len(row) > 1 and row[1].value is not None and bool(row[1].font and row[1].font.b)
+        if not key_bold:
+            entry["key_bold"] = False
+        if key_bold and second_bold:
+            entry["subheader"] = True
+        rows.append(entry)
+    return rows
+
+
+def _write_keyed_rows(ws, rows: list[dict], empty: bool = False) -> None:
+    """Write a keyed-rows sheet."""
+    ws.column_dimensions["A"].width = COLUMN_WIDTHS.get("Metadata", 30)
+
+    for row_idx, entry in enumerate(rows, 1):
+        key = entry.get("key")
+        is_subheader = entry.get("subheader", False)
+        values = entry.get("values", [])
+        if empty and not is_subheader and key not in ROWS_TO_KEEP:
+            values = []
+
+        cell = ws.cell(row=row_idx, column=1, value=key)
+        cell.font = Font(bold=entry.get("key_bold", True), size=11)
+
+        for col_idx, value in enumerate(values, 2):
+            vcell = ws.cell(row=row_idx, column=col_idx, value=value)
+            if is_subheader:
+                vcell.font = Font(bold=True, size=11)
+
+
 def _write_simple_table(ws, columns: list[str], rows: list[dict]) -> None:
     """Write a simple table."""
     for col_idx, col in enumerate(columns, 1):
@@ -286,6 +334,8 @@ def workbook_to_dict(wb: Workbook) -> dict:
         ws = wb[name]
         if name in SECTIONED_SHEETS:
             output[name] = {"type": "sectioned", "header": _get_headers(ws), "data": _read_sectioned_table(ws)}
+        elif name in KEYED_ROWS_SHEETS:
+            output[name] = {"type": "keyed_rows", "data": _read_keyed_rows(ws)}
         else:
             output[name] = {"type": "table", "header": _get_headers(ws), "data": _read_simple_table(ws)}
     return output
@@ -312,6 +362,8 @@ def dict_to_workbook(data: dict, *, empty: bool = False) -> Workbook:
         kind = sheet_data.get("type", "table")
         if kind == "sectioned":
             _write_sectioned_table(ws, sheet_data["header"], sheet_data["data"], empty=empty)
+        elif kind == "keyed_rows":
+            _write_keyed_rows(ws, sheet_data["data"], empty=empty)
         else:
             _write_simple_table(ws, sheet_data["header"], sheet_data["data"])
     return wb
