@@ -21,6 +21,8 @@ def get_context() -> dict:
         return _MAPPED_TERMS
     _MAPPED_TERMS = {}
     for file in CONTEXT_DIR.glob("*.json"):
+        if file.name == "literal_predicates.json":
+            continue
         with file.open("r", encoding="utf-8") as f:
             data = json.load(f)
         _MAPPED_TERMS.update(data)
