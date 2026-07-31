@@ -1,10 +1,12 @@
 """Auxiliary functions for building JSON-LD structures from tabular data."""
 
+import json
 import logging
 import re
 from contextlib import suppress
 from datetime import datetime
 from decimal import Decimal
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -16,68 +18,19 @@ logger = logging.getLogger(__name__)
 # Regex used to detect multi-connector suffixes such as "hasSolventA"
 _MULTI_CONNECTOR_SUFFIX = re.compile(r"^(?P<base>.+?)(?P<suffix>[A-Z])$")
 
-# The following properties/predicates are allowed literal values, rather than nodes
-LITERAL_PREDICATES = {
-    "schema:name",
-    "schema:version",
-    "schema:description",
-    "schema:productID",
-    "schema:dateCreated",
-    "schema:serialNumber",
-    "schema:dateModified",
-    "schema:uploadDate",
-    "schema:datePublished",
-    "schema:programmingLanguage",
-    "schema:citation",
-    "schema:license",
-    "schema:chemicalComposition",
-    "schema:fileFormat",
-    "schema:url",
-    "rdfs:label",
-    "rdfs:comment",
-    "SMILESReference",
-    "InChIReference",
-    "CASReference",
-    "hasANSICode",
-    "hasDataValue",
-    "hasDateOfCalibration",
-    "hasDimensionString",
-    "hasIECCode",
-    "hasIUPACName",
-    "hasJSONValue",
-    "hasManufacturer",
-    "hasORCID",
-    "hasPrefixMultiplier",
-    "hasPrefixSymbol",
-    "hasSIConversionMultiplier",
-    "hasSIConversionOffset",
-    "hasSIQuantityValue",
-    "hasStringValue",
-    "hasSymbolValue",
-    "hasURIValue",
-    "hasURLValue",
-    "hasURNValue",
-    "hasUniqueID",
-    "hasNumberValue",
-    "hasIUPAC2016AtomicMass",
-    "hasAtomicNumber",
-}
+# Predicates allowed literal values (rather than nodes), split by datatype.
+# Cached from the ontologies by scripts/update_context.py.
+LITERALS_FILE = Path(__file__).parent / "_context" / "literal_predicates.json"
+with LITERALS_FILE.open(encoding="utf-8") as _f:
+    _literals = json.load(_f)
 
 # These will be coerced into ISO8601
-DATE_PREDICATES = {
-    "schema:dateCreated",
-    "schema:dateModified",
-    "schema:uploadDate",
-    "schema:datePublished",
-    "hasDateOfCalibration",
-}
+DATE_PREDICATES = set(_literals["date"])
 
 # These are not coerced to strings
-NUMBER_PREDICATES = {
-    "hasNumberValue",
-    "hasIUPAC2016AtomicMass",
-    "hasAtomicNumber",
-}
+NUMBER_PREDICATES = set(_literals["number"])
+
+LITERAL_PREDICATES = set(_literals["string"]) | NUMBER_PREDICATES | DATE_PREDICATES
 
 # The following keys will create an object with @type value, and look up a unique ID in @Classes
 # E.g. "schema:manufacturer": "Empa"
