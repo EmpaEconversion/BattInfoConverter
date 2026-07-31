@@ -431,7 +431,7 @@ def add_to_structure(
             mp_entry = {
                 "@type": _extract_type(path[-1]),
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": value,
                 },
                 "hasMeasurementUnit": unit_map[unit],
