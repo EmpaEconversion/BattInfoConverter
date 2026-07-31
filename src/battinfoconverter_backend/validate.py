@@ -64,6 +64,7 @@ def map_context(
             logger.warning(msg)
     if isinstance(context, dict):
         for k, v in context.items():
+            existing_map.setdefault("_urls", {})[k] = v
             if v not in get_context():
                 msg = f"The URL for '{k}' ({v}) is not a known namespace of BattINFO converter."
                 close_match = find_similar_url(v)
@@ -111,7 +112,7 @@ def get_all_terms(obj: list | dict | str | float, seen: set | None = None) -> se
     return seen
 
 
-def check_term_against_context(term: str, mapped_context: dict[str, list]) -> None:
+def check_term_against_context(term: str, mapped_context: dict) -> None:
     """Raise error if term is not in context, or not already IRI."""
     if term.startswith("http"):  # It is already an absolute IRI
         return
@@ -126,6 +127,15 @@ def check_term_against_context(term: str, mapped_context: dict[str, list]) -> No
                 raise ValueError(msg)
             msg = f"Term '{prefix}:{label}' was not found in '{prefix}'"
             raise ValueError(msg)
+        # EMMO-family namespaces share labels (and IRIs) with the default context,
+        # so the prefix is redundant; other namespaces (e.g. schema) only share labels
+        prefix_url = mapped_context.get("_urls", {}).get(prefix, "")
+        if prefix_url.startswith("https://w3id.org/emmo") and label in mapped_context.get("_base", []):
+            logger.warning(
+                "Term '%s' is already in the default context - you can use '%s' without the prefix.",
+                term,
+                label,
+            )
         return
     # It is in the default namespace
     if "_base" not in mapped_context:
