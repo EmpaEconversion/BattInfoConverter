@@ -4,8 +4,8 @@ import json
 
 import pytest
 from conftest import CellFixtures, normalize_jsonld
-from pyld import jsonld
 from openpyxl import load_workbook
+from pyld import jsonld
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import (
@@ -38,6 +38,29 @@ def test_valid_jsonld(schema: CellFixtures) -> None:
     # This should run without errors
     jsonld.normalize(converted, {"algorithm": "URDNA2015", "format": "application/n-quads"})
     jsonld.expand(converted)
+
+
+def test_units_expand_to_real_iris(schema: CellFixtures) -> None:
+    """Unit values must expand to ontology IRIs, not document-relative ones."""
+    converted = convert_excel_to_jsonld(schema.excel, validate=False)
+    expanded = jsonld.expand(converted)
+    unit_predicate = "https://w3id.org/emmo#EMMO_bed1d005_b04e_4a90_94cf_02bc678a8569"
+
+    def collect(obj: dict | list, found: list) -> list:
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k == unit_predicate:
+                    found.extend(el["@id"] for el in v if isinstance(el, dict) and "@id" in el)
+                collect(v, found)
+        elif isinstance(obj, list):
+            for el in obj:
+                collect(el, found)
+        return found
+
+    unit_iris = collect(expanded, [])
+    assert unit_iris
+    for iri in unit_iris:
+        assert iri.startswith(("https://w3id.org/emmo", "https://qudt.org/vocab/unit/")), iri
 
 
 def test_no_warnings(schema: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
