@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "1.1.18",
+            "Value": "1.1.17",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -1183,6 +1183,100 @@
             "Ontology link": "hasCase-schema:productID"
           }
         ]
+      },
+      "Publication info": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Citation",
+            "Value": "Graham et al 2026",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:citation"
+          },
+          {
+            "Metadata": "Author 1",
+            "Value": "Graham Kimbell",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorA-type|schema:Person"
+          },
+          {
+            "Metadata": "Author 2",
+            "Value": "Nukorn Plainpan",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorB-type|schema:Person"
+          },
+          {
+            "Metadata": "Author 3",
+            "Value": "Enea Svaluto-Ferro",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorC-type|schema:Person"
+          },
+          {
+            "Metadata": "Author 4",
+            "Value": "Corsin Battaglia",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorD-type|schema:Person"
+          },
+          {
+            "Metadata": "Author 5",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorE"
+          },
+          {
+            "Metadata": "Author 6",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorF"
+          },
+          {
+            "Metadata": "Author 7",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorG"
+          },
+          {
+            "Metadata": "Author 8",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorH"
+          },
+          {
+            "Metadata": "Author 9",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorI"
+          },
+          {
+            "Metadata": "Author 10",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Comment": null,
+            "Ontology link": "rev|hasTestObject-type|BatteryTest-hasOutput-type|BatteryTestResult-schema:creatorJ"
+          }
+        ]
       }
     }
   },
@@ -1308,6 +1402,10 @@
       },
       {
         "Item": "hasStringValue",
+        "Key": null
+      },
+      {
+        "Item": "schema:creator",
         "Key": null
       }
     ]
@@ -1491,7 +1589,7 @@
     "data": [
       {
         "Item": "mm",
-        "Key": "MilliMetre"
+        "Key": "unit:MilliM"
       },
       {
         "Item": "mAh/g",
@@ -1499,7 +1597,7 @@
       },
       {
         "Item": "mg/cm2",
-        "Key": "MilliGramPerSquareCentiMetre"
+        "Key": "unit:MilliGM-PER-CentiM2"
       },
       {
         "Item": "mAh",
@@ -1507,7 +1605,7 @@
       },
       {
         "Item": "mg",
-        "Key": "MilliGram"
+        "Key": "unit:MilliGM"
       },
       {
         "Item": "%",
@@ -1515,7 +1613,7 @@
       },
       {
         "Item": "M",
-        "Key": "Mole"
+        "Key": "unit:MOL"
       },
       {
         "Item": "uL",
@@ -1523,15 +1621,15 @@
       },
       {
         "Item": "um",
-        "Key": "MicroMetre"
+        "Key": "emmo:MicroMetre"
       },
       {
         "Item": "V",
-        "Key": "Volt"
+        "Key": "unit:V"
       },
       {
         "Item": "mA/cm2",
-        "Key": "MilliAmperePerSquareCentiMetre"
+        "Key": "emmo:MilliAmperePerSquareCentiMetre"
       },
       {
         "Item": "mAh/cm2",
@@ -1539,27 +1637,107 @@
       },
       {
         "Item": "mol/L",
-        "Key": "MolePerCubicDeciMetre"
+        "Key": "unit:MOL-PER-L"
       },
       {
         "Item": "mS/cm",
-        "Key": "MilliSiemensPerCentiMetre"
+        "Key": "unit:MilliS-PER-CentiM"
       },
       {
         "Item": "mPa.s",
-        "Key": "MilliPascalSecond"
+        "Key": "unit:MilliPA-SEC"
       },
       {
         "Item": "g/cm3",
-        "Key": "GramPerCubicCentiMetre"
+        "Key": "emmo:GramPerCubicCentiMetre"
       },
       {
         "Item": "°C",
-        "Key": "DegreeCelsius"
+        "Key": "emmo:CelsiusTemperature"
       },
       {
         "Item": "unitless",
-        "Key": "UnitOne"
+        "Key": "emmo:UnitOne"
+      }
+    ]
+  },
+  "@Extra": {
+    "type": "keyed_rows",
+    "data": [
+      {
+        "key": "Include this information",
+        "values": [
+          true,
+          "The JSON-LD will have \"BatteryTest\" at the root with your cell under \"hasTestObject\""
+        ]
+      },
+      {
+        "key": "Citation string",
+        "values": [
+          "Author et al., Very Important Paper, Nature 1, 123 (2026)"
+        ]
+      },
+      {
+        "key": "Publication DOI URL",
+        "values": [
+          "https://doi.org/10.1234/journal.123456789"
+        ]
+      },
+      {
+        "key": "Zenodo dataset DOI URL",
+        "values": [
+          "https://doi.org/10.5281/zenodo.123456789"
+        ]
+      },
+      {
+        "key": "Publishing Institution",
+        "values": [
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated figures",
+        "values": [
+          "Fig 4a",
+          "Fig 4b"
+        ]
+      },
+      {
+        "key": "Authors",
+        "values": [
+          "Affiliations"
+        ],
+        "subheader": true
+      },
+      {
+        "key": "Graham Kimbell",
+        "values": [
+          "Empa"
+        ],
+        "key_bold": false
+      },
+      {
+        "key": "Nukorn Plainpan",
+        "values": [
+          "Empa"
+        ],
+        "key_bold": false
+      },
+      {
+        "key": "Enea Svaluto-Ferro",
+        "values": [
+          "Empa"
+        ],
+        "key_bold": false
+      },
+      {
+        "key": "Corsin Battaglia",
+        "values": [
+          "Empa",
+          "ETH",
+          "EPFL"
+        ],
+        "key_bold": false
       }
     ]
   }

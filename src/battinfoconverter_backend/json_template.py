@@ -29,18 +29,18 @@ def half_cell_chg_cap(
                     {
                         "@type": "ElectricCurrentDensity",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": charge_current_density,
                         },
-                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                        "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                     },
                     {
                         "@type": ["UpperVoltageLimit", "TerminationQuantity"],
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": upper_voltage_limit,
                         },
-                        "hasMeasurementUnit": "emmo:Volt",
+                        "hasMeasurementUnit": "Volt",
                     },
                 ],
                 "hasNext": {
@@ -49,18 +49,18 @@ def half_cell_chg_cap(
                         {
                             "@type": "Voltage",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": upper_voltage_hold,
                             },
-                            "hasMeasurementUnit": "emmo:Volt",
+                            "hasMeasurementUnit": "Volt",
                         },
                         {
                             "@type": ["LowerCurrentDensityLimit", "TerminationQuantity"],
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": cutoff_current,
                             },
-                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                         },
                     ],
                     "hasNext": {
@@ -69,18 +69,18 @@ def half_cell_chg_cap(
                             {
                                 "@type": "ElectricCurrentDensity",
                                 "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
+                                    "@type": "RealData",
                                     "hasNumberValue": discharge_current_density,
                                 },
-                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                             },
                             {
                                 "@type": ["LowerVoltageLimit", "TerminationQuantity"],
                                 "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
+                                    "@type": "RealData",
                                     "hasNumberValue": lower_voltage_limit,
                                 },
-                                "hasMeasurementUnit": "emmo:Volt",
+                                "hasMeasurementUnit": "Volt",
                             },
                         ],
                     },
@@ -120,18 +120,18 @@ def half_cell_dchg_cap(
                     {
                         "@type": "ElectricCurrentDensity",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": discharge_current_density,
                         },
-                        "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                        "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                     },
                     {
                         "@type": ["LowerVoltageLimit", "TerminationQuantity"],
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": lower_voltage_limit,
                         },
-                        "hasMeasurementUnit": "emmo:Volt",
+                        "hasMeasurementUnit": "Volt",
                     },
                 ],
                 "hasNext": {
@@ -140,18 +140,18 @@ def half_cell_dchg_cap(
                         {
                             "@type": "Voltage",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": lower_voltage_hold,
                             },
-                            "hasMeasurementUnit": "emmo:Volt",
+                            "hasMeasurementUnit": "Volt",
                         },
                         {
                             "@type": ["LowerCurrentDensityLimit", "TerminationQuantity"],
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": cutoff_current,
                             },
-                            "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                         },
                     ],
                     "hasNext": {
@@ -160,18 +160,18 @@ def half_cell_dchg_cap(
                             {
                                 "@type": "ElectricCurrentDensity",
                                 "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
+                                    "@type": "RealData",
                                     "hasNumberValue": charge_current_density,
                                 },
-                                "hasMeasurementUnit": "emmo:MilliAmperePerSquareCentiMetre",
+                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre",
                             },
                             {
                                 "@type": ["UpperVoltageLimit", "TerminationQuantity"],
                                 "hasNumericalPart": {
-                                    "@type": "emmo:RealData",
+                                    "@type": "RealData",
                                     "hasNumberValue": upper_voltage_limit,
                                 },
-                                "hasMeasurementUnit": "emmo:Volt",
+                                "hasMeasurementUnit": "Volt",
                             },
                         ],
                     },

@@ -8,7 +8,11 @@
             "battery": "https://w3id.org/emmo/domain/battery#",
             "chemical": "https://w3id.org/emmo/domain/chemical-substance#",
             "unit": "https://qudt.org/vocab/unit/",
-            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "hasMeasurementUnit": {
+                "@id": "https://w3id.org/emmo#EMMO_bed1d005_b04e_4a90_94cf_02bc678a8569",
+                "@type": "@vocab"
+            }
         }
     ],
     "schema:creator": {
@@ -27,11 +31,11 @@
     "schema:dateCreated": "2026-05-01",
     "rdfs:comment": [
         "BattINFO Converter backend v3.2.0",
-        "Using template: RFBCellSchema v0.1.2",
+        "Using template: RFBCellSchema v0.1.3",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: SNSF Ambizione Z00P2_209078",
         "Schema name: RFBCellSchema",
-        "Schema version: 0.1.2"
+        "Schema version: 0.1.3"
     ],
     "hasPositiveElectrode": {
         "@type": [
@@ -69,15 +73,15 @@
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 560
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Porosity",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 80
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -85,26 +89,26 @@
                 {
                     "@type": "Area",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 5
                     },
-                    "hasMeasurementUnit": "unit:CentiM2"
+                    "hasMeasurementUnit": "SquareCentiMetre"
                 },
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 450
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Weight",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 53.2
                     },
-                    "hasMeasurementUnit": "unit:MilliGM"
+                    "hasMeasurementUnit": "MilliGram"
                 }
             ],
             "rdfs:comment": [
@@ -132,10 +136,10 @@
                 "hasMeasuredProperty": {
                     "@type": "MassLoading",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 1.3579
                     },
-                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                    "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
                 }
             },
             "rdfs:comment": "Positive electrode coating active material description: Liquid-phase deposition using a mixed solution of H3BO3 and (NH4)2TiF6"
@@ -177,15 +181,15 @@
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 560
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Porosity",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 80
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -193,26 +197,26 @@
                 {
                     "@type": "Area",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 5
                     },
-                    "hasMeasurementUnit": "unit:CentiM2"
+                    "hasMeasurementUnit": "SquareCentiMetre"
                 },
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 450
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Weight",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 52.3
                     },
-                    "hasMeasurementUnit": "unit:MilliGM"
+                    "hasMeasurementUnit": "MilliGram"
                 }
             ],
             "rdfs:comment": [
@@ -240,10 +244,10 @@
                 "hasMeasuredProperty": {
                     "@type": "MassLoading",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 1.23456
                     },
-                    "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                    "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
                 }
             },
             "rdfs:comment": "Negative electrode coating active material description: Deposited from BiCl3 solution"
@@ -276,7 +280,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 100
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -284,7 +288,7 @@
                         {
                             "@type": "VolumeFraction",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 100
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -302,7 +306,7 @@
                     "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
@@ -329,7 +333,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 99
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -337,10 +341,10 @@
                         {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 0.5
                             },
-                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                            "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     ],
                     "rdfs:comment": "Positive electrolyte solute A purity considered in calculation?: Purity considered",
@@ -367,7 +371,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 98
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -375,10 +379,10 @@
                         {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 0.1
                             },
-                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                            "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     ],
                     "rdfs:comment": "Positive electrolyte solute B purity considered in calculation?: Purity considered",
@@ -395,7 +399,7 @@
             {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 30
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -403,7 +407,7 @@
             {
                 "@type": "VolumeFlowRate",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 60
                 },
                 "hasMeasurementUnit": "unit:MilliL-PER-MIN",
@@ -414,42 +418,42 @@
             {
                 "@type": "ElectrolyticConductivity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 155.6
                 },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
             },
             {
                 "@type": "DynamicViscosity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1.34
                 },
-                "hasMeasurementUnit": "unit:MilliPA-SEC"
+                "hasMeasurementUnit": "MilliPascalSecond"
             },
             {
                 "@type": "PH",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 7.7
                 },
-                "hasMeasurementUnit": "unit:UNITLESS"
+                "hasMeasurementUnit": "UnitOne"
             },
             {
                 "@type": "Density",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1.13
                 },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+                "hasMeasurementUnit": "GramPerCubicCentiMetre"
             },
             {
                 "@type": "CelsiusTemperature",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 23
                 },
-                "hasMeasurementUnit": "unit:DEG_C"
+                "hasMeasurementUnit": "DegreeCelsius"
             }
         ]
     },
@@ -459,7 +463,7 @@
             "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 50
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -471,7 +475,7 @@
             "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 50
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -512,10 +516,10 @@
             "hasMeasuredProperty": {
                 "@type": "Thickness",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 450
                 },
-                "hasMeasurementUnit": "unit:MicroM"
+                "hasMeasurementUnit": "MicroMetre"
             }
         },
         {
@@ -553,7 +557,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 100
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -561,7 +565,7 @@
                         {
                             "@type": "VolumeFraction",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 100
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -579,7 +583,7 @@
                     "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
@@ -606,7 +610,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 99
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -614,10 +618,10 @@
                         {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 1
                             },
-                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                            "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     ],
                     "rdfs:comment": "Negative electrolyte solute A purity considered in calculation?: Purity considered",
@@ -644,7 +648,7 @@
                         {
                             "@type": "Purity",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 99
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -652,10 +656,10 @@
                         {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 0.1
                             },
-                            "hasMeasurementUnit": "unit:MOL-PER-L"
+                            "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     ],
                     "rdfs:comment": "Negative electrolyte solute B purity considered in calculation?: Purity considered",
@@ -672,7 +676,7 @@
             {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 10
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -680,7 +684,7 @@
             {
                 "@type": "VolumeFlowRate",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 60
                 },
                 "hasMeasurementUnit": "unit:MilliL-PER-MIN",
@@ -691,42 +695,42 @@
             {
                 "@type": "ElectrolyticConductivity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 48.4
                 },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
             },
             {
                 "@type": "DynamicViscosity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 2.32
                 },
-                "hasMeasurementUnit": "unit:MilliPA-SEC"
+                "hasMeasurementUnit": "MilliPascalSecond"
             },
             {
                 "@type": "PH",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 8.7
                 },
-                "hasMeasurementUnit": "unit:UNITLESS"
+                "hasMeasurementUnit": "UnitOne"
             },
             {
                 "@type": "Density",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1.21
                 },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+                "hasMeasurementUnit": "GramPerCubicCentiMetre"
             },
             {
                 "@type": "CelsiusTemperature",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 23
                 },
-                "hasMeasurementUnit": "unit:DEG_C"
+                "hasMeasurementUnit": "DegreeCelsius"
             }
         ],
         "hasConstituent": {
@@ -735,7 +739,7 @@
                 {
                     "@type": "VolumeFlowRate",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 2.5
                     },
                     "hasMeasurementUnit": "unit:MilliL-PER-MIN"
@@ -743,7 +747,7 @@
                 {
                     "@type": "Pressure",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 10
                     },
                     "hasMeasurementUnit": "unit:MilliBAR"
@@ -776,18 +780,18 @@
             {
                 "@type": "Thickness",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 30
                 },
-                "hasMeasurementUnit": "unit:MicroM"
+                "hasMeasurementUnit": "MicroMetre"
             },
             {
                 "@type": "Area",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 10
                 },
-                "hasMeasurementUnit": "unit:CentiM2"
+                "hasMeasurementUnit": "SquareCentiMetre"
             }
         ],
         "rdfs:comment": [
@@ -805,18 +809,18 @@
         "hasMeasuredProperty": {
             "@type": "Torque",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
+                "@type": "RealData",
                 "hasNumberValue": 6
             },
-            "hasMeasurementUnit": "unit:N-M"
+            "hasMeasurementUnit": "NewtonMetre"
         }
     },
     "hasMeasuredProperty": {
         "@type": "ElectricResistance",
         "hasNumericalPart": {
-            "@type": "emmo:RealData",
+            "@type": "RealData",
             "hasNumberValue": 25000
         },
-        "hasMeasurementUnit": "unit:OHM"
+        "hasMeasurementUnit": "Ohm"
     }
 }
