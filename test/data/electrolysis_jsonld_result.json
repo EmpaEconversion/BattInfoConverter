@@ -8,7 +8,11 @@
             "battery": "https://w3id.org/emmo/domain/battery#",
             "chemical": "https://w3id.org/emmo/domain/chemical-substance#",
             "unit": "https://qudt.org/vocab/unit/",
-            "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "hasMeasurementUnit": {
+                "@id": "https://w3id.org/emmo#EMMO_bed1d005_b04e_4a90_94cf_02bc678a8569",
+                "@type": "@vocab"
+            }
         }
     ],
     "@type": "ElectrolyticCell",
@@ -27,12 +31,12 @@
     },
     "rdfs:comment": [
         "BattINFO Converter backend v3.2.0",
-        "Using template: ElectrolysisCellSchema v0.1.1",
+        "Using template: ElectrolysisCellSchema v0.1.2",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: ETHB PREMISE/NCCR Catalysis",
         "Assembled manually or by robot: manually",
         "Schema name: ElectrolysisCellSchema",
-        "Schema version: 0.1.1"
+        "Schema version: 0.1.2"
     ],
     "hasNegativeElectrode": {
         "@type": [
@@ -55,15 +59,15 @@
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 315
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Porosity",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 85
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -87,15 +91,15 @@
                     {
                         "@type": "MassLoading",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 1.1
                         },
-                        "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                        "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
                     },
                     {
                         "@type": "MassFraction",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 90
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
@@ -103,10 +107,10 @@
                     {
                         "@type": "D50ParticleSize",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 0.02
                         },
-                        "hasMeasurementUnit": "unit:MicroM"
+                        "hasMeasurementUnit": "MicroMetre"
                     }
                 ],
                 "schema:manufacturer": {
@@ -125,7 +129,7 @@
                 "hasMeasuredProperty": {
                     "@type": "MassFraction",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 10
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -140,10 +144,10 @@
             "hasMeasuredProperty": {
                 "@type": "Thickness",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 0.5
                 },
-                "hasMeasurementUnit": "unit:MicroM"
+                "hasMeasurementUnit": "MicroMetre"
             }
         },
         "schema:manufacturer": {
@@ -155,10 +159,10 @@
         "hasMeasuredProperty": {
             "@type": "Area",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
+                "@type": "RealData",
                 "hasNumberValue": 1
             },
-            "hasMeasurementUnit": "unit:CentiM2"
+            "hasMeasurementUnit": "SquareCentiMetre"
         }
     },
     "hasPositiveElectrode": {
@@ -176,15 +180,15 @@
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 20
                     },
-                    "hasMeasurementUnit": "unit:MicroM"
+                    "hasMeasurementUnit": "MicroMetre"
                 },
                 {
                     "@type": "Porosity",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 50
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -208,15 +212,15 @@
                     {
                         "@type": "MassLoading",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 0.5
                         },
-                        "hasMeasurementUnit": "unit:MilliGM-PER-CentiM2"
+                        "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
                     },
                     {
                         "@type": "MassFraction",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 90
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
@@ -224,10 +228,10 @@
                     {
                         "@type": "D50ParticleSize",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 0.007
                         },
-                        "hasMeasurementUnit": "unit:MicroM"
+                        "hasMeasurementUnit": "MicroMetre"
                     }
                 ],
                 "schema:manufacturer": {
@@ -246,7 +250,7 @@
                 "hasMeasuredProperty": {
                     "@type": "MassFraction",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 10
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -261,10 +265,10 @@
             "hasMeasuredProperty": {
                 "@type": "Thickness",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 0.5
                 },
-                "hasMeasurementUnit": "unit:MicroM"
+                "hasMeasurementUnit": "MicroMetre"
             }
         },
         "schema:manufacturer": {
@@ -276,10 +280,10 @@
         "hasMeasuredProperty": {
             "@type": "Area",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
+                "@type": "RealData",
                 "hasNumberValue": 1
             },
-            "hasMeasurementUnit": "unit:CentiM2"
+            "hasMeasurementUnit": "SquareCentiMetre"
         }
     },
     "hasComponent": [
@@ -295,7 +299,7 @@
                         "hasMeasuredProperty": {
                             "@type": "VolumeFraction",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 100
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -308,7 +312,7 @@
                         "hasMeasuredProperty": {
                             "@type": "VolumeFraction",
                             "hasNumericalPart": {
-                                "@type": "emmo:RealData",
+                                "@type": "RealData",
                                 "hasNumberValue": 0
                             },
                             "hasMeasurementUnit": "unit:PERCENT"
@@ -319,7 +323,7 @@
                     {
                         "@type": "VolumeFlowRate",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 5
                         },
                         "hasMeasurementUnit": "unit:MilliL-PER-MIN"
@@ -327,7 +331,7 @@
                     {
                         "@type": "Pressure",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 1
                         },
                         "hasMeasurementUnit": "unit:BAR"
@@ -340,10 +344,10 @@
             "hasMeasuredProperty": {
                 "@type": "Width",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1
                 },
-                "hasMeasurementUnit": "unit:MilliM"
+                "hasMeasurementUnit": "MilliMetre"
             }
         },
         {
@@ -352,15 +356,15 @@
                 {
                     "@type": "Width",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 0
                     },
-                    "hasMeasurementUnit": "unit:MilliM"
+                    "hasMeasurementUnit": "MilliMetre"
                 },
                 {
                     "@type": "Volume",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 0.065
                     },
                     "hasMeasurementUnit": "unit:MilliL"
@@ -379,7 +383,7 @@
                 {
                     "@type": "Volume",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 0.065
                     },
                     "hasMeasurementUnit": "unit:MilliL"
@@ -387,10 +391,10 @@
                 {
                     "@type": "Width",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 0
                     },
-                    "hasMeasurementUnit": "unit:MilliM"
+                    "hasMeasurementUnit": "MilliMetre"
                 }
             ],
             "hasReferenceElectrode": {
@@ -411,7 +415,7 @@
                     "hasMeasuredProperty": {
                         "@type": "VolumeFraction",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 100
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
@@ -421,7 +425,7 @@
                     {
                         "@type": "VolumeFlowRate",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 4
                         },
                         "hasMeasurementUnit": "unit:MilliL-PER-MIN"
@@ -429,7 +433,7 @@
                     {
                         "@type": "Pressure",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 1
                         },
                         "hasMeasurementUnit": "unit:BAR"
@@ -439,10 +443,10 @@
             "hasMeasuredProperty": {
                 "@type": "Width",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1
                 },
-                "hasMeasurementUnit": "unit:MilliM"
+                "hasMeasurementUnit": "MilliMetre"
             },
             "hasComponent": {
                 "@type": "FlowField"
@@ -453,7 +457,7 @@
             "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 120
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -464,7 +468,7 @@
             "hasMeasuredProperty": {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 120
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -479,7 +483,7 @@
                 "hasMeasuredProperty": {
                     "@type": "VolumeFraction",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 100
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -494,10 +498,10 @@
                     "hasMeasuredProperty": {
                         "@type": "AmountConcentration",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 1
                         },
-                        "hasMeasurementUnit": "unit:MOL-PER-L"
+                        "hasMeasurementUnit": "MolePerCubicDeciMetre"
                     }
                 }
             },
@@ -514,7 +518,7 @@
             {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 100
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -522,7 +526,7 @@
             {
                 "@type": "VolumeFlowRate",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 5
                 },
                 "hasMeasurementUnit": "unit:MilliL-PER-MIN"
@@ -530,7 +534,7 @@
             {
                 "@type": "Pressure",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1
                 },
                 "hasMeasurementUnit": "unit:BAR"
@@ -538,34 +542,34 @@
             {
                 "@type": "ElectrolyticConductivity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 100
                 },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
             },
             {
                 "@type": "PH",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 3.8
                 },
-                "hasMeasurementUnit": "unit:UNITLESS"
+                "hasMeasurementUnit": "UnitOne"
             },
             {
                 "@type": "Density",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1.1
                 },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+                "hasMeasurementUnit": "GramPerCubicCentiMetre"
             },
             {
                 "@type": "CelsiusTemperature",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 25
                 },
-                "hasMeasurementUnit": "unit:DEG_C"
+                "hasMeasurementUnit": "DegreeCelsius"
             }
         ],
         "schema:manufacturer": {
@@ -583,7 +587,7 @@
                 "hasMeasuredProperty": {
                     "@type": "VolumeFraction",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 100
                     },
                     "hasMeasurementUnit": "unit:PERCENT"
@@ -597,10 +601,10 @@
                 "hasMeasuredProperty": {
                     "@type": "AmountConcentration",
                     "hasNumericalPart": {
-                        "@type": "emmo:RealData",
+                        "@type": "RealData",
                         "hasNumberValue": 1
                     },
-                    "hasMeasurementUnit": "unit:MOL-PER-L"
+                    "hasMeasurementUnit": "MolePerCubicDeciMetre"
                 }
             },
             "schema:manufacturer": {
@@ -614,7 +618,7 @@
             {
                 "@type": "Volume",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 100
                 },
                 "hasMeasurementUnit": "unit:MilliL"
@@ -622,7 +626,7 @@
             {
                 "@type": "VolumeFlowRate",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 5
                 },
                 "hasMeasurementUnit": "unit:MilliL-PER-MIN"
@@ -630,7 +634,7 @@
             {
                 "@type": "Pressure",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1
                 },
                 "hasMeasurementUnit": "unit:BAR"
@@ -638,27 +642,27 @@
             {
                 "@type": "ElectrolyticConductivity",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 800
                 },
-                "hasMeasurementUnit": "unit:MilliS-PER-CentiM",
+                "hasMeasurementUnit": "MilliSiemensPerCentiMetre",
                 "PH": {}
             },
             {
                 "@type": "Density",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 1.06
                 },
-                "hasMeasurementUnit": "unit:GM-PER-CentiM3"
+                "hasMeasurementUnit": "GramPerCubicCentiMetre"
             },
             {
                 "@type": "CelsiusTemperature",
                 "hasNumericalPart": {
-                    "@type": "emmo:RealData",
+                    "@type": "RealData",
                     "hasNumberValue": 25
                 },
-                "hasMeasurementUnit": "unit:DEG_C"
+                "hasMeasurementUnit": "DegreeCelsius"
             }
         ],
         "schema:manufacturer": {
@@ -678,21 +682,21 @@
             {
                 "@type": [
                     "AnionExchangeMembrane",
-                    "chemical:PolyArylPiperidinium"
+                    "PolyArylPiperidinium"
                 ],
                 "hasMeasuredProperty": [
                     {
                         "@type": "Thickness",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 80
                         },
-                        "hasMeasurementUnit": "unit:MicroM"
+                        "hasMeasurementUnit": "MicroMetre"
                     },
                     {
                         "@type": "AmountConcentration",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 2.1
                         },
                         "hasMeasurementUnit": "unit:MilliEQ-PER-HectoGM"
@@ -700,10 +704,10 @@
                     {
                         "@type": "ElectrolyticConductivity",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 8
                         },
-                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                        "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
                     }
                 ],
                 "schema:manufacturer": {
@@ -722,15 +726,15 @@
                     {
                         "@type": "Thickness",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 80
                         },
-                        "hasMeasurementUnit": "unit:MicroM"
+                        "hasMeasurementUnit": "MicroMetre"
                     },
                     {
                         "@type": "AmountConcentration",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 2.1
                         },
                         "hasMeasurementUnit": "unit:MilliEQ-PER-HectoGM"
@@ -738,10 +742,10 @@
                     {
                         "@type": "ElectrolyticConductivity",
                         "hasNumericalPart": {
-                            "@type": "emmo:RealData",
+                            "@type": "RealData",
                             "hasNumberValue": 8
                         },
-                        "hasMeasurementUnit": "unit:MilliS-PER-CentiM"
+                        "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
                     }
                 ],
                 "schema:manufacturer": {
@@ -755,10 +759,10 @@
         "hasMeasuredProperty": {
             "@type": "Area",
             "hasNumericalPart": {
-                "@type": "emmo:RealData",
+                "@type": "RealData",
                 "hasNumberValue": 1
             },
-            "hasMeasurementUnit": "unit:CentiM2"
+            "hasMeasurementUnit": "SquareCentiMetre"
         }
     },
     "hasCase": {

@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.1.1",
+            "Value": "0.1.2",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "rdfs:comment",
@@ -1066,7 +1066,7 @@
           },
           {
             "Metadata": "Membrane A material A (facing catholyte)",
-            "Value": "chemical:PolyArylPiperidinium",
+            "Value": "PolyArylPiperidinium",
             "Unit": "No Unit",
             "Priority": "required",
             "Ontology link": "hasSeparator-hasElectrolyteA",
@@ -1882,7 +1882,7 @@
         "Note": "Aemion+ by Ionomr (AEM). AF1 by Ionomr (AEM), requested"
       },
       {
-        "Item": "chemical:PolyArylPiperidinium",
+        "Item": "PolyArylPiperidinium",
         "ID": null,
         "Note": "Piperion by Versogen (AEM), requested"
       },
@@ -2327,7 +2327,7 @@
     "data": [
       {
         "Item": "mm",
-        "Key": "unit:MilliM"
+        "Key": "MilliMetre"
       },
       {
         "Item": "mAh/g",
@@ -2335,7 +2335,7 @@
       },
       {
         "Item": "mg/cm2",
-        "Key": "unit:MilliGM-PER-CentiM2"
+        "Key": "MilliGramPerSquareCentiMetre"
       },
       {
         "Item": "mAh",
@@ -2343,7 +2343,7 @@
       },
       {
         "Item": "mg",
-        "Key": "unit:MilliGM"
+        "Key": "MilliGram"
       },
       {
         "Item": "%",
@@ -2355,15 +2355,15 @@
       },
       {
         "Item": "um",
-        "Key": "unit:MicroM"
+        "Key": "MicroMetre"
       },
       {
         "Item": "V",
-        "Key": "unit:V"
+        "Key": "Volt"
       },
       {
         "Item": "mA/cm2",
-        "Key": "emmo:MilliAmperePerSquareCentiMetre"
+        "Key": "MilliAmperePerSquareCentiMetre"
       },
       {
         "Item": "mAh/cm2",
@@ -2371,27 +2371,27 @@
       },
       {
         "Item": "mol/L",
-        "Key": "unit:MOL-PER-L"
+        "Key": "MolePerCubicDeciMetre"
       },
       {
         "Item": "mS/cm",
-        "Key": "unit:MilliS-PER-CentiM"
+        "Key": "MilliSiemensPerCentiMetre"
       },
       {
         "Item": "mPa.s",
-        "Key": "unit:MilliPA-SEC"
+        "Key": "MilliPascalSecond"
       },
       {
         "Item": "g/cm3",
-        "Key": "unit:GM-PER-CentiM3"
+        "Key": "GramPerCubicCentiMetre"
       },
       {
         "Item": "°C",
-        "Key": "unit:DEG_C"
+        "Key": "DegreeCelsius"
       },
       {
         "Item": "unitless",
-        "Key": "unit:UNITLESS"
+        "Key": "UnitOne"
       },
       {
         "Item": "mL/min",
@@ -2399,7 +2399,7 @@
       },
       {
         "Item": "cm2",
-        "Key": "unit:CentiM2"
+        "Key": "SquareCentiMetre"
       },
       {
         "Item": "mL",
