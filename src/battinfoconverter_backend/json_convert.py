@@ -62,10 +62,20 @@ def create_jsonld_with_conditions(
         schema_name = None
         logger.warning("Missing schema version in the schema sheet")
 
+    local_context: dict[str, str | dict] = {row["Item"]: row["Key"] for _, row in context_toplevel.iterrows()}
+    # @vocab routes bare unit labels through the context's term definitions,
+    # so "Volt" expands to the real EMMO IRI instead of a document-relative one
+    local_context.setdefault(
+        "hasMeasurementUnit",
+        {
+            "@id": "https://w3id.org/emmo#EMMO_bed1d005_b04e_4a90_94cf_02bc678a8569",
+            "@type": "@vocab",
+        },
+    )
     jsonld: dict[str, str | list | dict | float] = {
         "@context": [
             "https://w3id.org/emmo/domain/battery/context",
-            {row["Item"]: row["Key"] for _, row in context_toplevel.iterrows()},
+            local_context,
         ],
     }
 
