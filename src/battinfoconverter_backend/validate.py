@@ -64,6 +64,12 @@ def map_context(
             logger.warning(msg)
     if isinstance(context, dict):
         for k, v in context.items():
+            # Expanded term definitions: track @vocab-typed properties, whose string
+            # values resolve through the context like keys and @type values do
+            if isinstance(v, dict):
+                if v.get("@type") == "@vocab":
+                    existing_map.setdefault("_vocab", set()).add(k)
+                continue
             existing_map.setdefault("_urls", {})[k] = v
             if v not in get_context():
                 msg = f"The URL for '{k}' ({v}) is not a known namespace of BattINFO converter."
@@ -82,37 +88,51 @@ def map_context(
     return existing_map
 
 
-def get_all_terms(obj: list | dict | str | float, seen: set | None = None) -> set:
-    """Recursive search for all terms in JSON-LD."""
-    if seen is None:
-        seen = set()
+def get_all_terms(
+    obj: list | dict | str | float,
+    vocab_terms: set | None = None,
+    iri_terms: set | None = None,
+    vocab_props: frozenset | set = frozenset(),
+) -> tuple[set, set]:
+    """Recursive search for all terms in JSON-LD.
+
+    Returns (vocab_terms, iri_terms): keys, @type values, and string values of
+    @vocab-typed properties resolve through context term definitions, while @id
+    and other string values only expand prefixes.
+    """
+    if vocab_terms is None:
+        vocab_terms = set()
+    if iri_terms is None:
+        iri_terms = set()
     if isinstance(obj, dict):
         for k, v in obj.items():
             if k == "@context":
                 continue  # Don't check context
             if k in {"@id", "@type"}:
+                target = vocab_terms if k == "@type" else iri_terms
                 if isinstance(v, str):
-                    seen.add(v)
+                    target.add(v)
                 elif isinstance(v, list):
                     for el in v:
-                        seen.add(el)
+                        target.add(el)
             elif not k.startswith("@"):
-                seen.add(k)
+                vocab_terms.add(k)
                 if k not in LITERAL_PREDICATES:
+                    target = vocab_terms if k in vocab_props else iri_terms
                     if isinstance(v, str):
-                        seen.add(v)
+                        target.add(v)
                     elif isinstance(v, list):
                         for el in v:
                             if isinstance(el, str):
-                                seen.add(el)
-            get_all_terms(v, seen)
+                                target.add(el)
+            get_all_terms(v, vocab_terms, iri_terms, vocab_props)
     elif isinstance(obj, list):
         for i in obj:
-            get_all_terms(i, seen)
-    return seen
+            get_all_terms(i, vocab_terms, iri_terms, vocab_props)
+    return vocab_terms, iri_terms
 
 
-def check_term_against_context(term: str, mapped_context: dict) -> None:
+def check_term_against_context(term: str, mapped_context: dict, *, warn_redundant_prefix: bool = True) -> None:
     """Raise error if term is not in context, or not already IRI."""
     if term.startswith("http"):  # It is already an absolute IRI
         return
@@ -130,7 +150,11 @@ def check_term_against_context(term: str, mapped_context: dict) -> None:
         # EMMO-family namespaces share labels (and IRIs) with the default context,
         # so the prefix is redundant; other namespaces (e.g. schema) only share labels
         prefix_url = mapped_context.get("_urls", {}).get(prefix, "")
-        if prefix_url.startswith("https://w3id.org/emmo") and label in mapped_context.get("_base", []):
+        if (
+            warn_redundant_prefix
+            and prefix_url.startswith("https://w3id.org/emmo")
+            and label in mapped_context.get("_base", [])
+        ):
             logger.warning(
                 "Term '%s' is already in the default context - you can use '%s' without the prefix.",
                 term,
@@ -153,7 +177,9 @@ def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> Non
     mapped_context = map_context(context, errors=errors)
 
     # Get all the terms in the json-ld
-    raw_terms = get_all_terms(doc)
+    vocab_props = mapped_context.get("_vocab", frozenset())
+    vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props)
+    raw_terms = vocab_terms | iri_terms
 
     # Separate out prefixed and non-prefixed terms
     prefixed = [t for t in raw_terms if ":" in t]
@@ -163,7 +189,8 @@ def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> Non
     # Check that every term is known
     for term in terms:
         try:
-            check_term_against_context(term, mapped_context)
+            # A prefix is only redundant in vocab position; @id/string values need it to expand
+            check_term_against_context(term, mapped_context, warn_redundant_prefix=term not in iri_terms)
         except ValueError as e:  # noqa: PERF203
             if errors == "raise":
                 raise

@@ -142,6 +142,7 @@ def test_redundant_prefix(caplog: pytest.LogCaptureFixture) -> None:
         ],
         "@type": ["CoinCell", "emmo:Hertz", "schema:Person"],
         "schema:manufacturer": {"@type": "schema:Organization"},
+        "hasMeasurementUnit": "emmo:Volt",
     }
     validate_jsonld(doc, errors="warn")
     assert "Term 'emmo:Hertz' is already in the default context - you can use 'Hertz' without the prefix" in caplog.text
@@ -149,6 +150,8 @@ def test_redundant_prefix(caplog: pytest.LogCaptureFixture) -> None:
     # but expand to different IRIs, so they must not warn
     assert "'schema:Person' is already in the default context" not in caplog.text
     assert "'schema:manufacturer' is already in the default context" not in caplog.text
+    # String values are IRI references, where a bare term would not resolve via the context
+    assert "'emmo:Volt' is already in the default context" not in caplog.text
 
 
 def test_bad_prefixed_unit(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
