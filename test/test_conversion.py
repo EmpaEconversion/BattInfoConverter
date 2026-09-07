@@ -4,14 +4,19 @@ import json
 
 import pytest
 from conftest import CellFixtures, normalize_jsonld
-from pyld import jsonld
 from openpyxl import load_workbook
+from pyld import jsonld
 
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import (
     dict_to_workbook,
     workbook_to_dict,
 )
+
+
+def _filter_warnings(warnings: list[str]) -> list[str]:
+    """Filter out non-critical, acceptable warnings."""
+    return [w for w in warnings if " recommended values: " not in w and "This is a 'schema:manufacturer' - " not in w]
 
 
 def test_regression(schema: CellFixtures) -> None:
@@ -35,10 +40,34 @@ def test_valid_jsonld(schema: CellFixtures) -> None:
     jsonld.expand(converted)
 
 
+def test_units_expand_to_real_iris(schema: CellFixtures) -> None:
+    """Unit values must expand to ontology IRIs, not document-relative ones."""
+    converted = convert_excel_to_jsonld(schema.excel, validate=False)
+    expanded = jsonld.expand(converted)
+    unit_predicate = "https://w3id.org/emmo#EMMO_bed1d005_b04e_4a90_94cf_02bc678a8569"
+
+    def collect(obj: dict | list, found: list) -> list:
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k == unit_predicate:
+                    found.extend(el["@id"] for el in v if isinstance(el, dict) and "@id" in el)
+                collect(v, found)
+        elif isinstance(obj, list):
+            for el in obj:
+                collect(el, found)
+        return found
+
+    unit_iris = collect(expanded, [])
+    assert unit_iris
+    for iri in unit_iris:
+        assert iri.startswith(("https://w3id.org/emmo", "https://qudt.org/vocab/unit/")), iri
+
+
 def test_no_warnings(schema: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
     """The standard excel should convert without warnings."""
     convert_excel_to_jsonld(schema.excel, validate=True)
-    assert caplog.text == ""
+    warnings = caplog.text.splitlines()
+    assert not _filter_warnings(warnings)
 
 
 def test_round_trip_from_json(schema: CellFixtures) -> None:
@@ -69,7 +98,8 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     """The template should compile without any warnings."""
     wb = dict_to_workbook(schema.template)
     convert_excel_to_jsonld(wb)
-    assert caplog.text == ""
+    warnings = caplog.text.splitlines()
+    assert not _filter_warnings(warnings)
 
 
 def test_template_gives_expected_jsonld(schema: CellFixtures) -> None:

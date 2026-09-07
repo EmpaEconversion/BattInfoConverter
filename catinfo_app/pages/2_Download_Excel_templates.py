@@ -17,7 +17,7 @@ from battinfoconverter_backend.templates.template_conversion import (
 @st.cache_data
 def get_xlsx_bytes(schema_path: Path, *, empty: bool) -> tuple[bytes, str]:
     """Create xlsx bytes object, and get version."""
-    with schema_path.open("r", encoding="utf-8") as f:
+    with schema_path.open("r") as f:
         data = json.load(f)
     version = next(
         (
@@ -46,6 +46,20 @@ electrolysis_xlsx_bytes_empty, _ = get_xlsx_bytes(ELECTROLYSIS_TEMPLATE_PATH, em
 st.title("Download Excel templates")
 st.text("Here you will find Excel templates that you can fill out with your metadata.")
 
+st.subheader("Electrolysis cell")
+st.download_button(
+    label=f"⬇️ Electrolysis cell template v{electrolysis_version} - empty",
+    data=electrolysis_xlsx_bytes_empty,
+    file_name=f"CatINFO_electrolysis_v{electrolysis_version}_empty.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+st.download_button(
+    label=f"⬇️ Electrolysis cell template v{electrolysis_version} - filled example",
+    data=electrolysis_xlsx_bytes,
+    file_name=f"CatINFO_electrolysis_v{electrolysis_version}_filled.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+
 st.subheader("Coin cell")
 st.download_button(
     label=f"⬇️ Coin cell battery template v{coincell_version} - empty",
@@ -71,19 +85,5 @@ st.download_button(
     label=f"⬇️ Redox flow cell template v{flowcell_version} - filled example",
     data=flowcell_xlsx_bytes,
     file_name=f"BattINFO_flowcell_v{flowcell_version}_filled.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
-
-st.subheader("Electrolysis cell")
-st.download_button(
-    label=f"⬇️ Electrolysis cell template v{electrolysis_version} - empty",
-    data=electrolysis_xlsx_bytes_empty,
-    file_name=f"CatINFO_electrolysis_v{electrolysis_version}_empty.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-)
-st.download_button(
-    label=f"⬇️ Electrolysis cell template v{electrolysis_version} - filled example",
-    data=electrolysis_xlsx_bytes,
-    file_name=f"CatINFO_electrolysis_v{electrolysis_version}_filled.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 )

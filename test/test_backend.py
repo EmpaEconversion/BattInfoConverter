@@ -133,6 +133,27 @@ def test_bad_jsonld_context(caplog: pytest.LogCaptureFixture) -> None:
     assert "Term 'missing:StuffThatCannotBeFound' was not found because 'missing' is empty" in caplog.text
 
 
+def test_redundant_prefix(caplog: pytest.LogCaptureFixture) -> None:
+    """Check that prefixing a term already in the default context warns."""
+    doc = {
+        "@context": [
+            "https://w3id.org/emmo/domain/battery/context",
+            {"emmo": "https://w3id.org/emmo#", "schema": "https://schema.org/"},
+        ],
+        "@type": ["CoinCell", "emmo:Hertz", "schema:Person"],
+        "schema:manufacturer": {"@type": "schema:Organization"},
+        "hasMeasurementUnit": "emmo:Volt",
+    }
+    validate_jsonld(doc, errors="warn")
+    assert "Term 'emmo:Hertz' is already in the default context - you can use 'Hertz' without the prefix" in caplog.text
+    # schema terms share labels with the default context (Person, Manufacturer, ...)
+    # but expand to different IRIs, so they must not warn
+    assert "'schema:Person' is already in the default context" not in caplog.text
+    assert "'schema:manufacturer' is already in the default context" not in caplog.text
+    # String values are IRI references, where a bare term would not resolve via the context
+    assert "'emmo:Volt' is already in the default context" not in caplog.text
+
+
 def test_bad_prefixed_unit(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
     """Check that unit missing from prefixed namespace warns."""
     template = coincell.template.copy()

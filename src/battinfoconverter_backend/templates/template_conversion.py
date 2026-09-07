@@ -22,6 +22,8 @@ from openpyxl.worksheet.worksheet import Worksheet
 TEMPLATES_DIR = Path(__file__).parent
 
 COINCELL_TEMPLATE_PATH = TEMPLATES_DIR / "coincell.json"
+FLOWCELL_TEMPLATE_PATH = TEMPLATES_DIR / "flowcell.json"
+ELECTROLYSIS_TEMPLATE_PATH = TEMPLATES_DIR / "electrolysis.json"
 
 # Excel theme colors to color keys
 THEME_INDEX_TO_NAME = {
@@ -61,6 +63,27 @@ COLORS = {
         "rows": [
             None,
             "FFFCE4D6",
+        ],
+    },
+    "red": {
+        "header": "FFDA9694",
+        "rows": [
+            None,
+            "FFF2DCDB",
+        ],
+    },
+    "purple": {
+        "header": "FFB1A0C7",
+        "rows": [
+            None,
+            "FFE4DFEC",
+        ],
+    },
+    "cyan": {
+        "header": "FF92CDDC",
+        "rows": [
+            None,
+            "FFDAEEF3",
         ],
     },
 }

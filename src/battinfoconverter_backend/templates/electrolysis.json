@@ -1,0 +1,2418 @@
+{
+  "@Schema": {
+    "type": "sectioned",
+    "header": [
+      "Metadata",
+      "Value",
+      "Unit",
+      "Priority",
+      "Ontology link",
+      "Comment"
+    ],
+    "data": {
+      "Cell identification": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell type",
+            "Value": "ElectrolyticCell",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "type|",
+            "Comment": "Required, do not change"
+          },
+          {
+            "Metadata": "Cell ID",
+            "Value": "empa__ecid_000001",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "schema:productID",
+            "Comment": "Unique ID for cell"
+          },
+          {
+            "Metadata": "Cell name",
+            "Value": "240616_bco_gr-NMC_01",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Ontology link": "schema:name",
+            "Comment": "Human-friendly name for the cell"
+          },
+          {
+            "Metadata": "Date of cell assembly",
+            "Value": "2024-05-01",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "schema:dateCreated",
+            "Comment": "Assembly date in ISO8601 format (YYYY-MM-DD)"
+          },
+          {
+            "Metadata": "Institution/company",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "schema:manufacturer",
+            "Comment": "Organisation that made the cell, value should be in @classes with ID"
+          },
+          {
+            "Metadata": "Scientist/technician/operator",
+            "Value": "Corsin Battaglia",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "schema:creator",
+            "Comment": "Person that made the cell, value should be in @classes with ID"
+          },
+          {
+            "Metadata": "Project",
+            "Value": "ETHB PREMISE/NCCR Catalysis",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Ontology link": "rdfs:comment",
+            "Comment": null
+          },
+          {
+            "Metadata": "Assembled manually or by robot",
+            "Value": "manually",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Ontology link": "rdfs:comment",
+            "Comment": null
+          },
+          {
+            "Metadata": "Schema name",
+            "Value": "ElectrolysisCellSchema",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "rdfs:comment",
+            "Comment": "Name of this schema, do not change"
+          },
+          {
+            "Metadata": "Schema version",
+            "Value": "0.1.2",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "rdfs:comment",
+            "Comment": "Version of this schema, do not change"
+          }
+        ]
+      },
+      "Negative electrode (working electrode)": {
+        "type": "section",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Negative electrode type",
+            "Value": "GasDiffusionElectrode",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate type",
+            "Value": "CarbonPaper",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate material",
+            "Value": "Carbon",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate coating material",
+            "Value": "Polytetrafluoroethylene",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasCoating",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate thickness",
+            "Value": 315,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Thickness",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material type",
+            "Value": "Electrocatalyst",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material",
+            "Value": "Copper",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material mass loading",
+            "Value": 1.1,
+            "Unit": "mg/cm2",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material mass fraction",
+            "Value": 90,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating binder type",
+            "Value": "IonomerCompound",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating binder material",
+            "Value": "PerfluorosulfonicAcid",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating binder mass fraction",
+            "Value": 10,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder-hasMeasuredProperty-MassFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating thickness",
+            "Value": 0.5,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasMeasuredProperty-Thickness",
+            "Comment": null
+          }
+        ]
+      },
+      "Negative electrode optional microstructral/physical parameters": {
+        "type": "subsection",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Negative electrode substrate porosity",
+            "Value": 85,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Porosity",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material particle size (leave blanc for films)",
+            "Value": 0.02,
+            "Unit": "um",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-D50ParticleSize",
+            "Comment": null
+          }
+        ]
+      },
+      "Negative electrode optional component manufacturer information": {
+        "type": "subsection",
+        "color": "blue",
+        "rows": [
+          {
+            "Metadata": "Negative electrode manufacturer",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode manufacturer product ID",
+            "Value": "15p_Cu",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate manufacturer",
+            "Value": "SGLCarbon",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode substrate product ID",
+            "Value": "39BB",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material manufacturer",
+            "Value": "Millipore Sigma",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating active material product ID",
+            "Value": 774081,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating binder manufacturer",
+            "Value": "Chemours",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode coating binder product ID",
+            "Value": "D521CS",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder-schema:productID",
+            "Comment": null
+          }
+        ]
+      },
+      "Positive electrode (counter electrode)": {
+        "type": "section",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Positive electrode type",
+            "Value": "ImmersionElectrode",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode substrate type",
+            "Value": "PerforatedFoil",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode substrate material",
+            "Value": "Titanium",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode substrate thickness",
+            "Value": 20,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Thickness",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material type",
+            "Value": "Electrocatalyst",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material",
+            "Value": "IridiumIIIOxide",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material mass loading",
+            "Value": 0.5,
+            "Unit": "mg/cm2",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassLoading",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material mass fraction",
+            "Value": 90,
+            "Unit": "%",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-MassFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating binder type",
+            "Value": "IonomerCompound",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating binder material",
+            "Value": "PerfluorosulfonicAcid",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating binder mass fraction",
+            "Value": 10,
+            "Unit": "%",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder-hasMeasuredProperty-MassFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating  thickness",
+            "Value": 0.5,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasMeasuredProperty-Thickness",
+            "Comment": null
+          }
+        ]
+      },
+      "Positive electrode optional microstructural/physical parameters": {
+        "type": "subsection",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Positive electrode substrate porosity",
+            "Value": 50,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Porosity",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material mean particle size (leave blanc for films)",
+            "Value": 0.007,
+            "Unit": "um",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasMeasuredProperty-D50ParticleSize",
+            "Comment": null
+          }
+        ]
+      },
+      "Positive electrode optional component manufacturer information": {
+        "type": "subsection",
+        "color": "orange",
+        "rows": [
+          {
+            "Metadata": "Positive electrode manufacturer",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode manufacturer product ID",
+            "Value": "18x_Ti",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode substrate manufacturer",
+            "Value": "Fuel Cell Store",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode substrate manufacturer product ID",
+            "Value": 40050001,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material manufacturer",
+            "Value": "Fuel Cell Store",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating active material manufacturer product ID",
+            "Value": 57080249,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating binder manufacturer",
+            "Value": "Chemours",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode coating binder manufacturer product ID",
+            "Value": "D521CS",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder-schema:productID",
+            "Comment": null
+          }
+        ]
+      },
+      "Negative electrode gas supply": {
+        "type": "section",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Negative electrode gas A",
+            "Value": "CarbonDioxide",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas A volume fraction",
+            "Value": 100,
+            "Unit": "%",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas B",
+            "Value": "Argon",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas B volume fraction",
+            "Value": 0,
+            "Unit": "%",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas flow rate",
+            "Value": 5,
+            "Unit": "mL/min",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas pressure",
+            "Value": 1,
+            "Unit": "bar",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
+            "Comment": null
+          }
+        ]
+      },
+      "Catholyte": {
+        "type": "section",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Catholyte solvent A",
+            "Value": "Water",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent A volume fraction",
+            "Value": 100,
+            "Unit": "%",
+            "Priority": "required",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent B",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent B volume fraction",
+            "Value": null,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute A",
+            "Value": "PotassiumCarbonate",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute A molarity ",
+            "Value": 1,
+            "Unit": "mol/L",
+            "Priority": "required",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute B",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute B molarity",
+            "Value": null,
+            "Unit": "mol/L",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte volume  ",
+            "Value": 100,
+            "Unit": "mL",
+            "Priority": "recommended",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-Volume",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte volume flow rate",
+            "Value": 5,
+            "Unit": "mL/min",
+            "Priority": "recommended",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-VolumeFlowRate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte pressure",
+            "Value": 1,
+            "Unit": "bar",
+            "Priority": "recommended",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-Pressure",
+            "Comment": null
+          }
+        ]
+      },
+      "Catholyte optional physical parameters": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Catholyte conductivity",
+            "Value": 100,
+            "Unit": "mS/cm",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-ElectrolyticConductivity",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte pH",
+            "Value": 3.8,
+            "Unit": "unitless",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-PH",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte density",
+            "Value": 1.1,
+            "Unit": "g/cm3",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-Density",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte temperature",
+            "Value": 25,
+            "Unit": "°C",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-CelsiusTemperature",
+            "Comment": null
+          }
+        ]
+      },
+      "Catholyte optional component manufacturer information": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Catholyte manufacturer",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte manufacturer product ID",
+            "Value": "KCl_1M_catholyte",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent A manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolventA-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent A manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolventA-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolventB-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solvent B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSolventB-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute A manufacturer",
+            "Value": "Thermo Fisher Scientific",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSoluteA-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute A manufacturer productD",
+            "Value": 424090010,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSoluteA-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSoluteB-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte solute B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCatholyte-hasSoluteB-schema:productID",
+            "Comment": null
+          }
+        ]
+      },
+      "Positive electrode gas supply": {
+        "type": "section",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Positive electrode gas A",
+            "Value": "Nitrogen",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas A volume fraction",
+            "Value": 100,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas B",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas B volume fraction",
+            "Value": null,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas flow rate",
+            "Value": 4,
+            "Unit": "mL/min",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-VolumeFlowRate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas pressure",
+            "Value": 1,
+            "Unit": "bar",
+            "Priority": "optional",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasMeasuredProperty-Pressure",
+            "Comment": null
+          }
+        ]
+      },
+      "Anolyte": {
+        "type": "section",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Anolyte solvent A",
+            "Value": "Water",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent A volume fraction",
+            "Value": 100,
+            "Unit": "%",
+            "Priority": "required",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent B",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent B volume fraction",
+            "Value": null,
+            "Unit": "%",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-hasMeasuredProperty-VolumeFraction",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute A",
+            "Value": "SulfuricAcid",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute A molarity ",
+            "Value": 1,
+            "Unit": "mol/L",
+            "Priority": "required",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute B",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute B molarity",
+            "Value": null,
+            "Unit": "mol/L",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte volume  ",
+            "Value": 100,
+            "Unit": "mL",
+            "Priority": "recommended",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-Volume",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte volume flow rate",
+            "Value": 5,
+            "Unit": "mL/min",
+            "Priority": "recommended",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-VolumeFlowRate",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte pressure",
+            "Value": 1,
+            "Unit": "bar",
+            "Priority": "recommended",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-Pressure",
+            "Comment": null
+          }
+        ]
+      },
+      "Anolyte optional physical parameters": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Anolyte conductivity",
+            "Value": 800,
+            "Unit": "mS/cm",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-ElectrolyticConductivity",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte pH",
+            "Value": 0,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-PH",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte density",
+            "Value": 1.06,
+            "Unit": "g/cm3",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-Density",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte temperature",
+            "Value": 25,
+            "Unit": "°C",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-CelsiusTemperature",
+            "Comment": null
+          }
+        ]
+      },
+      "Anolyte optional component manufacturer information": {
+        "type": "subsection",
+        "color": "green",
+        "rows": [
+          {
+            "Metadata": "Anolyte manufacturer",
+            "Value": "Empa",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte manufacturer product ID",
+            "Value": "H2SO4_1M_anolyte",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent A manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent A manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solvent B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolvent-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute A manufacturer",
+            "Value": "Millipore Sigma",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute A manufacturer productD",
+            "Value": 258105,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute B manufacturer",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte solute B manufacturer product ID",
+            "Value": null,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasAnolyte-hasSolute-schema:productID",
+            "Comment": null
+          }
+        ]
+      },
+      "Membrane": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Membrane type",
+            "Value": "IonExchangeMembrane",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasSeparator",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane type  (BilayerMembrane or leave blanc)",
+            "Value": "BilayerMembrane",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane A type (facing catholyte)",
+            "Value": "AnionExchangeMembrane",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasSeparator-hasElectrolyteA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane A material A (facing catholyte)",
+            "Value": "PolyArylPiperidinium",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasSeparator-hasElectrolyteA",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane A thickness (facing catholyte)",
+            "Value": 80,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-Thickness",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane A ion exchange capacity (facing catholyte)",
+            "Value": 2.1,
+            "Unit": "mEq/100g",
+            "Priority": "recommended",
+            "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B type (facing anolyte)",
+            "Value": "CationExchangeMembrane",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasSeparator-hasElectrolyteB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B material A (facing anolyte)",
+            "Value": "PerfluorosulfonicAcid",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasSeparator-hasElectrolyteB",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B thickness (facing anolyte)",
+            "Value": 80,
+            "Unit": "um",
+            "Priority": "recommended",
+            "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-Thickness",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B ion exchange capacity (facing anolyte)",
+            "Value": 2.1,
+            "Unit": "mEq/100g",
+            "Priority": "recommended",
+            "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-AmountConcentration",
+            "Comment": null
+          }
+        ]
+      },
+      "Membrane optional physical parameters": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Membrane A area specific conductivity",
+            "Value": 8,
+            "Unit": "mS/cm",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-ElectrolyticConductivity",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B area specific conductivity",
+            "Value": 8,
+            "Unit": "mS/cm",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-ElectrolyticConductivity",
+            "Comment": null
+          }
+        ]
+      },
+      "Membrane optional component manufacturer information": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Membrane A manufacturer",
+            "Value": "Fuel Cell Store",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteA-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane A manufacturer product ID",
+            "Value": 72010015,
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteA-schema:productID",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B manufacturer",
+            "Value": "Chemours",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteB-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane B manufacturer product ID",
+            "Value": "N117",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasElectrolyteB-schema:productID",
+            "Comment": null
+          }
+        ]
+      },
+      "Cell assembly": {
+        "type": "section",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell case type (FlowCell or leave blanc)",
+            "Value": "FlowCell",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasCase",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas compartment (FlowField or leave blanc)",
+            "Value": "FlowField",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasComponent",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode gas compartment width",
+            "Value": 1,
+            "Unit": "mm",
+            "Priority": "required",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasMeasuredProperty-Width",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode projected area",
+            "Value": 1,
+            "Unit": "cm2",
+            "Priority": "required",
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-Area",
+            "Comment": null
+          },
+          {
+            "Metadata": "Negative electrode to membrane gap/catholyte compartment width",
+            "Value": 0,
+            "Unit": "mm",
+            "Priority": "required",
+            "Ontology link": "hasComponentB-type|CatholyteCompartment-hasMeasuredProperty-Width",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte compartment volume",
+            "Value": 0.065,
+            "Unit": "mL",
+            "Priority": "required",
+            "Ontology link": "hasComponentB-type|CatholyteCompartment-hasMeasuredProperty-Volume",
+            "Comment": null
+          },
+          {
+            "Metadata": "Reference electrode in catholyte compartment",
+            "Value": "SilverChlorideElectrode",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasComponentB-type|CatholyteCompartment-hasReferenceElectrode",
+            "Comment": null
+          },
+          {
+            "Metadata": "Membrane projected area",
+            "Value": 1,
+            "Unit": "cm2",
+            "Priority": "optional",
+            "Ontology link": "hasSeparator-hasMeasuredProperty-Area",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte compartement volume",
+            "Value": 0.065,
+            "Unit": "mL",
+            "Priority": "required",
+            "Ontology link": "hasComponentC-type|AnolyteCompartment-hasMeasuredProperty-Volume",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode to membrane gap/anolyte compartment width",
+            "Value": 0,
+            "Unit": "mm",
+            "Priority": "required",
+            "Ontology link": "hasComponentC-type|AnolyteCompartment-hasMeasuredProperty-Width",
+            "Comment": null
+          },
+          {
+            "Metadata": "Reference electrode in anolyte compartment",
+            "Value": "SilverChlorideElectrode",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasComponentC-type|AnolyteCompartment-hasReferenceElectrode",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode projected area",
+            "Value": 1,
+            "Unit": "cm2",
+            "Priority": "required",
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-Area",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas compartment width",
+            "Value": 1,
+            "Unit": "mm",
+            "Priority": "required",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasMeasuredProperty-Width",
+            "Comment": null
+          },
+          {
+            "Metadata": "Positive electrode gas compartment (FlowField or leave blanc)",
+            "Value": "FlowField",
+            "Unit": "No Unit",
+            "Priority": "required",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasComponent",
+            "Comment": null
+          },
+          {
+            "Metadata": "Catholyte tank volume",
+            "Value": 120,
+            "Unit": "mL",
+            "Priority": "required",
+            "Ontology link": "hasComponentE-type|CatholyteTank-hasMeasuredProperty-Volume",
+            "Comment": null
+          },
+          {
+            "Metadata": "Anolyte tank volume",
+            "Value": 120,
+            "Unit": "mL",
+            "Priority": "required",
+            "Ontology link": "hasComponentF-type|AnolyteTank-hasMeasuredProperty-Volume",
+            "Comment": null
+          }
+        ]
+      },
+      "Cell optional component supplier information": {
+        "type": "subsection",
+        "color": "grey",
+        "rows": [
+          {
+            "Metadata": "Cell case manufacturer",
+            "Value": "Fuel Cell Store",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCase-schema:manufacturer",
+            "Comment": null
+          },
+          {
+            "Metadata": "Cell case manufacturer product ID",
+            "Value": "Micro Flow Cell",
+            "Unit": "No Unit",
+            "Priority": "optional",
+            "Ontology link": "hasCase-schema:productID",
+            "Comment": null
+          }
+        ]
+      }
+    }
+  },
+  "@Context": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "schema",
+        "Key": "https://schema.org/"
+      },
+      {
+        "Item": "emmo",
+        "Key": "https://w3id.org/emmo#"
+      },
+      {
+        "Item": "echem",
+        "Key": "https://w3id.org/emmo/domain/electrochemistry#"
+      },
+      {
+        "Item": "battery",
+        "Key": "https://w3id.org/emmo/domain/battery#"
+      },
+      {
+        "Item": "chemical",
+        "Key": "https://w3id.org/emmo/domain/chemical-substance#"
+      },
+      {
+        "Item": "unit",
+        "Key": "https://qudt.org/vocab/unit/"
+      },
+      {
+        "Item": "rdfs",
+        "Key": "http://www.w3.org/2000/01/rdf-schema#"
+      }
+    ]
+  },
+  "@Predicates": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "hasActiveMaterial",
+        "Key": null
+      },
+      {
+        "Item": "hasBinder",
+        "Key": "Binder"
+      },
+      {
+        "Item": "hasCase",
+        "Key": null
+      },
+      {
+        "Item": "hasCoating",
+        "Key": "Coating"
+      },
+      {
+        "Item": "hasConductiveAdditive",
+        "Key": "ConductiveAdditive"
+      },
+      {
+        "Item": "hasCurrentCollector",
+        "Key": "CurrentCollector"
+      },
+      {
+        "Item": "hasElectrolyte",
+        "Key": null
+      },
+      {
+        "Item": "hasNegativeElectrode",
+        "Key": "Electrode"
+      },
+      {
+        "Item": "hasPositiveElectrode",
+        "Key": "Electrode"
+      },
+      {
+        "Item": "hasSeparator",
+        "Key": "Separator"
+      },
+      {
+        "Item": "hasSolute",
+        "Key": "Solute"
+      },
+      {
+        "Item": "hasSolvent",
+        "Key": "Solvent"
+      },
+      {
+        "Item": "hasConstituent",
+        "Key": null
+      },
+      {
+        "Item": "hasInput",
+        "Key": null
+      },
+      {
+        "Item": "hasProperty",
+        "Key": null
+      },
+      {
+        "Item": "hasWaveSpring",
+        "Key": null
+      },
+      {
+        "Item": "hasSpacer",
+        "Key": null
+      },
+      {
+        "Item": "hasMeasuredProperty",
+        "Key": null
+      },
+      {
+        "Item": "hasOutput",
+        "Key": null
+      },
+      {
+        "Item": "hasReferenceElectrode",
+        "Key": "ReferenceElectrode"
+      },
+      {
+        "Item": "hasSubstrate",
+        "Key": "Substrate"
+      },
+      {
+        "Item": "hasWorkingElectrode",
+        "Key": "WorkingElectrode"
+      },
+      {
+        "Item": "hasCounterElectrode",
+        "Key": "CounterElectrode"
+      }
+    ]
+  },
+  "@Classes": {
+    "type": "table",
+    "header": [
+      "Item",
+      "ID",
+      "Note"
+    ],
+    "data": [
+      {
+        "Item": null,
+        "ID": null,
+        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No additional ID is required. "
+      },
+      {
+        "Item": "ElectrochemicalCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ElectrochemicalHalfCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "BatteryCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ElectrolyticCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "FlowCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "R2032",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CoinCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ThreeElectrodeCell",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ZeroGapCell",
+        "ID": null,
+        "Note": "to be requested"
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Component",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "AnolyteCompartment",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "AnolyteTank",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CatholyteCompartment",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CatholyteTank",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "FlowField",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GasCompartment",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "NegativeElectrodeGasCompartment",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "PositiveElectrodeGasCompartment",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Electrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GasDiffusionElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ImmersionElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ReferenceElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GlassyCarbonElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "SilverChlorideElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "MercuryOxideElectrode",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "NormalHydrogenElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ReversibleHydrogenElectrode",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Substrate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonPaper",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ElectrospunMesh",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "ExpandedMesh",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "WovenMesh",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Mesh",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "PerforatedFoil",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Foil",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Coating",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Solid",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Aluminium",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Carbon",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonBlack",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Copper",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CopperOxideCompound",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Electrocatalyst",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Graphite",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "IridiumOxideCompound",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "IridiumIIIOxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "IridiumDioxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Lithium",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumIronPhosphate",
+        "ID": null,
+        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+      },
+      {
+        "Item": "LithiumNickleCobaltManganeseOxide",
+        "ID": null,
+        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+      },
+      {
+        "Item": "LithiumTitanate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Nickel",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Platinum",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Silver",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "StainlessSteel",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Tantalum",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TantalumOxideCompound",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Titanium",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TitaniumOxideCompound",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TitaniumIOxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TitaniumIIOxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TitaniumIIOxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Separator",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GlassFiberSeparator",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "IonExchangeMembrane",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "AnionExchangeMembrane",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CationExchangeMembrane",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "BilayerMembrane",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "IonomerCompound",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PerfluorocarboxylicAcid",
+        "ID": null,
+        "Note": "Flemion by AGC (CEM), Aciplex by Asahi Kasei (CEM), requested"
+      },
+      {
+        "Item": "PerfluorosulfonicAcid",
+        "ID": null,
+        "Note": "Nafion by Chemours (long side-chain CEM), Aquivion by Solvay (short side-chain CEM), Fumapem SF by Fumatech (short side-chain CEM), Fumasep F by Fumatech)"
+      },
+      {
+        "Item": "PolyAryleneImidazolium",
+        "ID": null,
+        "Note": "Aemion+ by Ionomr (AEM). AF1 by Ionomr (AEM), requested"
+      },
+      {
+        "Item": "PolyArylPiperidinium",
+        "ID": null,
+        "Note": "Piperion by Versogen (AEM), requested"
+      },
+      {
+        "Item": "PolyArylAmmonium",
+        "ID": null,
+        "Note": "Fumasep FAA by Fumtech (AEM)"
+      },
+      {
+        "Item": "PolyetherEtherKetone",
+        "ID": null,
+        "Note": "Victrex by Solvay (PEEK), Ketaspire by Evonik (PEEK), Radel by Solvay (PEEK), requested"
+      },
+      {
+        "Item": "Polyolefin",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Polypropylene",
+        "ID": null,
+        "Note": "Celgard by Polypore International now part of Asahi Kasei (PP)"
+      },
+      {
+        "Item": "Polytetrafluoroethylene",
+        "ID": null,
+        "Note": "Teflon by Chemours (PTFE), Polyflon by Daikin (PTFE), "
+      },
+      {
+        "Item": "PolyvinylideneFluoride",
+        "ID": null,
+        "Note": "Kynar by Arkema (PVDF), Solef by Solvay (PVDF)"
+      },
+      {
+        "Item": "QuaternaryAmmoniumPolySulfone",
+        "ID": null,
+        "Note": "Sustainion by Dioxide Materials (AEM), requested"
+      },
+      {
+        "Item": "SulfonatedPolyEtherEtherKetone",
+        "ID": null,
+        "Note": "Speek by Gore (CEM), requested"
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Electrolyte",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LiquidElectrolyte",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "SolidElectrolyte",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "EthyleneCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "EthylMethylCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumBisfluorosulfonylimide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "LithiumHexafluorophosphate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "SodiumChloride",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "SodiumHydroxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PhosphoricAcid",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PotassiumCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PotassiumBiCarbonate",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "SulfuricAcid",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "TrisTrimethylsilyPhosphite",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "VinyleneCarbonate",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Water",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "HydrochloricAcid",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "PotassiumChloride",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PotassiumHydroxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Methanol",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Ethanol",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Gas ",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "GasMixture",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Argon",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Hydrogen",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonDioxide",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Nitrogen",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Ammonia",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "CarbonMonoxide",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "Oxygen",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Ethylene",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "Air",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Area",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "PH",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "Purity",
+        "ID": null,
+        "Note": "requested"
+      },
+      {
+        "Item": "Porosity",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Tortuosity",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Thickness",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Width",
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Corsin Battaglia",
+        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Note": null
+      },
+      {
+        "Item": "Graham Kimbell",
+        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Note": null
+      },
+      {
+        "Item": "Nukorn Plainpan",
+        "ID": "https://orcid.org/0009-0002-6447-8057",
+        "Note": null
+      },
+      {
+        "Item": "Alessandro Senocrate",
+        "ID": "https://orcid.org/0000-0002-0952-0948",
+        "Note": null
+      },
+      {
+        "Item": "Claudia Bissattini Alessi",
+        "ID": "https://orcid.org/0000-0002-3971-0398",
+        "Note": null
+      },
+      {
+        "Item": "Claudia Bissattini",
+        "ID": "https://orcid.org/0000-0002-3971-0398",
+        "Note": null
+      },
+      {
+        "Item": "Finn Beiglboeck",
+        "ID": "https://orcid.org/0000-0001-9158-1338",
+        "Note": null
+      },
+      {
+        "Item": "Francesco Bernasconi",
+        "ID": "https://orcid.org/0000-0002-6563-0578",
+        "Note": null
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "Empa",
+        "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Note": "Swiss Federal Laboratories for Materials Science and Technology; research institution"
+      },
+      {
+        "Item": null,
+        "ID": null,
+        "Note": null
+      },
+      {
+        "Item": "AGC",
+        "ID": "https://www.wikidata.org/wiki/Q367032",
+        "Note": "AGC Inc. (formerly Asahi Glass); manufacturer of Selemion AEM/CEM series and Flemion CEM series. https://www.agc.com"
+      },
+      {
+        "Item": "Agfa",
+        "ID": "https://www.wikidata.org/wiki/Q310172",
+        "Note": "Agfa-Gevaert; manufacturer of Zirfon Perl UTP 500 porous composite diaphragm for alkaline water electrolysis. https://www.agfa.com"
+      },
+      {
+        "Item": "Astom",
+        "ID": null,
+        "Note": "Astom Corporation (formerly Tokuyama); manufacturer of Neosepta ion exchange membrane series (AMX, CMX, AHA, BP-1). https://www.astom-corp.jp. to be requested"
+      },
+      {
+        "Item": "AvCarb",
+        "ID": null,
+        "Note": "AvCarb Material Solutions; manufacturer of carbon GDL series (P75, MGL190, 1071HCB) and MPLs. https://www.avcarb.com. to be requested"
+      },
+      {
+        "Item": "Celgard",
+        "ID": "https://www.wikidata.org/wiki/Q122199856",
+        "Note": "Celgard LLC (Polypore subsidiary); manufacturer of microporous polyolefin separators and membranes for batteries and filtration. https://www.celgard.com"
+      },
+      {
+        "Item": "Chemours",
+        "ID": "https://www.wikidata.org/wiki/Q15829006",
+        "Note": "The Chemours Company; manufacturer of Nafion perfluorosulfonic acid CEM series (N117, N115, N212, N211). https://www.chemours.com"
+      },
+      {
+        "Item": "Customcells",
+        "ID": "https://www.wikidata.org/wiki/Q120784603",
+        "Note": "Customcells Group; manufacturer of custom lithium-ion battery cells for R&D and prototyping. https://www.customcells.org"
+      },
+      {
+        "Item": "Dioxide Materials",
+        "ID": null,
+        "Note": "Dioxide Materials; manufacturer of Sustainion X37-50 anion exchange membrane (PolyArylPiperidinium backbone, 50 µm). https://www.dioxidematerials.com. to be requested"
+      },
+      {
+        "Item": "El-Cell",
+        "ID": null,
+        "Note": "EL-CELL GmbH; developer of high-precision electrochemical testing equipment and battery research solutions. https://el-cell.com, to be requested"
+      },
+      {
+        "Item": "Freudenberg",
+        "ID": "https://www.wikidata.org/wiki/Q879878",
+        "Note": "Freudenberg Performance Materials; manufacturer of gas diffusion layer series (H23C6, H14C9, H23C2) for fuel cells and electrolyzers. https://www.freudenberg-pm.com"
+      },
+      {
+        "Item": "Fuel Cell Store",
+        "ID": "https://www.wikidata.org/wiki/Q27868725",
+        "Note": "Fuel Cell Store; US-based distributor of membrane electrode assemblies, GDLs and ion exchange membranes including Sustainion, PiperION and Nafion. https://www.fuelcellstore.com. to be requested"
+      },
+      {
+        "Item": "Fumatech",
+        "ID": null,
+        "Note": "FuMA-Tech GmbH; manufacturer of FAA-3-50 and FAP-375-PP AEM series, Fumapem F/SF CEM series, and FBM bipolar membrane. https://www.fumatech.com. to be requested"
+      },
+      {
+        "Item": "Goodfellow",
+        "ID": "https://www.wikidata.org/wiki/Q21449964",
+        "Note": "Goodfellow Group; supplier of metals, alloys, polymers, ceramics and other materials in small quantities for research and development. https://www.goodfellow.com"
+      },
+      {
+        "Item": "Hohsen",
+        "ID": null,
+        "Note": "Hohsen Corp.; Japanese manufacturer of specialty separators and ion exchange membranes for electrochemical applications. to be requested"
+      },
+      {
+        "Item": "Ionomr",
+        "ID": null,
+        "Note": "Ionomr Innovations; manufacturer of Aemion+ AEM series (AF1-HNN5-50-X, AF1-HWW8-25-X) based on poly(arylene imidazolium) backbone. https://www.ionomr.com. to be requested"
+      },
+      {
+        "Item": "Millipore Sigma",
+        "ID": "https://www.wikidata.org/wiki/Q1669719",
+        "Note": "MilliporeSigma (Merck KGaA subsidiary, US operations); supplier of high-purity electrolyte chemicals and reagents for research. https://www.sigmaaldrich.com. to be requested"
+      },
+      {
+        "Item": "SGLCarbon",
+        "ID": "https://www.wikidata.org/wiki/Q2361947",
+        "Note": "SGL Carbon SE; manufacturer of Sigracet GDL series (22BB, 28BC, 29BC, 39BB, 39BC) for fuel cells and electrolyzers. https://www.sglcarbon.com"
+      },
+      {
+        "Item": "Sigracet",
+        "ID": null,
+        "Note": "SIGRACET Fuel Cell Components"
+      },
+      {
+        "Item": "Sterlitech",
+        "ID": null,
+        "Note": "Sterlitech Corporation; provider of PTFE membranes (0.05 μm to 10.0 μm) for chemical venting, gas diffusion, and aggressive solvent filtration. https://www.sterlitech.com, to be requested"
+      },
+      {
+        "Item": "Solvay",
+        "ID": "https://www.wikidata.org/wiki/Q487209",
+        "Note": "Solvay S.A.; manufacturer of Aquivion short-side-chain PFSA CEM series (E87-05S, E87-12S, E98-05S) for PEM electrolyzers. https://www.solvay.com"
+      },
+      {
+        "Item": "Solvionic",
+        "ID": "https://www.wikidata.org/wiki/Q30285492",
+        "Note": "Solvionic; French manufacturer and supplier of ionic liquids and specialty electrolyte solutions for electrochemical research. https://www.solvionic.com"
+      },
+      {
+        "Item": "Thermo Fisher Scientific",
+        "ID": "https://www.wikidata.org/wiki/Q306455",
+        "Note": "Thermo Fisher Scientific; global supplier of laboratory chemicals, reagents and analytical instruments. https://www.thermofisher.com"
+      },
+      {
+        "Item": "Toray",
+        "ID": "https://www.wikidata.org/wiki/Q908461",
+        "Note": "Toray Industries; manufacturer of Toray carbon paper GDL series (TGP-H-060, TGP-H-090, TGP-H-120) for fuel cells and electrolyzers. https://www.toray.com"
+      },
+      {
+        "Item": "Versogen",
+        "ID": null,
+        "Note": "Versogen Inc.; manufacturer of PiperION AEM series based on poly(aryl piperidinium) backbone for CO2 electrolysis and fuel cells. https://www.versogen.com. to be requested"
+      }
+    ]
+  },
+  "@Units": {
+    "type": "table",
+    "header": [
+      "Item",
+      "Key"
+    ],
+    "data": [
+      {
+        "Item": "mm",
+        "Key": "MilliMetre"
+      },
+      {
+        "Item": "mAh/g",
+        "Key": "unit:MilliA-HR-PER-GM"
+      },
+      {
+        "Item": "mg/cm2",
+        "Key": "MilliGramPerSquareCentiMetre"
+      },
+      {
+        "Item": "mAh",
+        "Key": "unit:MilliA-HR"
+      },
+      {
+        "Item": "mg",
+        "Key": "MilliGram"
+      },
+      {
+        "Item": "%",
+        "Key": "unit:PERCENT"
+      },
+      {
+        "Item": "uL",
+        "Key": "unit:MicroL"
+      },
+      {
+        "Item": "um",
+        "Key": "MicroMetre"
+      },
+      {
+        "Item": "V",
+        "Key": "Volt"
+      },
+      {
+        "Item": "mA/cm2",
+        "Key": "MilliAmperePerSquareCentiMetre"
+      },
+      {
+        "Item": "mAh/cm2",
+        "Key": "emmo:MilliAmpereHourPerSquareCentiMetre"
+      },
+      {
+        "Item": "mol/L",
+        "Key": "MolePerCubicDeciMetre"
+      },
+      {
+        "Item": "mS/cm",
+        "Key": "MilliSiemensPerCentiMetre"
+      },
+      {
+        "Item": "mPa.s",
+        "Key": "MilliPascalSecond"
+      },
+      {
+        "Item": "g/cm3",
+        "Key": "GramPerCubicCentiMetre"
+      },
+      {
+        "Item": "°C",
+        "Key": "DegreeCelsius"
+      },
+      {
+        "Item": "unitless",
+        "Key": "UnitOne"
+      },
+      {
+        "Item": "mL/min",
+        "Key": "unit:MilliL-PER-MIN"
+      },
+      {
+        "Item": "cm2",
+        "Key": "SquareCentiMetre"
+      },
+      {
+        "Item": "mL",
+        "Key": "unit:MilliL"
+      },
+      {
+        "Item": "bar",
+        "Key": "unit:BAR"
+      },
+      {
+        "Item": "mEq/100g",
+        "Key": "unit:MilliEQ-PER-HectoGM"
+      }
+    ]
+  }
+}
