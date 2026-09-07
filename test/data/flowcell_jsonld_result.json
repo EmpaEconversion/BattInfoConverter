@@ -30,7 +30,7 @@
     "schema:name": "260501_reda_1M-KCrPDTA_01",
     "schema:dateCreated": "2026-05-01",
     "rdfs:comment": [
-        "BattINFO Converter backend v3.2.0",
+        "BattINFO Converter backend v3.3.0",
         "Using template: RFBCellSchema v0.1.3",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: SNSF Ambizione Z00P2_209078",

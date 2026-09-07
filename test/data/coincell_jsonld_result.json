@@ -30,7 +30,7 @@
         "@id": "https://orcid.org/0000-0002-5003-1134"
     },
     "rdfs:comment": [
-        "BattINFO Converter backend v3.2.0",
+        "BattINFO Converter backend v3.3.0",
         "Using template: CoinCellSchema v1.1.18",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
         "Project: Battery2030+/PREMISE",
