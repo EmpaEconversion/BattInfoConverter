@@ -219,7 +219,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Negative electrode coating active material particle size (leave blanc for films)",
+            "Metadata": "Negative electrode coating active material particle size (leave blank for films)",
             "Value": 0.02,
             "Unit": "um",
             "Priority": "optional",
