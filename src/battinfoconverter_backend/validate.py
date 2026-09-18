@@ -120,12 +120,16 @@ def get_all_terms(
     vocab_terms: set | None = None,
     iri_terms: set | None = None,
     vocab_props: frozenset | set = frozenset(),
+    opaque_prefixes: frozenset | set = frozenset(),
 ) -> tuple[set, set]:
     """Recursive search for all terms in JSON-LD.
 
     Returns (vocab_terms, iri_terms): keys, @type values, and string values of
     @vocab-typed properties resolve through context term definitions, while @id
     and other string values only expand prefixes.
+
+    Values of predicates in `opaque_prefixes` are left alone: without a term list
+    for the namespace there is no way to tell a literal predicate from a node one.
     """
     if vocab_terms is None:
         vocab_terms = set()
@@ -144,7 +148,7 @@ def get_all_terms(
                         target.add(el)
             elif not k.startswith("@"):
                 vocab_terms.add(k)
-                if k not in LITERAL_PREDICATES:
+                if k not in LITERAL_PREDICATES and k.split(":", 1)[0] not in opaque_prefixes:
                     target = vocab_terms if k in vocab_props else iri_terms
                     if isinstance(v, str):
                         target.add(v)
@@ -152,10 +156,10 @@ def get_all_terms(
                         for el in v:
                             if isinstance(el, str):
                                 target.add(el)
-            get_all_terms(v, vocab_terms, iri_terms, vocab_props)
+            get_all_terms(v, vocab_terms, iri_terms, vocab_props, opaque_prefixes)
     elif isinstance(obj, list):
         for i in obj:
-            get_all_terms(i, vocab_terms, iri_terms, vocab_props)
+            get_all_terms(i, vocab_terms, iri_terms, vocab_props, opaque_prefixes)
     return vocab_terms, iri_terms
 
 
@@ -207,7 +211,9 @@ def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> Non
 
     # Get all the terms in the json-ld
     vocab_props = mapped_context.get("_vocab", frozenset())
-    vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props)
+    # Prefixes the remote context declares but we have no term list for
+    opaque_prefixes = set(mapped_context.get("_declared", {})) - set(mapped_context)
+    vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props, opaque_prefixes=opaque_prefixes)
     raw_terms = vocab_terms | iri_terms
 
     # Separate out prefixed and non-prefixed terms
