@@ -10,23 +10,38 @@ from battinfoconverter_backend.auxiliary import LITERAL_PREDICATES
 
 logger = logging.getLogger(__name__)
 _MAPPED_TERMS: dict[str, list] | None = None
+_DECLARED_PREFIXES: dict[str, dict[str, str]] | None = None
 
 CONTEXT_DIR = Path(__file__).parent / "_context"
 
 
+def _load_cache() -> tuple[dict, dict]:
+    """Read the cached context files into the term and prefix maps."""
+    global _MAPPED_TERMS, _DECLARED_PREFIXES
+    if _MAPPED_TERMS is None or _DECLARED_PREFIXES is None:
+        terms: dict[str, list] = {}
+        declared: dict[str, dict[str, str]] = {}
+        for file in CONTEXT_DIR.glob("*.json"):
+            if file.name == "literal_predicates.json":
+                continue
+            with file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            prefixes = data.pop("_prefixes", {})
+            terms.update(data)
+            for namespace in data:
+                declared[namespace] = prefixes
+        _MAPPED_TERMS, _DECLARED_PREFIXES = terms, declared
+    return _MAPPED_TERMS, _DECLARED_PREFIXES
+
+
 def get_context() -> dict:
     """Get the mappings of URL: list of terms."""
-    global _MAPPED_TERMS  # noqa: PLW0603
-    if _MAPPED_TERMS is not None:
-        return _MAPPED_TERMS
-    _MAPPED_TERMS = {}
-    for file in CONTEXT_DIR.glob("*.json"):
-        if file.name == "literal_predicates.json":
-            continue
-        with file.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-        _MAPPED_TERMS.update(data)
-    return _MAPPED_TERMS
+    return _load_cache()[0]
+
+
+def get_declared_prefixes(namespace: str) -> dict[str, str]:
+    """Get the prefixes that the context of `namespace` declares itself."""
+    return _load_cache()[1].get(namespace, {})
 
 
 def find_similar_url(user_url: str) -> str | None:
@@ -36,6 +51,16 @@ def find_similar_url(user_url: str) -> str | None:
     if matches:
         return matches[0]
     return None
+
+
+def _add_declared_prefixes(existing_map: dict, namespace: str) -> None:
+    """Note prefixes the remote context declares, e.g. dcterms, so terms using them expand.
+
+    There are no cached term lists for these namespaces, so their terms are not checked.
+    """
+    declared = get_declared_prefixes(namespace)
+    if declared:
+        existing_map.setdefault("_declared", {}).update(declared)
 
 
 def map_context(
@@ -50,8 +75,10 @@ def map_context(
         if "_base" not in existing_map:
             if context in get_context():
                 existing_map["_base"] = get_context()[context]
+                _add_declared_prefixes(existing_map, context)
             elif (context_ns := context.replace("/context", "#")) in get_context():
                 existing_map["_base"] = get_context()[context_ns]
+                _add_declared_prefixes(existing_map, context_ns)
             else:
                 msg = f"The base context URL ({context}) is not a known namespace of BattINFO converter."
                 if errors == "raise":
@@ -139,6 +166,8 @@ def check_term_against_context(term: str, mapped_context: dict, *, warn_redundan
     if ":" in term:  # It is prefixed - check
         prefix, label = term.split(":", 1)
         if prefix not in mapped_context:
+            if prefix in mapped_context.get("_declared", {}):
+                return  # declared by the remote context, no term list to check against
             msg = f"Prefix '{prefix}' is not in the context"
             raise ValueError(msg)
         if label not in mapped_context[prefix]:
