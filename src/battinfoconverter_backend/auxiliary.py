@@ -444,6 +444,9 @@ def add_to_structure(
                 unit_map[unit],
             )
             _add_or_extend_list(parent, part, mp_entry)
+            # Register so later rows can target this quantity via 'type|<Class>'
+            data_container.register(parent_path, part, mp_entry, metadata, None, parent)
+            data_container.remember_last(tuple(traversed), mp_entry)
             break
 
         # ==============================================================
