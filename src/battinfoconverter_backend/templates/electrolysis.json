@@ -591,7 +591,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Catholyte solute A molarity ",
+            "Metadata": "Catholyte solute A molarity",
             "Value": 1,
             "Unit": "mol/L",
             "Priority": "required",
@@ -615,7 +615,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Catholyte volume  ",
+            "Metadata": "Catholyte volume",
             "Value": 100,
             "Unit": "mL",
             "Priority": "recommended",
@@ -863,7 +863,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Anolyte solute A molarity ",
+            "Metadata": "Anolyte solute A molarity",
             "Value": 1,
             "Unit": "mol/L",
             "Priority": "required",
@@ -887,7 +887,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Anolyte volume  ",
+            "Metadata": "Anolyte volume",
             "Value": 100,
             "Unit": "mL",
             "Priority": "recommended",
@@ -1489,7 +1489,7 @@
       {
         "Item": null,
         "ID": null,
-        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No additional ID is required. "
+        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No additional ID is required."
       },
       {
         "Item": "ElectrochemicalCell",
@@ -1909,7 +1909,7 @@
       {
         "Item": "Polytetrafluoroethylene",
         "ID": null,
-        "Note": "Teflon by Chemours (PTFE), Polyflon by Daikin (PTFE), "
+        "Note": "Teflon by Chemours (PTFE), Polyflon by Daikin (PTFE),"
       },
       {
         "Item": "PolyvinylideneFluoride",
@@ -2042,7 +2042,7 @@
         "Note": null
       },
       {
-        "Item": "Gas ",
+        "Item": "Gas",
         "ID": null,
         "Note": null
       },

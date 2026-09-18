@@ -1323,7 +1323,7 @@
       {
         "Item": "Aluminium",
         "ID": null,
-        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No unique is required. "
+        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No unique is required."
       },
       {
         "Item": "Copper",

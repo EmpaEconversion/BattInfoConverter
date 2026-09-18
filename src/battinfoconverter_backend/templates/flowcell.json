@@ -450,7 +450,6 @@
             "Comment": "Important if specific ontology class not available",
             "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
-          
           {
             "Metadata": "Negative electrode coating active material description",
             "Value": "Deposited from BiCl3 solution",
@@ -658,7 +657,7 @@
             "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-rdfs:comment"
           },
           {
-            "Metadata": "Positive electrolyte solute A molarity ",
+            "Metadata": "Positive electrolyte solute A molarity",
             "Value": 0.5,
             "Unit": "mol/L",
             "Priority": "required",
@@ -746,7 +745,7 @@
             "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-schema:productID"
           },
           {
-            "Metadata": "Positive electrolyte volume  ",
+            "Metadata": "Positive electrolyte volume",
             "Value": 30,
             "Unit": "mL",
             "Priority": "required",
@@ -1048,7 +1047,7 @@
             "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-rdfs:comment"
           },
           {
-            "Metadata": "Negative electrolyte solute A molarity ",
+            "Metadata": "Negative electrolyte solute A molarity",
             "Value": 1,
             "Unit": "mol/L",
             "Priority": "required",
@@ -1136,7 +1135,7 @@
             "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-schema:productID"
           },
           {
-            "Metadata": "Negative electrolyte volume  ",
+            "Metadata": "Negative electrolyte volume",
             "Value": 10,
             "Unit": "mL",
             "Priority": "required",
@@ -1350,7 +1349,7 @@
             "Ontology link": "hasSeparator-hasMeasuredProperty-Area"
           },
           {
-            "Metadata": "Membrane storage ",
+            "Metadata": "Membrane storage",
             "Value": "Water, >24 h, room temperature",
             "Unit": "No Unit",
             "Priority": "recommended",
@@ -1358,7 +1357,7 @@
             "Ontology link": "hasSeparator-rdfs:comment"
           },
           {
-            "Metadata": "Membrane pre-treatment ",
+            "Metadata": "Membrane pre-treatment",
             "Value": "Untreated membrane",
             "Unit": "No Unit",
             "Priority": "recommended",
