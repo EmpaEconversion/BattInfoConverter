@@ -3,7 +3,7 @@
 import logging
 from importlib.metadata import version
 from pathlib import Path
-from typing import IO
+from typing import IO, Any
 
 import pandas as pd
 from openpyxl import Workbook
@@ -21,12 +21,39 @@ logger = logging.getLogger(__name__)
 
 APP_VERSION = version("battinfoconverter-backend")
 
+# Cell types tested by an ElectrolysisTest rather than a BatteryTest
+ELECTROLYSIS_CELL_TYPES = {
+    "ElectrolyticCell",
+    "PhotoelectrolyticCell",
+    "Electrolyser",
+}
 
-def create_jsonld_with_conditions(
-    data_container: ExcelContainer,
-    *,
-    software_credit: str | None = None,
-) -> dict:
+ORGANIZATION_TYPE = "schema:ResearchOrganization"
+
+# The dataset type added alongside the test result type
+DATASET_TYPE = "dcat:Dataset"
+
+FIGURE_COMMENT = "Subfigure of associated peer-reviewed scientific publication containing this data"
+
+# @Extra sheet labels mapped to their predicate and how their cells are read,
+# in the order they appear in the output
+EXTRA_FIELDS: tuple[tuple[str, str, str], ...] = (
+    ("Title", "dcterms:title", "text"),
+    ("Description", "dcterms:description", "text"),
+    ("Authors", "dcterms:creator", "people"),
+    ("Publisher", "dcterms:publisher", "organization"),
+    ("License", "dcterms:license", "text"),
+    ("Date issued", "dcterms:issued", "date"),
+    ("Date published", "schema:datePublished", "date"),
+    ("Keywords", "dcat:keyword", "list"),
+    ("Dataset URL", "dcat:accessURL", "text"),
+    ("Dataset API URL", "dcat:endpointURL", "text"),
+    ("Citation", "schema:citation", "text"),
+    ("Figures", "schema:associatedMedia", "figures"),
+)
+
+
+def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     """Create JSON-LD structure based on the provided data container containing schema and context.
 
     This function extracts necessary information from the schema and context sheets of the provided
@@ -35,7 +62,6 @@ def create_jsonld_with_conditions(
 
     Args:
         data_container (ExcelContainer): ExcelContainer of the Excel file to be converted.
-        software_credit (str): String to add into comments for 'Software credit'.
 
     Returns:
         dict: A JSON-LD dictionary representing the structured information.
@@ -47,20 +73,6 @@ def create_jsonld_with_conditions(
     schema = data_container.data["schema"]
     context_toplevel = data_container.data["context_toplevel"]
     id_from_val: dict[str, str] = data_container.data["unique_id_map"]
-
-    filtered = schema.loc[schema["Metadata"].isin({"Schema version", "BattINFO CoinCellSchema version"}), "Value"]
-    schema_version = filtered.iloc[0] if not filtered.empty else None
-    if filtered.empty:
-        logger.warning("Missing schema version in the schema sheet")
-
-    filtered = schema.loc[schema["Metadata"] == "Schema name", "Value"]
-    if not filtered.empty:
-        schema_name = filtered.iloc[0]
-    elif "BattINFO CoinCellSchema version" in schema["Metadata"].to_numpy():
-        schema_name = "CoinCellSchema"
-    else:
-        schema_name = None
-        logger.warning("Missing schema version in the schema sheet")
 
     local_context: dict[str, str | dict] = {row["Item"]: row["Key"] for _, row in context_toplevel.iterrows()}
     # @vocab routes bare unit labels through the context's term definitions,
@@ -132,7 +144,11 @@ def create_jsonld_with_conditions(
             metadata=row["Metadata"],
         )
 
-    # Add or prepend root level comment
+    return jsonld
+
+
+def add_credit_comments(jsonld: dict, schema: pd.DataFrame, software_credit: str | None = None) -> None:
+    """Prepend the converter, template and software credit comments to the root node."""
     if software_credit:
         software_credit = f"Software credit: {software_credit}"
     else:
@@ -142,6 +158,21 @@ def create_jsonld_with_conditions(
             "developed at Empa, Swiss Federal Laboratories for Materials Science and Technology "
             "in the Laboratory Materials for Energy Conversion."
         )
+
+    filtered = schema.loc[schema["Metadata"].isin({"Schema version", "BattINFO CoinCellSchema version"}), "Value"]
+    schema_version = filtered.iloc[0] if not filtered.empty else None
+    if filtered.empty:
+        logger.warning("Missing schema version in the schema sheet")
+
+    filtered = schema.loc[schema["Metadata"] == "Schema name", "Value"]
+    if not filtered.empty:
+        schema_name = filtered.iloc[0]
+    elif "BattINFO CoinCellSchema version" in schema["Metadata"].to_numpy():
+        schema_name = "CoinCellSchema"
+    else:
+        schema_name = None
+        logger.warning("Missing schema version in the schema sheet")
+
     if schema_name and schema_version:
         schema_str = f"{schema_name} v{schema_version}"
     elif schema_name:
@@ -150,6 +181,7 @@ def create_jsonld_with_conditions(
         schema_str = f"unspecified schema v{schema_version}"
     else:
         schema_str = "unspecified"
+
     root_comment = [
         f"BattINFO Converter backend v{APP_VERSION}",
         f"Using template: {schema_str}",
@@ -159,8 +191,6 @@ def create_jsonld_with_conditions(
     if not isinstance(current_comment, list):
         current_comment = [current_comment]
     jsonld["rdfs:comment"] = [*root_comment, *current_comment]
-
-    return jsonld
 
 
 def reformat_json_rated_capacity(json_dict: dict) -> dict:
@@ -209,6 +239,110 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
         return json_dict
 
 
+def _is_yes(value: object) -> bool:
+    """Interpret an Excel yes/no cell."""
+    if isinstance(value, str):
+        return value.strip().lower() in {"yes", "y", "true", "1"}
+    return value is True or value == 1
+
+
+def _named_node(node_type: str, name: str, id_from_val: dict[str, str]) -> dict:
+    """Create a named node, with an @id if one is listed in @Classes."""
+    node = {"@type": node_type}
+    if name in id_from_val:
+        node["@id"] = id_from_val[name]
+    node["schema:name"] = name
+    return node
+
+
+def _parse_extra_rows(rows: list[list]) -> tuple[dict, list[dict]]:
+    """Split the @Extra rows into single-value fields and the list of authors.
+
+    Rows below the "Authors" row are an author name followed by any number of
+    affiliations.
+    """
+    fields: dict[str, list] = {}
+    authors: list[dict] = []
+    in_authors = False
+    for key, *values in rows:
+        if key == "Authors":
+            in_authors = True
+        elif in_authors:
+            authors.append({"name": str(key), "affiliations": [str(v) for v in values]})
+        elif values:
+            fields[str(key)] = values
+    return fields, authors
+
+
+def _author_node(author: dict, id_from_val: dict[str, str]) -> dict:
+    """Create a person node with its affiliations."""
+    person = _named_node("schema:Person", author["name"], id_from_val)
+    affiliations = [_named_node(ORGANIZATION_TYPE, aff, id_from_val) for aff in author["affiliations"]]
+    if affiliations:
+        person["schema:affiliation"] = affiliations[0] if len(affiliations) == 1 else affiliations
+    return person
+
+
+def _figure_node(labels: list, publication: str | None) -> dict:
+    """Create the node pointing at the figures of the publication holding this data."""
+    node: dict[str, Any] = {}
+    if publication:
+        node["@id"] = publication
+    node["rdfs:label"] = [str(label) for label in labels]
+    node["rdfs:comment"] = FIGURE_COMMENT
+    return node
+
+
+def _dataset_node(fields: dict[str, list], authors: list[dict], id_from_val: dict[str, str], result_type: str) -> dict:
+    """Create the test result node from the @Extra fields."""
+    output: dict[str, Any] = {"@type": [result_type, DATASET_TYPE]}
+    for label, predicate, kind in EXTRA_FIELDS:
+        values = authors if kind == "people" else fields.get(label, [])
+        if not values:
+            continue
+        if kind == "text":
+            output[predicate] = values[0]
+        elif kind == "date":
+            output[predicate] = aux.coerce_date_to_iso(values[0])
+        elif kind == "list":
+            output[predicate] = list(values)
+        elif kind == "people":
+            output[predicate] = [_author_node(author, id_from_val) for author in values]
+        elif kind == "organization":
+            output[predicate] = _named_node(ORGANIZATION_TYPE, values[0], id_from_val)
+        elif kind == "figures":
+            output[predicate] = _figure_node(values, fields.get("Publication DOI", [None])[0])
+    return output
+
+
+def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
+    """Move the cell under a test node with publication information, if requested in @Extra.
+
+    The test becomes the root node, the cell becomes its hasTestObject, and the
+    publication information is attached as its hasOutput. The test type follows
+    from the cell type. The cell keeps its own comments.
+    """
+    rows = data_container.data.get("extra_rows")
+    if not rows:
+        return jsonld
+    fields, authors = _parse_extra_rows(rows)
+    if not _is_yes(fields.get("Include this information", [None])[0]):
+        return jsonld
+    id_from_val: dict[str, str] = data_container.data["unique_id_map"]
+
+    cell_type = jsonld.get("@type", [])
+    cell_types = {cell_type} if isinstance(cell_type, str) else set(cell_type)
+    test_type = "ElectrolysisTest" if cell_types & ELECTROLYSIS_CELL_TYPES else "BatteryTest"
+
+    context = jsonld.pop("@context")
+    return {
+        "@context": context,
+        "@type": test_type,
+        "hasTestObject": jsonld,
+        "hasOutput": _dataset_node(fields, authors, id_from_val, f"{test_type}Result"),
+    }
+
+
 def convert_excel_to_jsonld(
     excel_file: str | Path | IO[bytes] | Workbook,
     *,
@@ -251,11 +385,10 @@ def convert_excel_to_jsonld(
 
     try:
         data_container = ExcelContainer(excel_file)
-        jsonld_output = create_jsonld_with_conditions(
-            data_container,
-            software_credit=software_credit,
-        )
+        jsonld_output = create_jsonld_with_conditions(data_container)
         jsonld_output = reformat_json_rated_capacity(jsonld_output)
+        jsonld_output = wrap_in_test(jsonld_output, data_container)
+        add_credit_comments(jsonld_output, data_container.data["schema"], software_credit)
         if validate:
             validate_jsonld(jsonld_output, errors="warn")
         return jsonld_output
