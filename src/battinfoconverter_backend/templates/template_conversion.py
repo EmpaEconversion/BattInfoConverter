@@ -249,13 +249,22 @@ def _read_keyed_rows(ws: Worksheet) -> list[dict]:
 def _write_keyed_rows(ws, rows: list[dict], empty: bool = False) -> None:
     """Write a keyed-rows sheet."""
     ws.column_dimensions["A"].width = COLUMN_WIDTHS.get("Metadata", 30)
+    for col in "BCD":
+        ws.column_dimensions[col].width = COLUMN_WIDTHS["Value"]
 
-    for row_idx, entry in enumerate(rows, 1):
+    row_idx = 0
+    in_list = False
+    for entry in rows:
         key = entry.get("key")
         is_subheader = entry.get("subheader", False)
         values = entry.get("values", [])
+        # Rows below a subheader are example list entries, dropped entirely
+        if empty and in_list and not is_subheader:
+            continue
+        in_list = in_list or is_subheader
         if empty and not is_subheader and key not in ROWS_TO_KEEP:
             values = []
+        row_idx += 1
 
         cell = ws.cell(row=row_idx, column=1, value=key)
         cell.font = Font(bold=entry.get("key_bold", True), size=11)
