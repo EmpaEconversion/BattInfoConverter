@@ -434,7 +434,6 @@
             "Comment": "Important if specific ontology class not available",
             "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
-          
           {
             "Metadata": "Negative electrode coating active material description",
             "Value": "Deposited from BiCl3 solution",
@@ -1511,6 +1510,114 @@
       }
     }
   },
+  "@Extra": {
+    "type": "keyed_rows",
+    "data": [
+      {
+        "key": "Include this info (yes/no) Test becomes root object",
+        "values": [
+          "No"
+        ]
+      },
+      {
+        "key": "Title",
+        "values": [
+          "Example dataset title"
+        ]
+      },
+      {
+        "key": "Description",
+        "values": [
+          "What the dataset contains, and anything needed to read it correctly."
+        ]
+      },
+      {
+        "key": "Keywords",
+        "values": [
+          "redox flow battery",
+          "electrochemical cell"
+        ]
+      },
+      {
+        "key": "Publisher",
+        "values": [
+          "Empa"
+        ]
+      },
+      {
+        "key": "License",
+        "values": [
+          "https://creativecommons.org/licenses/by/4.0/"
+        ]
+      },
+      {
+        "key": "Date issued",
+        "values": [
+          "2026-01-01"
+        ]
+      },
+      {
+        "key": "Date published",
+        "values": [
+          "2026-01-01"
+        ]
+      },
+      {
+        "key": "Publication DOI",
+        "values": [
+          "https://doi.org/10.1234/example.2026.001"
+        ]
+      },
+      {
+        "key": "Dataset URL",
+        "values": [
+          "https://doi.org/10.5281/zenodo.1234567"
+        ]
+      },
+      {
+        "key": "Dataset API URL",
+        "values": [
+          "https://zenodo.org/api/records/1234567"
+        ]
+      },
+      {
+        "key": "Citation",
+        "values": [
+          "F. Lastname et al., Example Journal 1, 100 (2026)."
+        ]
+      },
+      {
+        "key": "Figures",
+        "values": [
+          "Fig. 1a",
+          "Fig. 2b"
+        ]
+      },
+      {
+        "key": "Authors",
+        "values": [
+          "Affiliations"
+        ],
+        "subheader": true
+      },
+      {
+        "key": "Firstname Lastname",
+        "values": [
+          "Empa"
+        ],
+        "key_bold": false
+      },
+      {
+        "key": "Corsin Battaglia",
+        "values": [
+          "Empa",
+          "EPFL",
+          "ETH Zurich"
+        ],
+        "key_bold": false
+      }
+    ]
+  },
   "@Context": {
     "type": "table",
     "header": [
@@ -1674,6 +1781,16 @@
       {
         "Item": "Empa",
         "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Note": null
+      },
+      {
+        "Item": "EPFL",
+        "ID": "https://www.wikidata.org/wiki/Q262760",
+        "Note": null
+      },
+      {
+        "Item": "ETH Zurich",
+        "ID": "https://www.wikidata.org/wiki/Q11942",
         "Note": null
       },
       {
