@@ -28,6 +28,9 @@ ELECTROLYSIS_CELL_TYPES = {
     "Electrolyser",
 }
 
+# The @Extra row that switches the whole sheet on
+INCLUDE_FIELD = "Include this info (yes/no) Test becomes root object"
+
 ORGANIZATION_TYPE = "schema:ResearchOrganization"
 
 # The dataset type added alongside the test result type
@@ -326,7 +329,7 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     if not rows:
         return jsonld
     fields, authors = _parse_extra_rows(rows)
-    if not _is_yes(fields.get("Include this information", [None])[0]):
+    if not _is_yes(fields.get(INCLUDE_FIELD, [None])[0]):
         return jsonld
     id_from_val: dict[str, str] = data_container.data["unique_id_map"]
 
