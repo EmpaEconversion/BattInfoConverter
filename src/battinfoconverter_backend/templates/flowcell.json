@@ -1396,7 +1396,7 @@
             "Ontology link": "hasComponent-type|FlowField-hasDatumA-type|ChemicalName-hasStringValue"
           },
           {
-            "Metadata": "Flowfield materail chemical formula",
+            "Metadata": "Flowfield material chemical formula",
             "Value": "C",
             "Unit": "No Unit",
             "Priority": "required",
