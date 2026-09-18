@@ -10,6 +10,7 @@ from typing import IO
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
+from openpyxl.worksheet.worksheet import Worksheet
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,17 @@ def _read_excel_or_wb(
     return df.where(df.notna(), None)
 
 
+def _read_extra_rows(ws: Worksheet) -> list[list]:
+    """Read a sheet of label + variable-length value rows, dropping blank cells."""
+    rows = []
+    for row in ws.iter_rows(values_only=True):
+        cells = [c.strip() if isinstance(c, str) else c for c in row]
+        cells = [c for c in cells if c not in (None, "")]
+        if cells:
+            rows.append(cells)
+    return rows
+
+
 class ExcelContainer:
     """Wrapper for BattINFO Excel files.
 
@@ -47,6 +59,7 @@ class ExcelContainer:
         """Read all Excel sheets to dict of pandas dataframes."""
         wb = excel_file if isinstance(excel_file, Workbook) else load_workbook(excel_file, read_only=True)
         available_sheets = set(wb.sheetnames)
+        extra_rows = _read_extra_rows(wb["@Extra"]) if "@Extra" in available_sheets else None
         wb.close()
 
         def _find_sheet(candidates: list[str]) -> pd.DataFrame:
@@ -92,4 +105,5 @@ class ExcelContainer:
             "context_connector": context_connector,
             "unique_id": unique_id,
             "unique_id_map": unique_id_map,
+            "extra_rows": extra_rows,
         }
