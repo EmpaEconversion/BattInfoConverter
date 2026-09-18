@@ -77,7 +77,8 @@
                         "@type": "RealData",
                         "hasNumberValue": 560
                     },
-                    "hasMeasurementUnit": "MicroMetre"
+                    "hasMeasurementUnit": "MicroMetre",
+                    "rdfs:comment": "Positive electrode substrate thickness comment: Used two 280 µm carbon papers"
                 },
                 {
                     "@type": "Porosity",
@@ -101,7 +102,8 @@
                         "@type": "RealData",
                         "hasNumberValue": 450
                     },
-                    "hasMeasurementUnit": "MicroMetre"
+                    "hasMeasurementUnit": "MicroMetre",
+                    "rdfs:comment": "Positive electrode substrate thickness in cell comment: Thickness under compression"
                 },
                 {
                     "@type": "Weight",
@@ -112,10 +114,7 @@
                     "hasMeasurementUnit": "MilliGram"
                 }
             ],
-            "rdfs:comment": [
-                "Positive electrode substrate thickness comment: Used two 280 µm carbon papers",
-                "Positive electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
-            ]
+            "rdfs:comment": "Positive electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
         },
         "hasCoating": {
             "@type": "Coating",
@@ -186,7 +185,8 @@
                         "@type": "RealData",
                         "hasNumberValue": 560
                     },
-                    "hasMeasurementUnit": "MicroMetre"
+                    "hasMeasurementUnit": "MicroMetre",
+                    "rdfs:comment": "Negative electrode substrate thickness comment: Used two 280 µm carbon papers"
                 },
                 {
                     "@type": "Porosity",
@@ -210,7 +210,8 @@
                         "@type": "RealData",
                         "hasNumberValue": 450
                     },
-                    "hasMeasurementUnit": "MicroMetre"
+                    "hasMeasurementUnit": "MicroMetre",
+                    "rdfs:comment": "Negative electrode substrate thickness in cell comment: Thickness under compression"
                 },
                 {
                     "@type": "Weight",
@@ -221,10 +222,7 @@
                     "hasMeasurementUnit": "MilliGram"
                 }
             ],
-            "rdfs:comment": [
-                "Negative electrode substrate thickness comment: Used two 280 µm carbon papers",
-                "Negative electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
-            ]
+            "rdfs:comment": "Negative electrode substrate treatment (Untreated, Chemical, Thermal): Untreated electrode"
         },
         "hasCoating": {
             "@type": "Coating",

@@ -178,7 +178,7 @@
             "Unit": "No Unit",
             "Priority": "optional",
             "Comment": "Describe stacking of multiple electrode components or if single elctrode was used",
-            "Ontology link": "hasPositiveElectrode-hasSubstrate-rdfs:comment"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Positive electrode substrate porosity",
@@ -203,6 +203,14 @@
             "Priority": "recommended",
             "Comment": null,
             "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Positive electrode substrate thickness in cell comment",
+            "Value": "Thickness under compression",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Positive electrode weight",
@@ -360,7 +368,7 @@
             "Unit": "No Unit",
             "Priority": "optional",
             "Comment": "Describe stacking of multiple electrode components or if single elctrode was used",
-            "Ontology link": "hasNegativeElectrode-hasSubstrate-rdfs:comment"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Negative electrode substrate porosity",
@@ -385,6 +393,14 @@
             "Priority": "recommended",
             "Comment": null,
             "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Negative electrode substrate thickness in cell comment",
+            "Value": "Thickness under compression",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Negative electrode weight",
