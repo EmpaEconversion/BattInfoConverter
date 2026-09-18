@@ -413,7 +413,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Positive electrode coating active material mean particle size (leave blanc for films)",
+            "Metadata": "Positive electrode coating active material mean particle size (leave blank for films)",
             "Value": 0.007,
             "Unit": "um",
             "Priority": "optional",
@@ -1049,7 +1049,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Membrane type  (BilayerMembrane or leave blanc)",
+            "Metadata": "Membrane type  (BilayerMembrane or leave blank)",
             "Value": "BilayerMembrane",
             "Unit": "No Unit",
             "Priority": "optional",
@@ -1187,7 +1187,7 @@
         "color": "grey",
         "rows": [
           {
-            "Metadata": "Cell case type (FlowCell or leave blanc)",
+            "Metadata": "Cell case type (FlowCell or leave blank)",
             "Value": "FlowCell",
             "Unit": "No Unit",
             "Priority": "required",
@@ -1195,7 +1195,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Negative electrode gas compartment (FlowField or leave blanc)",
+            "Metadata": "Negative electrode gas compartment (FlowField or leave blank)",
             "Value": "FlowField",
             "Unit": "No Unit",
             "Priority": "required",
@@ -1251,7 +1251,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Anolyte compartement volume",
+            "Metadata": "Anolyte compartment volume",
             "Value": 0.065,
             "Unit": "mL",
             "Priority": "required",
@@ -1291,7 +1291,7 @@
             "Comment": null
           },
           {
-            "Metadata": "Positive electrode gas compartment (FlowField or leave blanc)",
+            "Metadata": "Positive electrode gas compartment (FlowField or leave blank)",
             "Value": "FlowField",
             "Unit": "No Unit",
             "Priority": "required",
@@ -1889,7 +1889,7 @@
       {
         "Item": "PolyArylAmmonium",
         "ID": null,
-        "Note": "Fumasep FAA by Fumtech (AEM)"
+        "Note": "Fumasep FAA by Fumatech (AEM)"
       },
       {
         "Item": "PolyetherEtherKetone",
