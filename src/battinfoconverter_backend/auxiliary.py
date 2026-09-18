@@ -164,6 +164,12 @@ def _merge_type(node: dict[str, Any], new_type: str) -> None:
             node["@type"] = [existing, new_type]
 
 
+def _has_type(node: dict[str, Any], wanted: str) -> bool:
+    """Return True if ``node`` carries ``wanted`` in its ``@type``."""
+    existing = node.get("@type")
+    return wanted in (existing if isinstance(existing, list) else [existing])
+
+
 def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -> None:
     """Append ``entry`` under ``node[key]``, normalizing to a list when needed.
 
@@ -444,6 +450,9 @@ def add_to_structure(
                 unit_map[unit],
             )
             _add_or_extend_list(parent, part, mp_entry)
+            # Register so later rows can target this quantity via 'type|<Class>'
+            data_container.register(parent_path, part, mp_entry, metadata, None, parent)
+            data_container.remember_last(tuple(traversed), mp_entry)
             break
 
         # ==============================================================
@@ -489,28 +498,25 @@ def add_to_structure(
                 _, desired_type = next_segment.split("|", 1)
                 logger.debug("Next node has type %s, will look for that", desired_type)
 
-            # Prefer a node that already has the desired @type
+            # Prefer a node that already has the desired @type.
+            # If multiple nodes have same type, score candidates on metadata label.
             selected = None
             if desired_type:
-                for entry in registry_entries:
-                    existing_type = entry["node"].get("@type")
-                    types = existing_type if isinstance(existing_type, list) else [existing_type]
-                    if desired_type in types:
-                        logger.debug("Found an existing node with type '%s'", desired_type)
-                        selected = entry
-                        break
+                typed = [e for e in registry_entries if _has_type(e["node"], desired_type)]
+                if typed:
+                    logger.debug("Found %d existing node(s) with type '%s'", len(typed), desired_type)
+                    selected = (
+                        typed[0] if len(typed) == 1 else _select_entry(metadata, typed, part, traversed, data_container)
+                    )
 
             if selected is None:
                 logger.debug("Could not find existing node with suffix, trying other strategies")
                 selected = _select_entry(metadata, registry_entries, part, traversed, data_container)
 
             # Discard the match if the type doesn't align
-            if selected is not None and desired_type:
-                existing_type = selected["node"].get("@type")
-                types = existing_type if isinstance(existing_type, list) else [existing_type]
-                if desired_type not in types:
-                    logger.debug("Couldn't find the desired type %s", desired_type)
-                    selected = None
+            if selected is not None and desired_type and not _has_type(selected["node"], desired_type):
+                logger.debug("Couldn't find the desired type %s", desired_type)
+                selected = None
 
             if selected is not None:
                 target_node = selected["node"]

@@ -80,7 +80,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.1.3",
+            "Value": "0.1.4",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -122,7 +122,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "CarbonPaper, CarbonFelt, CarbonCloth etc.",
-            "Ontology link": "hasPositiveElectrode-Substrate"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate"
           },
           {
             "Metadata": "Positive electrode substrate material class",
@@ -130,7 +130,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Ontology term, be as specific as possible",
-            "Ontology link": "hasPositiveElectrode-Substrate"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate"
           },
           {
             "Metadata": "Positive electrode substrate material chemical name",
@@ -138,7 +138,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasPositiveElectrode-Substrate-hasDatumA-type|ChemicalName-hasStringValue"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasDatumA-type|ChemicalName-hasStringValue"
           },
           {
             "Metadata": "Positive electrode substrate material chemical formula",
@@ -146,7 +146,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasPositiveElectrode-Substrate-hasDatumB-type|ChemicalFormula-hasStringValue"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
           {
             "Metadata": "Positive electrode substrate manufacturer",
@@ -154,7 +154,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-schema:manufacturer"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:manufacturer"
           },
           {
             "Metadata": "Positive electrode substrate manufacturer product ID",
@@ -162,7 +162,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-schema:productID"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-schema:productID"
           },
           {
             "Metadata": "Positive electrode substrate thickness",
@@ -170,7 +170,7 @@
             "Unit": "um",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-hasMeasuredProperty-Thickness"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
           },
           {
             "Metadata": "Positive electrode substrate thickness comment",
@@ -178,7 +178,7 @@
             "Unit": "No Unit",
             "Priority": "optional",
             "Comment": "Describe stacking of multiple electrode components or if single elctrode was used",
-            "Ontology link": "hasPositiveElectrode-Substrate-rdfs:comment"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Positive electrode substrate porosity",
@@ -186,7 +186,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-hasMeasuredProperty-Porosity"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Porosity"
           },
           {
             "Metadata": "Positive electrode geometric area",
@@ -194,7 +194,7 @@
             "Unit": "cm2",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-hasMeasuredProperty-Area"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Area"
           },
           {
             "Metadata": "Positive electrode thickness in cell (including compression)",
@@ -202,7 +202,15 @@
             "Unit": "um",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-hasMeasuredProperty-Thickness"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Positive electrode substrate thickness in cell comment",
+            "Value": "Thickness under compression",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Positive electrode weight",
@@ -210,7 +218,7 @@
             "Unit": "mg",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasPositiveElectrode-Substrate-hasMeasuredProperty-Weight"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Weight"
           },
           {
             "Metadata": "Positive electrode substrate treatment (Untreated, Chemical, Thermal)",
@@ -218,7 +226,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)",
-            "Ontology link": "hasPositiveElectrode-Substrate-rdfs:comment"
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-rdfs:comment"
           },
           {
             "Metadata": "Positive electrode coating active material type",
@@ -304,7 +312,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "CarbonPaper, CarbonFelt, CarbonCloth etc.",
-            "Ontology link": "hasNegativeElectrode-Substrate"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate"
           },
           {
             "Metadata": "Negative electrode substrate material class",
@@ -312,7 +320,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Ontology term, be as specific as possible",
-            "Ontology link": "hasNegativeElectrode-Substrate"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate"
           },
           {
             "Metadata": "Negative electrode substrate material chemical name",
@@ -320,7 +328,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasNegativeElectrode-Substrate-hasDatumA-type|ChemicalName-hasStringValue"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasDatumA-type|ChemicalName-hasStringValue"
           },
           {
             "Metadata": "Negative electrode substrate material chemical formula",
@@ -328,7 +336,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Important if specific ontology class not available",
-            "Ontology link": "hasNegativeElectrode-Substrate-hasDatumB-type|ChemicalFormula-hasStringValue"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
           {
             "Metadata": "Negative electrode substrate manufacturer",
@@ -336,7 +344,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-schema:manufacturer"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:manufacturer"
           },
           {
             "Metadata": "Negative electrode substrate product ID",
@@ -344,7 +352,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-schema:productID"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:productID"
           },
           {
             "Metadata": "Negative electrode substrate thickness",
@@ -352,7 +360,7 @@
             "Unit": "um",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-hasMeasuredProperty-Thickness"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
           },
           {
             "Metadata": "Negative electrode substrate thickness comment",
@@ -360,7 +368,7 @@
             "Unit": "No Unit",
             "Priority": "optional",
             "Comment": "Describe stacking of multiple electrode components or if single elctrode was used",
-            "Ontology link": "hasNegativeElectrode-Substrate-rdfs:comment"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Negative electrode substrate porosity",
@@ -368,7 +376,7 @@
             "Unit": "%",
             "Priority": "optional",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-hasMeasuredProperty-Porosity"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Porosity"
           },
           {
             "Metadata": "Negative electrode geometric area",
@@ -376,7 +384,7 @@
             "Unit": "cm2",
             "Priority": "required",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-hasMeasuredProperty-Area"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Area"
           },
           {
             "Metadata": "Negative electrode thickness in cell (including compression)",
@@ -384,7 +392,15 @@
             "Unit": "um",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-hasMeasuredProperty-Thickness"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Thickness"
+          },
+          {
+            "Metadata": "Negative electrode substrate thickness in cell comment",
+            "Value": "Thickness under compression",
+            "Unit": "No Unit",
+            "Priority": "recommended",
+            "Comment": null,
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-type|Thickness-rdfs:comment"
           },
           {
             "Metadata": "Negative electrode weight",
@@ -392,7 +408,7 @@
             "Unit": "mg",
             "Priority": "recommended",
             "Comment": null,
-            "Ontology link": "hasNegativeElectrode-Substrate-hasMeasuredProperty-Weight"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Weight"
           },
           {
             "Metadata": "Negative electrode substrate treatment (Untreated, Chemical, Thermal)",
@@ -400,7 +416,7 @@
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Describe treatment conditions (temperature, heat/cool rate, atmosphere, dwell time, etc.)",
-            "Ontology link": "hasNegativeElectrode-Substrate-rdfs:comment"
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-rdfs:comment"
           },
           {
             "Metadata": "Negative electrode coating active material type",
@@ -434,7 +450,6 @@
             "Comment": "Important if specific ontology class not available",
             "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-hasDatumB-type|ChemicalFormula-hasStringValue"
           },
-          
           {
             "Metadata": "Negative electrode coating active material description",
             "Value": "Deposited from BiCl3 solution",
@@ -642,7 +657,7 @@
             "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-rdfs:comment"
           },
           {
-            "Metadata": "Positive electrolyte solute A molarity ",
+            "Metadata": "Positive electrolyte solute A molarity",
             "Value": 0.5,
             "Unit": "mol/L",
             "Priority": "required",
@@ -730,7 +745,7 @@
             "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-schema:productID"
           },
           {
-            "Metadata": "Positive electrolyte volume  ",
+            "Metadata": "Positive electrolyte volume",
             "Value": 30,
             "Unit": "mL",
             "Priority": "required",
@@ -751,7 +766,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "Comment if calibrated differently",
-            "Ontology link": "hasCatholyte-hasMeasuredProperty-VolumeFlowRate-rdfs:comment"
+            "Ontology link": "hasCatholyte-hasMeasuredProperty-type|VolumeFlowRate-rdfs:comment"
           },
           {
             "Metadata": "Positive electrolyte pressure",
@@ -1032,7 +1047,7 @@
             "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-rdfs:comment"
           },
           {
-            "Metadata": "Negative electrolyte solute A molarity ",
+            "Metadata": "Negative electrolyte solute A molarity",
             "Value": 1,
             "Unit": "mol/L",
             "Priority": "required",
@@ -1120,7 +1135,7 @@
             "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-schema:productID"
           },
           {
-            "Metadata": "Negative electrolyte volume  ",
+            "Metadata": "Negative electrolyte volume",
             "Value": 10,
             "Unit": "mL",
             "Priority": "required",
@@ -1141,7 +1156,7 @@
             "Unit": "No Unit",
             "Priority": "recommended",
             "Comment": "Comment if calibrated differently",
-            "Ontology link": "hasAnolyte-hasMeasuredProperty-VolumeFlowRate-rdfs:comment"
+            "Ontology link": "hasAnolyte-hasMeasuredProperty-type|VolumeFlowRate-rdfs:comment"
           },
           {
             "Metadata": "Negative electrolyte pressure",
@@ -1334,7 +1349,7 @@
             "Ontology link": "hasSeparator-hasMeasuredProperty-Area"
           },
           {
-            "Metadata": "Membrane storage ",
+            "Metadata": "Membrane storage",
             "Value": "Water, >24 h, room temperature",
             "Unit": "No Unit",
             "Priority": "recommended",
@@ -1342,7 +1357,7 @@
             "Ontology link": "hasSeparator-rdfs:comment"
           },
           {
-            "Metadata": "Membrane pre-treatment ",
+            "Metadata": "Membrane pre-treatment",
             "Value": "Untreated membrane",
             "Unit": "No Unit",
             "Priority": "recommended",
@@ -1396,7 +1411,7 @@
             "Ontology link": "hasComponent-type|FlowField-hasDatumA-type|ChemicalName-hasStringValue"
           },
           {
-            "Metadata": "Flowfield materail chemical formula",
+            "Metadata": "Flowfield material chemical formula",
             "Value": "C",
             "Unit": "No Unit",
             "Priority": "required",
