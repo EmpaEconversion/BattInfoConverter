@@ -114,7 +114,7 @@ ROWS_TO_KEEP = {
     "Cell type",
     "Schema name",
     "Schema version",
-    "Include this information",
+    "Include this info (yes/no) Test becomes root object",
 }
 
 
