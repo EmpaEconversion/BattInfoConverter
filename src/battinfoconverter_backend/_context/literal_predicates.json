@@ -161,6 +161,7 @@
 "schema:color",
 "schema:colorSwatch",
 "schema:conditionsOfAccess",
+"schema:consumerNotice",
 "schema:contentRating",
 "schema:contentSize",
 "schema:contentUrl",
@@ -203,6 +204,7 @@
 "schema:gtin13",
 "schema:gtin14",
 "schema:gtin8",
+"schema:hasDigitalProductPassport",
 "schema:hasGS1DigitalLink",
 "schema:headline",
 "schema:honorificPrefix",
@@ -284,6 +286,7 @@
 "schema:softwareVersion",
 "schema:startTime",
 "schema:storageRequirements",
+"schema:substanceOfConcern",
 "schema:taxID",
 "schema:teaches",
 "schema:telephone",
@@ -325,6 +328,7 @@
 "hasSIConversionOffset",
 "schema:commentCount",
 "schema:copyrightYear",
+"schema:recycledContentPercentage",
 "schema:wordCount"
 ],
 "date": [
