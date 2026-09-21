@@ -1146,7 +1146,7 @@
           },
           {
             "Metadata": "Electrolyte volume",
-            "Value": 100,
+            "Value": 30,
             "Unit": "uL",
             "Priority": "required",
             "Comment": null,
@@ -1154,7 +1154,7 @@
           },
           {
             "Metadata": "Cell assembly sequence",
-            "Value": "CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid",
+            "Value": "CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid",
             "Unit": "No Unit",
             "Priority": "optional",
             "Comment": null,
