@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "1.1.18",
+            "Value": "1.2.0",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -1186,111 +1186,267 @@
       }
     }
   },
-  "@Extra": {
+  "@References": {
     "type": "keyed_rows",
     "data": [
       {
-        "key": "Include this info (yes/no) Test becomes root object",
+        "key": "References",
+        "type": "header"
+      },
+      {
+        "key": "Include references in metadata file (yes/no)",
         "values": [
-          "No"
+          "yes"
         ]
       },
       {
-        "key": "Title",
+        "key": "References for dataset",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Dataset name",
         "values": [
-          "Example dataset title"
+          "Dataset for publication \"Toward an autonomous robotic battery materials research platform powered by automated workflow and ontologized findable, accessible, interoperable, and reusable data management\""
         ]
       },
       {
-        "key": "Description",
+        "key": "Dataset description",
         "values": [
-          "What the dataset contains, and anything needed to read it correctly."
+          "This dataset comprises detailed data from 199 coin cell batteries featuring either NMC//graphite or LFP//graphite chemistries cycled for 1000 cycles. All batteries were assembled and cycled using the automated robotic battery materials research platform, Aurora, at Empa, the Swiss Federal Laboratories for Materials Science and Technology, within the Laboratory for Materials for Energy Conversion."
         ]
       },
       {
-        "key": "Keywords",
-        "values": [
-          "coincell",
-          "battery"
-        ]
-      },
-      {
-        "key": "Publisher",
+        "key": "Dataset publisher",
         "values": [
           "Empa"
         ]
       },
       {
-        "key": "License",
+        "key": "Dataset license",
         "values": [
           "https://creativecommons.org/licenses/by/4.0/"
         ]
       },
       {
-        "key": "Date issued",
+        "key": "Dataset date issued",
         "values": [
-          "2026-01-01"
+          "2025-06-01"
         ]
       },
       {
-        "key": "Date published",
+        "key": "Dataset date published",
         "values": [
-          "2026-01-01"
-        ]
-      },
-      {
-        "key": "Publication DOI",
-        "values": [
-          "https://doi.org/10.1234/example.2026.001"
+          "2025-06-01"
         ]
       },
       {
         "key": "Dataset URL",
         "values": [
-          "https://doi.org/10.5281/zenodo.1234567"
+          "https://doi.org/10.5281/zenodo.15481956"
         ]
       },
       {
         "key": "Dataset API URL",
         "values": [
-          "https://zenodo.org/api/records/1234567"
+          "https://zenodo.org/api/records/15481956"
         ]
       },
       {
-        "key": "Citation",
+        "key": "Dataset authorA",
         "values": [
-          "F. Lastname et al., Example Journal 1, 100 (2026)."
+          "Enea Svaluto-Ferro",
+          "Empa"
         ]
       },
       {
-        "key": "Figures",
+        "key": "Dataset authorB",
+        "values": [
+          "Graham Kimbell",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorC",
+        "values": [
+          "YeonJu Kim",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorD",
+        "values": [
+          "Nukorn Plainpan",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorE",
+        "values": [
+          "Benjamin Kunz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorF",
+        "values": [
+          "Lina Schulz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorG",
+        "values": [
+          "Raphael Läubli",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorH",
+        "values": [
+          "Maximilian Becker",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorJ",
+        "values": [
+          "Peter Kraus",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorK",
+        "values": [
+          "Ruben-Simon Kühnel",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorL",
+        "values": [
+          "Corsin Battaglia",
+          "Empa",
+          "ETH Zurich",
+          "EPFL"
+        ]
+      },
+      {
+        "key": "References for associated publications",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Associated publication DOI",
+        "values": [
+          "https://doi.org/10.1002/batt.202500155"
+        ]
+      },
+      {
+        "key": "Associated publication title",
+        "values": [
+          "Toward an Autonomous Robotic Battery Materials Research Platform Powered by Automated Workflow and Ontologized Findable, Accessible, Interoperable, and Reusable Data Management"
+        ]
+      },
+      {
+        "key": "Associated publication figures",
         "values": [
           "Fig. 1a",
           "Fig. 2b"
         ]
       },
       {
-        "key": "Authors",
+        "key": "Associated publication authorA",
         "values": [
-          "Affiliations"
-        ],
-        "subheader": true
-      },
-      {
-        "key": "Firstname Lastname",
-        "values": [
+          "Enea Svaluto-Ferro",
           "Empa"
-        ],
-        "key_bold": false
+        ]
       },
       {
-        "key": "Corsin Battaglia",
+        "key": "Associated publication authorB",
         "values": [
+          "Graham Kimbell",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorC",
+        "values": [
+          "YeonJu Kim",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorD",
+        "values": [
+          "Nukorn Plainpan",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorE",
+        "values": [
+          "Benjamin Kunz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorF",
+        "values": [
+          "Lina Schulz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorG",
+        "values": [
+          "Raphael Läubli",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorH",
+        "values": [
+          "Maximilian Becker",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorJ",
+        "values": [
+          "Peter Kraus",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorK",
+        "values": [
+          "Ruben-Simon Kühnel",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorL",
+        "values": [
+          "Corsin Battaglia",
           "Empa",
-          "EPFL",
-          "ETH Zurich"
-        ],
-        "key_bold": false
+          "ETH Zurich",
+          "EPFL"
+        ]
       }
     ]
   },
@@ -1546,6 +1702,26 @@
       {
         "Item": "Enea Svaluto-Ferro",
         "ID": "https://orcid.org/0009-0004-4673-7806",
+        "Note": null
+      },
+      {
+        "Item": "YeonJu Kim",
+        "ID": "https://orcid.org/0000-0003-3024-6370",
+        "Note": null
+      },
+      {
+        "Item": "David Reber",
+        "ID": "https://orcid.org/0000-0002-4426-8717",
+        "Note": null
+      },
+      {
+        "Item": "Peter Kraus",
+        "ID": "https://orcid.org/0000-0002-4359-5003",
+        "Note": null
+      },
+      {
+        "Item": "Ruben-Simon Kühnel",
+        "ID": "https://orcid.org/0000-0003-1542-2970",
         "Note": null
       },
       {
