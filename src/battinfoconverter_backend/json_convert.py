@@ -1,6 +1,7 @@
 """Functions to perform Excel -> JSON conversion."""
 
 import logging
+import re
 from importlib.metadata import version
 from pathlib import Path
 from typing import IO, Any
@@ -28,8 +29,9 @@ ELECTROLYSIS_CELL_TYPES = {
     "Electrolyser",
 }
 
-# The @Extra row that switches the whole sheet on
-INCLUDE_FIELD = "Include this info (yes/no) Test becomes root object"
+# The @References row that switches the whole sheet on, matched by its start so
+# the wording can carry a hint such as "(yes/no)"
+INCLUDE_FIELD = "Include references"
 
 ORGANIZATION_TYPE = "schema:ResearchOrganization"
 
@@ -38,22 +40,28 @@ DATASET_TYPE = "dcat:Dataset"
 
 FIGURE_COMMENT = "Subfigure of associated peer-reviewed scientific publication containing this data"
 
-# @Extra sheet labels mapped to their predicate and how their cells are read,
-# in the order they appear in the output
+# Labels of the @References rows describing the publication this data belongs to
+PUBLICATION_PREFIX = "Associated publication"
+
+# @References labels mapped to their predicate and how their cells are read,
+# in the order they appear in the output. Rows labelled with a trailing letter
+# (e.g. "Dataset authorA") are collected into one list, as elsewhere in the schema.
 EXTRA_FIELDS: tuple[tuple[str, str, str], ...] = (
-    ("Title", "dcterms:title", "text"),
-    ("Description", "dcterms:description", "text"),
-    ("Authors", "dcterms:creator", "people"),
-    ("Publisher", "dcterms:publisher", "organization"),
-    ("License", "dcterms:license", "text"),
-    ("Date issued", "dcterms:issued", "date"),
-    ("Date published", "schema:datePublished", "date"),
-    ("Keywords", "dcat:keyword", "list"),
+    ("Dataset name", "dcterms:title", "text"),
+    ("Dataset description", "dcterms:description", "text"),
+    ("Dataset author", "dcterms:creator", "people"),
+    ("Dataset publisher", "dcterms:publisher", "organization"),
+    ("Dataset license", "dcterms:license", "text"),
+    ("Dataset date issued", "dcterms:issued", "date"),
+    ("Dataset date published", "schema:datePublished", "date"),
+    ("Dataset keywords", "dcat:keyword", "list"),
     ("Dataset URL", "dcat:accessURL", "text"),
     ("Dataset API URL", "dcat:endpointURL", "text"),
-    ("Citation", "schema:citation", "text"),
-    ("Figures", "schema:associatedMedia", "figures"),
+    (PUBLICATION_PREFIX, "schema:associatedMedia", "publication"),
 )
+
+# A row label ending in a single capital, e.g. "Dataset authorA"
+_SUFFIXED_LABEL = re.compile(r"^(?P<base>.*[a-z])(?P<suffix>[A-Z])$")
 
 
 def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
@@ -258,23 +266,26 @@ def _named_node(node_type: str, name: str, id_from_val: dict[str, str]) -> dict:
     return node
 
 
-def _parse_extra_rows(rows: list[list]) -> tuple[dict, list[dict]]:
-    """Split the @Extra rows into single-value fields and the list of authors.
+def _parse_extra_rows(rows: list[list]) -> tuple[dict, dict]:
+    """Split the @References rows into single fields and groups of suffixed rows.
 
-    Rows below the "Authors" row are an author name followed by any number of
-    affiliations.
+    A row labelled with a trailing letter, e.g. "Dataset authorA", joins the group
+    "Dataset author"; each of its entries is a name followed by any affiliations.
     """
     fields: dict[str, list] = {}
-    authors: list[dict] = []
-    in_authors = False
+    groups: dict[str, list[tuple[str, dict]]] = {}
     for key, *values in rows:
-        if key == "Authors":
-            in_authors = True
-        elif in_authors:
-            authors.append({"name": str(key), "affiliations": [str(v) for v in values]})
-        elif values:
-            fields[str(key)] = values
-    return fields, authors
+        if not values:
+            continue
+        label = str(key)
+        match = _SUFFIXED_LABEL.match(label)
+        if match:
+            name, *affiliations = values
+            entry = {"name": str(name), "affiliations": [str(v) for v in affiliations]}
+            groups.setdefault(match["base"], []).append((match["suffix"], entry))
+        else:
+            fields[label] = values
+    return fields, {base: [e for _, e in sorted(entries)] for base, entries in groups.items()}
 
 
 def _author_node(author: dict, id_from_val: dict[str, str]) -> dict:
@@ -286,21 +297,41 @@ def _author_node(author: dict, id_from_val: dict[str, str]) -> dict:
     return person
 
 
-def _figure_node(labels: list, publication: str | None) -> dict:
-    """Create the node pointing at the figures of the publication holding this data."""
+def _publication_node(fields: dict[str, list], groups: dict, id_from_val: dict[str, str]) -> dict | None:
+    """Create the node describing the publication this data belongs to."""
+
+    def first(suffix: str) -> str | None:
+        values = fields.get(f"{PUBLICATION_PREFIX} {suffix}", [])
+        return values[0] if values else None
+
+    doi, title = first("DOI"), first("title")
+    figures = fields.get(f"{PUBLICATION_PREFIX} figures", [])
+    authors = groups.get(f"{PUBLICATION_PREFIX} author", [])
+    if not any((doi, title, figures, authors)):
+        return None
+
     node: dict[str, Any] = {}
-    if publication:
-        node["@id"] = publication
-    node["rdfs:label"] = [str(label) for label in labels]
-    node["rdfs:comment"] = FIGURE_COMMENT
+    if doi:
+        node["@id"] = doi
+    if title:
+        node["dcterms:title"] = title
+    if authors:
+        node["dcterms:creator"] = [_author_node(author, id_from_val) for author in authors]
+    if figures:
+        node["rdfs:label"] = [str(label) for label in figures]
+        node["rdfs:comment"] = FIGURE_COMMENT
     return node
 
 
-def _dataset_node(fields: dict[str, list], authors: list[dict], id_from_val: dict[str, str], result_type: str) -> dict:
-    """Create the test result node from the @Extra fields."""
+def _dataset_node(fields: dict[str, list], groups: dict, id_from_val: dict[str, str], result_type: str) -> dict:
+    """Create the test result node from the @References rows."""
     output: dict[str, Any] = {"@type": [result_type, DATASET_TYPE]}
     for label, predicate, kind in EXTRA_FIELDS:
-        values = authors if kind == "people" else fields.get(label, [])
+        if kind == "publication":
+            if node := _publication_node(fields, groups, id_from_val):
+                output[predicate] = node
+            continue
+        values = groups.get(label, []) if kind == "people" else fields.get(label, [])
         if not values:
             continue
         if kind == "text":
@@ -313,8 +344,6 @@ def _dataset_node(fields: dict[str, list], authors: list[dict], id_from_val: dic
             output[predicate] = [_author_node(author, id_from_val) for author in values]
         elif kind == "organization":
             output[predicate] = _named_node(ORGANIZATION_TYPE, values[0], id_from_val)
-        elif kind == "figures":
-            output[predicate] = _figure_node(values, fields.get("Publication DOI", [None])[0])
     return output
 
 
@@ -328,8 +357,9 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     rows = data_container.data.get("extra_rows")
     if not rows:
         return jsonld
-    fields, authors = _parse_extra_rows(rows)
-    if not _is_yes(fields.get(INCLUDE_FIELD, [None])[0]):
+    fields, groups = _parse_extra_rows(rows)
+    include = next((v for label, v in fields.items() if label.startswith(INCLUDE_FIELD)), [None])
+    if not _is_yes(include[0]):
         return jsonld
     id_from_val: dict[str, str] = data_container.data["unique_id_map"]
 
@@ -342,7 +372,7 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
         "@context": context,
         "@type": test_type,
         "hasTestObject": jsonld,
-        "hasOutput": _dataset_node(fields, authors, id_from_val, f"{test_type}Result"),
+        "hasOutput": _dataset_node(fields, groups, id_from_val, f"{test_type}Result"),
     }
 
 

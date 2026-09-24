@@ -80,7 +80,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.1.4",
+            "Value": "0.2.0",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -1526,111 +1526,229 @@
       }
     }
   },
-  "@Extra": {
+  "@References": {
     "type": "keyed_rows",
     "data": [
       {
-        "key": "Include this info (yes/no) Test becomes root object",
+        "key": "References",
+        "type": "header"
+      },
+      {
+        "key": "Include references in metadata file (yes/no)",
         "values": [
-          "No"
+          "yes"
         ]
       },
       {
-        "key": "Title",
+        "key": "References for dataset",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Dataset name",
         "values": [
-          "Example dataset title"
+          "Dataset for publication 'Revalidating KCrPDTA for aqueous redox flow batteries'"
         ]
       },
       {
-        "key": "Description",
+        "key": "Dataset description",
         "values": [
-          "What the dataset contains, and anything needed to read it correctly."
+          "Data from 62 zero-gap redox flow battery cells featuring the KCrPDTA | K4Fe(CN)6 chemistry."
         ]
       },
       {
-        "key": "Keywords",
-        "values": [
-          "redox flow battery",
-          "electrochemical cell"
-        ]
-      },
-      {
-        "key": "Publisher",
+        "key": "Dataset publisher",
         "values": [
           "Empa"
         ]
       },
       {
-        "key": "License",
+        "key": "Dataset license",
         "values": [
           "https://creativecommons.org/licenses/by/4.0/"
         ]
       },
       {
-        "key": "Date issued",
+        "key": "Dataset date issued",
         "values": [
-          "2026-01-01"
+          "2026-08-05"
         ]
       },
       {
-        "key": "Date published",
+        "key": "Dataset date published",
         "values": [
-          "2026-01-01"
-        ]
-      },
-      {
-        "key": "Publication DOI",
-        "values": [
-          "https://doi.org/10.1234/example.2026.001"
+          "2026-08-05"
         ]
       },
       {
         "key": "Dataset URL",
         "values": [
-          "https://doi.org/10.5281/zenodo.1234567"
+          "https://doi.org/10.5281/zenodo.21805277"
         ]
       },
       {
         "key": "Dataset API URL",
         "values": [
-          "https://zenodo.org/api/records/1234567"
+          "https://zenodo.org/api/records/21805277"
         ]
       },
       {
-        "key": "Citation",
+        "key": "Dataset authorA",
         "values": [
-          "F. Lastname et al., Example Journal 1, 100 (2026)."
+          "Graham Kimbell",
+          "Empa"
         ]
       },
       {
-        "key": "Figures",
+        "key": "Dataset authorB",
+        "values": [
+          "Qirui Liu",
+          "Empa",
+          "ETH Zurich"
+        ]
+      },
+      {
+        "key": "Dataset authorC",
+        "values": [
+          "Jeonghoon Ahn",
+          "Empa",
+          "University of Bern"
+        ]
+      },
+      {
+        "key": "Dataset authorD",
+        "values": [
+          "Lina Camenisch",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorE",
+        "values": [
+          "Rohat Celik",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorF",
+        "values": [
+          "Talia Echeverria",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorG",
+        "values": [
+          "Baban Deep Virk",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorH",
+        "values": [
+          "Corsin Battaglia",
+          "Empa",
+          "ETH Zurich",
+          "EPFL"
+        ]
+      },
+      {
+        "key": "Dataset authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
+      },
+      {
+        "key": "References for associated publications",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Associated publication DOI",
+        "values": [
+          "https://doi.org/10.1039/d6eb00156d"
+        ]
+      },
+      {
+        "key": "Associated publication title",
+        "values": [
+          "Revalidating KCrPDTA for aqueous redox flow batteries"
+        ]
+      },
+      {
+        "key": "Associated publication figures",
         "values": [
           "Fig. 1a",
           "Fig. 2b"
         ]
       },
       {
-        "key": "Authors",
+        "key": "Associated publication authorA",
         "values": [
-          "Affiliations"
-        ],
-        "subheader": true
-      },
-      {
-        "key": "Firstname Lastname",
-        "values": [
+          "Graham Kimbell",
           "Empa"
-        ],
-        "key_bold": false
+        ]
       },
       {
-        "key": "Corsin Battaglia",
+        "key": "Associated publication authorB",
         "values": [
+          "Qirui Liu",
           "Empa",
-          "EPFL",
           "ETH Zurich"
-        ],
-        "key_bold": false
+        ]
+      },
+      {
+        "key": "Associated publication authorC",
+        "values": [
+          "Jeonghoon Ahn",
+          "Empa",
+          "University of Bern"
+        ]
+      },
+      {
+        "key": "Associated publication authorD",
+        "values": [
+          "Lina Camenisch",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorE",
+        "values": [
+          "Rohat Celik",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorF",
+        "values": [
+          "Talia Echeverria",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorG",
+        "values": [
+          "Baban Deep Virk",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorH",
+        "values": [
+          "Corsin Battaglia",
+          "Empa",
+          "ETH Zurich",
+          "EPFL"
+        ]
+      },
+      {
+        "key": "Associated publication authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
       }
     ]
   },
@@ -1790,8 +1908,48 @@
         "Note": null
       },
       {
+        "Item": "Baban Deep Virk",
+        "ID": "https://orcid.org/0009-0008-4669-0816",
+        "Note": null
+      },
+      {
+        "Item": "Corsin Battaglia",
+        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Note": null
+      },
+      {
         "Item": "David Reber",
         "ID": "https://orcid.org/0000-0002-4426-8717",
+        "Note": null
+      },
+      {
+        "Item": "Graham Kimbell",
+        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Note": null
+      },
+      {
+        "Item": "Jeonghoon Ahn",
+        "ID": "https://orcid.org/0009-0003-1336-468X",
+        "Note": null
+      },
+      {
+        "Item": "Lina Camenisch",
+        "ID": "https://orcid.org/0009-0003-3635-1216",
+        "Note": null
+      },
+      {
+        "Item": "Qirui Liu",
+        "ID": "https://orcid.org/0000-0002-1080-5131",
+        "Note": null
+      },
+      {
+        "Item": "Rohat Celik",
+        "ID": "https://orcid.org/0009-0003-5121-2222",
+        "Note": null
+      },
+      {
+        "Item": "Talia Echeverria",
+        "ID": "https://orcid.org/0009-0001-4487-0062",
         "Note": null
       },
       {
@@ -1807,6 +1965,11 @@
       {
         "Item": "ETH Zurich",
         "ID": "https://www.wikidata.org/wiki/Q11942",
+        "Note": null
+      },
+      {
+        "Item": "University of Bern",
+        "ID": "https://www.wikidata.org/wiki/Q659080",
         "Note": null
       },
       {

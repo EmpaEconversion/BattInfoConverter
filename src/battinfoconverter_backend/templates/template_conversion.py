@@ -107,15 +107,18 @@ COLUMN_WIDTHS = {
 SECTIONED_SHEETS = {"@Schema"}
 
 # These sheets are treated as keyed rows (label + variable-length list of values per row)
-KEYED_ROWS_SHEETS = {"@Extra"}
+KEYED_ROWS_SHEETS = {"@References"}
 
 # The values in these rows are kept even when --empty or empty=True is used
 ROWS_TO_KEEP = {
     "Cell type",
     "Schema name",
     "Schema version",
-    "Include this info (yes/no) Test becomes root object",
 }
+
+# Rows starting with this label switch the references on, and are off in empty templates
+INCLUDE_ROW_PREFIX = "Include references"
+INCLUDE_ROW_DEFAULT = "no"
 
 
 def _serialize(value: datetime | date | str | float | None) -> str | float | None:
@@ -176,16 +179,27 @@ def _get_headers(ws: Worksheet) -> list[str]:
 
 
 def _read_simple_table(ws: Worksheet) -> list[dict]:
-    """Convert a plain sheet into a list of row-dicts."""
-    rows = list(ws.iter_rows())
-    if not rows:
+    """Convert a plain sheet into a list of row-dicts.
+
+    Blank rows between entries are kept, as they space out groups of related items,
+    but the blank rows trailing the table are dropped - a sheet can claim to be a
+    million rows long.
+    """
+    rows = ws.iter_rows()
+    header_row = next(rows, None)
+    if header_row is None:
         return []
-    headers = [str(c.value) for c in rows[0] if c is not None]
+    headers = [str(c.value) for c in header_row if c.value is not None]
     result = []
-    for row in rows[1:]:
-        if all(v is None for v in row):
+    blank_run = 0
+    for row in rows:
+        values = [_serialize(c.value) for c in row]
+        if all(v is None for v in values):
+            blank_run += 1
             continue
-        result.append(dict(zip(headers, [_serialize(c.value) for c in row], strict=False)))
+        result.extend(dict.fromkeys(headers) for _ in range(blank_run))
+        blank_run = 0
+        result.append(dict(zip(headers, values, strict=False)))
     return result
 
 
@@ -225,9 +239,9 @@ def _read_sectioned_table(ws: Worksheet) -> dict[str, dict]:
 def _read_keyed_rows(ws: Worksheet) -> list[dict]:
     """Convert a sheet of label + variable-length value rows into a list of row-dicts.
 
-    Each row is `{"key": <col A>, "values": [remaining cells]}`.
-    A row marked `"subheader": True` has the first two cells bold
-    (used e.g. for the "Authors" / "Affiliations" mini-header).
+    Each row is `{"key": <col A>, "values": [remaining cells]}`. A bold row with no
+    values is the sheet title (`"type": "header"`) or, when it is filled with a
+    colour, a section title (`"type": "section"`) like those of the schema sheet.
     """
     rows = []
     for row in ws.iter_rows():
@@ -235,44 +249,49 @@ def _read_keyed_rows(ws: Worksheet) -> list[dict]:
             continue
         key = _serialize(row[0].value)
         values = [_serialize(c.value) for c in row[1:] if c.value is not None]
-        entry = {"key": key, "values": values}
-        key_bold = bool(row[0].font and row[0].font.b)
-        second_bold = len(row) > 1 and row[1].value is not None and bool(row[1].font and row[1].font.b)
-        if not key_bold:
-            entry["key_bold"] = False
-        if key_bold and second_bold:
-            entry["subheader"] = True
-        rows.append(entry)
+        if not values and row[0].font and row[0].font.b:
+            if row[0].fill and row[0].fill.patternType:
+                rows.append({"key": key, "type": "section", "color": _guess_color(row)})
+            else:
+                rows.append({"key": key, "type": "header"})
+            continue
+        rows.append({"key": key, "values": values})
     return rows
 
 
 def _write_keyed_rows(ws, rows: list[dict], empty: bool = False) -> None:
-    """Write a keyed-rows sheet."""
-    ws.column_dimensions["A"].width = COLUMN_WIDTHS.get("Metadata", 30)
-    for col in "BCD":
-        ws.column_dimensions[col].width = COLUMN_WIDTHS["Value"]
+    """Write a keyed-rows sheet, styled like the sectioned table."""
+    n_cols = max((len(entry.get("values", [])) + 1 for entry in rows), default=1)
+    ws.column_dimensions["A"].width = COLUMN_WIDTHS["Metadata"]
+    for col in range(2, n_cols + 1):
+        ws.column_dimensions[get_column_letter(col)].width = COLUMN_WIDTHS["Value"]
 
-    row_idx = 0
-    in_list = False
-    for entry in rows:
-        key = entry.get("key")
-        is_subheader = entry.get("subheader", False)
-        values = entry.get("values", [])
-        # Rows below a subheader are example list entries, dropped entirely
-        if empty and in_list and not is_subheader:
+    for row_idx, entry in enumerate(rows, 1):
+        kind = entry.get("type", "row")
+        cell = ws.cell(row=row_idx, column=1, value=entry.get("key"))
+
+        if kind == "header":
+            style_header(cell)
+            ws.row_dimensions[row_idx].height = 20
             continue
-        in_list = in_list or is_subheader
-        if empty and not is_subheader and key not in ROWS_TO_KEEP:
+
+        if kind == "section":
+            cell.font = Font(bold=True, size=11)
+            cell.alignment = Alignment(vertical="center")
+            fill = PatternFill("solid", fgColor=COLORS[entry.get("color", "grey")]["header"])
+            for col in range(1, n_cols + 1):
+                ws.cell(row=row_idx, column=col).fill = fill
+            continue
+
+        values = entry.get("values", [])
+        if empty and str(entry.get("key")).startswith(INCLUDE_ROW_PREFIX):
+            values = [INCLUDE_ROW_DEFAULT]
+        elif empty and entry.get("key") not in ROWS_TO_KEEP:
             values = []
-        row_idx += 1
-
-        cell = ws.cell(row=row_idx, column=1, value=key)
-        cell.font = Font(bold=entry.get("key_bold", True), size=11)
-
-        for col_idx, value in enumerate(values, 2):
-            vcell = ws.cell(row=row_idx, column=col_idx, value=value)
-            if is_subheader:
-                vcell.font = Font(bold=True, size=11)
+        cell.alignment = Alignment(horizontal="left", vertical="center")
+        for col, value in enumerate(values, 2):
+            vcell = ws.cell(row=row_idx, column=col, value=value)
+            vcell.alignment = Alignment(horizontal="left", vertical="center")
 
 
 def _write_simple_table(ws, columns: list[str], rows: list[dict]) -> None:

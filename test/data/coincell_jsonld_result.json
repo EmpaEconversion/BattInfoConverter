@@ -15,565 +15,538 @@
             }
         }
     ],
-    "@type": "CoinCell",
-    "schema:productID": "empa__ccid_123456",
-    "schema:name": "240616_bco_gr-NMC_01",
-    "schema:dateCreated": "2024-06-16",
-    "schema:manufacturer": {
-        "@type": "schema:Organization",
-        "schema:name": "Empa",
-        "@id": "https://www.wikidata.org/wiki/Q683116"
-    },
-    "schema:creator": {
-        "@type": "schema:Person",
-        "schema:name": "Corsin Battaglia",
-        "@id": "https://orcid.org/0000-0002-5003-1134"
-    },
-    "rdfs:comment": [
-        "BattINFO Converter backend v3.3.1",
-        "Using template: CoinCellSchema v1.1.18",
-        "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion.",
-        "Project: Battery2030+/PREMISE",
-        "Assembled manually or by robot: manually",
-        "Schema name: CoinCellSchema",
-        "Schema version: 1.1.18",
-        "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
-    ],
-    "hasPositiveElectrode": {
-        "@type": "Electrode",
-        "hasCurrentCollector": {
-            "@type": [
-                "CurrentCollector",
-                "Aluminium"
-            ],
-            "hasMeasuredProperty": {
-                "@type": "Thickness",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 15
-                },
-                "hasMeasurementUnit": "MicroMetre"
-            }
+    "@type": "BatteryTest",
+    "hasTestObject": {
+        "@type": "CoinCell",
+        "schema:productID": "empa__ccid_123456",
+        "schema:name": "240616_bco_gr-NMC_01",
+        "schema:dateCreated": "2024-06-16",
+        "schema:manufacturer": {
+            "@type": "schema:Organization",
+            "schema:name": "Empa",
+            "@id": "https://www.wikidata.org/wiki/Q683116"
         },
-        "hasCoating": {
-            "@type": "ElectrodeCoating",
-            "hasActiveMaterial": {
-                "@type": "LithiumNickelManganeseCobaltOxide",
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "molecularFormula",
-                        "hasStringValue": "LiNi0.6Mn0.2Co0.2O2"
+        "schema:creator": {
+            "@type": "schema:Person",
+            "schema:name": "Corsin Battaglia",
+            "@id": "https://orcid.org/0000-0002-5003-1134"
+        },
+        "rdfs:comment": [
+            "Project: Battery2030+/PREMISE",
+            "Assembled manually or by robot: manually",
+            "Schema name: CoinCellSchema",
+            "Schema version: 1.2.0",
+            "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
+        ],
+        "hasPositiveElectrode": {
+            "@type": "Electrode",
+            "hasCurrentCollector": {
+                "@type": [
+                    "CurrentCollector",
+                    "Aluminium"
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 15
                     },
-                    {
+                    "hasMeasurementUnit": "MicroMetre"
+                }
+            },
+            "hasCoating": {
+                "@type": "ElectrodeCoating",
+                "hasActiveMaterial": {
+                    "@type": "LithiumNickelManganeseCobaltOxide",
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "molecularFormula",
+                            "hasStringValue": "LiNi0.6Mn0.2Co0.2O2"
+                        },
+                        {
+                            "@type": "MassFraction",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 96
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "MassLoading",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 6.6
+                            },
+                            "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
+                        },
+                        {
+                            "@type": "D50ParticleSize",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 8
+                            },
+                            "hasMeasurementUnit": "MicroMetre"
+                        }
+                    ]
+                },
+                "hasBinder": {
+                    "@type": [
+                        "Binder",
+                        "PolyvinylideneFluoride"
+                    ],
+                    "hasMeasuredProperty": {
                         "@type": "MassFraction",
                         "hasNumericalPart": {
                             "@type": "RealData",
-                            "hasNumberValue": 96
+                            "hasNumberValue": 2
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                },
+                "hasConductiveAdditive": {
+                    "@type": [
+                        "ConductiveAdditive",
+                        "CarbonBlack"
+                    ],
+                    "hasMeasuredProperty": {
+                        "@type": "MassFraction",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 2
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                },
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "CalenderedCoatingThickness",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 16
+                        },
+                        "hasMeasurementUnit": "MicroMetre"
+                    },
+                    {
+                        "@type": "Porosity",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 35
                         },
                         "hasMeasurementUnit": "unit:PERCENT"
                     },
                     {
-                        "@type": "MassLoading",
+                        "@type": "Tortuosity",
                         "hasNumericalPart": {
                             "@type": "RealData",
-                            "hasNumberValue": 6.6
+                            "hasNumberValue": 2.5
                         },
-                        "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
-                    },
-                    {
-                        "@type": "D50ParticleSize",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 8
-                        },
-                        "hasMeasurementUnit": "MicroMetre"
+                        "hasMeasurementUnit": "UnitOne"
                     }
                 ]
             },
-            "hasBinder": {
-                "@type": [
-                    "Binder",
-                    "PolyvinylideneFluoride"
-                ],
-                "hasMeasuredProperty": {
-                    "@type": "MassFraction",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 2
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                }
-            },
-            "hasConductiveAdditive": {
-                "@type": [
-                    "ConductiveAdditive",
-                    "CarbonBlack"
-                ],
-                "hasMeasuredProperty": {
-                    "@type": "MassFraction",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 2
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                }
-            },
             "hasMeasuredProperty": [
                 {
-                    "@type": "CalenderedCoatingThickness",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 16
-                    },
-                    "hasMeasurementUnit": "MicroMetre"
-                },
-                {
-                    "@type": "Porosity",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 35
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                },
-                {
-                    "@type": "Tortuosity",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 2.5
-                    },
-                    "hasMeasurementUnit": "UnitOne"
-                }
-            ]
-        },
-        "hasMeasuredProperty": [
-            {
-                "@type": "RatedCapacity",
-                "@reverse": {
-                    "hasOutput": {
-                        "@type": "BatteryTest",
-                        "hasTestObject": {
-                            "ElectrochemicalCell": {
-                                "@type": "ElectrochemicalCell",
-                                "hasReferenceElectrode": {
-                                    "@type": "Lithium"
-                                }
-                            }
-                        },
-                        "hasMeasurementParameter": {
-                            "@type": [
-                                "ConstantCurrentConstantVoltageCycling"
-                            ],
-                            "rdfs:label": "GeneratedBatteryTestProcedure",
-                            "rdfs:comment": "A description of a generated battery testing procedure",
-                            "hasTask": {
-                                "@type": "Charging",
-                                "hasInput": [
-                                    {
-                                        "@type": "ElectricCurrentDensity",
-                                        "hasNumericalPart": {
-                                            "@type": "RealData",
-                                            "hasNumberValue": 0.1
-                                        },
-                                        "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
-                                    },
-                                    {
-                                        "@type": [
-                                            "UpperVoltageLimit",
-                                            "TerminationQuantity"
-                                        ],
-                                        "hasNumericalPart": {
-                                            "@type": "RealData",
-                                            "hasNumberValue": 4.2
-                                        },
-                                        "hasMeasurementUnit": "Volt"
+                    "@type": "RatedCapacity",
+                    "@reverse": {
+                        "hasOutput": {
+                            "@type": "BatteryTest",
+                            "hasTestObject": {
+                                "ElectrochemicalCell": {
+                                    "@type": "ElectrochemicalCell",
+                                    "hasReferenceElectrode": {
+                                        "@type": "Lithium"
                                     }
+                                }
+                            },
+                            "hasMeasurementParameter": {
+                                "@type": [
+                                    "ConstantCurrentConstantVoltageCycling"
                                 ],
-                                "hasNext": {
-                                    "@type": "VoltageHold",
+                                "rdfs:label": "GeneratedBatteryTestProcedure",
+                                "rdfs:comment": "A description of a generated battery testing procedure",
+                                "hasTask": {
+                                    "@type": "Charging",
                                     "hasInput": [
                                         {
-                                            "@type": "Voltage",
+                                            "@type": "ElectricCurrentDensity",
+                                            "hasNumericalPart": {
+                                                "@type": "RealData",
+                                                "hasNumberValue": 0.1
+                                            },
+                                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
+                                        },
+                                        {
+                                            "@type": [
+                                                "UpperVoltageLimit",
+                                                "TerminationQuantity"
+                                            ],
                                             "hasNumericalPart": {
                                                 "@type": "RealData",
                                                 "hasNumberValue": 4.2
                                             },
                                             "hasMeasurementUnit": "Volt"
-                                        },
-                                        {
-                                            "@type": [
-                                                "LowerCurrentDensityLimit",
-                                                "TerminationQuantity"
-                                            ],
-                                            "hasNumericalPart": {
-                                                "@type": "RealData",
-                                                "hasNumberValue": 0.01
-                                            },
-                                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
                                         }
                                     ],
                                     "hasNext": {
-                                        "@type": "Discharging",
+                                        "@type": "VoltageHold",
                                         "hasInput": [
                                             {
-                                                "@type": "ElectricCurrentDensity",
+                                                "@type": "Voltage",
                                                 "hasNumericalPart": {
                                                     "@type": "RealData",
-                                                    "hasNumberValue": 0.1
-                                                },
-                                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
-                                            },
-                                            {
-                                                "@type": [
-                                                    "LowerVoltageLimit",
-                                                    "TerminationQuantity"
-                                                ],
-                                                "hasNumericalPart": {
-                                                    "@type": "RealData",
-                                                    "hasNumberValue": 2.5
+                                                    "hasNumberValue": 4.2
                                                 },
                                                 "hasMeasurementUnit": "Volt"
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "@type": "RatedCapacity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 1.056
-                },
-                "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
-            },
-            {
-                "@type": "RatedCapacity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 160
-                },
-                "hasMeasurementUnit": "unit:MilliA-HR-PER-GM"
-            },
-            {
-                "@type": "Diameter",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 14
-                },
-                "hasMeasurementUnit": "MilliMetre"
-            }
-        ],
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "schema:name": "Customcells",
-            "@id": "https://www.wikidata.org/wiki/Q120784603"
-        },
-        "schema:productID": "100000030"
-    },
-    "hasNegativeElectrode": {
-        "@type": "Electrode",
-        "hasCurrentCollector": {
-            "@type": [
-                "CurrentCollector",
-                "Copper"
-            ],
-            "hasMeasuredProperty": {
-                "@type": "Thickness",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 15
-                },
-                "hasMeasurementUnit": "MicroMetre"
-            }
-        },
-        "hasCoating": {
-            "@type": "ElectrodeCoating",
-            "hasActiveMaterial": {
-                "@type": "Graphite",
-                "hasMeasuredProperty": [
-                    {
-                        "@type": "MassFraction",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 95
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    },
-                    {
-                        "@type": "MassLoading",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 3.4
-                        },
-                        "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
-                    },
-                    {
-                        "@type": "D50ParticleSize",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 10
-                        },
-                        "hasMeasurementUnit": "MicroMetre"
-                    }
-                ]
-            },
-            "hasBinder": {
-                "@type": [
-                    "Binder",
-                    "PolyvinylideneFluoride"
-                ],
-                "hasMeasuredProperty": {
-                    "@type": "MassFraction",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 3
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                }
-            },
-            "hasConductiveAdditive": {
-                "@type": [
-                    "ConductiveAdditive",
-                    "CarbonBlack"
-                ],
-                "hasMeasuredProperty": {
-                    "@type": "MassFraction",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 2
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                }
-            },
-            "hasMeasuredProperty": [
-                {
-                    "@type": "CalenderedCoatingThickness",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 20
-                    },
-                    "hasMeasurementUnit": "MicroMetre"
-                },
-                {
-                    "@type": "Porosity",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 35
-                    },
-                    "hasMeasurementUnit": "unit:PERCENT"
-                },
-                {
-                    "@type": "Tortuosity",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 2.5
-                    },
-                    "hasMeasurementUnit": "UnitOne"
-                }
-            ]
-        },
-        "hasMeasuredProperty": [
-            {
-                "@type": "RatedCapacity",
-                "@reverse": {
-                    "hasOutput": {
-                        "@type": "BatteryTest",
-                        "hasTestObject": {
-                            "ElectrochemicalHalfCell": {
-                                "@type": "ElectrochemicalHalfCell",
-                                "hasReferenceElectrode": {
-                                    "@type": "Lithium"
-                                }
-                            }
-                        },
-                        "hasMeasurementParameter": {
-                            "@type": [
-                                "ConstantCurrentConstantVoltageCycling"
-                            ],
-                            "rdfs:label": "GeneratedBatteryTestProcedure",
-                            "rdfs:comment": "A description of a generated battery testing procedure",
-                            "hasTask": {
-                                "@type": "Discharging",
-                                "hasInput": [
-                                    {
-                                        "@type": "ElectricCurrentDensity",
-                                        "hasNumericalPart": {
-                                            "@type": "RealData",
-                                            "hasNumberValue": 0.1
-                                        },
-                                        "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
-                                    },
-                                    {
-                                        "@type": [
-                                            "LowerVoltageLimit",
-                                            "TerminationQuantity"
-                                        ],
-                                        "hasNumericalPart": {
-                                            "@type": "RealData",
-                                            "hasNumberValue": 0.01
-                                        },
-                                        "hasMeasurementUnit": "Volt"
-                                    }
-                                ],
-                                "hasNext": {
-                                    "@type": "VoltageHold",
-                                    "hasInput": [
-                                        {
-                                            "@type": "Voltage",
-                                            "hasNumericalPart": {
-                                                "@type": "RealData",
-                                                "hasNumberValue": 0.01
-                                            },
-                                            "hasMeasurementUnit": "Volt"
-                                        },
-                                        {
-                                            "@type": [
-                                                "LowerCurrentDensityLimit",
-                                                "TerminationQuantity"
-                                            ],
-                                            "hasNumericalPart": {
-                                                "@type": "RealData",
-                                                "hasNumberValue": 0.01
-                                            },
-                                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
-                                        }
-                                    ],
-                                    "hasNext": {
-                                        "@type": "Charging",
-                                        "hasInput": [
-                                            {
-                                                "@type": "ElectricCurrentDensity",
-                                                "hasNumericalPart": {
-                                                    "@type": "RealData",
-                                                    "hasNumberValue": 0.1
-                                                },
-                                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
                                             },
                                             {
                                                 "@type": [
-                                                    "UpperVoltageLimit",
+                                                    "LowerCurrentDensityLimit",
                                                     "TerminationQuantity"
                                                 ],
                                                 "hasNumericalPart": {
                                                     "@type": "RealData",
                                                     "hasNumberValue": 0.01
                                                 },
-                                                "hasMeasurementUnit": "Volt"
+                                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
                                             }
-                                        ]
+                                        ],
+                                        "hasNext": {
+                                            "@type": "Discharging",
+                                            "hasInput": [
+                                                {
+                                                    "@type": "ElectricCurrentDensity",
+                                                    "hasNumericalPart": {
+                                                        "@type": "RealData",
+                                                        "hasNumberValue": 0.1
+                                                    },
+                                                    "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
+                                                },
+                                                {
+                                                    "@type": [
+                                                        "LowerVoltageLimit",
+                                                        "TerminationQuantity"
+                                                    ],
+                                                    "hasNumericalPart": {
+                                                        "@type": "RealData",
+                                                        "hasNumberValue": 2.5
+                                                    },
+                                                    "hasMeasurementUnit": "Volt"
+                                                }
+                                            ]
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            },
-            {
-                "@type": "RatedCapacity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 1.19
-                },
-                "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
-            },
-            {
-                "@type": "RatedCapacity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 350
-                },
-                "hasMeasurementUnit": "unit:MilliA-HR-PER-GM"
-            },
-            {
-                "@type": "Diameter",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 15
-                },
-                "hasMeasurementUnit": "MilliMetre"
-            }
-        ],
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "schema:name": "Customcells",
-            "@id": "https://www.wikidata.org/wiki/Q120784603"
-        },
-        "schema:productID": "11113, A-1594"
-    },
-    "hasElectrolyte": {
-        "@type": "OrganicElectrolyte",
-        "hasSolvent": {
-            "@type": "Solvent",
-            "hasConstituent": [
-                {
-                    "@type": "EthyleneCarbonate",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 30
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
                 },
                 {
-                    "@type": "EthylMethylCarbonate",
-                    "hasMeasuredProperty": {
-                        "@type": "VolumeFraction",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 70
-                        },
-                        "hasMeasurementUnit": "unit:PERCENT"
-                    }
-                }
-            ]
-        },
-        "hasSolute": {
-            "@type": "Solute",
-            "hasConstituent": [
-                {
-                    "@type": "LithiumHexafluorophosphate",
-                    "hasMeasuredProperty": {
-                        "@type": "AmountConcentration",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 1
-                        },
-                        "hasMeasurementUnit": "MolePerCubicDeciMetre"
-                    }
+                    "@type": "RatedCapacity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 1.056
+                    },
+                    "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
                 },
                 {
-                    "@type": "LithiumBisfluorosulfonylimide",
-                    "hasMeasuredProperty": {
-                        "@type": "AmountConcentration",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 0
-                        },
-                        "hasMeasurementUnit": "MolePerCubicDeciMetre"
-                    }
+                    "@type": "RatedCapacity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 160
+                    },
+                    "hasMeasurementUnit": "unit:MilliA-HR-PER-GM"
+                },
+                {
+                    "@type": "Diameter",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 14
+                    },
+                    "hasMeasurementUnit": "MilliMetre"
                 }
             ],
-            "hasAdditive": {
-                "@type": "Additive",
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Customcells",
+                "@id": "https://www.wikidata.org/wiki/Q120784603"
+            },
+            "schema:productID": "100000030"
+        },
+        "hasNegativeElectrode": {
+            "@type": "Electrode",
+            "hasCurrentCollector": {
+                "@type": [
+                    "CurrentCollector",
+                    "Copper"
+                ],
+                "hasMeasuredProperty": {
+                    "@type": "Thickness",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 15
+                    },
+                    "hasMeasurementUnit": "MicroMetre"
+                }
+            },
+            "hasCoating": {
+                "@type": "ElectrodeCoating",
+                "hasActiveMaterial": {
+                    "@type": "Graphite",
+                    "hasMeasuredProperty": [
+                        {
+                            "@type": "MassFraction",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 95
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        },
+                        {
+                            "@type": "MassLoading",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 3.4
+                            },
+                            "hasMeasurementUnit": "MilliGramPerSquareCentiMetre"
+                        },
+                        {
+                            "@type": "D50ParticleSize",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 10
+                            },
+                            "hasMeasurementUnit": "MicroMetre"
+                        }
+                    ]
+                },
+                "hasBinder": {
+                    "@type": [
+                        "Binder",
+                        "PolyvinylideneFluoride"
+                    ],
+                    "hasMeasuredProperty": {
+                        "@type": "MassFraction",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 3
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                },
+                "hasConductiveAdditive": {
+                    "@type": [
+                        "ConductiveAdditive",
+                        "CarbonBlack"
+                    ],
+                    "hasMeasuredProperty": {
+                        "@type": "MassFraction",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 2
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    }
+                },
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "CalenderedCoatingThickness",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 20
+                        },
+                        "hasMeasurementUnit": "MicroMetre"
+                    },
+                    {
+                        "@type": "Porosity",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 35
+                        },
+                        "hasMeasurementUnit": "unit:PERCENT"
+                    },
+                    {
+                        "@type": "Tortuosity",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 2.5
+                        },
+                        "hasMeasurementUnit": "UnitOne"
+                    }
+                ]
+            },
+            "hasMeasuredProperty": [
+                {
+                    "@type": "RatedCapacity",
+                    "@reverse": {
+                        "hasOutput": {
+                            "@type": "BatteryTest",
+                            "hasTestObject": {
+                                "ElectrochemicalHalfCell": {
+                                    "@type": "ElectrochemicalHalfCell",
+                                    "hasReferenceElectrode": {
+                                        "@type": "Lithium"
+                                    }
+                                }
+                            },
+                            "hasMeasurementParameter": {
+                                "@type": [
+                                    "ConstantCurrentConstantVoltageCycling"
+                                ],
+                                "rdfs:label": "GeneratedBatteryTestProcedure",
+                                "rdfs:comment": "A description of a generated battery testing procedure",
+                                "hasTask": {
+                                    "@type": "Discharging",
+                                    "hasInput": [
+                                        {
+                                            "@type": "ElectricCurrentDensity",
+                                            "hasNumericalPart": {
+                                                "@type": "RealData",
+                                                "hasNumberValue": 0.1
+                                            },
+                                            "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
+                                        },
+                                        {
+                                            "@type": [
+                                                "LowerVoltageLimit",
+                                                "TerminationQuantity"
+                                            ],
+                                            "hasNumericalPart": {
+                                                "@type": "RealData",
+                                                "hasNumberValue": 0.01
+                                            },
+                                            "hasMeasurementUnit": "Volt"
+                                        }
+                                    ],
+                                    "hasNext": {
+                                        "@type": "VoltageHold",
+                                        "hasInput": [
+                                            {
+                                                "@type": "Voltage",
+                                                "hasNumericalPart": {
+                                                    "@type": "RealData",
+                                                    "hasNumberValue": 0.01
+                                                },
+                                                "hasMeasurementUnit": "Volt"
+                                            },
+                                            {
+                                                "@type": [
+                                                    "LowerCurrentDensityLimit",
+                                                    "TerminationQuantity"
+                                                ],
+                                                "hasNumericalPart": {
+                                                    "@type": "RealData",
+                                                    "hasNumberValue": 0.01
+                                                },
+                                                "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
+                                            }
+                                        ],
+                                        "hasNext": {
+                                            "@type": "Charging",
+                                            "hasInput": [
+                                                {
+                                                    "@type": "ElectricCurrentDensity",
+                                                    "hasNumericalPart": {
+                                                        "@type": "RealData",
+                                                        "hasNumberValue": 0.1
+                                                    },
+                                                    "hasMeasurementUnit": "MilliAmperePerSquareCentiMetre"
+                                                },
+                                                {
+                                                    "@type": [
+                                                        "UpperVoltageLimit",
+                                                        "TerminationQuantity"
+                                                    ],
+                                                    "hasNumericalPart": {
+                                                        "@type": "RealData",
+                                                        "hasNumberValue": 0.01
+                                                    },
+                                                    "hasMeasurementUnit": "Volt"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "@type": "RatedCapacity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 1.19
+                    },
+                    "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
+                },
+                {
+                    "@type": "RatedCapacity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 350
+                    },
+                    "hasMeasurementUnit": "unit:MilliA-HR-PER-GM"
+                },
+                {
+                    "@type": "Diameter",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 15
+                    },
+                    "hasMeasurementUnit": "MilliMetre"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Customcells",
+                "@id": "https://www.wikidata.org/wiki/Q120784603"
+            },
+            "schema:productID": "11113, A-1594"
+        },
+        "hasElectrolyte": {
+            "@type": "OrganicElectrolyte",
+            "hasSolvent": {
+                "@type": "Solvent",
                 "hasConstituent": [
                     {
-                        "@type": "VinyleneCarbonate",
+                        "@type": "EthyleneCarbonate",
+                        "hasMeasuredProperty": {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 30
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    },
+                    {
+                        "@type": "EthylMethylCarbonate",
+                        "hasMeasuredProperty": {
+                            "@type": "VolumeFraction",
+                            "hasNumericalPart": {
+                                "@type": "RealData",
+                                "hasNumberValue": 70
+                            },
+                            "hasMeasurementUnit": "unit:PERCENT"
+                        }
+                    }
+                ]
+            },
+            "hasSolute": {
+                "@type": "Solute",
+                "hasConstituent": [
+                    {
+                        "@type": "LithiumHexafluorophosphate",
                         "hasMeasuredProperty": {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
                                 "@type": "RealData",
-                                "hasNumberValue": 0.16
+                                "hasNumberValue": 1
                             },
                             "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     },
                     {
-                        "@type": "TrisTrimethylsilyPhosphite",
+                        "@type": "LithiumBisfluorosulfonylimide",
                         "hasMeasuredProperty": {
                             "@type": "AmountConcentration",
                             "hasNumericalPart": {
@@ -583,154 +556,113 @@
                             "hasMeasurementUnit": "MolePerCubicDeciMetre"
                         }
                     }
-                ]
-            }
-        },
-        "hasMeasuredProperty": [
-            {
-                "@type": "ElectrolyticConductivity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 8
-                },
-                "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
-            },
-            {
-                "@type": "DynamicViscosity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 3
-                },
-                "hasMeasurementUnit": "MilliPascalSecond"
-            },
-            {
-                "@type": "Density",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 1.3
-                },
-                "hasMeasurementUnit": "GramPerCubicCentiMetre"
-            },
-            {
-                "@type": "CelsiusTemperature",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 25
-                },
-                "hasMeasurementUnit": "DegreeCelsius"
-            },
-            {
-                "@type": "Volume",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 30
-                },
-                "hasMeasurementUnit": "unit:MicroL"
-            }
-        ],
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "schema:name": "Solvionic",
-            "@id": "https://www.wikidata.org/wiki/Q30285492"
-        }
-    },
-    "hasSeparator": {
-        "@type": [
-            "Separator",
-            "Polypropylene"
-        ],
-        "hasMeasuredProperty": [
-            {
-                "@type": "Thickness",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 25
-                },
-                "hasMeasurementUnit": "MicroMetre"
-            },
-            {
-                "@type": "Porosity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 55
-                },
-                "hasMeasurementUnit": "unit:PERCENT"
-            },
-            {
-                "@type": "Tortuosity",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 2.5
-                },
-                "hasMeasurementUnit": "UnitOne"
-            },
-            {
-                "@type": "Diameter",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 16
-                },
-                "hasMeasurementUnit": "MilliMetre"
-            }
-        ],
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "schema:name": "Celgard",
-            "@id": "https://www.wikidata.org/wiki/Q122199856"
-        },
-        "schema:productID": "2500"
-    },
-    "hasCase": {
-        "@type": [
-            "R2032",
-            "StainlessSteel"
-        ],
-        "hasComponent": [
-            {
-                "@type": "CellLid",
-                "hasCoating": {
-                    "@type": "Aluminium"
+                ],
+                "hasAdditive": {
+                    "@type": "Additive",
+                    "hasConstituent": [
+                        {
+                            "@type": "VinyleneCarbonate",
+                            "hasMeasuredProperty": {
+                                "@type": "AmountConcentration",
+                                "hasNumericalPart": {
+                                    "@type": "RealData",
+                                    "hasNumberValue": 0.16
+                                },
+                                "hasMeasurementUnit": "MolePerCubicDeciMetre"
+                            }
+                        },
+                        {
+                            "@type": "TrisTrimethylsilyPhosphite",
+                            "hasMeasuredProperty": {
+                                "@type": "AmountConcentration",
+                                "hasNumericalPart": {
+                                    "@type": "RealData",
+                                    "hasNumberValue": 0
+                                },
+                                "hasMeasurementUnit": "MolePerCubicDeciMetre"
+                            }
+                        }
+                    ]
                 }
             },
-            {
-                "@type": "CellCan",
-                "hasCoating": {
-                    "@type": "Aluminium"
-                }
-            }
-        ],
-        "schema:manufacturer": {
-            "@type": "schema:Organization",
-            "schema:name": "Hohsen",
-            "@id": "https://www.wikidata.org/wiki/Q138027768"
-        },
-        "schema:productID": "2032, SUS316L"
-    },
-    "hasComponent": [
-        {
-            "@type": "Spring",
             "hasMeasuredProperty": [
                 {
-                    "@type": "Diameter",
+                    "@type": "ElectrolyticConductivity",
                     "hasNumericalPart": {
                         "@type": "RealData",
-                        "hasNumberValue": 15
+                        "hasNumberValue": 8
                     },
-                    "hasMeasurementUnit": "MilliMetre"
+                    "hasMeasurementUnit": "MilliSiemensPerCentiMetre"
                 },
+                {
+                    "@type": "DynamicViscosity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 3
+                    },
+                    "hasMeasurementUnit": "MilliPascalSecond"
+                },
+                {
+                    "@type": "Density",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 1.3
+                    },
+                    "hasMeasurementUnit": "GramPerCubicCentiMetre"
+                },
+                {
+                    "@type": "CelsiusTemperature",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 25
+                    },
+                    "hasMeasurementUnit": "DegreeCelsius"
+                },
+                {
+                    "@type": "Volume",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 30
+                    },
+                    "hasMeasurementUnit": "unit:MicroL"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Solvionic",
+                "@id": "https://www.wikidata.org/wiki/Q30285492"
+            }
+        },
+        "hasSeparator": {
+            "@type": [
+                "Separator",
+                "Polypropylene"
+            ],
+            "hasMeasuredProperty": [
                 {
                     "@type": "Thickness",
                     "hasNumericalPart": {
                         "@type": "RealData",
-                        "hasNumberValue": 1.4
+                        "hasNumberValue": 25
                     },
-                    "hasMeasurementUnit": "MilliMetre"
-                }
-            ]
-        },
-        {
-            "@type": "Spacer",
-            "hasMeasuredProperty": [
+                    "hasMeasurementUnit": "MicroMetre"
+                },
+                {
+                    "@type": "Porosity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 55
+                    },
+                    "hasMeasurementUnit": "unit:PERCENT"
+                },
+                {
+                    "@type": "Tortuosity",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 2.5
+                    },
+                    "hasMeasurementUnit": "UnitOne"
+                },
                 {
                     "@type": "Diameter",
                     "hasNumericalPart": {
@@ -738,16 +670,376 @@
                         "hasNumberValue": 16
                     },
                     "hasMeasurementUnit": "MilliMetre"
+                }
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Celgard",
+                "@id": "https://www.wikidata.org/wiki/Q122199856"
+            },
+            "schema:productID": "2500"
+        },
+        "hasCase": {
+            "@type": [
+                "R2032",
+                "StainlessSteel"
+            ],
+            "hasComponent": [
+                {
+                    "@type": "CellLid",
+                    "hasCoating": {
+                        "@type": "Aluminium"
+                    }
                 },
                 {
-                    "@type": "Thickness",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "MilliMetre"
+                    "@type": "CellCan",
+                    "hasCoating": {
+                        "@type": "Aluminium"
+                    }
                 }
-            ]
+            ],
+            "schema:manufacturer": {
+                "@type": "schema:Organization",
+                "schema:name": "Hohsen",
+                "@id": "https://www.wikidata.org/wiki/Q138027768"
+            },
+            "schema:productID": "2032, SUS316L"
+        },
+        "hasComponent": [
+            {
+                "@type": "Spring",
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "Diameter",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 15
+                        },
+                        "hasMeasurementUnit": "MilliMetre"
+                    },
+                    {
+                        "@type": "Thickness",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 1.4
+                        },
+                        "hasMeasurementUnit": "MilliMetre"
+                    }
+                ]
+            },
+            {
+                "@type": "Spacer",
+                "hasMeasuredProperty": [
+                    {
+                        "@type": "Diameter",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 16
+                        },
+                        "hasMeasurementUnit": "MilliMetre"
+                    },
+                    {
+                        "@type": "Thickness",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 1
+                        },
+                        "hasMeasurementUnit": "MilliMetre"
+                    }
+                ]
+            }
+        ]
+    },
+    "hasOutput": {
+        "@type": [
+            "BatteryTestResult",
+            "dcat:Dataset"
+        ],
+        "dcterms:title": "Dataset for publication \"Toward an autonomous robotic battery materials research platform powered by automated workflow and ontologized findable, accessible, interoperable, and reusable data management\"",
+        "dcterms:description": "This dataset comprises detailed data from 199 coin cell batteries featuring either NMC//graphite or LFP//graphite chemistries cycled for 1000 cycles. All batteries were assembled and cycled using the automated robotic battery materials research platform, Aurora, at Empa, the Swiss Federal Laboratories for Materials Science and Technology, within the Laboratory for Materials for Energy Conversion.",
+        "dcterms:creator": [
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0009-0004-4673-7806",
+                "schema:name": "Enea Svaluto-Ferro",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0001-9610-3589",
+                "schema:name": "Graham Kimbell",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0003-3024-6370",
+                "schema:name": "YeonJu Kim",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0009-0002-6447-8057",
+                "schema:name": "Nukorn Plainpan",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Benjamin Kunz",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Lina Schulz",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Raphael Läubli",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "schema:name": "Maximilian Becker",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0002-4426-8717",
+                "schema:name": "David Reber",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0002-4359-5003",
+                "schema:name": "Peter Kraus",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0003-1542-2970",
+                "schema:name": "Ruben-Simon Kühnel",
+                "schema:affiliation": {
+                    "@type": "schema:ResearchOrganization",
+                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "schema:name": "Empa"
+                }
+            },
+            {
+                "@type": "schema:Person",
+                "@id": "https://orcid.org/0000-0002-5003-1134",
+                "schema:name": "Corsin Battaglia",
+                "schema:affiliation": [
+                    {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    },
+                    {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q11942",
+                        "schema:name": "ETH Zurich"
+                    },
+                    {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q262760",
+                        "schema:name": "EPFL"
+                    }
+                ]
+            }
+        ],
+        "dcterms:publisher": {
+            "@type": "schema:ResearchOrganization",
+            "@id": "https://www.wikidata.org/wiki/Q683116",
+            "schema:name": "Empa"
+        },
+        "dcterms:license": "https://creativecommons.org/licenses/by/4.0/",
+        "dcterms:issued": "2025-06-01",
+        "schema:datePublished": "2025-06-01",
+        "dcat:accessURL": "https://doi.org/10.5281/zenodo.15481956",
+        "dcat:endpointURL": "https://zenodo.org/api/records/15481956",
+        "schema:associatedMedia": {
+            "@id": "https://doi.org/10.1002/batt.202500155",
+            "dcterms:title": "Toward an Autonomous Robotic Battery Materials Research Platform Powered by Automated Workflow and Ontologized Findable, Accessible, Interoperable, and Reusable Data Management",
+            "dcterms:creator": [
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0009-0004-4673-7806",
+                    "schema:name": "Enea Svaluto-Ferro",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0001-9610-3589",
+                    "schema:name": "Graham Kimbell",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0003-3024-6370",
+                    "schema:name": "YeonJu Kim",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0009-0002-6447-8057",
+                    "schema:name": "Nukorn Plainpan",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "schema:name": "Benjamin Kunz",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "schema:name": "Lina Schulz",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "schema:name": "Raphael Läubli",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "schema:name": "Maximilian Becker",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0002-4426-8717",
+                    "schema:name": "David Reber",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0002-4359-5003",
+                    "schema:name": "Peter Kraus",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0003-1542-2970",
+                    "schema:name": "Ruben-Simon Kühnel",
+                    "schema:affiliation": {
+                        "@type": "schema:ResearchOrganization",
+                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "schema:name": "Empa"
+                    }
+                },
+                {
+                    "@type": "schema:Person",
+                    "@id": "https://orcid.org/0000-0002-5003-1134",
+                    "schema:name": "Corsin Battaglia",
+                    "schema:affiliation": [
+                        {
+                            "@type": "schema:ResearchOrganization",
+                            "@id": "https://www.wikidata.org/wiki/Q683116",
+                            "schema:name": "Empa"
+                        },
+                        {
+                            "@type": "schema:ResearchOrganization",
+                            "@id": "https://www.wikidata.org/wiki/Q11942",
+                            "schema:name": "ETH Zurich"
+                        },
+                        {
+                            "@type": "schema:ResearchOrganization",
+                            "@id": "https://www.wikidata.org/wiki/Q262760",
+                            "schema:name": "EPFL"
+                        }
+                    ]
+                }
+            ],
+            "rdfs:label": [
+                "Fig. 1a",
+                "Fig. 2b"
+            ],
+            "rdfs:comment": "Subfigure of associated peer-reviewed scientific publication containing this data"
         }
+    },
+    "rdfs:comment": [
+        "BattINFO Converter backend v3.3.1",
+        "Using template: CoinCellSchema v1.2.0",
+        "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion."
     ]
 }
