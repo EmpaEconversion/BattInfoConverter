@@ -10,23 +10,38 @@ from battinfoconverter_backend.auxiliary import LITERAL_PREDICATES
 
 logger = logging.getLogger(__name__)
 _MAPPED_TERMS: dict[str, list] | None = None
+_DECLARED_PREFIXES: dict[str, dict[str, str]] | None = None
 
 CONTEXT_DIR = Path(__file__).parent / "_context"
 
 
+def _load_cache() -> tuple[dict, dict]:
+    """Read the cached context files into the term and prefix maps."""
+    global _MAPPED_TERMS, _DECLARED_PREFIXES
+    if _MAPPED_TERMS is None or _DECLARED_PREFIXES is None:
+        terms: dict[str, list] = {}
+        declared: dict[str, dict[str, str]] = {}
+        for file in CONTEXT_DIR.glob("*.json"):
+            if file.name == "literal_predicates.json":
+                continue
+            with file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+            prefixes = data.pop("_prefixes", {})
+            terms.update(data)
+            for namespace in data:
+                declared[namespace] = prefixes
+        _MAPPED_TERMS, _DECLARED_PREFIXES = terms, declared
+    return _MAPPED_TERMS, _DECLARED_PREFIXES
+
+
 def get_context() -> dict:
     """Get the mappings of URL: list of terms."""
-    global _MAPPED_TERMS  # noqa: PLW0603
-    if _MAPPED_TERMS is not None:
-        return _MAPPED_TERMS
-    _MAPPED_TERMS = {}
-    for file in CONTEXT_DIR.glob("*.json"):
-        if file.name == "literal_predicates.json":
-            continue
-        with file.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-        _MAPPED_TERMS.update(data)
-    return _MAPPED_TERMS
+    return _load_cache()[0]
+
+
+def get_declared_prefixes(namespace: str) -> dict[str, str]:
+    """Get the prefixes that the context of `namespace` declares itself."""
+    return _load_cache()[1].get(namespace, {})
 
 
 def find_similar_url(user_url: str) -> str | None:
@@ -36,6 +51,16 @@ def find_similar_url(user_url: str) -> str | None:
     if matches:
         return matches[0]
     return None
+
+
+def _add_declared_prefixes(existing_map: dict, namespace: str) -> None:
+    """Note prefixes the remote context declares, e.g. dcterms, so terms using them expand.
+
+    There are no cached term lists for these namespaces, so their terms are not checked.
+    """
+    declared = get_declared_prefixes(namespace)
+    if declared:
+        existing_map.setdefault("_declared", {}).update(declared)
 
 
 def map_context(
@@ -50,8 +75,10 @@ def map_context(
         if "_base" not in existing_map:
             if context in get_context():
                 existing_map["_base"] = get_context()[context]
+                _add_declared_prefixes(existing_map, context)
             elif (context_ns := context.replace("/context", "#")) in get_context():
                 existing_map["_base"] = get_context()[context_ns]
+                _add_declared_prefixes(existing_map, context_ns)
             else:
                 msg = f"The base context URL ({context}) is not a known namespace of BattINFO converter."
                 if errors == "raise":
@@ -93,12 +120,16 @@ def get_all_terms(
     vocab_terms: set | None = None,
     iri_terms: set | None = None,
     vocab_props: frozenset | set = frozenset(),
+    opaque_prefixes: frozenset | set = frozenset(),
 ) -> tuple[set, set]:
     """Recursive search for all terms in JSON-LD.
 
     Returns (vocab_terms, iri_terms): keys, @type values, and string values of
     @vocab-typed properties resolve through context term definitions, while @id
     and other string values only expand prefixes.
+
+    Values of predicates in `opaque_prefixes` are left alone: without a term list
+    for the namespace there is no way to tell a literal predicate from a node one.
     """
     if vocab_terms is None:
         vocab_terms = set()
@@ -117,7 +148,7 @@ def get_all_terms(
                         target.add(el)
             elif not k.startswith("@"):
                 vocab_terms.add(k)
-                if k not in LITERAL_PREDICATES:
+                if k not in LITERAL_PREDICATES and k.split(":", 1)[0] not in opaque_prefixes:
                     target = vocab_terms if k in vocab_props else iri_terms
                     if isinstance(v, str):
                         target.add(v)
@@ -125,10 +156,10 @@ def get_all_terms(
                         for el in v:
                             if isinstance(el, str):
                                 target.add(el)
-            get_all_terms(v, vocab_terms, iri_terms, vocab_props)
+            get_all_terms(v, vocab_terms, iri_terms, vocab_props, opaque_prefixes)
     elif isinstance(obj, list):
         for i in obj:
-            get_all_terms(i, vocab_terms, iri_terms, vocab_props)
+            get_all_terms(i, vocab_terms, iri_terms, vocab_props, opaque_prefixes)
     return vocab_terms, iri_terms
 
 
@@ -139,6 +170,8 @@ def check_term_against_context(term: str, mapped_context: dict, *, warn_redundan
     if ":" in term:  # It is prefixed - check
         prefix, label = term.split(":", 1)
         if prefix not in mapped_context:
+            if prefix in mapped_context.get("_declared", {}):
+                return  # declared by the remote context, no term list to check against
             msg = f"Prefix '{prefix}' is not in the context"
             raise ValueError(msg)
         if label not in mapped_context[prefix]:
@@ -178,7 +211,9 @@ def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> Non
 
     # Get all the terms in the json-ld
     vocab_props = mapped_context.get("_vocab", frozenset())
-    vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props)
+    # Prefixes the remote context declares but we have no term list for
+    opaque_prefixes = set(mapped_context.get("_declared", {})) - set(mapped_context)
+    vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props, opaque_prefixes=opaque_prefixes)
     raw_terms = vocab_terms | iri_terms
 
     # Separate out prefixed and non-prefixed terms

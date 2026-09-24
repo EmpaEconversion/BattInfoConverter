@@ -10,8 +10,34 @@ from typing import IO
 
 import pandas as pd
 from openpyxl import Workbook, load_workbook
+from openpyxl.worksheet.worksheet import Worksheet
 
 logger = logging.getLogger(__name__)
+
+
+# Column headers differ between template versions, map them to the names used downstream
+COLUMN_ALIASES = {
+    "Class": "Item",
+    "Predicate": "Item",
+    "Default Class": "Key",
+}
+
+# Headers whose wording varies, matched by their start
+COLUMN_PREFIX_ALIASES = {"Class IRI": "ID"}
+
+
+def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Rename the columns of a sheet to the canonical names."""
+    renames = {}
+    for col in df.columns:
+        if not isinstance(col, str):
+            continue
+        alias = COLUMN_ALIASES.get(col)
+        if alias is None:
+            alias = next((v for k, v in COLUMN_PREFIX_ALIASES.items() if col.startswith(k)), None)
+        if alias is not None and alias not in df.columns:
+            renames[col] = alias
+    return df.rename(columns=renames)
 
 
 def _strip_df(df: pd.DataFrame) -> pd.DataFrame:
@@ -31,8 +57,19 @@ def _read_excel_or_wb(
         df = pd.DataFrame(data, columns=headers)
     else:
         df = pd.read_excel(excel_file, sheet_name)
-    df = _strip_df(df)
+    df = _normalize_columns(_strip_df(df))
     return df.where(df.notna(), None)
+
+
+def _read_extra_rows(ws: Worksheet) -> list[list]:
+    """Read a sheet of label + variable-length value rows, dropping blank cells."""
+    rows = []
+    for row in ws.iter_rows(values_only=True):
+        cells = [c.strip() if isinstance(c, str) else c for c in row]
+        cells = [c for c in cells if c not in (None, "")]
+        if cells:
+            rows.append(cells)
+    return rows
 
 
 class ExcelContainer:
@@ -47,6 +84,7 @@ class ExcelContainer:
         """Read all Excel sheets to dict of pandas dataframes."""
         wb = excel_file if isinstance(excel_file, Workbook) else load_workbook(excel_file, read_only=True)
         available_sheets = set(wb.sheetnames)
+        extra_rows = _read_extra_rows(wb["@References"]) if "@References" in available_sheets else None
         wb.close()
 
         def _find_sheet(candidates: list[str]) -> pd.DataFrame:
@@ -92,4 +130,5 @@ class ExcelContainer:
             "context_connector": context_connector,
             "unique_id": unique_id,
             "unique_id_map": unique_id_map,
+            "extra_rows": extra_rows,
         }
