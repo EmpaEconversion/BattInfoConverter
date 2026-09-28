@@ -1,10 +1,14 @@
 """Tests for the @References sheet with dataset and publication information."""
 
 import copy
+import json
+from pathlib import Path
+from urllib.parse import quote
 
 import pytest
 from conftest import CellFixtures, normalize_jsonld
 from pyld import jsonld
+from rdflib import Graph, URIRef
 
 from battinfoconverter_backend.json_convert import INCLUDE_FIELD, convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import dict_to_workbook, workbook_to_dict
@@ -92,11 +96,11 @@ def test_references_wrap_cell_in_test(schema: CellFixtures, caplog: pytest.LogCa
     assert result["@type"] == [f"{test_type}Result", "dcat:Dataset"]
     assert result["dcterms:title"] == rows["Dataset name"][0]
     assert result["dcterms:description"] == rows["Dataset description"][0]
-    assert result["dcterms:license"] == rows["Dataset license"][0]
+    assert result["dcterms:license"] == {"@id": rows["Dataset license"][0]}
     assert result["dcterms:issued"] == rows["Dataset date issued"][0]
     assert result["schema:datePublished"] == rows["Dataset date published"][0]
-    assert result["dcat:accessURL"] == rows["Dataset URL"][0]
-    assert result["dcat:endpointURL"] == rows["Dataset API URL"][0]
+    assert result["dcat:accessURL"] == {"@id": rows["Dataset URL"][0]}
+    assert result["dcat:endpointURL"] == {"@id": rows["Dataset API URL"][0]}
 
     ids = _class_ids(template)
     publisher = rows["Dataset publisher"][0]
@@ -208,3 +212,146 @@ def test_declared_prefix_accepted_unknown_rejected(coincell: CellFixtures, caplo
     warnings = caplog.text.splitlines()
     assert [w for w in warnings if "bogus" in w]
     assert not [w for w in warnings if "dcterms" in w or "dcat" in w]
+
+
+SCHEMAS = {
+    "CoinCell": "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema",
+    "RedoxFlowBattery": "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema",
+    "ElectrolyticCell": "https://w3id.org/catalysis-data-format/schema",
+}
+IANA = "https://www.iana.org/assignments/media-types/"
+MEDIA_TYPES = {
+    ".parquet": "application/vnd.apache.parquet",
+    ".csv": "text/csv",
+    ".mpr": "application/octet-stream",
+}
+
+
+def test_data_files_become_distributions(schema: CellFixtures) -> None:
+    """Each data file row becomes a dcat:Distribution of the dataset."""
+    template = schema.template
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    rows = _rows(template)
+    files = [rows[k] for k in sorted(rows) if k.startswith("Data file")]
+    distributions = output["hasOutput"]["dcat:distribution"]
+
+    assert len(distributions) == len(files)
+    for node, (path, comment) in zip(distributions, files, strict=True):
+        assert node["@id"] == path
+        assert node["@type"] == "dcat:Distribution"
+        assert node["dcat:mediaType"] == {"@id": IANA + MEDIA_TYPES[Path(path).suffix]}
+        assert node["rdfs:comment"] == comment
+
+
+def test_tabular_files_get_the_schema_of_the_cell(schema: CellFixtures) -> None:
+    """Battery cells use the Battery Data Format, electrolysis cells the Catalysis one."""
+    output = convert_excel_to_jsonld(dict_to_workbook(schema.template), validate=False)
+    expected = SCHEMAS[output["hasTestObject"]["@type"]]
+    for node in output["hasOutput"]["dcat:distribution"]:
+        assert node["csvw:tableSchema"] == {"@id": expected}
+        # only CSV needs its dialect spelled out
+        assert ("csvw:dialect" in node) == node["@id"].endswith(".csv")
+
+
+def test_raw_files_are_inputs(schema: CellFixtures) -> None:
+    """Raw instrument files describe what went into the test, not what came out."""
+    template = schema.template
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    rows = _rows(template)
+    raw_paths = [rows[k][0] for k in sorted(rows) if k.startswith("Raw data file")]
+
+    node = output["hasInput"]
+    assert node["@type"] == ["RawData", "dcat:Dataset"]
+    assert [d["@id"] for d in node["dcat:distribution"]] == raw_paths
+    for distribution in node["dcat:distribution"]:
+        assert distribution["@type"] == ["dcat:Distribution", "RawData"]
+        # raw files are not tabular, so they carry no schema
+        assert "csvw:tableSchema" not in distribution
+    # and they are not repeated as outputs
+    assert not set(raw_paths) & {d["@id"] for d in output["hasOutput"]["dcat:distribution"]}
+
+
+def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
+    """The file's @id stays a path in the dataset, the download URL resolves on Zenodo."""
+    template = schema.template
+    rows = _rows(template)
+    record = rows["Dataset URL"][0].rsplit(".", 1)[-1]
+    zip_name = rows["Data zip file"][0]
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+
+    for node in output["hasOutput"]["dcat:distribution"]:
+        expected = f"https://zenodo.org/records/{record}/files/{quote(zip_name)}#{node['@id']}"
+        assert node["dcat:downloadURL"] == {"@id": expected}
+
+
+def test_download_url_without_a_zip_is_a_direct_file(coincell: CellFixtures) -> None:
+    """Without a zip the files are uploaded individually, so each gets a direct URL."""
+    template = _set_reference(coincell.template, "Data zip file", [])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    record = _rows(template)["Dataset URL"][0].rsplit(".", 1)[-1]
+    node = output["hasOutput"]["dcat:distribution"][0]
+    assert node["dcat:downloadURL"] == {"@id": f"https://zenodo.org/records/{record}/files/{node['@id']}"}
+
+
+def test_files_without_a_dataset_url_keep_their_paths(coincell: CellFixtures) -> None:
+    """Before the dataset is published there is no URL, but the files are still identified."""
+    template = _set_reference(coincell.template, "Dataset URL", [])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    for node in output["hasOutput"]["dcat:distribution"]:
+        assert node["@id"]
+        assert "dcat:downloadURL" not in node
+
+
+def test_file_paths_validate_but_mistyped_terms_do_not(coincell: CellFixtures) -> None:
+    """A file path in an @id is a relative reference, a bare word is a mistyped term."""
+    output = convert_excel_to_jsonld(dict_to_workbook(coincell.template), validate=True)
+    validate_jsonld(output, errors="raise")  # the file paths must not raise
+
+    output["hasOutput"]["dcat:distribution"].append({"@id": "ThisDoesNotExist"})
+    with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
+        validate_jsonld(output, errors="raise")
+
+
+def test_links_are_nodes_not_text(coincell: CellFixtures) -> None:
+    """URLs must stay links when merged into a document with another context."""
+    output = convert_excel_to_jsonld(dict_to_workbook(coincell.template), validate=False)
+    result = output["hasOutput"]
+    for key in ("dcterms:license", "dcat:accessURL", "dcat:endpointURL"):
+        assert set(result[key]) == {"@id"}
+    for key in ("dcat:downloadURL", "dcat:mediaType", "csvw:tableSchema"):
+        assert set(result["dcat:distribution"][0][key]) == {"@id"}
+
+    # Dropping the local context must not turn them into literals
+    bare = {
+        "@context": "https://w3id.org/emmo/domain/battery/context",
+        **{k: v for k, v in output.items() if k != "@context"},
+    }
+    graph = Graph().parse(data=json.dumps(bare), format="json-ld")
+    for predicate in (
+        "http://purl.org/dc/terms/license",
+        "http://www.w3.org/ns/dcat#accessURL",
+        "http://www.w3.org/ns/dcat#downloadURL",
+        "http://www.w3.org/ns/dcat#endpointURL",
+        "http://www.w3.org/ns/dcat#mediaType",
+        "http://www.w3.org/ns/csvw#tableSchema",
+    ):
+        objects = [o for _, p, o in graph if str(p) == predicate]
+        assert objects, predicate
+        assert all(isinstance(o, URIRef) for o in objects), predicate
+
+
+def test_values_that_cannot_be_links_stay_text_and_warn(
+    coincell: CellFixtures, caplog: pytest.LogCaptureFixture
+) -> None:
+    """A license or schema that is not a URL is kept as text, and the user is told once."""
+    template = _set_reference(coincell.template, "Dataset license", ["CC BY 4.0"])
+    template = _set_reference(template, "Tabular data schema", ["battery data format"])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+
+    assert output["hasOutput"]["dcterms:license"] == "CC BY 4.0"
+    assert output["hasOutput"]["dcat:distribution"][0]["csvw:tableSchema"] == "battery data format"
+
+    warnings = [w for w in caplog.text.splitlines() if "should be a URL" in w]
+    assert len(warnings) == 2  # one per row, not one per file
+    assert any("Dataset license" in w for w in warnings)
+    assert any("Tabular data schema" in w for w in warnings)

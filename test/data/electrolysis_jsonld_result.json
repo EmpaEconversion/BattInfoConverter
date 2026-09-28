@@ -781,6 +781,28 @@
             "schema:productID": "Micro Flow Cell"
         }
     },
+    "hasInput": {
+        "@type": [
+            "RawData",
+            "dcat:Dataset"
+        ],
+        "dcat:distribution": [
+            {
+                "@id": "empa__ecid000001/empa__ecid000001_CA_C01.mpr",
+                "@type": [
+                    "dcat:Distribution",
+                    "RawData"
+                ],
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                },
+                "rdfs:comment": "Raw electrochemical data, Biologic EC-Lab mpr binary format",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr"
+                }
+            }
+        ]
+    },
     "hasOutput": {
         "@type": [
             "ElectrolysisTestResult",
@@ -854,11 +876,52 @@
             "@id": "https://www.wikidata.org/wiki/Q683116",
             "schema:name": "Empa"
         },
-        "dcterms:license": "https://creativecommons.org/licenses/by/4.0/",
+        "dcterms:license": {
+            "@id": "https://creativecommons.org/licenses/by/4.0/"
+        },
         "dcterms:issued": "2026-08-25",
         "schema:datePublished": "2026-08-25",
-        "dcat:accessURL": "https://doi.org/10.5281/zenodo.22092428",
-        "dcat:endpointURL": "https://zenodo.org/api/records/22092428",
+        "dcat:accessURL": {
+            "@id": "https://doi.org/10.5281/zenodo.22092428"
+        },
+        "dcat:endpointURL": {
+            "@id": "https://zenodo.org/api/records/22092428"
+        },
+        "dcat:distribution": [
+            {
+                "@id": "empa__ecid000001/empa__ecid000001.cdf.parquet",
+                "@type": "dcat:Distribution",
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
+                },
+                "csvw:tableSchema": {
+                    "@id": "https://w3id.org/catalysis-data-format/schema"
+                },
+                "rdfs:comment": "Time series electrochemical data as parquet with Catalysis Data Format columns",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.parquet"
+                }
+            },
+            {
+                "@id": "empa__ecid000001/empa__ecid000001.cdf.csv",
+                "@type": "dcat:Distribution",
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/text/csv"
+                },
+                "csvw:tableSchema": {
+                    "@id": "https://w3id.org/catalysis-data-format/schema"
+                },
+                "csvw:dialect": {
+                    "@type": "csvw:Dialect",
+                    "csvw:delimiter": ",",
+                    "csvw:skipRows": 0
+                },
+                "rdfs:comment": "Time series electrochemical data as csv with Catalysis Data Format columns",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.csv"
+                }
+            }
+        ],
         "schema:associatedMedia": {
             "@id": "https://doi.org/10.1039/D6EY00140H",
             "dcterms:title": "Balancing selectivity retention and catalyst restructuring in pulsed CO2 electroreduction on silver",

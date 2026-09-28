@@ -1447,6 +1447,44 @@
           "ETH Zurich",
           "EPFL"
         ]
+      },
+      {
+        "key": "References for data files",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Data zip file",
+        "values": [
+          "Dataset-rocrate.zip"
+        ]
+      },
+      {
+        "key": "Tabular data schema",
+        "values": [
+          "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema"
+        ]
+      },
+      {
+        "key": "Data fileA",
+        "values": [
+          "empa__ccid000001/empa__ccid000001.bdf.parquet",
+          "Time series electrochemical data as parquet with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Data fileB",
+        "values": [
+          "empa__ccid000001/empa__ccid000001.bdf.csv",
+          "Time series electrochemical data as csv with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Raw data fileA",
+        "values": [
+          "empa__ccid000001/empa__ccid000001_GCPL_C01.mpr",
+          "Raw cycling data, Biologic EC-Lab binary mpr format"
+        ]
       }
     ]
   },

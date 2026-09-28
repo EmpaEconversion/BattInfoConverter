@@ -1749,6 +1749,44 @@
           "David Reber",
           "Empa"
         ]
+      },
+      {
+        "key": "References for data files",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Data zip file",
+        "values": [
+          "Dataset-rocrate.zip"
+        ]
+      },
+      {
+        "key": "Tabular data schema",
+        "values": [
+          "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema"
+        ]
+      },
+      {
+        "key": "Data fileA",
+        "values": [
+          "empa__fcid000001/empa__fcid000001.bdf.parquet",
+          "Time series electrochemical data as parquet with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Data fileB",
+        "values": [
+          "empa__fcid000001/empa__fcid000001.eis.bdf.parquet",
+          "Frequency domain data impedance data as parquet with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Raw data fileA",
+        "values": [
+          "empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
+          "Raw cycling data, Biologic EC-Lab mpr binary format"
+        ]
       }
     ]
   },
