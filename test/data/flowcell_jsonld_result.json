@@ -826,7 +826,7 @@
         ],
         "dcat:distribution": [
             {
-                "@id": "empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
+                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
                 "@type": [
                     "dcat:Distribution",
                     "RawData"
@@ -836,7 +836,7 @@
                 },
                 "rdfs:comment": "Raw cycling data, Biologic EC-Lab mpr binary format",
                 "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/21805277/files/Dataset-rocrate.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr"
+                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr"
                 }
             }
         ]
@@ -984,7 +984,7 @@
         },
         "dcat:distribution": [
             {
-                "@id": "empa__fcid000001/empa__fcid000001.bdf.parquet",
+                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.bdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
                     "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
@@ -994,11 +994,11 @@
                 },
                 "rdfs:comment": "Time series electrochemical data as parquet with Battery Data Format columns",
                 "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/21805277/files/Dataset-rocrate.zip#empa__fcid000001/empa__fcid000001.bdf.parquet"
+                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.bdf.parquet"
                 }
             },
             {
-                "@id": "empa__fcid000001/empa__fcid000001.eis.bdf.parquet",
+                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.eis.bdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
                     "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
@@ -1008,7 +1008,7 @@
                 },
                 "rdfs:comment": "Frequency domain data impedance data as parquet with Battery Data Format columns",
                 "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/21805277/files/Dataset-rocrate.zip#empa__fcid000001/empa__fcid000001.eis.bdf.parquet"
+                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.eis.bdf.parquet"
                 }
             }
         ],

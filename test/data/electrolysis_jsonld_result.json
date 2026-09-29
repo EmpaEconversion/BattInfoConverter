@@ -788,7 +788,7 @@
         ],
         "dcat:distribution": [
             {
-                "@id": "empa__ecid000001/empa__ecid000001_CA_C01.mpr",
+                "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr",
                 "@type": [
                     "dcat:Distribution",
                     "RawData"
@@ -889,7 +889,7 @@
         },
         "dcat:distribution": [
             {
-                "@id": "empa__ecid000001/empa__ecid000001.cdf.parquet",
+                "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
                     "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
@@ -903,7 +903,7 @@
                 }
             },
             {
-                "@id": "empa__ecid000001/empa__ecid000001.cdf.csv",
+                "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.csv",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
                     "@id": "https://www.iana.org/assignments/media-types/text/csv"

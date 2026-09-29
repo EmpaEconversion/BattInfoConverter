@@ -123,7 +123,7 @@ def test_references_wrap_cell_in_test(schema: CellFixtures, caplog: pytest.LogCa
 
 
 def _assert_people(nodes: list[dict], authors: list[tuple[str, list]], ids: dict) -> None:
-    """The people of a section, in sheet order, with their affiliations."""
+    """Check the people of a section, in sheet order, with their affiliations."""
     assert [node["schema:name"] for node in nodes] == [name for name, _ in authors]
     for node, (name, affiliations) in zip(nodes, authors, strict=True):
         # An ORCID or other ID is picked up from @Classes, absent if the person is not listed
@@ -227,6 +227,15 @@ MEDIA_TYPES = {
 }
 
 
+def _zenodo_url(rows: dict, path: str) -> str:
+    """Where a file of the dataset can be downloaded, the way the sheet describes it."""
+    record = rows["Dataset URL"][0].rsplit(".", 1)[-1]
+    zip_name = rows["Data zip file"][0] if rows.get("Data zip file") else None
+    if zip_name:
+        return f"https://zenodo.org/records/{record}/files/{quote(zip_name, safe='')}#{quote(path)}"
+    return f"https://zenodo.org/records/{record}/files/{quote(path)}"
+
+
 def test_data_files_become_distributions(schema: CellFixtures) -> None:
     """Each data file row becomes a dcat:Distribution of the dataset."""
     template = schema.template
@@ -237,7 +246,9 @@ def test_data_files_become_distributions(schema: CellFixtures) -> None:
 
     assert len(distributions) == len(files)
     for node, (path, comment) in zip(distributions, files, strict=True):
-        assert node["@id"] == path
+        # A published file is identified by where it can be downloaded
+        assert node["@id"] == _zenodo_url(rows, path)
+        assert "dcterms:identifier" not in node
         assert node["@type"] == "dcat:Distribution"
         assert node["dcat:mediaType"] == {"@id": IANA + MEDIA_TYPES[Path(path).suffix]}
         assert node["rdfs:comment"] == comment
@@ -262,7 +273,7 @@ def test_raw_files_are_inputs(schema: CellFixtures) -> None:
 
     node = output["hasInput"]
     assert node["@type"] == ["RawData", "dcat:Dataset"]
-    assert [d["@id"] for d in node["dcat:distribution"]] == raw_paths
+    assert [d["@id"] for d in node["dcat:distribution"]] == [_zenodo_url(rows, p) for p in raw_paths]
     for distribution in node["dcat:distribution"]:
         assert distribution["@type"] == ["dcat:Distribution", "RawData"]
         # raw files are not tabular, so they carry no schema
@@ -272,44 +283,82 @@ def test_raw_files_are_inputs(schema: CellFixtures) -> None:
 
 
 def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
-    """The file's @id stays a path in the dataset, the download URL resolves on Zenodo."""
+    """A zipped dataset has no URL per file, so the path within it is a fragment."""
     template = schema.template
     rows = _rows(template)
-    record = rows["Dataset URL"][0].rsplit(".", 1)[-1]
-    zip_name = rows["Data zip file"][0]
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    paths = [rows[k][0] for k in sorted(rows) if k.startswith("Data file")]
 
-    for node in output["hasOutput"]["dcat:distribution"]:
-        expected = f"https://zenodo.org/records/{record}/files/{quote(zip_name)}#{node['@id']}"
+    for node, path in zip(output["hasOutput"]["dcat:distribution"], paths, strict=True):
+        expected = _zenodo_url(rows, path)
+        assert "#" in expected
+        assert node["@id"] == expected
         assert node["dcat:downloadURL"] == {"@id": expected}
 
 
 def test_download_url_without_a_zip_is_a_direct_file(coincell: CellFixtures) -> None:
     """Without a zip the files are uploaded individually, so each gets a direct URL."""
     template = _set_reference(coincell.template, "Data zip file", [])
+    rows = _rows(template)
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
-    record = _rows(template)["Dataset URL"][0].rsplit(".", 1)[-1]
+
+    path = next(rows[k][0] for k in sorted(rows) if k.startswith("Data file"))
     node = output["hasOutput"]["dcat:distribution"][0]
-    assert node["dcat:downloadURL"] == {"@id": f"https://zenodo.org/records/{record}/files/{node['@id']}"}
+    assert node["@id"] == _zenodo_url(rows, path)
+    assert "#" not in node["@id"]
 
 
-def test_files_without_a_dataset_url_keep_their_paths(coincell: CellFixtures) -> None:
-    """Before the dataset is published there is no URL, but the files are still identified."""
+def test_unpublished_files_are_named_by_their_path(coincell: CellFixtures) -> None:
+    """With no dataset URL there is nothing to identify a file by, only its path."""
     template = _set_reference(coincell.template, "Dataset URL", [])
+    rows = _rows(template)
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
-    for node in output["hasOutput"]["dcat:distribution"]:
-        assert node["@id"]
+    paths = [rows[k][0] for k in sorted(rows) if k.startswith("Data file")]
+
+    for node, path in zip(output["hasOutput"]["dcat:distribution"], paths, strict=True):
+        # No invented IRI: the node is blank and carries the path as a literal
+        assert "@id" not in node
+        assert node["dcterms:identifier"] == path
         assert "dcat:downloadURL" not in node
 
 
-def test_file_paths_validate_but_mistyped_terms_do_not(coincell: CellFixtures) -> None:
-    """A file path in an @id is a relative reference, a bare word is a mistyped term."""
-    output = convert_excel_to_jsonld(dict_to_workbook(coincell.template), validate=True)
-    validate_jsonld(output, errors="raise")  # the file paths must not raise
+def test_unpublished_files_produce_no_relative_iris(coincell: CellFixtures) -> None:
+    """Without a dataset URL nothing in the document resolves against an invented base."""
+    template = _set_reference(coincell.template, "Dataset URL", [])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
 
-    output["hasOutput"]["dcat:distribution"].append({"@id": "ThisDoesNotExist"})
+    def ids(obj: dict | list, found: list) -> list:
+        if isinstance(obj, dict):
+            if isinstance(obj.get("@id"), str):
+                found.append(obj["@id"])
+            for value in obj.values():
+                ids(value, found)
+        elif isinstance(obj, list):
+            for value in obj:
+                ids(value, found)
+        return found
+
+    assert all(i.startswith(("http://", "https://")) for i in ids(output, []))
+    # so no tool has to guess a base, in either serialisation
+    assert not [i for i in ids(jsonld.expand(output), []) if "example.org" in i]
+    graph = Graph().parse(data=json.dumps(output), format="json-ld")
+    assert not [s for s in graph.subjects() if str(s).startswith("file:")]
+
+
+def test_file_identifiers_need_no_leniency_from_the_validator(coincell: CellFixtures) -> None:
+    """Files are identified absolutely or not at all, so strict validation passes."""
+    published = convert_excel_to_jsonld(dict_to_workbook(coincell.template), validate=True)
+    validate_jsonld(published, errors="raise")
+
+    unpublished = convert_excel_to_jsonld(
+        dict_to_workbook(_set_reference(coincell.template, "Dataset URL", [])), validate=True
+    )
+    validate_jsonld(unpublished, errors="raise")
+
+    # A prefixless word is still caught as a mistyped term
+    published["hasOutput"]["dcat:distribution"].append({"@id": "ThisDoesNotExist"})
     with pytest.raises(ValueError, match="'ThisDoesNotExist' was not found"):
-        validate_jsonld(output, errors="raise")
+        validate_jsonld(published, errors="raise")
 
 
 def test_links_are_nodes_not_text(coincell: CellFixtures) -> None:

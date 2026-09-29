@@ -356,27 +356,31 @@ def _download_url(path: str, record_id: str | None, zip_name: str | None) -> str
 def _distribution_node(cells: list, fields: dict[str, list], schema: object, *, raw: bool) -> dict:
     """Create the node describing one file of the dataset.
 
-    The row is a path within the dataset, optionally followed by a description.
+    The row is a path within the dataset, optionally followed by a description. A
+    published file is identified by where it can be downloaded; one that is not
+    published yet has no identifier, only its path within the dataset.
     """
     path, *rest = cells
     suffix = Path(path).suffix.lower()
-    media_type = MEDIA_TYPES.get(suffix, DEFAULT_MEDIA_TYPE)
-    node: dict[str, Any] = {
-        "@id": quote(path),
-        "@type": [DISTRIBUTION_TYPE, RAW_DATA_TYPE] if raw else DISTRIBUTION_TYPE,
-        "dcat:mediaType": {"@id": f"{IANA_MEDIA_TYPES}{media_type}"},
-    }
+    url = _download_url(
+        path,
+        _zenodo_record_id(fields.get("Dataset URL", [None])[0]),
+        fields.get(ZIP_FIELD, [None])[0],
+    )
+
+    node: dict[str, Any] = {}
+    if url:
+        node["@id"] = url
+    node["@type"] = [DISTRIBUTION_TYPE, RAW_DATA_TYPE] if raw else DISTRIBUTION_TYPE
+    if not url:
+        node["dcterms:identifier"] = path
+    node["dcat:mediaType"] = {"@id": f"{IANA_MEDIA_TYPES}{MEDIA_TYPES.get(suffix, DEFAULT_MEDIA_TYPE)}"}
     if schema and suffix in TABULAR_SUFFIXES:
         node["csvw:tableSchema"] = schema
         if suffix in (".csv", ".tsv"):
             node["csvw:dialect"] = dict(CSV_DIALECT)
     if rest and rest[0]:
         node["rdfs:comment"] = rest[0]
-    url = _download_url(
-        path,
-        _zenodo_record_id(fields.get("Dataset URL", [None])[0]),
-        fields.get(ZIP_FIELD, [None])[0],
-    )
     if url:
         node["dcat:downloadURL"] = {"@id": url}
     return node

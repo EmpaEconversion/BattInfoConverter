@@ -115,16 +115,6 @@ def map_context(
     return existing_map
 
 
-def _is_relative_reference(value: str) -> bool:
-    """Return True if an @id is a path within the document rather than a term.
-
-    A string containing "/" or "." is considered a data file, e.g.
-    "cell_01/cell_01.bdf.parquet" is a valid relative IRI reference that no
-    context resolves. A bare word with no prefix is taken to be a mistyped term.
-    """
-    return ":" not in value and ("/" in value or "." in value)
-
-
 def get_all_terms(
     obj: list | dict | str | float,
     vocab_terms: set | None = None,
@@ -136,8 +126,7 @@ def get_all_terms(
 
     Returns (vocab_terms, iri_terms): keys, @type values, and string values of
     @vocab-typed properties resolve through context term definitions, while @id
-    and other string values only expand prefixes. An @id holding a path is a
-    relative IRI reference and is left alone.
+    and other string values only expand prefixes.
 
     Values of predicates in `opaque_prefixes` are left alone: without a term list
     for the namespace there is no way to tell a literal predicate from a node one.
@@ -152,11 +141,11 @@ def get_all_terms(
                 continue  # Don't check context
             if k in {"@id", "@type"}:
                 target = vocab_terms if k == "@type" else iri_terms
-                values = [v] if isinstance(v, str) else v
-                for el in values:
-                    if k == "@id" and _is_relative_reference(el):
-                        continue
-                    target.add(el)
+                if isinstance(v, str):
+                    target.add(v)
+                elif isinstance(v, list):
+                    for el in v:
+                        target.add(el)
             elif not k.startswith("@"):
                 vocab_terms.add(k)
                 if k not in LITERAL_PREDICATES and k.split(":", 1)[0] not in opaque_prefixes:
