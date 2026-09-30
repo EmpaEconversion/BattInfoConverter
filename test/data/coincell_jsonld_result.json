@@ -37,7 +37,7 @@
         "Assembled manually or by robot: manually",
         "Schema name: CoinCellSchema",
         "Schema version: 1.1.18",
-        "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 100.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
+        "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
     ],
     "hasPositiveElectrode": {
         "@type": "Electrode",
@@ -623,7 +623,7 @@
                 "@type": "Volume",
                 "hasNumericalPart": {
                     "@type": "RealData",
-                    "hasNumberValue": 100
+                    "hasNumberValue": 30
                 },
                 "hasMeasurementUnit": "unit:MicroL"
             }
