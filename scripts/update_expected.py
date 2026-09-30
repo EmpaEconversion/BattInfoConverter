@@ -1,13 +1,7 @@
 """Script to update xlsx and json in test folder based on templates.
 
-Running this script will scan src/battinfoconverter_backend/templates for
-template files, convert to xlsx and jsonld at test/data.
-
-An xlsx is only written when its contents change, since openpyxl stamps the save
-time into every file it writes, which would otherwise show up as a diff in files
-that are the same as before.
-
-Read and check that the results are sensible before committing.
+Scan src/battinfoconverter_backend/templates for template files, converts to
+xlsx and jsonld at test/data.
 """
 
 import json
@@ -28,6 +22,7 @@ for template in Path("src/battinfoconverter_backend/templates").glob("*.json"):
     workbook = dict_to_workbook(data)
     unchanged = excel_path.exists() and workbook_to_dict(workbook) == xlsx_to_dict(excel_path)
     if unchanged:
+        # Don't write file - would still change metadata and create diff
         print(f"{template.stem}: xlsx unchanged")
     else:
         workbook.save(excel_path)
