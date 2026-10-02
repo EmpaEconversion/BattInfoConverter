@@ -12,6 +12,7 @@ from battinfoconverter_backend.templates.template_conversion import (
     dict_to_workbook,
     workbook_to_dict,
 )
+from battinfoconverter_backend.validate import did_you_mean, map_context, term_resolves
 
 
 def _filter_warnings(warnings: list[str]) -> list[str]:
@@ -100,6 +101,30 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     convert_excel_to_jsonld(wb)
     warnings = caplog.text.splitlines()
     assert not _filter_warnings(warnings)
+
+
+def test_template_classes_are_in_context(schema: CellFixtures) -> None:
+    """Every class offered on the @Classes sheet should exist in the ontology.
+
+    Users are not warned about this while converting, since a miss may only mean
+    our cached context is stale, so the templates are checked here instead.
+    """
+    rows = schema.template["@Classes"]["data"]
+    classes = [row[key] for row in rows for key in ("Class", "Item") if row.get(key)]
+    assert classes, "the @Classes sheet is empty"
+
+    mapped = map_context(
+        ["https://w3id.org/emmo/domain/battery/context", dict(_context_pairs(schema.template))],
+        errors="raise",
+    )
+    missing = [name for name in classes if not term_resolves(name, mapped)]
+    report = "\n".join(f"  {name}{did_you_mean(name, mapped) or ' no close match'}" for name in missing)
+    assert not missing, f"{len(missing)} @Classes entries are unknown to the context:\n{report}"
+
+
+def _context_pairs(template: dict) -> list[tuple[str, str]]:
+    """The @Context sheet as the converter builds it."""
+    return [(row["Item"], row["Key"]) for row in template["@Context"]["data"] if row.get("Item")]
 
 
 def test_template_gives_expected_jsonld(schema: CellFixtures) -> None:

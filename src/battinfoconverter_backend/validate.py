@@ -2,6 +2,7 @@
 
 import json
 import logging
+from collections.abc import Iterable
 from difflib import get_close_matches
 from pathlib import Path
 from typing import Literal
@@ -19,6 +20,9 @@ ErrorMode = Literal["raise", "warn", "ignore"]
 # Above this similarity to a known namespace, an unknown one is read as a typo of it
 # rather than as a namespace of the user's own
 NAMESPACE_TYPO_CUTOFF = 0.85
+
+# How close a known term must be to a value before it is offered as 'did you mean'
+SUGGESTION_CUTOFF = 0.8
 
 # JSON-LD only allows prefixes with namespace IRIs ending with these characters (RFC 3986)
 GEN_DELIMS = (":", "/", "?", "#", "[", "]", "@")
@@ -247,6 +251,49 @@ def check_term_against_context(term: str, mapped_context: dict, *, warn_redundan
         raise ValueError(msg)
 
 
+def term_resolves(term: object, mapped_context: dict) -> bool:
+    """Return True if `term` is a term the context can expand."""
+    if not isinstance(term, str) or not term:
+        return False
+    try:
+        check_term_against_context(term, mapped_context, warn_redundant_prefix=False)
+    except ValueError:
+        return False
+    return True
+
+
+def known_terms(mapped_context: dict) -> list[str]:
+    """Every term the context can expand, prefixed ones included."""
+    terms = list(mapped_context.get("_base", []))
+    terms += sorted(mapped_context.get("_terms", ()))
+    for prefix, labels in mapped_context.items():
+        if not prefix.startswith("_") and isinstance(labels, list):
+            terms += [f"{prefix}:{label}" for label in labels]
+    return terms
+
+
+def suggest_terms(term: object, mapped_context: dict, extra: Iterable[str] = (), limit: int = 3) -> list[str]:
+    """Close matches for a term that did not resolve, to offer as 'did you mean'.
+
+    Matching ignores case, so a lowercase value still finds its ontology class.
+    """
+    if not isinstance(term, str) or not term:
+        return []
+    candidates = {c: c for c in (*known_terms(mapped_context), *extra) if isinstance(c, str)}
+    folded = {c.lower(): c for c in candidates}
+    matches = get_close_matches(term.lower(), list(folded), n=limit, cutoff=SUGGESTION_CUTOFF)
+    return [folded[m] for m in matches]
+
+
+def did_you_mean(term: object, mapped_context: dict, extra: Iterable[str] = ()) -> str:
+    """Build a hint naming the closest terms, empty when there are none."""
+    matches = suggest_terms(term, mapped_context, extra)
+    if not matches:
+        return ""
+    named = ", ".join(f"'{m}'" for m in matches)
+    return f" Did you mean {named}?"
+
+
 def validate_jsonld(doc: dict, errors: ErrorMode = "warn") -> None:
     """Check that terms in JSON-LD are known in context."""
     # Map out the context - URL: list of valid terms
@@ -273,6 +320,7 @@ def validate_jsonld(doc: dict, errors: ErrorMode = "warn") -> None:
             # A prefix is only redundant in vocab position; @id/string values need it to expand
             check_term_against_context(term, mapped_context, warn_redundant_prefix=term not in iri_terms)
         except ValueError as e:  # noqa: PERF203
+            msg = f"{e}{did_you_mean(term, mapped_context)}"
             if errors == "raise":
-                raise
-            logger.warning(str(e))
+                raise ValueError(msg) from e
+            logger.warning(msg)

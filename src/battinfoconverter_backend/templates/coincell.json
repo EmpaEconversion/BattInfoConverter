@@ -1617,199 +1617,197 @@
   "@Classes": {
     "type": "table",
     "header": [
-      "Item",
-      "ID",
+      "Class",
       "Note"
     ],
     "data": [
       {
-        "Item": "Aluminium",
-        "ID": null,
-        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No unique is required."
+        "Class": "Aluminium",
+        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
       },
       {
-        "Item": "Copper",
-        "ID": null,
+        "Class": "Copper",
         "Note": null
       },
       {
-        "Item": "LithiumNickelManganeseCobaltOxide",
-        "ID": null,
+        "Class": "LithiumNickelManganeseCobaltOxide",
         "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
       },
       {
-        "Item": "Graphite",
-        "ID": null,
+        "Class": "Graphite",
         "Note": null
       },
       {
-        "Item": "PolyvinylideneFluoride",
-        "ID": null,
+        "Class": "PolyvinylideneFluoride",
         "Note": null
       },
       {
-        "Item": "CarbonBlack",
-        "ID": null,
+        "Class": "CarbonBlack",
         "Note": null
       },
       {
-        "Item": "EthyleneCarbonate",
-        "ID": null,
+        "Class": "EthyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "EthylMethylCarbonate",
-        "ID": null,
+        "Class": "EthylMethylCarbonate",
         "Note": null
       },
       {
-        "Item": "LithiumHexafluorophosphate",
-        "ID": null,
+        "Class": "LithiumHexafluorophosphate",
         "Note": null
       },
       {
-        "Item": "VinyleneCarbonate",
-        "ID": null,
+        "Class": "VinyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "LithiumBisfluorosulfonylimide",
-        "ID": null,
+        "Class": "LithiumBisfluorosulfonylimide",
         "Note": null
       },
       {
-        "Item": "TrisTrimethylsilyPhosphite",
-        "ID": null,
+        "Class": "TrisTrimethylsilyPhosphite",
         "Note": null
       },
       {
-        "Item": "Polyolefin",
-        "ID": null,
+        "Class": "Polyolefin",
         "Note": null
       },
       {
-        "Item": "Empa",
-        "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Class": "R2032",
         "Note": null
       },
       {
-        "Item": "EPFL",
-        "ID": "https://www.wikidata.org/wiki/Q262760",
+        "Class": "ElectrochemicalHalfCell",
         "Note": null
       },
       {
-        "Item": "ETH Zurich",
-        "ID": "https://www.wikidata.org/wiki/Q11942",
+        "Class": "StainlessSteel",
         "Note": null
       },
       {
-        "Item": "Customcells",
-        "ID": "https://www.wikidata.org/wiki/Q120784603",
+        "Class": "Polypropylene",
         "Note": null
       },
       {
-        "Item": "Solvionic",
-        "ID": "https://www.wikidata.org/wiki/Q30285492",
+        "Class": "Lithium",
         "Note": null
       },
       {
-        "Item": "Celgard",
-        "ID": "https://www.wikidata.org/wiki/Q122199856",
+        "Class": "CarboxymethylCellulose",
         "Note": null
       },
       {
-        "Item": "Hohsen",
-        "ID": "https://www.wikidata.org/wiki/Q138027768",
+        "Class": "StyreneButadiene",
         "Note": null
       },
       {
-        "Item": "Corsin Battaglia",
-        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Class": "FluoroethyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "Nukorn Plainpan",
-        "ID": "https://orcid.org/0009-0002-6447-8057",
+        "Class": "GlassFibreSeparator",
+        "Note": null
+      }
+    ]
+  },
+  "@Individuals": {
+    "type": "table",
+    "header": [
+      "Name",
+      "Type",
+      "IRI",
+      "Note"
+    ],
+    "data": [
+      {
+        "Name": "Corsin Battaglia",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-5003-1134",
         "Note": null
       },
       {
-        "Item": "Graham Kimbell",
-        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Name": "Nukorn Plainpan",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0002-6447-8057",
         "Note": null
       },
       {
-        "Item": "Enea Svaluto-Ferro",
-        "ID": "https://orcid.org/0009-0004-4673-7806",
+        "Name": "Graham Kimbell",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0001-9610-3589",
         "Note": null
       },
       {
-        "Item": "YeonJu Kim",
-        "ID": "https://orcid.org/0000-0003-3024-6370",
+        "Name": "Enea Svaluto-Ferro",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0004-4673-7806",
         "Note": null
       },
       {
-        "Item": "David Reber",
-        "ID": "https://orcid.org/0000-0002-4426-8717",
+        "Name": "YeonJu Kim",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0003-3024-6370",
         "Note": null
       },
       {
-        "Item": "Peter Kraus",
-        "ID": "https://orcid.org/0000-0002-4359-5003",
+        "Name": "David Reber",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-4426-8717",
         "Note": null
       },
       {
-        "Item": "Ruben-Simon Kühnel",
-        "ID": "https://orcid.org/0000-0003-1542-2970",
+        "Name": "Peter Kraus",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-4359-5003",
         "Note": null
       },
       {
-        "Item": "R2032",
-        "ID": null,
+        "Name": "Ruben-Simon Kühnel",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0003-1542-2970",
         "Note": null
       },
       {
-        "Item": "ElectrochemicalHalfCell",
-        "ID": null,
+        "Name": "Empa",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q683116",
         "Note": null
       },
       {
-        "Item": "CarbonBlack",
-        "ID": null,
+        "Name": "EPFL",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q262760",
         "Note": null
       },
       {
-        "Item": "StainlessSteel",
-        "ID": null,
+        "Name": "ETH Zurich",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q11942",
         "Note": null
       },
       {
-        "Item": "Polypropylene",
-        "ID": null,
+        "Name": "Customcells",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q120784603",
         "Note": null
       },
       {
-        "Item": "Lithium",
-        "ID": null,
+        "Name": "Solvionic",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q30285492",
         "Note": null
       },
       {
-        "Item": "CarboxymethylCellulose",
-        "ID": null,
+        "Name": "Celgard",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q122199856",
         "Note": null
       },
       {
-        "Item": "StyreneButadiene",
-        "ID": null,
-        "Note": null
-      },
-      {
-        "Item": "FluoroethyleneCarbonate",
-        "ID": null,
-        "Note": null
-      },
-      {
-        "Item": "GlassFibreSeparator",
-        "ID": null,
+        "Name": "Hohsen",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q138027768",
         "Note": null
       }
     ]

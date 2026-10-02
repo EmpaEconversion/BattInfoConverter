@@ -49,12 +49,18 @@ def _authors(template: dict, prefix: str) -> list[tuple[str, list]]:
     return [(rows[k][0], rows[k][1:]) for k in keys]
 
 
+def _first(row: dict, *names: str) -> str | None:
+    """Read the first of `names` the row has a value for, as the loader does."""
+    return next((row[name] for name in names if row.get(name)), None)
+
+
 def _class_ids(template: dict) -> dict:
-    """Map the @Classes items to their IDs."""
+    """Map the named individuals to their IRIs, from either sheet."""
     ids = {}
-    for row in template["@Classes"]["data"]:
-        item = row.get("Item", row.get("Class"))
-        ids[item] = row.get("ID", row.get("Class IRI"))
+    for row in template.get("@Individuals", {}).get("data", []):
+        ids[_first(row, "Name", "Item")] = _first(row, "IRI", "ID")
+    for row in template.get("@Classes", {}).get("data", []):
+        ids.setdefault(_first(row, "Class", "Item"), _first(row, "IRI", "ID", "Class IRI"))
     return ids
 
 

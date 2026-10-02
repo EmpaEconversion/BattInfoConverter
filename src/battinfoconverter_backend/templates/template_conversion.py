@@ -101,6 +101,10 @@ COLUMN_WIDTHS = {
     "Key": 50,
     "ID": 50,
     "Note": 74,
+    "Name": 35,
+    "Type": 28,
+    "Class": 35,
+    "IRI": 50,
 }
 
 # These sheets are treated as sectioned, others are simple tables

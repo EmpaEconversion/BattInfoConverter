@@ -1910,214 +1910,223 @@
   "@Classes": {
     "type": "table",
     "header": [
-      "Item",
-      "ID",
+      "Class",
       "Note"
     ],
     "data": [
       {
-        "Item": "AnionExchangeMembrane",
-        "ID": null,
+        "Class": "AnionExchangeMembrane",
+        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
+      },
+      {
+        "Class": "Carbon",
         "Note": null
       },
       {
-        "Item": "Carbon",
-        "ID": null,
+        "Class": "CarbonCloth",
         "Note": null
       },
       {
-        "Item": "CarbonCloth",
-        "ID": null,
+        "Class": "CarbonFelt",
         "Note": null
       },
       {
-        "Item": "CarbonFelt",
-        "ID": null,
+        "Class": "CarbonPaper",
         "Note": null
       },
       {
-        "Item": "CarbonPaper",
-        "ID": null,
+        "Class": "CationExchangeMembrane",
         "Note": null
       },
       {
-        "Item": "CationExchangeMembrane",
-        "ID": null,
+        "Class": "FlowCell",
         "Note": null
       },
       {
-        "Item": "Baban Deep Virk",
-        "ID": "https://orcid.org/0009-0008-4669-0816",
+        "Class": "Graphite",
         "Note": null
       },
       {
-        "Item": "Corsin Battaglia",
-        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Class": "Bismuth",
         "Note": null
       },
       {
-        "Item": "David Reber",
-        "ID": "https://orcid.org/0000-0002-4426-8717",
+        "Class": "TitaniumDioxide",
         "Note": null
       },
       {
-        "Item": "Graham Kimbell",
-        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Class": "Electrocatalyst",
         "Note": null
       },
       {
-        "Item": "Jeonghoon Ahn",
-        "ID": "https://orcid.org/0009-0003-1336-468X",
+        "Class": "PorousElectrode",
         "Note": null
       },
       {
-        "Item": "Lina Camenisch",
-        "ID": "https://orcid.org/0009-0003-3635-1216",
+        "Class": "Water",
         "Note": null
       },
       {
-        "Item": "Qirui Liu",
-        "ID": "https://orcid.org/0000-0002-1080-5131",
+        "Class": "Viton",
         "Note": null
       },
       {
-        "Item": "Rohat Celik",
-        "ID": "https://orcid.org/0009-0003-5121-2222",
+        "Class": "PolyetherEtherKetone",
         "Note": null
       },
       {
-        "Item": "Talia Echeverria",
-        "ID": "https://orcid.org/0009-0001-4487-0062",
+        "Class": "PotassiumSaltCompound",
         "Note": null
       },
       {
-        "Item": "Empa",
-        "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Class": "PolymerCompound",
         "Note": null
       },
       {
-        "Item": "EPFL",
-        "ID": "https://www.wikidata.org/wiki/Q262760",
+        "Class": "OrganicAcid",
         "Note": null
       },
       {
-        "Item": "ETH Zurich",
-        "ID": "https://www.wikidata.org/wiki/Q11942",
+        "Class": "Argon",
         "Note": null
       },
       {
-        "Item": "University of Bern",
-        "ID": "https://www.wikidata.org/wiki/Q659080",
+        "Class": "Nitrogen",
         "Note": null
       },
       {
-        "Item": "FlowCell",
-        "ID": null,
+        "Class": "Gas",
+        "Note": null
+      }
+    ]
+  },
+  "@Individuals": {
+    "type": "table",
+    "header": [
+      "Name",
+      "Type",
+      "IRI",
+      "Note"
+    ],
+    "data": [
+      {
+        "Name": "Baban Deep Virk",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0008-4669-0816",
         "Note": null
       },
       {
-        "Item": "Fuel Cell Store",
-        "ID": "https://www.wikidata.org/wiki/Q27868725",
+        "Name": "Corsin Battaglia",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-5003-1134",
         "Note": null
       },
       {
-        "Item": "Fuel Cell Technologies",
-        "ID": null,
+        "Name": "David Reber",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-4426-8717",
         "Note": null
       },
       {
-        "Item": "Fumatech",
-        "ID": "https://www.wikidata.org/wiki/Q30254565",
+        "Name": "Graham Kimbell",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0001-9610-3589",
         "Note": null
       },
       {
-        "Item": "Graphite",
-        "ID": null,
+        "Name": "Jeonghoon Ahn",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0003-1336-468X",
         "Note": null
       },
       {
-        "Item": "Bismuth",
-        "ID": null,
+        "Name": "Lina Camenisch",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0003-3635-1216",
         "Note": null
       },
       {
-        "Item": "TitaniumDioxide",
-        "ID": null,
+        "Name": "Qirui Liu",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-1080-5131",
         "Note": null
       },
       {
-        "Item": "Electrocatalyst",
-        "ID": null,
+        "Name": "Rohat Celik",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0003-5121-2222",
         "Note": null
       },
       {
-        "Item": "Pinflow",
-        "ID": "https://www.wikidata.org/wiki/Q114797344",
+        "Name": "Talia Echeverria",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0001-4487-0062",
         "Note": null
       },
       {
-        "Item": "PorousElectrode",
-        "ID": null,
+        "Name": "Empa",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q683116",
         "Note": null
       },
       {
-        "Item": "SGL Carbon",
-        "ID": "https://www.wikidata.org/wiki/Q320207",
+        "Name": "EPFL",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q262760",
         "Note": null
       },
       {
-        "Item": "SigmaAldrich",
-        "ID": "https://www.wikidata.org/wiki/Q680841",
+        "Name": "ETH Zurich",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q11942",
         "Note": null
       },
       {
-        "Item": "Thermo Fisher Scientific",
-        "ID": "https://www.wikidata.org/wiki/Q643674",
+        "Name": "University of Bern",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q659080",
         "Note": null
       },
       {
-        "Item": "Water",
-        "ID": null,
+        "Name": "Fuel Cell Store",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q27868725",
         "Note": null
       },
       {
-        "Item": "Viton",
-        "ID": null,
+        "Name": "Fumatech",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q30254565",
         "Note": null
       },
       {
-        "Item": "PolyetherEtherKetone",
-        "ID": null,
+        "Name": "Pinflow",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q114797344",
         "Note": null
       },
       {
-        "Item": "PotassiumSaltCompound",
-        "ID": null,
+        "Name": "SGL Carbon",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q320207",
         "Note": null
       },
       {
-        "Item": "PolymerCompound",
-        "ID": null,
+        "Name": "SigmaAldrich",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q680841",
         "Note": null
       },
       {
-        "Item": "OrganicAcid",
-        "ID": null,
+        "Name": "Thermo Fisher Scientific",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q643674",
         "Note": null
       },
       {
-        "Item": "Argon",
-        "ID": null,
-        "Note": null
-      },
-      {
-        "Item": "Nitrogen",
-        "ID": null,
-        "Note": null
-      },
-      {
-        "Item": "Gas",
-        "ID": null,
+        "Name": "Fuel Cell Technologies",
+        "Type": "schema:Organization",
+        "IRI": null,
         "Note": null
       }
     ]

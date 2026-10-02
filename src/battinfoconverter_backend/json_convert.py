@@ -17,7 +17,7 @@ from .json_template import (
     half_cell_dchg_cap,
 )
 from .registry import Registry
-from .validate import validate_jsonld
+from .validate import map_context, validate_jsonld
 
 logger = logging.getLogger(__name__)
 
@@ -169,6 +169,9 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
 
     # Add everything else in the sheet
     registry = Registry(data_container)
+    # Values are checked against the context as they are placed, so build the term
+    # map now and quietly - validate_jsonld reports on the finished document
+    registry.mapped_context = map_context(jsonld["@context"], errors="ignore")
     for _, row in schema.iterrows():
         if pd.isna(row["Value"]) or row["Ontology link"] == "NotOntologize":
             continue
