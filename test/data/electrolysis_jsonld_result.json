@@ -39,7 +39,7 @@
         ],
         "hasNegativeElectrode": {
             "@type": [
-                "Electrode",
+                "NegativeElectrode",
                 "GasDiffusionElectrode"
             ],
             "hasSubstrate": {
@@ -83,6 +83,7 @@
                 "@type": "Coating",
                 "hasActiveMaterial": {
                     "@type": [
+                        "ActiveMaterial",
                         "Electrocatalyst",
                         "Copper"
                     ],
@@ -166,7 +167,7 @@
         },
         "hasPositiveElectrode": {
             "@type": [
-                "Electrode",
+                "PositiveElectrode",
                 "ImmersionElectrode"
             ],
             "hasSubstrate": {
@@ -204,6 +205,7 @@
                 "@type": "Coating",
                 "hasActiveMaterial": {
                     "@type": [
+                        "ActiveMaterial",
                         "Electrocatalyst",
                         "IridiumIIIOxide"
                     ],
@@ -289,7 +291,10 @@
             {
                 "@type": "NegativeElectrodeGasCompartment",
                 "hasActiveMaterial": {
-                    "@type": "GasMixture",
+                    "@type": [
+                        "ActiveMaterial",
+                        "GasMixture"
+                    ],
                     "hasConstituent": [
                         {
                             "Gas": {
@@ -406,7 +411,10 @@
             {
                 "@type": "PositiveElectrodeGasCompartment",
                 "hasActiveMaterial": {
-                    "@type": "GasMixture",
+                    "@type": [
+                        "ActiveMaterial",
+                        "GasMixture"
+                    ],
                     "hasConstituent": {
                         "Gas": {
                             "@type": "Nitrogen"
@@ -475,6 +483,7 @@
             }
         ],
         "hasCatholyte": {
+            "@type": "Catholyte",
             "hasSolvent": {
                 "@type": "Solvent",
                 "hasConstituent": {
@@ -579,6 +588,7 @@
             "schema:productID": "KCl_1M_catholyte"
         },
         "hasAnolyte": {
+            "@type": "Anolyte",
             "hasSolvent": {
                 "@type": "Solvent",
                 "hasConstituent": {
@@ -687,6 +697,7 @@
             "hasElectrolyte": [
                 {
                     "@type": [
+                        "Electrolyte",
                         "AnionExchangeMembrane",
                         "PolyArylPiperidinium"
                     ],

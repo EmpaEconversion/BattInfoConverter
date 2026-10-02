@@ -39,7 +39,7 @@
             "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
         ],
         "hasPositiveElectrode": {
-            "@type": "Electrode",
+            "@type": "PositiveElectrode",
             "hasCurrentCollector": {
                 "@type": [
                     "CurrentCollector",
@@ -55,9 +55,15 @@
                 }
             },
             "hasCoating": {
-                "@type": "ElectrodeCoating",
+                "@type": [
+                    "Coating",
+                    "ElectrodeCoating"
+                ],
                 "hasActiveMaterial": {
-                    "@type": "LithiumNickelManganeseCobaltOxide",
+                    "@type": [
+                        "ActiveMaterial",
+                        "LithiumNickelManganeseCobaltOxide"
+                    ],
                     "hasMeasuredProperty": [
                         {
                             "@type": "molecularFormula",
@@ -273,7 +279,7 @@
             "schema:productID": "100000030"
         },
         "hasNegativeElectrode": {
-            "@type": "Electrode",
+            "@type": "NegativeElectrode",
             "hasCurrentCollector": {
                 "@type": [
                     "CurrentCollector",
@@ -289,9 +295,15 @@
                 }
             },
             "hasCoating": {
-                "@type": "ElectrodeCoating",
+                "@type": [
+                    "Coating",
+                    "ElectrodeCoating"
+                ],
                 "hasActiveMaterial": {
-                    "@type": "Graphite",
+                    "@type": [
+                        "ActiveMaterial",
+                        "Graphite"
+                    ],
                     "hasMeasuredProperty": [
                         {
                             "@type": "MassFraction",
@@ -503,7 +515,7 @@
             "schema:productID": "11113, A-1594"
         },
         "hasElectrolyte": {
-            "@type": "OrganicElectrolyte",
+            "@type": "Electrolyte",
             "hasSolvent": {
                 "@type": "Solvent",
                 "hasConstituent": [
@@ -688,13 +700,19 @@
                 {
                     "@type": "CellLid",
                     "hasCoating": {
-                        "@type": "Aluminium"
+                        "@type": [
+                            "Coating",
+                            "Aluminium"
+                        ]
                     }
                 },
                 {
                     "@type": "CellCan",
                     "hasCoating": {
-                        "@type": "Aluminium"
+                        "@type": [
+                            "Coating",
+                            "Aluminium"
+                        ]
                     }
                 }
             ],
