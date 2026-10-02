@@ -1749,10 +1749,6 @@
         "Note": null
       },
       {
-        "Class": "ZeroGapCell",
-        "Note": "to be requested"
-      },
-      {
         "Class": null,
         "Note": null
       },
@@ -2107,10 +2103,6 @@
       {
         "Class": "PotassiumCarbonate",
         "Note": null
-      },
-      {
-        "Class": "PotassiumBiCarbonate",
-        "Note": "requested"
       },
       {
         "Class": "SulfuricAcid",
