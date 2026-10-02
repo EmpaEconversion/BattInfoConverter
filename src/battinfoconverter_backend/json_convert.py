@@ -238,6 +238,12 @@ def add_credit_comments(jsonld: dict, schema: pd.DataFrame, software_credit: str
     jsonld["rdfs:comment"] = [*root_comment, *current_comment]
 
 
+def _last_type(node: dict) -> str:
+    """Get a node's most specific class, which is the last one added to its @type."""
+    node_type = node["@type"]
+    return node_type[-1] if isinstance(node_type, list) else node_type
+
+
 def reformat_json_rated_capacity(json_dict: dict) -> dict:
     """Reformat rated capacity following template in json_template.py.
 
@@ -258,7 +264,7 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
         # Positive electrode
         sub_dict = json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
         json_dict["hasPositiveElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = half_cell_chg_cap(
-            sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]["@type"][-1],
+            _last_type(sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]),
             sub_dict["ConstantCurrentCharging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantCurrentCharging"]["hasInput"][2]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
@@ -269,7 +275,7 @@ def reformat_json_rated_capacity(json_dict: dict) -> dict:
         # Negative electrode
         sub_dict = json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"]["hasInput"]
         json_dict["hasNegativeElectrode"]["hasMeasuredProperty"][0]["@reverse"]["hasOutput"] = half_cell_dchg_cap(
-            sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]["@type"][-1],
+            _last_type(sub_dict["ElectrochemicalHalfCell"]["hasReferenceElectrode"]),
             sub_dict["ConstantCurrentDischarging"]["hasInput"][1]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantCurrentDischarging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
             sub_dict["ConstantVoltageCharging"]["hasInput"][0]["hasNumericalPart"]["hasNumberValue"],
