@@ -49,6 +49,8 @@ include = ["battinfoconverter_backend*"]
 [project.optional-dependencies]
 app = [
   "streamlit>=1.50.0",
+  "pyld>=2.0.4",
+  "rdflib>=7.6.0",
 ]
 dev = [
   "pytest>=8.4.2",
@@ -59,6 +61,12 @@ dev = [
   "rdflib>=7.6.0",
   "requests>=2.32.5",
 ]
+
+[dependency-groups]
+app = ["battinfoconverter-backend[app]"]
+
+[tool.uv]
+default-groups = ["app"]
 
 [tool.ruff]
 line-length = 120

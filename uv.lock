@@ -58,6 +58,8 @@ dependencies = [
 
 [package.optional-dependencies]
 app = [
+    { name = "pyld" },
+    { name = "rdflib" },
     { name = "streamlit" },
 ]
 dev = [
@@ -70,14 +72,21 @@ dev = [
     { name = "ruff" },
 ]
 
+[package.dev-dependencies]
+app = [
+    { name = "battinfoconverter-backend", extra = ["app"] },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "openpyxl", specifier = ">=3.1" },
     { name = "pandas", specifier = ">=2,<3" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=4.5.1" },
+    { name = "pyld", marker = "extra == 'app'", specifier = ">=2.0.4" },
     { name = "pyld", marker = "extra == 'dev'", specifier = ">=2.0.4" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.4.2" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=7.1.0" },
+    { name = "rdflib", marker = "extra == 'app'", specifier = ">=7.6.0" },
     { name = "rdflib", marker = "extra == 'dev'", specifier = ">=7.6.0" },
     { name = "requests", marker = "extra == 'dev'", specifier = ">=2.32.5" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.15.7" },
@@ -85,6 +94,9 @@ requires-dist = [
     { name = "streamlit", marker = "extra == 'app'", specifier = ">=1.50.0" },
 ]
 provides-extras = ["app", "dev"]
+
+[package.metadata.requires-dev]
+app = [{ name = "battinfoconverter-backend", extras = ["app"] }]
 
 [[package]]
 name = "blinker"

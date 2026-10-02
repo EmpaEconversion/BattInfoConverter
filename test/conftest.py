@@ -14,7 +14,6 @@ from battinfoconverter_backend.templates.template_conversion import (
     ELECTROLYSIS_TEMPLATE_PATH,
     FLOWCELL_TEMPLATE_PATH,
 )
-from battinfoconverter_backend.validate import get_context
 
 jsonld.set_document_loader(jsonld.requests_document_loader())
 

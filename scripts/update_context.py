@@ -50,6 +50,8 @@ CONTEXT: dict[str, dict] = {
         "url": "https://w3id.org/emmo/domain/battery/context/context",
         "format": "jsonld",
         "filter_by_namespace": False,
+        # The default context of the templates, its prefixes are the ones actually loaded
+        "cache_prefixes": True,
         "literals": "owl",
         "ontology_url": "https://w3id.org/emmo/domain/battery",
     },
@@ -345,13 +347,22 @@ def update_literal_predicates() -> None:
     )
 
 
+def _prefixes_from_jsonld(data: dict) -> dict[str, str]:
+    """Get the prefixes a context declares, e.g. "dcterms": "http://purl.org/dc/terms/"."""
+    context = data["@context"]
+    return {k: v for k, v in context.items() if isinstance(v, str) and v.endswith(("#", "/"))}
+
+
 def update_context_cache() -> None:
     """Update the context file."""
     for name, settings in CONTEXT.items():
         namespace_filter = settings.get("namespace") if settings.get("filter_by_namespace", False) else None
+        prefixes = {}
         if settings["format"] == "jsonld":
             data = requests.get(settings["url"], timeout=10).json()
             terms = _terms_from_jsonld(data, namespace_filter)
+            if settings.get("cache_prefixes", False):
+                prefixes = _prefixes_from_jsonld(data)
 
             if name == "schema" and "@graph" in data:
                 for item in data["@graph"]:
@@ -367,8 +378,11 @@ def update_context_cache() -> None:
         term_list = sorted(terms)
         if term_list:
             filepath = CONTEXT_DIR / f"{name}.json"
+            cached: dict[str, list | dict] = {settings["namespace"]: term_list}
+            if prefixes:
+                cached["_prefixes"] = dict(sorted(prefixes.items()))
             with filepath.open("w") as f:
-                json.dump({settings["namespace"]: term_list}, f, indent=0)
+                json.dump(cached, f, indent=0)
             logger.critical("%s: Cached %d terms at %s", name, len(term_list), filepath)
         else:
             logger.critical("%s: Failed to find any terms from %s", name, settings["url"])

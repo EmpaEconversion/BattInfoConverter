@@ -128,9 +128,10 @@ def test_bad_jsonld_context(caplog: pytest.LogCaptureFixture) -> None:
         },
     }
     validate_jsonld(doc, errors="warn")
-    assert "The URL for 'missing' (https://w3id.org/emmo/domain/somethingwrong) is not a known namespace" in caplog.text
+    # The URL does not end in a general delimiter, so JSON-LD would not expand
+    # 'missing:...' at all and the entry can only define a single term
     assert "'CoinCell' has no prefix, but there is no default namespace" in caplog.text
-    assert "Term 'missing:StuffThatCannotBeFound' was not found because 'missing' is empty" in caplog.text
+    assert "'missing' maps to a single term, so 'missing:StuffThatCannotBeFound' is not expanded" in caplog.text
 
 
 def test_redundant_prefix(caplog: pytest.LogCaptureFixture) -> None:

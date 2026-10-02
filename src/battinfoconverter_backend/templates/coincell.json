@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "1.1.18",
+            "Value": "1.2.0",
             "Unit": "No Unit",
             "Priority": "required",
             "Comment": "Version of this schema, do not change",
@@ -1186,6 +1186,308 @@
       }
     }
   },
+  "@References": {
+    "type": "keyed_rows",
+    "data": [
+      {
+        "key": "References",
+        "type": "header"
+      },
+      {
+        "key": "Include references in metadata file (yes/no)",
+        "values": [
+          "yes"
+        ]
+      },
+      {
+        "key": "References for dataset",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Dataset name",
+        "values": [
+          "Dataset for publication \"Toward an autonomous robotic battery materials research platform powered by automated workflow and ontologized findable, accessible, interoperable, and reusable data management\""
+        ]
+      },
+      {
+        "key": "Dataset description",
+        "values": [
+          "This dataset comprises detailed data from 199 coin cell batteries featuring either NMC//graphite or LFP//graphite chemistries cycled for 1000 cycles. All batteries were assembled and cycled using the automated robotic battery materials research platform, Aurora, at Empa, the Swiss Federal Laboratories for Materials Science and Technology, within the Laboratory for Materials for Energy Conversion."
+        ]
+      },
+      {
+        "key": "Dataset publisher",
+        "values": [
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset license",
+        "values": [
+          "https://creativecommons.org/licenses/by/4.0/"
+        ]
+      },
+      {
+        "key": "Dataset date issued",
+        "values": [
+          "2025-06-01"
+        ]
+      },
+      {
+        "key": "Dataset date published",
+        "values": [
+          "2025-06-01"
+        ]
+      },
+      {
+        "key": "Dataset URL",
+        "values": [
+          "https://doi.org/10.5281/zenodo.15481956"
+        ]
+      },
+      {
+        "key": "Dataset API URL",
+        "values": [
+          "https://zenodo.org/api/records/15481956"
+        ]
+      },
+      {
+        "key": "Dataset authorA",
+        "values": [
+          "Enea Svaluto-Ferro",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorB",
+        "values": [
+          "Graham Kimbell",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorC",
+        "values": [
+          "YeonJu Kim",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorD",
+        "values": [
+          "Nukorn Plainpan",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorE",
+        "values": [
+          "Benjamin Kunz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorF",
+        "values": [
+          "Lina Schulz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorG",
+        "values": [
+          "Raphael Läubli",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorH",
+        "values": [
+          "Maximilian Becker",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorJ",
+        "values": [
+          "Peter Kraus",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorK",
+        "values": [
+          "Ruben-Simon Kühnel",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Dataset authorL",
+        "values": [
+          "Corsin Battaglia",
+          "Empa",
+          "ETH Zurich",
+          "EPFL"
+        ]
+      },
+      {
+        "key": "References for associated publications",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Associated publication DOI",
+        "values": [
+          "https://doi.org/10.1002/batt.202500155"
+        ]
+      },
+      {
+        "key": "Associated publication title",
+        "values": [
+          "Toward an Autonomous Robotic Battery Materials Research Platform Powered by Automated Workflow and Ontologized Findable, Accessible, Interoperable, and Reusable Data Management"
+        ]
+      },
+      {
+        "key": "Associated publication figures",
+        "values": [
+          "Fig. 1a",
+          "Fig. 2b"
+        ]
+      },
+      {
+        "key": "Associated publication authorA",
+        "values": [
+          "Enea Svaluto-Ferro",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorB",
+        "values": [
+          "Graham Kimbell",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorC",
+        "values": [
+          "YeonJu Kim",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorD",
+        "values": [
+          "Nukorn Plainpan",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorE",
+        "values": [
+          "Benjamin Kunz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorF",
+        "values": [
+          "Lina Schulz",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorG",
+        "values": [
+          "Raphael Läubli",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorH",
+        "values": [
+          "Maximilian Becker",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorI",
+        "values": [
+          "David Reber",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorJ",
+        "values": [
+          "Peter Kraus",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorK",
+        "values": [
+          "Ruben-Simon Kühnel",
+          "Empa"
+        ]
+      },
+      {
+        "key": "Associated publication authorL",
+        "values": [
+          "Corsin Battaglia",
+          "Empa",
+          "ETH Zurich",
+          "EPFL"
+        ]
+      },
+      {
+        "key": "References for data files",
+        "type": "section",
+        "color": "grey"
+      },
+      {
+        "key": "Data zip file",
+        "values": [
+          "Dataset-rocrate.zip"
+        ]
+      },
+      {
+        "key": "Tabular data schema",
+        "values": [
+          "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema"
+        ]
+      },
+      {
+        "key": "Data fileA",
+        "values": [
+          "empa__ccid000001/empa__ccid000001.bdf.parquet",
+          "Time series electrochemical data as parquet with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Data fileB",
+        "values": [
+          "empa__ccid000001/empa__ccid000001.bdf.csv",
+          "Time series electrochemical data as csv with Battery Data Format columns"
+        ]
+      },
+      {
+        "key": "Raw data fileA",
+        "values": [
+          "empa__ccid000001/empa__ccid000001_GCPL_C01.mpr",
+          "Raw cycling data, Biologic EC-Lab binary mpr format"
+        ]
+      }
+    ]
+  },
   "@Context": {
     "type": "table",
     "header": [
@@ -1227,257 +1529,316 @@
     "type": "table",
     "header": [
       "Item",
-      "Key"
+      "Key",
+      "Note"
     ],
     "data": [
       {
         "Item": "hasActiveMaterial",
-        "Key": null
-      },
-      {
-        "Item": "hasBinder",
-        "Key": "Binder"
-      },
-      {
-        "Item": "hasCase",
-        "Key": null
-      },
-      {
-        "Item": "hasCoating",
-        "Key": null
-      },
-      {
-        "Item": "hasConductiveAdditive",
-        "Key": "ConductiveAdditive"
-      },
-      {
-        "Item": "hasCurrentCollector",
-        "Key": "CurrentCollector"
-      },
-      {
-        "Item": "hasElectrolyte",
-        "Key": "OrganicElectrolyte"
-      },
-      {
-        "Item": "hasNegativeElectrode",
-        "Key": "Electrode"
-      },
-      {
-        "Item": "hasPositiveElectrode",
-        "Key": "Electrode"
-      },
-      {
-        "Item": "hasSeparator",
-        "Key": "Separator"
-      },
-      {
-        "Item": "hasSolute",
-        "Key": "Solute"
-      },
-      {
-        "Item": "hasSolvent",
-        "Key": "Solvent"
-      },
-      {
-        "Item": "hasConstituent",
-        "Key": null
-      },
-      {
-        "Item": "hasInput",
-        "Key": null
-      },
-      {
-        "Item": "hasProperty",
-        "Key": null
-      },
-      {
-        "Item": "hasMeasuredProperty",
-        "Key": null
-      },
-      {
-        "Item": "hasOutput",
-        "Key": null
-      },
-      {
-        "Item": "hasReferenceElectrode",
-        "Key": "ReferenceElectrode"
+        "Key": "ActiveMaterial",
+        "Note": null
       },
       {
         "Item": "hasAdditive",
-        "Key": "Additive"
+        "Key": "Additive",
+        "Note": null
+      },
+      {
+        "Item": "hasBinder",
+        "Key": "Binder",
+        "Note": null
+      },
+      {
+        "Item": "hasCoating",
+        "Key": "Coating",
+        "Note": null
+      },
+      {
+        "Item": "hasConductiveAdditive",
+        "Key": "ConductiveAdditive",
+        "Note": null
+      },
+      {
+        "Item": "hasCurrentCollector",
+        "Key": "CurrentCollector",
+        "Note": null
+      },
+      {
+        "Item": "hasElectrolyte",
+        "Key": "Electrolyte",
+        "Note": null
+      },
+      {
+        "Item": "hasNegativeElectrode",
+        "Key": "NegativeElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasPositiveElectrode",
+        "Key": "PositiveElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasReferenceElectrode",
+        "Key": "ReferenceElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasSeparator",
+        "Key": "Separator",
+        "Note": null
+      },
+      {
+        "Item": "hasSolute",
+        "Key": "Solute",
+        "Note": null
+      },
+      {
+        "Item": "hasSolvent",
+        "Key": "Solvent",
+        "Note": null
+      },
+      {
+        "Item": "hasCase",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasComponent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasConstituent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasDatum",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasInput",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasMeasuredProperty",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasOutput",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasProperty",
+        "Key": null,
+        "Note": null
       },
       {
         "Item": "hasStringValue",
-        "Key": null
+        "Key": null,
+        "Note": null
       }
     ]
   },
   "@Classes": {
     "type": "table",
     "header": [
-      "Item",
-      "ID",
+      "Class",
       "Note"
     ],
     "data": [
       {
-        "Item": "Aluminium",
-        "ID": null,
-        "Note": "If the item is listed here without unique ID (e.g. R2032), this means the item is already ontologized in BattInFo ontology. No unique is required."
+        "Class": "Aluminium",
+        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
       },
       {
-        "Item": "Copper",
-        "ID": null,
+        "Class": "Copper",
         "Note": null
       },
       {
-        "Item": "LithiumNickelManganeseCobaltOxide",
-        "ID": null,
+        "Class": "LithiumNickelManganeseCobaltOxide",
         "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
       },
       {
-        "Item": "Graphite",
-        "ID": null,
+        "Class": "Graphite",
         "Note": null
       },
       {
-        "Item": "PolyvinylideneFluoride",
-        "ID": null,
+        "Class": "PolyvinylideneFluoride",
         "Note": null
       },
       {
-        "Item": "CarbonBlack",
-        "ID": null,
+        "Class": "CarbonBlack",
         "Note": null
       },
       {
-        "Item": "EthyleneCarbonate",
-        "ID": null,
+        "Class": "EthyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "EthylMethylCarbonate",
-        "ID": null,
+        "Class": "EthylMethylCarbonate",
         "Note": null
       },
       {
-        "Item": "LithiumHexafluorophosphate",
-        "ID": null,
+        "Class": "LithiumHexafluorophosphate",
         "Note": null
       },
       {
-        "Item": "VinyleneCarbonate",
-        "ID": null,
+        "Class": "VinyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "LithiumBisfluorosulfonylimide",
-        "ID": null,
+        "Class": "LithiumBisfluorosulfonylimide",
         "Note": null
       },
       {
-        "Item": "TrisTrimethylsilyPhosphite",
-        "ID": null,
+        "Class": "TrisTrimethylsilyPhosphite",
         "Note": null
       },
       {
-        "Item": "Polyolefin",
-        "ID": null,
+        "Class": "Polyolefin",
         "Note": null
       },
       {
-        "Item": "Empa",
-        "ID": "https://www.wikidata.org/wiki/Q683116",
+        "Class": "R2032",
         "Note": null
       },
       {
-        "Item": "Customcells",
-        "ID": "https://www.wikidata.org/wiki/Q120784603",
+        "Class": "ElectrochemicalHalfCell",
         "Note": null
       },
       {
-        "Item": "Solvionic",
-        "ID": "https://www.wikidata.org/wiki/Q30285492",
+        "Class": "StainlessSteel",
         "Note": null
       },
       {
-        "Item": "Celgard",
-        "ID": "https://www.wikidata.org/wiki/Q122199856",
+        "Class": "Polypropylene",
         "Note": null
       },
       {
-        "Item": "Hohsen",
-        "ID": "https://www.wikidata.org/wiki/Q138027768",
+        "Class": "Lithium",
         "Note": null
       },
       {
-        "Item": "Corsin Battaglia",
-        "ID": "https://orcid.org/0000-0002-5003-1134",
+        "Class": "CarboxymethylCellulose",
         "Note": null
       },
       {
-        "Item": "Nukorn Plainpan",
-        "ID": "https://orcid.org/0009-0002-6447-8057",
+        "Class": "StyreneButadiene",
         "Note": null
       },
       {
-        "Item": "Graham Kimbell",
-        "ID": "https://orcid.org/0000-0001-9610-3589",
+        "Class": "FluoroethyleneCarbonate",
         "Note": null
       },
       {
-        "Item": "Enea Svaluto-Ferro",
-        "ID": "https://orcid.org/0009-0004-4673-7806",
+        "Class": "GlassFibreSeparator",
+        "Note": null
+      }
+    ]
+  },
+  "@Individuals": {
+    "type": "table",
+    "header": [
+      "Name",
+      "Type",
+      "IRI",
+      "Note"
+    ],
+    "data": [
+      {
+        "Name": "Corsin Battaglia",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-5003-1134",
         "Note": null
       },
       {
-        "Item": "R2032",
-        "ID": null,
+        "Name": "Nukorn Plainpan",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0002-6447-8057",
         "Note": null
       },
       {
-        "Item": "ElectrochemicalHalfCell",
-        "ID": null,
+        "Name": "Graham Kimbell",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0001-9610-3589",
         "Note": null
       },
       {
-        "Item": "CarbonBlack",
-        "ID": null,
+        "Name": "Enea Svaluto-Ferro",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0009-0004-4673-7806",
         "Note": null
       },
       {
-        "Item": "StainlessSteel",
-        "ID": null,
+        "Name": "YeonJu Kim",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0003-3024-6370",
         "Note": null
       },
       {
-        "Item": "Polypropylene",
-        "ID": null,
+        "Name": "David Reber",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-4426-8717",
         "Note": null
       },
       {
-        "Item": "Lithium",
-        "ID": null,
+        "Name": "Peter Kraus",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0002-4359-5003",
         "Note": null
       },
       {
-        "Item": "CarboxymethylCellulose",
-        "ID": null,
+        "Name": "Ruben-Simon Kühnel",
+        "Type": "schema:Person",
+        "IRI": "https://orcid.org/0000-0003-1542-2970",
         "Note": null
       },
       {
-        "Item": "StyreneButadiene",
-        "ID": null,
+        "Name": "Empa",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q683116",
         "Note": null
       },
       {
-        "Item": "FluoroethyleneCarbonate",
-        "ID": null,
+        "Name": "EPFL",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q262760",
         "Note": null
       },
       {
-        "Item": "GlassFibreSeparator",
-        "ID": null,
+        "Name": "ETH Zurich",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q11942",
+        "Note": null
+      },
+      {
+        "Name": "Customcells",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q120784603",
+        "Note": null
+      },
+      {
+        "Name": "Solvionic",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q30285492",
+        "Note": null
+      },
+      {
+        "Name": "Celgard",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q122199856",
+        "Note": null
+      },
+      {
+        "Name": "Hohsen",
+        "Type": "schema:Organization",
+        "IRI": "https://www.wikidata.org/wiki/Q138027768",
         "Note": null
       }
     ]
