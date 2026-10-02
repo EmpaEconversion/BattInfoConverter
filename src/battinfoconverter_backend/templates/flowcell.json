@@ -1836,48 +1836,38 @@
     ],
     "data": [
       {
+        "Item": "hasActiveMaterial",
+        "Key": "ActiveMaterial",
+        "Note": null
+      },
+      {
         "Item": "hasAnolyte",
-        "Key": "Electrolyte",
+        "Key": "Anolyte",
         "Note": "Negative electrolyte/Negolyte"
       },
       {
-        "Item": "hasCase",
-        "Key": null,
-        "Note": "Type of cell (FlowCell, FuelCell, SealedCell)"
-      },
-      {
         "Item": "hasCatholyte",
-        "Key": "Electrolyte",
+        "Key": "Catholyte",
         "Note": "Positive electrolyte/Posolyte"
       },
       {
-        "Item": "hasComponent",
-        "Key": null,
-        "Note": null
-      },
-      {
-        "Item": "hasConstituent",
-        "Key": null,
-        "Note": null
-      },
-      {
-        "Item": "hasMeasuredProperty",
-        "Key": null,
+        "Item": "hasCoating",
+        "Key": "Coating",
         "Note": null
       },
       {
         "Item": "hasNegativeElectrode",
-        "Key": "Electrode",
+        "Key": "NegativeElectrode",
         "Note": null
       },
       {
         "Item": "hasPositiveElectrode",
-        "Key": "Electrode",
+        "Key": "PositiveElectrode",
         "Note": null
       },
       {
         "Item": "hasSeparator",
-        "Key": null,
+        "Key": "Separator",
         "Note": "Membrane"
       },
       {
@@ -1891,18 +1881,38 @@
         "Note": null
       },
       {
-        "Item": "hasStringValue",
-        "Key": null,
-        "Note": null
-      },
-      {
         "Item": "hasSubstrate",
         "Key": "Substrate",
         "Note": "Carbon, CarbonPaper, CarbonFelt, CarbonCloth"
       },
       {
-        "Item": "hasCoating",
-        "Key": "Coating",
+        "Item": "hasCase",
+        "Key": null,
+        "Note": "Type of cell (FlowCell, FuelCell, SealedCell)"
+      },
+      {
+        "Item": "hasComponent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasConstituent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasDatum",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasMeasuredProperty",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasStringValue",
+        "Key": null,
         "Note": null
       }
     ]
@@ -1964,10 +1974,6 @@
       },
       {
         "Class": "Water",
-        "Note": null
-      },
-      {
-        "Class": "Viton",
         "Note": null
       },
       {

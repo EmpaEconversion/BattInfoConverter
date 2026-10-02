@@ -103,6 +103,26 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     assert not _filter_warnings(warnings)
 
 
+def _context_pairs(template: dict) -> list[tuple[str, str]]:
+    """The @Context sheet as the converter builds it."""
+    return [(row["Item"], row["Key"]) for row in template["@Context"]["data"] if row.get("Item")]
+
+
+def _mapped_context(template: dict) -> dict:
+    """The term map the converter would build for this template."""
+    return map_context(
+        ["https://w3id.org/emmo/domain/battery/context", dict(_context_pairs(template))],
+        errors="raise",
+    )
+
+
+def _assert_all_resolve(names: list[str], mapped: dict, sheet: str) -> None:
+    """Fail naming every term the context cannot expand, with close matches."""
+    missing = [name for name in names if not term_resolves(name, mapped)]
+    report = "\n".join(f"  {name}{did_you_mean(name, mapped) or ' no close match'}" for name in missing)
+    assert not missing, f"{len(missing)} {sheet} entries are unknown to the context:\n{report}"
+
+
 def test_template_classes_are_in_context(schema: CellFixtures) -> None:
     """Every class offered on the @Classes sheet should exist in the ontology.
 
@@ -112,19 +132,25 @@ def test_template_classes_are_in_context(schema: CellFixtures) -> None:
     rows = schema.template["@Classes"]["data"]
     classes = [row[key] for row in rows for key in ("Class", "Item") if row.get(key)]
     assert classes, "the @Classes sheet is empty"
+    _assert_all_resolve(classes, _mapped_context(schema.template), "@Classes")
 
-    mapped = map_context(
-        ["https://w3id.org/emmo/domain/battery/context", dict(_context_pairs(schema.template))],
-        errors="raise",
+
+def test_template_predicates_are_in_context(schema: CellFixtures) -> None:
+    """Both columns of @Predicates should be real ontology terms."""
+    rows = schema.template["@Predicates"]["data"]
+    predicates = [row[key] for row in rows for key in ("Item", "Predicate") if row.get(key)]
+    types = [row[key] for row in rows for key in ("Key", "Default Class") if row.get(key)]
+    assert predicates, "the @Predicates sheet is empty"
+    _assert_all_resolve(predicates + types, _mapped_context(schema.template), "@Predicates")
+
+
+def test_template_predicate_defaults_come_first(schema: CellFixtures) -> None:
+    """Predicates with a default type are listed before the open-ended ones."""
+    rows = [row for row in schema.template["@Predicates"]["data"] if row.get("Item")]
+    has_default = [bool(row.get("Key")) for row in rows]
+    assert has_default == sorted(has_default, reverse=True), (
+        f"open-ended predicates must come last: {[r['Item'] for r in rows]}"
     )
-    missing = [name for name in classes if not term_resolves(name, mapped)]
-    report = "\n".join(f"  {name}{did_you_mean(name, mapped) or ' no close match'}" for name in missing)
-    assert not missing, f"{len(missing)} @Classes entries are unknown to the context:\n{report}"
-
-
-def _context_pairs(template: dict) -> list[tuple[str, str]]:
-    """The @Context sheet as the converter builds it."""
-    return [(row["Item"], row["Key"]) for row in template["@Context"]["data"] if row.get("Item")]
 
 
 def test_template_gives_expected_jsonld(schema: CellFixtures) -> None:

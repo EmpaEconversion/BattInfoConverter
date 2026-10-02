@@ -1573,100 +1573,139 @@
     "type": "table",
     "header": [
       "Item",
-      "Key"
+      "Key",
+      "Note"
     ],
     "data": [
       {
         "Item": "hasActiveMaterial",
-        "Key": null
+        "Key": "ActiveMaterial",
+        "Note": null
+      },
+      {
+        "Item": "hasAnolyte",
+        "Key": "Anolyte",
+        "Note": null
       },
       {
         "Item": "hasBinder",
-        "Key": "Binder"
+        "Key": "Binder",
+        "Note": null
       },
       {
-        "Item": "hasCase",
-        "Key": null
+        "Item": "hasCatholyte",
+        "Key": "Catholyte",
+        "Note": null
       },
       {
         "Item": "hasCoating",
-        "Key": "Coating"
+        "Key": "Coating",
+        "Note": null
       },
       {
         "Item": "hasConductiveAdditive",
-        "Key": "ConductiveAdditive"
-      },
-      {
-        "Item": "hasCurrentCollector",
-        "Key": "CurrentCollector"
-      },
-      {
-        "Item": "hasElectrolyte",
-        "Key": null
-      },
-      {
-        "Item": "hasNegativeElectrode",
-        "Key": "Electrode"
-      },
-      {
-        "Item": "hasPositiveElectrode",
-        "Key": "Electrode"
-      },
-      {
-        "Item": "hasSeparator",
-        "Key": "Separator"
-      },
-      {
-        "Item": "hasSolute",
-        "Key": "Solute"
-      },
-      {
-        "Item": "hasSolvent",
-        "Key": "Solvent"
-      },
-      {
-        "Item": "hasConstituent",
-        "Key": null
-      },
-      {
-        "Item": "hasInput",
-        "Key": null
-      },
-      {
-        "Item": "hasProperty",
-        "Key": null
-      },
-      {
-        "Item": "hasWaveSpring",
-        "Key": null
-      },
-      {
-        "Item": "hasSpacer",
-        "Key": null
-      },
-      {
-        "Item": "hasMeasuredProperty",
-        "Key": null
-      },
-      {
-        "Item": "hasOutput",
-        "Key": null
-      },
-      {
-        "Item": "hasReferenceElectrode",
-        "Key": "ReferenceElectrode"
-      },
-      {
-        "Item": "hasSubstrate",
-        "Key": "Substrate"
-      },
-      {
-        "Item": "hasWorkingElectrode",
-        "Key": "WorkingElectrode"
+        "Key": "ConductiveAdditive",
+        "Note": null
       },
       {
         "Item": "hasCounterElectrode",
-        "Key": "CounterElectrode"
+        "Key": "CounterElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasCurrentCollector",
+        "Key": "CurrentCollector",
+        "Note": null
+      },
+      {
+        "Item": "hasElectrolyte",
+        "Key": "Electrolyte",
+        "Note": null
+      },
+      {
+        "Item": "hasNegativeElectrode",
+        "Key": "NegativeElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasPositiveElectrode",
+        "Key": "PositiveElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasReferenceElectrode",
+        "Key": "ReferenceElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasSeparator",
+        "Key": "Separator",
+        "Note": null
+      },
+      {
+        "Item": "hasSolute",
+        "Key": "Solute",
+        "Note": null
+      },
+      {
+        "Item": "hasSolvent",
+        "Key": "Solvent",
+        "Note": null
+      },
+      {
+        "Item": "hasSubstrate",
+        "Key": "Substrate",
+        "Note": null
+      },
+      {
+        "Item": "hasWorkingElectrode",
+        "Key": "WorkingElectrode",
+        "Note": null
+      },
+      {
+        "Item": "hasCase",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasComponent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasConstituent",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasDatum",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasInput",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasMeasuredProperty",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasOutput",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasProperty",
+        "Key": null,
+        "Note": null
+      },
+      {
+        "Item": "hasStringValue",
+        "Key": null,
+        "Note": null
       }
     ]
   },
@@ -1934,11 +1973,11 @@
         "Note": null
       },
       {
-        "Class": "TitaniumIOxide",
+        "Class": "TitaniumIIOxide",
         "Note": null
       },
       {
-        "Class": "TitaniumIIOxide",
+        "Class": "TitaniumIIIOxide",
         "Note": null
       },
       {
@@ -2090,8 +2129,8 @@
         "Note": null
       },
       {
-        "Class": "HydrochloricAcid",
-        "Note": "requested"
+        "Class": "HydrochloricAcidSolution",
+        "Note": null
       },
       {
         "Class": "PotassiumChloride",
