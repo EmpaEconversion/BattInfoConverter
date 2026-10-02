@@ -14,6 +14,15 @@ _DECLARED_PREFIXES: dict[str, dict[str, str]] | None = None
 
 CONTEXT_DIR = Path(__file__).parent / "_context"
 
+ErrorMode = Literal["raise", "warn", "ignore"]
+
+# Above this similarity to a known namespace, an unknown one is read as a typo of it
+# rather than as a namespace of the user's own
+NAMESPACE_TYPO_CUTOFF = 0.85
+
+# JSON-LD only allows prefixes with namespace IRIs ending with these characters (RFC 3986)
+GEN_DELIMS = (":", "/", "?", "#", "[", "]", "@")
+
 
 def _load_cache() -> tuple[dict, dict]:
     """Read the cached context files into the term and prefix maps."""
@@ -44,10 +53,10 @@ def get_declared_prefixes(namespace: str) -> dict[str, str]:
     return _load_cache()[1].get(namespace, {})
 
 
-def find_similar_url(user_url: str) -> str | None:
+def find_similar_url(user_url: str, cutoff: float = 0.6) -> str | None:
     """Check if there is a close known URL."""
     known_urls = list(get_context().keys())
-    matches = get_close_matches(user_url, known_urls, n=1, cutoff=0.6)
+    matches = get_close_matches(user_url, known_urls, n=1, cutoff=cutoff)
     if matches:
         return matches[0]
     return None
@@ -63,10 +72,18 @@ def _add_declared_prefixes(existing_map: dict, namespace: str) -> None:
         existing_map.setdefault("_declared", {}).update(declared)
 
 
+def _report(msg: str, errors: ErrorMode) -> None:
+    """Raise, warn, or stay quiet about a problem."""
+    if errors == "raise":
+        raise ValueError(msg)
+    if errors == "warn":
+        logger.warning(msg)
+
+
 def map_context(
     context: str | list[str | dict[str, str]] | dict[str, str],
     existing_map: dict | None = None,
-    errors: Literal["raise", "warn"] = "raise",
+    errors: ErrorMode = "raise",
 ) -> dict:
     """Get all valid terms for the context, using the cached JSON context files."""
     if existing_map is None:
@@ -81,14 +98,10 @@ def map_context(
                 _add_declared_prefixes(existing_map, context_ns)
             else:
                 msg = f"The base context URL ({context}) is not a known namespace of BattINFO converter."
-                if errors == "raise":
-                    raise ValueError(msg)
-                logger.warning(msg)
+                _report(msg, errors)
         else:
             msg = "There are multiple 'default' vocabularies, you are only allowed one."
-            if errors == "raise":
-                raise ValueError(msg)
-            logger.warning(msg)
+            _report(msg, errors)
     if isinstance(context, dict):
         for k, v in context.items():
             # Expanded term definitions: track @vocab-typed properties, whose string
@@ -97,18 +110,34 @@ def map_context(
                 if v.get("@type") == "@vocab":
                     existing_map.setdefault("_vocab", set()).add(k)
                 continue
-            existing_map.setdefault("_urls", {})[k] = v
-            if v not in get_context():
-                msg = f"The URL for '{k}' ({v}) is not a known namespace of BattINFO converter."
-                close_match = find_similar_url(v)
-                if close_match:
-                    msg += f" Maybe you meant ({close_match})?"
-                if errors == "raise":
-                    raise ValueError(msg)
-                logger.warning(msg)
+            known = get_context()
+            if v in known:  # A namespace we hold the term list for
+                existing_map.setdefault("_urls", {})[k] = v
+                existing_map[k] = known[v]
+                continue
+            # A URL reaching into a namespace we know names one term of it
+            if any(v.startswith(namespace) for namespace in known):
+                existing_map.setdefault("_terms", set()).add(k)
+                continue
+            # Nearly a known namespace, so probably a typo
+            if close_match := find_similar_url(v, cutoff=NAMESPACE_TYPO_CUTOFF):
+                existing_map.setdefault("_urls", {})[k] = v
                 existing_map[k] = []
+                msg = (
+                    f"The URL for '{k}' ({v}) is not a known namespace of BattINFO converter. "
+                    f"Maybe you meant ({close_match})?"
+                )
+                _report(msg, errors)
+            elif v.endswith(GEN_DELIMS):
+                # A namespace of the user's own, with no term list to check against
+                existing_map.setdefault("_urls", {})[k] = v
+                existing_map.setdefault("_opaque", set()).add(k)
+                existing_map[k] = []
+                if errors != "ignore":
+                    logger.info("'%s' (%s) is a namespace of your own, its terms are not checked.", k, v)
             else:
-                existing_map[k] = get_context()[v]
+                # A custom term
+                existing_map.setdefault("_terms", set()).add(k)
     elif isinstance(context, list):
         for el in context:
             existing_map = map_context(el, existing_map, errors)
@@ -146,6 +175,9 @@ def get_all_terms(
                 elif isinstance(v, list):
                     for el in v:
                         target.add(el)
+                else:
+                    # A non-text @id or @type cannot be an IRI
+                    logger.warning("'%s' is '%s', which cannot be an IRI", k, v)
             elif not k.startswith("@"):
                 vocab_terms.add(k)
                 if k not in LITERAL_PREDICATES and k.split(":", 1)[0] not in opaque_prefixes:
@@ -167,11 +199,23 @@ def check_term_against_context(term: str, mapped_context: dict, *, warn_redundan
     """Raise error if term is not in context, or not already IRI."""
     if term.startswith("http"):  # It is already an absolute IRI
         return
+    if term in mapped_context.get("_terms", ()):
+        return  # defined as its own term in the context
     if ":" in term:  # It is prefixed - check
         prefix, label = term.split(":", 1)
+        if prefix in mapped_context.get("_opaque", ()):
+            return  # a user's own namespace, no term list to check against
         if prefix not in mapped_context:
             if prefix in mapped_context.get("_declared", {}):
                 return  # declared by the remote context, no term list to check against
+            if prefix in mapped_context.get("_terms", ()):
+                # JSON-LD leaves 'prefix:label' alone unless the prefix maps to an IRI
+                # ending in a general delimiter, so this would not expand at all
+                msg = (
+                    f"'{prefix}' maps to a single term, so '{term}' is not expanded. "
+                    f"End its URL in one of {' '.join(GEN_DELIMS)} to use it as a namespace."
+                )
+                raise ValueError(msg)
             msg = f"Prefix '{prefix}' is not in the context"
             raise ValueError(msg)
         if label not in mapped_context[prefix]:
@@ -203,7 +247,7 @@ def check_term_against_context(term: str, mapped_context: dict, *, warn_redundan
         raise ValueError(msg)
 
 
-def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> None:
+def validate_jsonld(doc: dict, errors: ErrorMode = "warn") -> None:
     """Check that terms in JSON-LD are known in context."""
     # Map out the context - URL: list of valid terms
     context = doc["@context"]
@@ -211,8 +255,10 @@ def validate_jsonld(doc: dict, errors: Literal["raise", "warn"] = "warn") -> Non
 
     # Get all the terms in the json-ld
     vocab_props = mapped_context.get("_vocab", frozenset())
-    # Prefixes the remote context declares but we have no term list for
-    opaque_prefixes = set(mapped_context.get("_declared", {})) - set(mapped_context)
+    # Prefixes we have no term list for, declared by the remote context or by the user
+    opaque_prefixes = (set(mapped_context.get("_declared", {})) - set(mapped_context)) | mapped_context.get(
+        "_opaque", set()
+    )
     vocab_terms, iri_terms = get_all_terms(doc, vocab_props=vocab_props, opaque_prefixes=opaque_prefixes)
     raw_terms = vocab_terms | iri_terms
 
