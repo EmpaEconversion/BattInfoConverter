@@ -34,10 +34,12 @@ def test_standard_battinfo_hardcoded_header(tmpdir: Path, coincell: CellFixtures
     }
     wb = load_workbook(coincell.excel)
     sheet = wb["@Schema"]
-    for row in sheet.iter_rows():
+    headings = [cell.value for cell in sheet[1]]
+    link_column = headings.index("Ontology link")
+    for row in sheet.iter_rows(min_row=2):
         col_a = row[0].value
         if col_a in values_to_update:
-            row[4].value = values_to_update[col_a]
+            row[link_column].value = values_to_update[col_a]
     wb.save(new_excel)  # Overwrites in place, or use a new name
     converted = convert_excel_to_jsonld(new_excel, debug_mode=False, validate=False)
     assert normalize_jsonld(converted) == normalize_jsonld(coincell.jsonld)
