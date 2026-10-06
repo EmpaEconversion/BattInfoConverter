@@ -57,7 +57,7 @@ QUANTITY_WARNING = (
     "'%s' has a numerical value %s with no unit, which is ambiguous. It is "
     "recorded as a comment rather than a measurement. Give the row a unit if "
     "it is a measurement, or put it on a literal predicate, or write "
-    "'comment|%s' if it is not a measuement. You can use unit 'unitless' in "
+    "'comment|%s' if it is not a measurement. You can use unit 'unitless' in "
     "the default templates to specify a dimensionless measurement such as pH."
 )
 

@@ -118,7 +118,7 @@ def _unit_workbook(unit: object, value: object, link: str) -> Workbook:
     ws = wb.create_sheet("@Units")
     ws.append(["Unit", "Unit class"])
     ws.append(["mm", "MilliMetre"])
-    ws.append(["dimensionless", "unit:UNITLESS"])
+    ws.append(["unitless", "UnitOne"])
     return wb
 
 
@@ -128,7 +128,7 @@ def test_missing_unit_warns_only_for_quantities(
 ) -> None:
     """A number with no unit should be flagged, a name or a literal should not."""
     convert_excel_to_jsonld(_unit_workbook(unit, value, link), validate=False)
-    warned = "with no unit, so it is recorded as a comment" in caplog.text
+    warned = "has a numerical value" in caplog.text
     assert warned == wants_warning
 
 
@@ -143,9 +143,9 @@ def test_blank_unit_matches_no_unit() -> None:
 def test_dimensionless_unit_is_a_measurement() -> None:
     """A quantity declared dimensionless is still a measured property, not a comment."""
     out = convert_excel_to_jsonld(
-        _unit_workbook("dimensionless", 7.4, "hasElectrolyte-hasMeasuredProperty-pH"), validate=False
+        _unit_workbook("unitless", 7.4, "hasElectrolyte-hasMeasuredProperty-pH"), validate=False
     )
     measured = out["hasElectrolyte"]["hasMeasuredProperty"]
     assert measured["@type"] == "pH"
     assert measured["hasNumericalPart"]["hasNumberValue"] == 7.4
-    assert measured["hasMeasurementUnit"] == "unit:UNITLESS"
+    assert measured["hasMeasurementUnit"] == "UnitOne"
