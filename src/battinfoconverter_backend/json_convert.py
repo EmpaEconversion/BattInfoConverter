@@ -119,7 +119,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     context_toplevel = data_container.data["context_toplevel"]
     id_from_val: dict[str, str] = data_container.data["unique_id_map"]
 
-    local_context: dict[str, str | dict] = {row["Item"]: row["Key"] for _, row in context_toplevel.iterrows()}
+    local_context: dict[str, str | dict] = {row["Term"]: row["IRI"] for _, row in context_toplevel.iterrows()}
     # @vocab routes bare unit labels through the context's term definitions,
     # so "Volt" expands to the real EMMO IRI instead of a document-relative one
     local_context.setdefault(

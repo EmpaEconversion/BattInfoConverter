@@ -105,6 +105,10 @@ COLUMN_WIDTHS = {
     "Type": 28,
     "Class": 35,
     "IRI": 50,
+    "Term": 35,
+    "Predicate": 30,
+    "Default class": 28,
+    "Unit class": 42,
 }
 
 # These sheets are treated as sectioned, others are simple tables

@@ -60,10 +60,10 @@ class Registry:
 
         """
         context_connector = self.data["context_connector"]
-        connectors = set(context_connector["Item"])
+        connectors = set(context_connector["Predicate"])
 
         context_toplevel = self.data.get("context_toplevel")
-        top_level_connectors = set(context_toplevel["Item"]) if context_toplevel is not None else set()
+        top_level_connectors = set(context_toplevel["Term"]) if context_toplevel is not None else set()
 
         multi_connector_candidates = connectors | top_level_connectors | {"Comment"}
 

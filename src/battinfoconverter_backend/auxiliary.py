@@ -501,7 +501,9 @@ def add_to_structure(
         # Ensure the key exists in the current dict
         if part not in current_level and (value or unit):
             if part in connectors:
-                connector_type = context_connector.loc[context_connector["Item"] == part, "Key"].to_numpy()[0]
+                connector_type = context_connector.loc[
+                    context_connector["Predicate"] == part, "Default class"
+                ].to_numpy()[0]
                 current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
             else:
                 current_level[part] = {}
