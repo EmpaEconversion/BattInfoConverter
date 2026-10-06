@@ -1661,59 +1661,19 @@
     ],
     "data": [
       {
-        "Class": "Aluminium",
-        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
-      },
-      {
-        "Class": "Copper",
-        "Note": null
-      },
-      {
-        "Class": "LithiumNickelManganeseCobaltOxide",
-        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
-      },
-      {
-        "Class": "Graphite",
-        "Note": null
-      },
-      {
-        "Class": "PolyvinylideneFluoride",
-        "Note": null
-      },
-      {
-        "Class": "CarbonBlack",
-        "Note": null
-      },
-      {
-        "Class": "EthyleneCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "EthylMethylCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "LithiumHexafluorophosphate",
-        "Note": null
-      },
-      {
-        "Class": "VinyleneCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "LithiumBisfluorosulfonylimide",
-        "Note": null
-      },
-      {
-        "Class": "TrisTrimethylsilyPhosphite",
-        "Note": null
-      },
-      {
-        "Class": "Polyolefin",
-        "Note": null
+        "Class": "CoinCell",
+        "Note": "Cell and case. Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
       },
       {
         "Class": "R2032",
+        "Note": null
+      },
+      {
+        "Class": "R2025",
+        "Note": null
+      },
+      {
+        "Class": "R2016",
         "Note": null
       },
       {
@@ -1721,16 +1681,132 @@
         "Note": null
       },
       {
-        "Class": "StainlessSteel",
+        "Class": null,
         "Note": null
       },
       {
-        "Class": "Polypropylene",
+        "Class": "LithiumNickelManganeseCobaltOxide",
+        "Note": "Positive electrode active materials."
+      },
+      {
+        "Class": "LithiumNickelManganeseCobaltOxide111",
+        "Note": null
+      },
+      {
+        "Class": "LithiumNickelManganeseCobaltOxide532",
+        "Note": null
+      },
+      {
+        "Class": "LithiumNickelManganeseCobaltOxide622",
+        "Note": null
+      },
+      {
+        "Class": "LithiumNickelManganeseCobaltOxide811",
+        "Note": null
+      },
+      {
+        "Class": "LithiumNickelCobaltAluminiumOxide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumNickelManganeseOxide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumCobaltOxide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumManganeseOxide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumIronPhosphate",
+        "Note": null
+      },
+      {
+        "Class": "LithiumManganeseIronPhosphate",
+        "Note": null
+      },
+      {
+        "Class": "SodiumIronPhosphate",
+        "Note": null
+      },
+      {
+        "Class": "SodiumManganeseOxide",
+        "Note": null
+      },
+      {
+        "Class": "SodiumCobaltOxide",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Graphite",
+        "Note": "Negative electrode active materials"
+      },
+      {
+        "Class": "HardCarbon",
+        "Note": null
+      },
+      {
+        "Class": "SiliconGraphite",
+        "Note": null
+      },
+      {
+        "Class": "Silicon",
+        "Note": null
+      },
+      {
+        "Class": "SiliconOxide",
+        "Note": null
+      },
+      {
+        "Class": "SiliconMonoxide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumTitanate",
         "Note": null
       },
       {
         "Class": "Lithium",
         "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Aluminium",
+        "Note": "Current collectors and other metals"
+      },
+      {
+        "Class": "Copper",
+        "Note": null
+      },
+      {
+        "Class": "Nickel",
+        "Note": null
+      },
+      {
+        "Class": "StainlessSteel",
+        "Note": null
+      },
+      {
+        "Class": "Titanium",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "PolyvinylideneFluoride",
+        "Note": "Binders"
       },
       {
         "Class": "CarboxymethylCellulose",
@@ -1741,11 +1817,151 @@
         "Note": null
       },
       {
+        "Class": "Polytetrafluoroethylene",
+        "Note": null
+      },
+      {
+        "Class": "PolyacrylicAcid",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "CarbonBlack",
+        "Note": "Conductive additives"
+      },
+      {
+        "Class": "Carbon",
+        "Note": null
+      },
+      {
+        "Class": "Graphene",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "EthyleneCarbonate",
+        "Note": "Electrolyte solvents"
+      },
+      {
+        "Class": "EthylMethylCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "DimethylCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "DiethylCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "PropyleneCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "Dimethoxyethane",
+        "Note": null
+      },
+      {
+        "Class": "Dioxolane",
+        "Note": null
+      },
+      {
+        "Class": "Sulfolane",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "LithiumHexafluorophosphate",
+        "Note": "Electrolyte salts"
+      },
+      {
+        "Class": "LithiumBisfluorosulfonylimide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumBistrifluoromethanesulfonylimide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumTetrafluoroborate",
+        "Note": null
+      },
+      {
+        "Class": "LithiumPerchlorate",
+        "Note": null
+      },
+      {
+        "Class": "LithiumBisoxalatoborate",
+        "Note": null
+      },
+      {
+        "Class": "LithiumDifluorooxalatoborate",
+        "Note": null
+      },
+      {
+        "Class": "LithiumTriflate",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
         "Class": "FluoroethyleneCarbonate",
+        "Note": "Electrolyte additives"
+      },
+      {
+        "Class": "VinyleneCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "VinylEthyleneCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "TrisTrimethylsilyPhosphite",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Polypropylene",
+        "Note": "Separators and separator coatings"
+      },
+      {
+        "Class": "Polyethylene",
+        "Note": null
+      },
+      {
+        "Class": "Polyolefin",
         "Note": null
       },
       {
         "Class": "GlassFibreSeparator",
+        "Note": null
+      },
+      {
+        "Class": "PorousSeparator",
+        "Note": null
+      },
+      {
+        "Class": "CeramicCoating",
+        "Note": null
+      },
+      {
+        "Class": "AluminiumOxide",
         "Note": null
       }
     ]

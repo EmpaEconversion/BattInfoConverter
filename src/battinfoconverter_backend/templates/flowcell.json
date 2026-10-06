@@ -1933,15 +1933,79 @@
     ],
     "data": [
       {
-        "Class": "AnionExchangeMembrane",
-        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
+        "Class": "FlowCell",
+        "Note": "Cell and battery types. Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
       },
       {
-        "Class": "Carbon",
+        "Class": "RedoxFlowBattery",
         "Note": null
       },
       {
-        "Class": "CarbonCloth",
+        "Class": "VanadiumRedoxFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "IronRedoxFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "ZincBromineFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "AqueousOrganicFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "AqueousMetallicFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "HybridFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": "MembranelessFlowBattery",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "FlowField",
+        "Note": "Cell components"
+      },
+      {
+        "Class": "CurrentCollector",
+        "Note": null
+      },
+      {
+        "Class": "Gasket",
+        "Note": null
+      },
+      {
+        "Class": "Pump",
+        "Note": null
+      },
+      {
+        "Class": "Tank",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "PorousElectrode",
+        "Note": "Electrodes and substrates"
+      },
+      {
+        "Class": "VanadiumBasedElectrode",
+        "Note": null
+      },
+      {
+        "Class": "Carbon",
         "Note": null
       },
       {
@@ -1949,20 +2013,40 @@
         "Note": null
       },
       {
+        "Class": "CarbonCloth",
+        "Note": null
+      },
+      {
         "Class": "CarbonPaper",
-        "Note": null
-      },
-      {
-        "Class": "CationExchangeMembrane",
-        "Note": null
-      },
-      {
-        "Class": "FlowCell",
         "Note": null
       },
       {
         "Class": "Graphite",
         "Note": null
+      },
+      {
+        "Class": "Mesh",
+        "Note": null
+      },
+      {
+        "Class": "WovenMesh",
+        "Note": null
+      },
+      {
+        "Class": "ExpandedMesh",
+        "Note": null
+      },
+      {
+        "Class": "OpenCellFoam",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Electrocatalyst",
+        "Note": "Electrocatalysts and coatings"
       },
       {
         "Class": "Bismuth",
@@ -1973,15 +2057,83 @@
         "Note": null
       },
       {
-        "Class": "Electrocatalyst",
+        "Class": null,
         "Note": null
       },
       {
-        "Class": "PorousElectrode",
+        "Class": "Vanadium",
+        "Note": "Redox active species and metals"
+      },
+      {
+        "Class": "VanadiumIIOxide",
         "Note": null
       },
       {
-        "Class": "Water",
+        "Class": "VanadiumIIIOxide",
+        "Note": null
+      },
+      {
+        "Class": "VanadiumIVOxide",
+        "Note": null
+      },
+      {
+        "Class": "VanadiumVOxide",
+        "Note": null
+      },
+      {
+        "Class": "Iron",
+        "Note": null
+      },
+      {
+        "Class": "Chromium",
+        "Note": null
+      },
+      {
+        "Class": "Zinc",
+        "Note": null
+      },
+      {
+        "Class": "Bromine",
+        "Note": null
+      },
+      {
+        "Class": "Iodine",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "AnionExchangeMembrane",
+        "Note": "Membranes"
+      },
+      {
+        "Class": "CationExchangeMembrane",
+        "Note": null
+      },
+      {
+        "Class": "IonExchangeMembrane",
+        "Note": null
+      },
+      {
+        "Class": "BilayerMembrane",
+        "Note": null
+      },
+      {
+        "Class": "Nafion",
+        "Note": null
+      },
+      {
+        "Class": "PerfluorosulfonicAcid",
+        "Note": null
+      },
+      {
+        "Class": "PerfluorocarboxylicAcid",
+        "Note": null
+      },
+      {
+        "Class": "IonomerCompound",
         "Note": null
       },
       {
@@ -1989,7 +2141,51 @@
         "Note": null
       },
       {
+        "Class": "SulfonatedPolyEtherEtherKetone",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Water",
+        "Note": "Electrolytes and supporting salts"
+      },
+      {
+        "Class": "SulfuricAcid",
+        "Note": null
+      },
+      {
+        "Class": "HydrochloricAcidSolution",
+        "Note": null
+      },
+      {
+        "Class": "PhosphoricAcid",
+        "Note": null
+      },
+      {
+        "Class": "PotassiumHydroxide",
+        "Note": null
+      },
+      {
+        "Class": "SodiumHydroxide",
+        "Note": null
+      },
+      {
+        "Class": "PotassiumChloride",
+        "Note": null
+      },
+      {
+        "Class": "SodiumChloride",
+        "Note": null
+      },
+      {
         "Class": "PotassiumSaltCompound",
+        "Note": null
+      },
+      {
+        "Class": "OrganicAcid",
         "Note": null
       },
       {
@@ -1997,7 +2193,15 @@
         "Note": null
       },
       {
-        "Class": "OrganicAcid",
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Gas",
+        "Note": "Gases"
+      },
+      {
+        "Class": "GasMixture",
         "Note": null
       },
       {
@@ -2009,7 +2213,19 @@
         "Note": null
       },
       {
-        "Class": "Gas",
+        "Class": "Oxygen",
+        "Note": null
+      },
+      {
+        "Class": "Hydrogen",
+        "Note": null
+      },
+      {
+        "Class": "CarbonDioxide",
+        "Note": null
+      },
+      {
+        "Class": "Air",
         "Note": null
       }
     ]

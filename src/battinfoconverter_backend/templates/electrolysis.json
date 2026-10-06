@@ -1726,7 +1726,11 @@
     "data": [
       {
         "Class": "ElectrochemicalCell",
-        "Note": "Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
+        "Note": "Cell and device types. Classes available to the @Schema sheet Value column. Classes must already exist in the ontology. You can declare your own custom classes in the @Context sheet. This column is a reference list, a value already known to the ontology works even if it is not listed."
+      },
+      {
+        "Class": "ElectrolyticCell",
+        "Note": null
       },
       {
         "Class": "ElectrochemicalHalfCell",
@@ -1737,7 +1741,7 @@
         "Note": null
       },
       {
-        "Class": "ElectrolyticCell",
+        "Class": "CoinCell",
         "Note": null
       },
       {
@@ -1745,15 +1749,11 @@
         "Note": null
       },
       {
-        "Class": "R2032",
-        "Note": null
-      },
-      {
-        "Class": "CoinCell",
-        "Note": null
-      },
-      {
         "Class": "ThreeElectrodeCellDevice",
+        "Note": null
+      },
+      {
+        "Class": "R2032",
         "Note": null
       },
       {
@@ -1762,7 +1762,7 @@
       },
       {
         "Class": "Component",
-        "Note": null
+        "Note": "Cell components and compartments"
       },
       {
         "Class": "AnolyteCompartment",
@@ -1781,10 +1781,6 @@
         "Note": null
       },
       {
-        "Class": "FlowField",
-        "Note": null
-      },
-      {
         "Class": "GasCompartment",
         "Note": null
       },
@@ -1797,12 +1793,16 @@
         "Note": "requested"
       },
       {
+        "Class": "FlowField",
+        "Note": null
+      },
+      {
         "Class": null,
         "Note": null
       },
       {
         "Class": "Electrode",
-        "Note": null
+        "Note": "Electrodes"
       },
       {
         "Class": "GasDiffusionElectrode",
@@ -1846,14 +1846,18 @@
       },
       {
         "Class": "Substrate",
-        "Note": null
+        "Note": "Substrates and structures"
       },
       {
         "Class": "CarbonPaper",
         "Note": null
       },
       {
-        "Class": "ElectrospunMesh",
+        "Class": "Mesh",
+        "Note": "requested"
+      },
+      {
+        "Class": "WovenMesh",
         "Note": null
       },
       {
@@ -1861,12 +1865,8 @@
         "Note": null
       },
       {
-        "Class": "WovenMesh",
+        "Class": "ElectrospunMesh",
         "Note": null
-      },
-      {
-        "Class": "Mesh",
-        "Note": "requested"
       },
       {
         "Class": "PerforatedFoil",
@@ -1881,16 +1881,16 @@
         "Note": null
       },
       {
-        "Class": null,
-        "Note": null
-      },
-      {
         "Class": "Solid",
         "Note": null
       },
       {
-        "Class": "Aluminium",
+        "Class": null,
         "Note": null
+      },
+      {
+        "Class": "Aluminium",
+        "Note": "Metals and elemental substances"
       },
       {
         "Class": "Carbon",
@@ -1905,43 +1905,11 @@
         "Note": null
       },
       {
-        "Class": "CopperOxideCompound",
-        "Note": null
-      },
-      {
-        "Class": "Electrocatalyst",
-        "Note": null
-      },
-      {
         "Class": "Graphite",
         "Note": null
       },
       {
-        "Class": "IridiumOxideCompound",
-        "Note": null
-      },
-      {
-        "Class": "IridiumIIIOxide",
-        "Note": null
-      },
-      {
-        "Class": "IridiumDioxide",
-        "Note": null
-      },
-      {
         "Class": "Lithium",
-        "Note": null
-      },
-      {
-        "Class": "LithiumIronPhosphate",
-        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
-      },
-      {
-        "Class": "LithiumNickelManganeseCobaltOxide",
-        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
-      },
-      {
-        "Class": "LithiumTitanate",
         "Note": null
       },
       {
@@ -1965,11 +1933,35 @@
         "Note": null
       },
       {
-        "Class": "TantalumOxideCompound",
+        "Class": "Titanium",
         "Note": null
       },
       {
-        "Class": "Titanium",
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "Electrocatalyst",
+        "Note": "Catalysts and metal oxides"
+      },
+      {
+        "Class": "CopperOxideCompound",
+        "Note": null
+      },
+      {
+        "Class": "IridiumOxideCompound",
+        "Note": null
+      },
+      {
+        "Class": "IridiumIIIOxide",
+        "Note": null
+      },
+      {
+        "Class": "IridiumDioxide",
+        "Note": null
+      },
+      {
+        "Class": "TantalumOxideCompound",
         "Note": null
       },
       {
@@ -1985,12 +1977,24 @@
         "Note": null
       },
       {
+        "Class": "LithiumIronPhosphate",
+        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+      },
+      {
+        "Class": "LithiumNickelManganeseCobaltOxide",
+        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+      },
+      {
+        "Class": "LithiumTitanate",
+        "Note": null
+      },
+      {
         "Class": null,
         "Note": null
       },
       {
         "Class": "Separator",
-        "Note": null
+        "Note": "Separators and membranes"
       },
       {
         "Class": "GlassFibreSeparator",
@@ -2013,8 +2017,12 @@
         "Note": null
       },
       {
-        "Class": "IonomerCompound",
+        "Class": null,
         "Note": null
+      },
+      {
+        "Class": "IonomerCompound",
+        "Note": "Membrane and binder polymers"
       },
       {
         "Class": "PerfluorocarboxylicAcid",
@@ -2070,7 +2078,7 @@
       },
       {
         "Class": "Electrolyte",
-        "Note": null
+        "Note": "Electrolytes and solvents"
       },
       {
         "Class": "LiquidElectrolyte",
@@ -2081,63 +2089,7 @@
         "Note": null
       },
       {
-        "Class": "EthyleneCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "EthylMethylCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "LithiumBisfluorosulfonylimide",
-        "Note": null
-      },
-      {
-        "Class": "LithiumHexafluorophosphate",
-        "Note": null
-      },
-      {
-        "Class": "SodiumChloride",
-        "Note": null
-      },
-      {
-        "Class": "SodiumHydroxide",
-        "Note": null
-      },
-      {
-        "Class": "PhosphoricAcid",
-        "Note": null
-      },
-      {
-        "Class": "PotassiumCarbonate",
-        "Note": null
-      },
-      {
-        "Class": "SulfuricAcid",
-        "Note": null
-      },
-      {
-        "Class": "TrisTrimethylsilyPhosphite",
-        "Note": null
-      },
-      {
-        "Class": "VinyleneCarbonate",
-        "Note": null
-      },
-      {
         "Class": "Water",
-        "Note": null
-      },
-      {
-        "Class": "HydrochloricAcidSolution",
-        "Note": null
-      },
-      {
-        "Class": "PotassiumChloride",
-        "Note": null
-      },
-      {
-        "Class": "PotassiumHydroxide",
         "Note": null
       },
       {
@@ -2149,19 +2101,91 @@
         "Note": null
       },
       {
+        "Class": "EthyleneCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "EthylMethylCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "VinyleneCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "TrisTrimethylsilyPhosphite",
+        "Note": null
+      },
+      {
+        "Class": null,
+        "Note": null
+      },
+      {
+        "Class": "SulfuricAcid",
+        "Note": "Acids, bases and salts"
+      },
+      {
+        "Class": "PhosphoricAcid",
+        "Note": null
+      },
+      {
+        "Class": "HydrochloricAcidSolution",
+        "Note": null
+      },
+      {
+        "Class": "SodiumHydroxide",
+        "Note": null
+      },
+      {
+        "Class": "PotassiumHydroxide",
+        "Note": null
+      },
+      {
+        "Class": "PotassiumCarbonate",
+        "Note": null
+      },
+      {
+        "Class": "PotassiumChloride",
+        "Note": null
+      },
+      {
+        "Class": "SodiumChloride",
+        "Note": null
+      },
+      {
+        "Class": "LithiumBisfluorosulfonylimide",
+        "Note": null
+      },
+      {
+        "Class": "LithiumHexafluorophosphate",
+        "Note": null
+      },
+      {
         "Class": null,
         "Note": null
       },
       {
         "Class": "Gas",
-        "Note": null
+        "Note": "Gases"
       },
       {
         "Class": "GasMixture",
         "Note": null
       },
       {
+        "Class": "Air",
+        "Note": "requested"
+      },
+      {
         "Class": "Argon",
+        "Note": null
+      },
+      {
+        "Class": "Nitrogen",
+        "Note": null
+      },
+      {
+        "Class": "Oxygen",
         "Note": null
       },
       {
@@ -2173,27 +2197,15 @@
         "Note": null
       },
       {
-        "Class": "Nitrogen",
-        "Note": null
+        "Class": "CarbonMonoxide",
+        "Note": "requested"
       },
       {
         "Class": "Ammonia",
         "Note": null
       },
       {
-        "Class": "CarbonMonoxide",
-        "Note": "requested"
-      },
-      {
-        "Class": "Oxygen",
-        "Note": null
-      },
-      {
         "Class": "Ethylene",
-        "Note": "requested"
-      },
-      {
-        "Class": "Air",
         "Note": "requested"
       },
       {
@@ -2202,7 +2214,7 @@
       },
       {
         "Class": "Area",
-        "Note": null
+        "Note": "Measured property types, for the Ontology link column rather than Value"
       },
       {
         "Class": "PH",
