@@ -103,9 +103,15 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     assert not _filter_warnings(warnings)
 
 
+def _col(row: dict, *names: str) -> str | None:
+    """Read the first of `names` the row has a value for, as the loader does."""
+    return next((row[n] for n in names if row.get(n)), None)
+
+
 def _context_pairs(template: dict) -> list[tuple[str, str]]:
     """The @Context sheet as the converter builds it."""
-    return [(row["Item"], row["Key"]) for row in template["@Context"]["data"] if row.get("Item")]
+    rows = template["@Context"]["data"]
+    return [(_col(r, "Term", "Item"), _col(r, "IRI", "Key")) for r in rows if _col(r, "Term", "Item")]
 
 
 def _mapped_context(template: dict) -> dict:
@@ -130,7 +136,7 @@ def test_template_classes_are_in_context(schema: CellFixtures) -> None:
     our cached context is stale, so the templates are checked here instead.
     """
     rows = schema.template["@Classes"]["data"]
-    classes = [row[key] for row in rows for key in ("Class", "Item") if row.get(key)]
+    classes = [c for row in rows if (c := _col(row, "Class", "Item"))]
     assert classes, "the @Classes sheet is empty"
     _assert_all_resolve(classes, _mapped_context(schema.template), "@Classes")
 
@@ -138,18 +144,18 @@ def test_template_classes_are_in_context(schema: CellFixtures) -> None:
 def test_template_predicates_are_in_context(schema: CellFixtures) -> None:
     """Both columns of @Predicates should be real ontology terms."""
     rows = schema.template["@Predicates"]["data"]
-    predicates = [row[key] for row in rows for key in ("Item", "Predicate") if row.get(key)]
-    types = [row[key] for row in rows for key in ("Key", "Default Class") if row.get(key)]
+    predicates = [p for row in rows if (p := _col(row, "Predicate", "Item"))]
+    types = [t for row in rows if (t := _col(row, "Default class", "Key"))]
     assert predicates, "the @Predicates sheet is empty"
     _assert_all_resolve(predicates + types, _mapped_context(schema.template), "@Predicates")
 
 
 def test_template_predicate_defaults_come_first(schema: CellFixtures) -> None:
     """Predicates with a default type are listed before the open-ended ones."""
-    rows = [row for row in schema.template["@Predicates"]["data"] if row.get("Item")]
-    has_default = [bool(row.get("Key")) for row in rows]
+    rows = [row for row in schema.template["@Predicates"]["data"] if _col(row, "Predicate", "Item")]
+    has_default = [bool(_col(row, "Default class", "Key")) for row in rows]
     assert has_default == sorted(has_default, reverse=True), (
-        f"open-ended predicates must come last: {[r['Item'] for r in rows]}"
+        f"open-ended predicates must come last: {[_col(r, 'Predicate', 'Item') for r in rows]}"
     )
 
 
