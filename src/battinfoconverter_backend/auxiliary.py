@@ -48,6 +48,19 @@ COMMENT_WARNING = (
     "it in @Context if it is your own, or write 'comment|%s' to mark it as free text."
 )
 
+# The legacy label for "this row is not a measurement". A blank Unit cell now
+# means the same thing, so the words cannot be mistaken for a dimensionless unit.
+NO_UNIT_LABEL = "no unit"
+
+# Warning for a value that looks like a quantity but has no unit to attach
+QUANTITY_WARNING = (
+    "'%s' has a numerical value %s with no unit, which is ambiguous. It is "
+    "recorded as a comment rather than a measurement. Give the row a unit if "
+    "it is a measurement, or put it on a literal predicate, or write "
+    "'comment|%s' if it is not a measuement. You can use unit 'unitless' in "
+    "the default templates to specify a dimensionless measurement such as pH."
+)
+
 # A Value cell may be marked as free text rather than an ontology term, so a
 # material with no class can still be recorded without touching the path.
 # E.g. "name|PVDF-HFP blend" becomes {"schema:name": "PVDF-HFP blend"}
@@ -71,6 +84,17 @@ def _split_value_sigil(value: Any) -> tuple[Any, str | None]:
     if predicate is None:
         return value, None
     return remainder.strip(), predicate
+
+
+def _normalize_unit(unit: Any) -> str | None:
+    """Return the unit, or None when the row is not a measurement.
+
+    A blank cell and the legacy "No Unit" label mean the same thing.
+    """
+    if unit is None or (isinstance(unit, float) and pd.isna(unit)):
+        return None
+    text = str(unit).strip()
+    return None if not text or text.casefold() == NO_UNIT_LABEL else text
 
 
 def _require_str_type(value: Any, metadata: str | None) -> None:
@@ -213,6 +237,7 @@ def _assign_node_value(
     literal_predicate: str | None,
     data_container: Registry,
     metadata: str | None,
+    unit: str | None = None,
 ) -> None:
     """Write a value that sits in node position, rather than as a literal or a measurement.
 
@@ -248,7 +273,11 @@ def _assign_node_value(
         _merge_type(target_node, value)
         return
 
-    logger.warning(COMMENT_WARNING, value, data_container.did_you_mean(value), value)
+    if not isinstance(value, str) and unit is None:
+        # A number here almost always means the Unit cell was left empty
+        logger.warning(QUANTITY_WARNING, metadata, value, value)
+    else:
+        logger.warning(COMMENT_WARNING, value, data_container.did_you_mean(value), value)
     target_node["rdfs:comment"] = value
 
 
@@ -435,10 +464,13 @@ def add_to_structure(
     if literal_predicate and value == "":
         return
 
+    # A blank Unit cell and "No Unit" both mean this row is not a measurement
+    unit = _normalize_unit(unit)
+
     # Load lookup tables from the ExcelContainer Registry
     unit_map = data_container.data["unit_map"]
     context_connector = data_container.data["context_connector"]
-    connectors = set(context_connector["Item"])
+    connectors = set(context_connector["Predicate"])
     unique_id_map = data_container.data["unique_id_map"]
 
     # Walk the path
@@ -499,7 +531,7 @@ def add_to_structure(
         )
 
         # Ensure the key exists in the current dict
-        if part not in current_level and (value or unit):
+        if part not in current_level and (value is not None or unit is not None):
             if part in connectors:
                 connector_type = context_connector.loc[
                     context_connector["Predicate"] == part, "Default class"
@@ -517,10 +549,7 @@ def add_to_structure(
         # the final segment is the ontology type of the measurement, not a
         # plain property name.  Wrap the value in the EMMO measured-property
         # structure and stop.
-        if penultimate and unit != "No Unit":
-            if pd.isna(unit):
-                msg = f"Value '{value}' at path '{path}' is missing a required unit."
-                raise ValueError(msg)
+        if penultimate and unit is not None:
             if not unit_map.get(unit):
                 msg = f"The unit '{unit}' was not found in the @Units tab."
                 raise ValueError(msg)
@@ -690,7 +719,7 @@ def add_to_structure(
                 if part == "rdfs:comment":
                     # Comments also get the key and unit included if they exist
                     prefix = f"{metadata}: " if metadata is not None else ""
-                    suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
+                    suffix = f" {unit}" if unit is not None else ""
                     value = f"{prefix}{value}{suffix}"
                 if part in DATE_PREDICATES:
                     value = coerce_date_to_iso(value)
@@ -723,7 +752,7 @@ def add_to_structure(
                     target_node = target[part]
 
                     if value or value in unique_id_map:
-                        _assign_node_value(target_node, value, literal_predicate, data_container, metadata)
+                        _assign_node_value(target_node, value, literal_predicate, data_container, metadata, unit)
 
                     if part in current_level and current_level[part] in (None, {}):
                         current_level.pop(part)
@@ -759,7 +788,7 @@ def add_to_structure(
 
             # Write the value into target_node, overwriting any existing value
             if value or value in unique_id_map:
-                _assign_node_value(target_node, value, literal_predicate, data_container, metadata)
+                _assign_node_value(target_node, value, literal_predicate, data_container, metadata, unit)
             break
 
         # Did not match any of the 3 cases: step into the next level

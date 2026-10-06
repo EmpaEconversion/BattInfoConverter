@@ -178,11 +178,6 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
 
         ontology_path = row["Ontology link"].split("-")
 
-        # Default behavior for other entries
-        if pd.isna(row["Unit"]):
-            msg = f"The value '{row['Value']}' is filled in the wrong row, please check the schema"
-            raise ValueError(msg)
-
         aux.add_to_structure(
             jsonld,
             ontology_path,
