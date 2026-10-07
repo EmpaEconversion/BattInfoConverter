@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "1.2.0",
+            "Value": "2.0.0",
             "Unit": null,
             "Priority": "required",
             "Note": "Version of this schema, do not change",
