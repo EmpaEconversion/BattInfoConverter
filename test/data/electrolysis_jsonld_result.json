@@ -22,9 +22,9 @@
         "schema:name": "240616_bco_gr-NMC_01",
         "schema:dateCreated": "2024-05-01",
         "schema:manufacturer": {
-            "@type": "schema:Organization",
+            "@type": "schema:ResearchOrganization",
             "schema:name": "Empa",
-            "@id": "https://www.wikidata.org/wiki/Q683116"
+            "@id": "http://www.wikidata.org/entity/Q683116"
         },
         "schema:creator": {
             "@type": "schema:Person",
@@ -75,7 +75,7 @@
                 "schema:manufacturer": {
                     "@type": "schema:Organization",
                     "schema:name": "SGLCarbon",
-                    "@id": "https://www.wikidata.org/wiki/Q2361947"
+                    "@id": "http://www.wikidata.org/entity/Q2361947"
                 },
                 "schema:productID": "39BB"
             },
@@ -116,7 +116,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Millipore Sigma",
-                        "@id": "https://www.wikidata.org/wiki/Q1669719"
+                        "@id": "http://www.wikidata.org/entity/Q1669719"
                     },
                     "schema:productID": "774081"
                 },
@@ -137,7 +137,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Chemours",
-                        "@id": "https://www.wikidata.org/wiki/Q15829006"
+                        "@id": "http://www.wikidata.org/entity/Q15829006"
                     },
                     "schema:productID": "D521CS"
                 },
@@ -151,9 +151,9 @@
                 }
             },
             "schema:manufacturer": {
-                "@type": "schema:Organization",
+                "@type": "schema:ResearchOrganization",
                 "schema:name": "Empa",
-                "@id": "https://www.wikidata.org/wiki/Q683116"
+                "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "15p_Cu",
             "hasMeasuredProperty": {
@@ -197,7 +197,7 @@
                 "schema:manufacturer": {
                     "@type": "schema:Organization",
                     "schema:name": "Fuel Cell Store",
-                    "@id": "https://www.wikidata.org/wiki/Q27868725"
+                    "@id": "http://www.wikidata.org/entity/Q27868725"
                 },
                 "schema:productID": "40050001"
             },
@@ -238,7 +238,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Fuel Cell Store",
-                        "@id": "https://www.wikidata.org/wiki/Q27868725"
+                        "@id": "http://www.wikidata.org/entity/Q27868725"
                     },
                     "schema:productID": "57080249"
                 },
@@ -259,7 +259,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Chemours",
-                        "@id": "https://www.wikidata.org/wiki/Q15829006"
+                        "@id": "http://www.wikidata.org/entity/Q15829006"
                     },
                     "schema:productID": "D521CS"
                 },
@@ -273,9 +273,9 @@
                 }
             },
             "schema:manufacturer": {
-                "@type": "schema:Organization",
+                "@type": "schema:ResearchOrganization",
                 "schema:name": "Empa",
-                "@id": "https://www.wikidata.org/wiki/Q683116"
+                "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "18x_Ti",
             "hasMeasuredProperty": {
@@ -517,7 +517,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Thermo Fisher Scientific",
-                        "@id": "https://www.wikidata.org/wiki/Q306455"
+                        "@id": "http://www.wikidata.org/entity/Q306455"
                     },
                     "schema:productID": "424090010"
                 }
@@ -581,9 +581,9 @@
                 }
             ],
             "schema:manufacturer": {
-                "@type": "schema:Organization",
+                "@type": "schema:ResearchOrganization",
                 "schema:name": "Empa",
-                "@id": "https://www.wikidata.org/wiki/Q683116"
+                "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "KCl_1M_catholyte"
         },
@@ -619,7 +619,7 @@
                 "schema:manufacturer": {
                     "@type": "schema:Organization",
                     "schema:name": "Millipore Sigma",
-                    "@id": "https://www.wikidata.org/wiki/Q1669719"
+                    "@id": "http://www.wikidata.org/entity/Q1669719"
                 },
                 "schema:productID": "258105"
             },
@@ -682,9 +682,9 @@
                 }
             ],
             "schema:manufacturer": {
-                "@type": "schema:Organization",
+                "@type": "schema:ResearchOrganization",
                 "schema:name": "Empa",
-                "@id": "https://www.wikidata.org/wiki/Q683116"
+                "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "H2SO4_1M_anolyte"
         },
@@ -730,7 +730,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Fuel Cell Store",
-                        "@id": "https://www.wikidata.org/wiki/Q27868725"
+                        "@id": "http://www.wikidata.org/entity/Q27868725"
                     },
                     "schema:productID": "72010015"
                 },
@@ -768,7 +768,7 @@
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Chemours",
-                        "@id": "https://www.wikidata.org/wiki/Q15829006"
+                        "@id": "http://www.wikidata.org/entity/Q15829006"
                     },
                     "schema:productID": "N117"
                 }
@@ -787,7 +787,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Fuel Cell Store",
-                "@id": "https://www.wikidata.org/wiki/Q27868725"
+                "@id": "http://www.wikidata.org/entity/Q27868725"
             },
             "schema:productID": "Micro Flow Cell"
         }
@@ -829,12 +829,12 @@
                 "schema:affiliation": [
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     },
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q262760",
+                        "@id": "http://www.wikidata.org/entity/Q262760",
                         "schema:name": "EPFL"
                     }
                 ]
@@ -845,7 +845,7 @@
                 "schema:name": "Richa Rajadhyax",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q262760",
+                    "@id": "http://www.wikidata.org/entity/Q262760",
                     "schema:name": "EPFL"
                 }
             },
@@ -855,7 +855,7 @@
                 "schema:name": "Alessandro Senocrate",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -866,17 +866,17 @@
                 "schema:affiliation": [
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     },
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q11942",
+                        "@id": "http://www.wikidata.org/entity/Q11942",
                         "schema:name": "ETH Zurich"
                     },
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q262760",
+                        "@id": "http://www.wikidata.org/entity/Q262760",
                         "schema:name": "EPFL"
                     }
                 ]
@@ -884,7 +884,7 @@
         ],
         "dcterms:publisher": {
             "@type": "schema:ResearchOrganization",
-            "@id": "https://www.wikidata.org/wiki/Q683116",
+            "@id": "http://www.wikidata.org/entity/Q683116",
             "schema:name": "Empa"
         },
         "dcterms:license": {
@@ -944,12 +944,12 @@
                     "schema:affiliation": [
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q683116",
+                            "@id": "http://www.wikidata.org/entity/Q683116",
                             "schema:name": "Empa"
                         },
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q262760",
+                            "@id": "http://www.wikidata.org/entity/Q262760",
                             "schema:name": "EPFL"
                         }
                     ]
@@ -960,7 +960,7 @@
                     "schema:name": "Richa Rajadhyax",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q262760",
+                        "@id": "http://www.wikidata.org/entity/Q262760",
                         "schema:name": "EPFL"
                     }
                 },
@@ -970,7 +970,7 @@
                     "schema:name": "Alessandro Senocrate",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -981,17 +981,17 @@
                     "schema:affiliation": [
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q683116",
+                            "@id": "http://www.wikidata.org/entity/Q683116",
                             "schema:name": "Empa"
                         },
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q11942",
+                            "@id": "http://www.wikidata.org/entity/Q11942",
                             "schema:name": "ETH Zurich"
                         },
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q262760",
+                            "@id": "http://www.wikidata.org/entity/Q262760",
                             "schema:name": "EPFL"
                         }
                     ]

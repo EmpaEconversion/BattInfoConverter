@@ -22,9 +22,9 @@
         "schema:name": "240616_bco_gr-NMC_01",
         "schema:dateCreated": "2024-06-16",
         "schema:manufacturer": {
-            "@type": "schema:Organization",
+            "@type": "schema:ResearchOrganization",
             "schema:name": "Empa",
-            "@id": "https://www.wikidata.org/wiki/Q683116"
+            "@id": "http://www.wikidata.org/entity/Q683116"
         },
         "schema:creator": {
             "@type": "schema:Person",
@@ -35,7 +35,7 @@
             "Project: Battery2030+/PREMISE",
             "Assembled manually or by robot: manually",
             "Schema name: CoinCellSchema",
-            "Schema version: 1.2.0",
+            "Schema version: 2.0.0",
             "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
         ],
         "hasPositiveElectrode": {
@@ -274,7 +274,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Customcells",
-                "@id": "https://www.wikidata.org/wiki/Q120784603"
+                "@id": "http://www.wikidata.org/entity/Q120784603"
             },
             "schema:productID": "100000030"
         },
@@ -510,7 +510,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Customcells",
-                "@id": "https://www.wikidata.org/wiki/Q120784603"
+                "@id": "http://www.wikidata.org/entity/Q120784603"
             },
             "schema:productID": "11113, A-1594"
         },
@@ -642,7 +642,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Solvionic",
-                "@id": "https://www.wikidata.org/wiki/Q30285492"
+                "@id": "http://www.wikidata.org/entity/Q30285492"
             }
         },
         "hasSeparator": {
@@ -687,7 +687,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Celgard",
-                "@id": "https://www.wikidata.org/wiki/Q122199856"
+                "@id": "http://www.wikidata.org/entity/Q122199856"
             },
             "schema:productID": "2500"
         },
@@ -719,7 +719,7 @@
             "schema:manufacturer": {
                 "@type": "schema:Organization",
                 "schema:name": "Hohsen",
-                "@id": "https://www.wikidata.org/wiki/Q138782243"
+                "@id": "http://www.wikidata.org/entity/Q138782243"
             },
             "schema:productID": "2032, SUS316L"
         },
@@ -804,7 +804,7 @@
                 "schema:name": "Enea Svaluto-Ferro",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -814,7 +814,7 @@
                 "schema:name": "Graham Kimbell",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -824,7 +824,7 @@
                 "schema:name": "YeonJu Kim",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -834,7 +834,7 @@
                 "schema:name": "Nukorn Plainpan",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -843,7 +843,7 @@
                 "schema:name": "Benjamin Kunz",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -852,7 +852,7 @@
                 "schema:name": "Lina Schulz",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -861,7 +861,7 @@
                 "schema:name": "Raphael Läubli",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -870,7 +870,7 @@
                 "schema:name": "Maximilian Becker",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -880,7 +880,7 @@
                 "schema:name": "David Reber",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -890,7 +890,7 @@
                 "schema:name": "Peter Kraus",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -900,7 +900,7 @@
                 "schema:name": "Ruben-Simon Kühnel",
                 "schema:affiliation": {
                     "@type": "schema:ResearchOrganization",
-                    "@id": "https://www.wikidata.org/wiki/Q683116",
+                    "@id": "http://www.wikidata.org/entity/Q683116",
                     "schema:name": "Empa"
                 }
             },
@@ -911,17 +911,17 @@
                 "schema:affiliation": [
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     },
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q11942",
+                        "@id": "http://www.wikidata.org/entity/Q11942",
                         "schema:name": "ETH Zurich"
                     },
                     {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q262760",
+                        "@id": "http://www.wikidata.org/entity/Q262760",
                         "schema:name": "EPFL"
                     }
                 ]
@@ -929,7 +929,7 @@
         ],
         "dcterms:publisher": {
             "@type": "schema:ResearchOrganization",
-            "@id": "https://www.wikidata.org/wiki/Q683116",
+            "@id": "http://www.wikidata.org/entity/Q683116",
             "schema:name": "Empa"
         },
         "dcterms:license": {
@@ -988,7 +988,7 @@
                     "schema:name": "Enea Svaluto-Ferro",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -998,7 +998,7 @@
                     "schema:name": "Graham Kimbell",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1008,7 +1008,7 @@
                     "schema:name": "YeonJu Kim",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1018,7 +1018,7 @@
                     "schema:name": "Nukorn Plainpan",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1027,7 +1027,7 @@
                     "schema:name": "Benjamin Kunz",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1036,7 +1036,7 @@
                     "schema:name": "Lina Schulz",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1045,7 +1045,7 @@
                     "schema:name": "Raphael Läubli",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1054,7 +1054,7 @@
                     "schema:name": "Maximilian Becker",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1064,7 +1064,7 @@
                     "schema:name": "David Reber",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1074,7 +1074,7 @@
                     "schema:name": "Peter Kraus",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1084,7 +1084,7 @@
                     "schema:name": "Ruben-Simon Kühnel",
                     "schema:affiliation": {
                         "@type": "schema:ResearchOrganization",
-                        "@id": "https://www.wikidata.org/wiki/Q683116",
+                        "@id": "http://www.wikidata.org/entity/Q683116",
                         "schema:name": "Empa"
                     }
                 },
@@ -1095,17 +1095,17 @@
                     "schema:affiliation": [
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q683116",
+                            "@id": "http://www.wikidata.org/entity/Q683116",
                             "schema:name": "Empa"
                         },
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q11942",
+                            "@id": "http://www.wikidata.org/entity/Q11942",
                             "schema:name": "ETH Zurich"
                         },
                         {
                             "@type": "schema:ResearchOrganization",
-                            "@id": "https://www.wikidata.org/wiki/Q262760",
+                            "@id": "http://www.wikidata.org/entity/Q262760",
                             "schema:name": "EPFL"
                         }
                     ]
@@ -1120,7 +1120,7 @@
     },
     "rdfs:comment": [
         "BattINFO Converter backend v3.3.1",
-        "Using template: CoinCellSchema v1.2.0",
+        "Using template: CoinCellSchema v2.0.0",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion."
     ]
 }
