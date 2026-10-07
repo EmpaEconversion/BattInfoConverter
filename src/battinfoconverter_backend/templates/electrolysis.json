@@ -1786,11 +1786,11 @@
       },
       {
         "Class": "NegativeElectrodeGasCompartment",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "PositiveElectrodeGasCompartment",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "FlowField",
@@ -1830,7 +1830,7 @@
       },
       {
         "Class": "MercuryOxideElectrode",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "NormalHydrogenElectrode",
@@ -1854,7 +1854,7 @@
       },
       {
         "Class": "Mesh",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "WovenMesh",
@@ -1978,11 +1978,11 @@
       },
       {
         "Class": "LithiumIronPhosphate",
-        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+        "Note": null
       },
       {
         "Class": "LithiumNickelManganeseCobaltOxide",
-        "Note": "https://pubchem.ncbi.nlm.nih.gov/substance/485083898"
+        "Note": null
       },
       {
         "Class": "LithiumTitanate",
@@ -2026,7 +2026,7 @@
       },
       {
         "Class": "PerfluorocarboxylicAcid",
-        "Note": "Flemion by AGC (CEM), Aciplex by Asahi Kasei (CEM), requested"
+        "Note": "Flemion by AGC (CEM), Aciplex by Asahi Kasei (CEM)"
       },
       {
         "Class": "PerfluorosulfonicAcid",
@@ -2034,11 +2034,11 @@
       },
       {
         "Class": "PolyAryleneImidazolium",
-        "Note": "Aemion+ by Ionomr (AEM). AF1 by Ionomr (AEM), requested"
+        "Note": "Aemion+ by Ionomr (AEM). AF1 by Ionomr (AEM)"
       },
       {
         "Class": "PolyArylPiperidinium",
-        "Note": "Piperion by Versogen (AEM), requested"
+        "Note": "Piperion by Versogen (AEM)"
       },
       {
         "Class": "PolyArylAmmonium",
@@ -2046,7 +2046,7 @@
       },
       {
         "Class": "PolyetherEtherKetone",
-        "Note": "Victrex by Solvay (PEEK), Ketaspire by Evonik (PEEK), Radel by Solvay (PEEK), requested"
+        "Note": "Victrex by Solvay (PEEK), Ketaspire by Evonik (PEEK), Radel by Solvay (PEEK)"
       },
       {
         "Class": "Polyolefin",
@@ -2066,11 +2066,11 @@
       },
       {
         "Class": "QuaternaryAmmoniumPolySulfone",
-        "Note": "Sustainion by Dioxide Materials (AEM), requested"
+        "Note": "Sustainion by Dioxide Materials (AEM)"
       },
       {
         "Class": "SulfonatedPolyEtherEtherKetone",
-        "Note": "Speek by Gore (CEM), requested"
+        "Note": "Speek by Gore (CEM)"
       },
       {
         "Class": null,
@@ -2174,7 +2174,7 @@
       },
       {
         "Class": "Air",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "Argon",
@@ -2198,7 +2198,7 @@
       },
       {
         "Class": "CarbonMonoxide",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "Ammonia",
@@ -2206,7 +2206,7 @@
       },
       {
         "Class": "Ethylene",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": null,
@@ -2218,11 +2218,11 @@
       },
       {
         "Class": "PH",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "Purity",
-        "Note": "requested"
+        "Note": null
       },
       {
         "Class": "Porosity",
@@ -2357,7 +2357,7 @@
         "Name": "Fuel Cell Store",
         "Class": "schema:Organization",
         "IRI": "https://www.wikidata.org/wiki/Q27868725",
-        "Note": "Fuel Cell Store; US-based distributor of membrane electrode assemblies, GDLs and ion exchange membranes including Sustainion, PiperION and Nafion. https://www.fuelcellstore.com. to be requested"
+        "Note": "Fuel Cell Store; US-based distributor of membrane electrode assemblies, GDLs and ion exchange membranes including Sustainion, PiperION and Nafion. https://www.fuelcellstore.com"
       },
       {
         "Name": "Goodfellow",
@@ -2369,7 +2369,7 @@
         "Name": "Millipore Sigma",
         "Class": "schema:Organization",
         "IRI": "https://www.wikidata.org/wiki/Q1669719",
-        "Note": "MilliporeSigma (Merck KGaA subsidiary, US operations); supplier of high-purity electrolyte chemicals and reagents for research. https://www.sigmaaldrich.com. to be requested"
+        "Note": "MilliporeSigma (Merck KGaA subsidiary, US operations); supplier of high-purity electrolyte chemicals and reagents for research. https://www.sigmaaldrich.com"
       },
       {
         "Name": "SGLCarbon",
@@ -2405,13 +2405,13 @@
         "Name": "Fumatech",
         "Class": "schema:Organization",
         "IRI": "https://www.wikidata.org/wiki/Q30254565",
-        "Note": "FuMA-Tech GmbH; manufacturer of FAA-3-50 and FAP-375-PP AEM series, Fumapem F/SF CEM series, and FBM bipolar membrane. https://www.fumatech.com. to be requested"
+        "Note": "FuMA-Tech GmbH; manufacturer of FAA-3-50 and FAP-375-PP AEM series, Fumapem F/SF CEM series, and FBM bipolar membrane. https://www.fumatech.com"
       },
       {
         "Name": "Hohsen",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q138027768",
-        "Note": "Hohsen Corp.; Japanese manufacturer of specialty separators and ion exchange membranes for electrochemical applications. to be requested"
+        "IRI": "https://www.wikidata.org/wiki/Q138782243",
+        "Note": "Hohsen Corp.; Japanese manufacturer of specialty separators and ion exchange membranes for electrochemical applications"
       },
       {
         "Name": "Astom",
