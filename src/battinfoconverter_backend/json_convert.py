@@ -117,7 +117,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     """
     schema = data_container.data["schema"]
     context_toplevel = data_container.data["context_toplevel"]
-    id_from_val: dict[str, str] = data_container.data["unique_id_map"]
+    individuals = Individuals(data_container.data)
 
     local_context: dict[str, str | dict] = {row["Term"]: row["IRI"] for _, row in context_toplevel.iterrows()}
     # @vocab routes bare unit labels through the context's term definitions,
@@ -153,17 +153,9 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
     if val := get_val("Date of cell assembly"):
         jsonld["schema:dateCreated"] = aux.coerce_date_to_iso(val)
     if val := get_val("Scientist/technician/operator"):
-        jsonld["schema:creator"] = {
-            "@type": "schema:Person",
-            "@id": id_from_val[val],
-            "schema:name": val,
-        }
+        jsonld["schema:creator"] = individuals.node(val, "schema:Person")
     if val := get_val("Institution/company"):
-        jsonld["schema:manufacturer"] = {
-            "@type": "schema:Organization",
-            "@id": id_from_val[val],
-            "schema:name": val,
-        }
+        jsonld["schema:manufacturer"] = individuals.node(val, "schema:Organization")
     if val := get_val("Schema version"):
         jsonld["schema:version"] = val
 
@@ -295,13 +287,21 @@ def _is_yes(value: object) -> bool:
     return value is True or value == 1
 
 
-def _named_node(node_type: str, name: str, id_from_val: dict[str, str]) -> dict:
-    """Create a named node, with an @id if one is listed in @Classes."""
-    node = {"@type": node_type}
-    if name in id_from_val:
-        node["@id"] = id_from_val[name]
-    node["schema:name"] = name
-    return node
+class Individuals:
+    """The named individuals of a workbook, from @Individuals and legacy @Classes."""
+
+    def __init__(self, data: dict) -> None:
+        """Take the IRI and class of each individual from the loaded sheets."""
+        self.iri: dict[str, str] = data["unique_id_map"]
+        self.classes: dict[str, str] = data["individual_types"]
+
+    def node(self, name: str, role_type: str) -> dict:
+        """Create a named node, typed by the sheet where it says, else by its role."""
+        node = {"@type": self.classes.get(name) or role_type}
+        if iri := self.iri.get(name):
+            node["@id"] = iri
+        node["schema:name"] = name
+        return node
 
 
 def _parse_extra_rows(rows: list[list]) -> tuple[dict, dict]:
@@ -324,11 +324,11 @@ def _parse_extra_rows(rows: list[list]) -> tuple[dict, dict]:
     return fields, {base: [cells for _, cells in sorted(entries)] for base, entries in groups.items()}
 
 
-def _author_node(cells: list, id_from_val: dict[str, str]) -> dict:
+def _author_node(cells: list, individuals: Individuals) -> dict:
     """Create a person node from an author row: a name followed by any affiliations."""
     name, *affiliation_names = cells
-    person = _named_node("schema:Person", name, id_from_val)
-    affiliations = [_named_node(ORGANIZATION_TYPE, aff, id_from_val) for aff in affiliation_names]
+    person = individuals.node(name, "schema:Person")
+    affiliations = [individuals.node(aff, ORGANIZATION_TYPE) for aff in affiliation_names]
     if affiliations:
         person["schema:affiliation"] = affiliations[0] if len(affiliations) == 1 else affiliations
     return person
@@ -400,7 +400,7 @@ def _distributions(groups: dict, prefix: str, fields: dict[str, list], *, raw: b
     return [_distribution_node(cells, fields, schema, raw=raw) for cells in entries]
 
 
-def _publication_node(fields: dict[str, list], groups: dict, id_from_val: dict[str, str]) -> dict | None:
+def _publication_node(fields: dict[str, list], groups: dict, individuals: Individuals) -> dict | None:
     """Create the node describing the publication this data belongs to."""
 
     def first(suffix: str) -> str | None:
@@ -419,7 +419,7 @@ def _publication_node(fields: dict[str, list], groups: dict, id_from_val: dict[s
     if title:
         node["dcterms:title"] = title
     if authors:
-        node["dcterms:creator"] = [_author_node(author, id_from_val) for author in authors]
+        node["dcterms:creator"] = [_author_node(author, individuals) for author in authors]
     if figures:
         node["rdfs:label"] = [str(label) for label in figures]
         node["rdfs:comment"] = FIGURE_COMMENT
@@ -443,7 +443,7 @@ def _link_value(value: object, label: str) -> object:
     return value
 
 
-def _simple_value(kind: str, values: list, id_from_val: dict[str, str], label: str = "") -> object:
+def _simple_value(kind: str, values: list, individuals: Individuals, label: str = "") -> object:
     """Turn the cells of one row into the value of its predicate."""
     if kind == "url":
         return _link_value(values[0], label)
@@ -452,24 +452,24 @@ def _simple_value(kind: str, values: list, id_from_val: dict[str, str], label: s
     if kind == "list":
         return list(values)
     if kind == "people":
-        return [_author_node(cells, id_from_val) for cells in values]
+        return [_author_node(cells, individuals) for cells in values]
     if kind == "organization":
-        return _named_node(ORGANIZATION_TYPE, values[0], id_from_val)
+        return individuals.node(values[0], ORGANIZATION_TYPE)
     return values[0]
 
 
-def _dataset_node(fields: dict[str, list], groups: dict, id_from_val: dict[str, str], result_type: str) -> dict:
+def _dataset_node(fields: dict[str, list], groups: dict, individuals: Individuals, result_type: str) -> dict:
     """Create the test result node from the @References rows."""
     output: dict[str, Any] = {"@type": [result_type, DATASET_TYPE]}
     for label, predicate, kind in EXTRA_FIELDS:
         if kind == "publication":
-            if node := _publication_node(fields, groups, id_from_val):
+            if node := _publication_node(fields, groups, individuals):
                 output[predicate] = node
         elif kind == "files":
             if distributions := _distributions(groups, label, fields):
                 output[predicate] = distributions
         elif values := (groups.get(label, []) if kind == "people" else fields.get(label, [])):
-            output[predicate] = _simple_value(kind, values, id_from_val, label)
+            output[predicate] = _simple_value(kind, values, individuals, label)
     return output
 
 
@@ -487,7 +487,7 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     include = next((v for label, v in fields.items() if label.startswith(INCLUDE_FIELD)), [None])
     if not _is_yes(include[0]):
         return jsonld
-    id_from_val: dict[str, str] = data_container.data["unique_id_map"]
+    individuals = Individuals(data_container.data)
 
     cell_type = jsonld.get("@type", [])
     cell_types = {cell_type} if isinstance(cell_type, str) else set(cell_type)
@@ -501,7 +501,7 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     }
     if raw_files := _distributions(groups, RAW_FILE_PREFIX, fields, raw=True):
         wrapped["hasInput"] = {"@type": [RAW_DATA_TYPE, DATASET_TYPE], "dcat:distribution": raw_files}
-    wrapped["hasOutput"] = _dataset_node(fields, groups, id_from_val, f"{test_type}Result")
+    wrapped["hasOutput"] = _dataset_node(fields, groups, individuals, f"{test_type}Result")
     return wrapped
 
 

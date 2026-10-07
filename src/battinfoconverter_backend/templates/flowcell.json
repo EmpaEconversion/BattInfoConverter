@@ -2295,25 +2295,25 @@
       },
       {
         "Name": "Empa",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q683116",
         "Note": null
       },
       {
         "Name": "EPFL",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q262760",
         "Note": null
       },
       {
         "Name": "ETH Zurich",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q11942",
         "Note": null
       },
       {
         "Name": "University of Bern",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q659080",
         "Note": null
       },

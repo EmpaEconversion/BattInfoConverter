@@ -2301,19 +2301,19 @@
       },
       {
         "Name": "Empa",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q683116",
         "Note": "Swiss Federal Laboratories for Materials Science and Technology; research institution"
       },
       {
         "Name": "EPFL",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q262760",
         "Note": null
       },
       {
         "Name": "ETH Zurich",
-        "Class": "schema:Organization",
+        "Class": "schema:ResearchOrganization",
         "IRI": "http://www.wikidata.org/entity/Q11942",
         "Note": null
       },

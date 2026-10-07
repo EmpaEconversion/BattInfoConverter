@@ -54,6 +54,14 @@ def _first(row: dict, *names: str) -> str | None:
     return next((row[name] for name in names if row.get(name)), None)
 
 
+def _class_types(template: dict) -> dict:
+    """Map each named individual to the class the @Individuals sheet gives it."""
+    return {
+        _first(row, "Name", "Item"): _first(row, "Class", "Type")
+        for row in template.get("@Individuals", {}).get("data", [])
+    }
+
+
 def _class_ids(template: dict) -> dict:
     """Map the named individuals to their IRIs, from either sheet."""
     ids = {}
@@ -109,26 +117,27 @@ def test_references_wrap_cell_in_test(schema: CellFixtures, caplog: pytest.LogCa
     assert result["dcat:endpointURL"] == {"@id": rows["Dataset API URL"][0]}
 
     ids = _class_ids(template)
+    types = _class_types(template)
     publisher = rows["Dataset publisher"][0]
     assert result["dcterms:publisher"] == {
-        "@type": "schema:ResearchOrganization",
+        "@type": types[publisher],
         "@id": ids[publisher],
         "schema:name": publisher,
     }
-    _assert_people(result["dcterms:creator"], _authors(template, "Dataset"), ids)
+    _assert_people(result["dcterms:creator"], _authors(template, "Dataset"), ids, types)
 
     publication = result["schema:associatedMedia"]
     assert publication["@id"] == rows["Associated publication DOI"][0]
     assert publication["dcterms:title"] == rows["Associated publication title"][0]
     assert publication["rdfs:label"] == rows["Associated publication figures"]
     assert publication["rdfs:comment"].startswith("Subfigure of associated")
-    _assert_people(publication["dcterms:creator"], _authors(template, "Associated publication"), ids)
+    _assert_people(publication["dcterms:creator"], _authors(template, "Associated publication"), ids, types)
 
     warnings = [w for w in caplog.text.splitlines() if "This is a 'schema:manufacturer' - " not in w]
     assert not [w for w in warnings if "recommended values" not in w]
 
 
-def _assert_people(nodes: list[dict], authors: list[tuple[str, list]], ids: dict) -> None:
+def _assert_people(nodes: list[dict], authors: list[tuple[str, list]], ids: dict, types: dict) -> None:
     """Check the people of a section, in sheet order, with their affiliations."""
     assert [node["schema:name"] for node in nodes] == [name for name, _ in authors]
     for node, (name, affiliations) in zip(nodes, authors, strict=True):
@@ -139,7 +148,7 @@ def _assert_people(nodes: list[dict], authors: list[tuple[str, list]], ids: dict
         assert isinstance(affiliation, dict) == (len(affiliations) == 1)
         orgs = [affiliation] if isinstance(affiliation, dict) else affiliation
         for org, org_name in zip(orgs, affiliations, strict=True):
-            assert org["@type"] == "schema:ResearchOrganization"
+            assert org["@type"] == types[org_name]
             assert org.get("@id") == ids.get(org_name)
             assert org["schema:name"] == org_name
 
