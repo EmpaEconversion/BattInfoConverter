@@ -2302,115 +2302,115 @@
       {
         "Name": "Empa",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q683116",
+        "IRI": "http://www.wikidata.org/entity/Q683116",
         "Note": "Swiss Federal Laboratories for Materials Science and Technology; research institution"
       },
       {
         "Name": "EPFL",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q262760",
+        "IRI": "http://www.wikidata.org/entity/Q262760",
         "Note": null
       },
       {
         "Name": "ETH Zurich",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q11942",
+        "IRI": "http://www.wikidata.org/entity/Q11942",
         "Note": null
       },
       {
         "Name": "AGC",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q367032",
+        "IRI": "http://www.wikidata.org/entity/Q367032",
         "Note": "AGC Inc. (formerly Asahi Glass); manufacturer of Selemion AEM/CEM series and Flemion CEM series. https://www.agc.com"
       },
       {
         "Name": "Agfa",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q310172",
+        "IRI": "http://www.wikidata.org/entity/Q310172",
         "Note": "Agfa-Gevaert; manufacturer of Zirfon Perl UTP 500 porous composite diaphragm for alkaline water electrolysis. https://www.agfa.com"
       },
       {
         "Name": "Celgard",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q122199856",
+        "IRI": "http://www.wikidata.org/entity/Q122199856",
         "Note": "Celgard LLC (Polypore subsidiary); manufacturer of microporous polyolefin separators and membranes for batteries and filtration. https://www.celgard.com"
       },
       {
         "Name": "Chemours",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q15829006",
+        "IRI": "http://www.wikidata.org/entity/Q15829006",
         "Note": "The Chemours Company; manufacturer of Nafion perfluorosulfonic acid CEM series (N117, N115, N212, N211). https://www.chemours.com"
       },
       {
         "Name": "Customcells",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q120784603",
+        "IRI": "http://www.wikidata.org/entity/Q120784603",
         "Note": "Customcells Group; manufacturer of custom lithium-ion battery cells for R&D and prototyping. https://www.customcells.org"
       },
       {
         "Name": "Freudenberg",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q879878",
+        "IRI": "http://www.wikidata.org/entity/Q879878",
         "Note": "Freudenberg Performance Materials; manufacturer of gas diffusion layer series (H23C6, H14C9, H23C2) for fuel cells and electrolyzers. https://www.freudenberg-pm.com"
       },
       {
         "Name": "Fuel Cell Store",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q27868725",
+        "IRI": "http://www.wikidata.org/entity/Q27868725",
         "Note": "Fuel Cell Store; US-based distributor of membrane electrode assemblies, GDLs and ion exchange membranes including Sustainion, PiperION and Nafion. https://www.fuelcellstore.com"
       },
       {
         "Name": "Goodfellow",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q21449964",
+        "IRI": "http://www.wikidata.org/entity/Q21449964",
         "Note": "Goodfellow Group; supplier of metals, alloys, polymers, ceramics and other materials in small quantities for research and development. https://www.goodfellow.com"
       },
       {
         "Name": "Millipore Sigma",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q1669719",
+        "IRI": "http://www.wikidata.org/entity/Q1669719",
         "Note": "MilliporeSigma (Merck KGaA subsidiary, US operations); supplier of high-purity electrolyte chemicals and reagents for research. https://www.sigmaaldrich.com"
       },
       {
         "Name": "SGLCarbon",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q2361947",
+        "IRI": "http://www.wikidata.org/entity/Q2361947",
         "Note": "SGL Carbon SE; manufacturer of Sigracet GDL series (22BB, 28BC, 29BC, 39BB, 39BC) for fuel cells and electrolyzers. https://www.sglcarbon.com"
       },
       {
         "Name": "Solvay",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q487209",
+        "IRI": "http://www.wikidata.org/entity/Q487209",
         "Note": "Solvay S.A.; manufacturer of Aquivion short-side-chain PFSA CEM series (E87-05S, E87-12S, E98-05S) for PEM electrolyzers. https://www.solvay.com"
       },
       {
         "Name": "Solvionic",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q30285492",
+        "IRI": "http://www.wikidata.org/entity/Q30285492",
         "Note": "Solvionic; French manufacturer and supplier of ionic liquids and specialty electrolyte solutions for electrochemical research. https://www.solvionic.com"
       },
       {
         "Name": "Thermo Fisher Scientific",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q306455",
+        "IRI": "http://www.wikidata.org/entity/Q306455",
         "Note": "Thermo Fisher Scientific; global supplier of laboratory chemicals, reagents and analytical instruments. https://www.thermofisher.com"
       },
       {
         "Name": "Toray",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q908461",
+        "IRI": "http://www.wikidata.org/entity/Q908461",
         "Note": "Toray Industries; manufacturer of Toray carbon paper GDL series (TGP-H-060, TGP-H-090, TGP-H-120) for fuel cells and electrolyzers. https://www.toray.com"
       },
       {
         "Name": "Fumatech",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q30254565",
+        "IRI": "http://www.wikidata.org/entity/Q30254565",
         "Note": "FuMA-Tech GmbH; manufacturer of FAA-3-50 and FAP-375-PP AEM series, Fumapem F/SF CEM series, and FBM bipolar membrane. https://www.fumatech.com"
       },
       {
         "Name": "Hohsen",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q138782243",
+        "IRI": "http://www.wikidata.org/entity/Q138782243",
         "Note": "Hohsen Corp.; Japanese manufacturer of specialty separators and ion exchange membranes for electrochemical applications"
       },
       {

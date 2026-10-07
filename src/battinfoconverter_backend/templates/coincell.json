@@ -2026,43 +2026,43 @@
       {
         "Name": "Empa",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q683116",
+        "IRI": "http://www.wikidata.org/entity/Q683116",
         "Note": null
       },
       {
         "Name": "EPFL",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q262760",
+        "IRI": "http://www.wikidata.org/entity/Q262760",
         "Note": null
       },
       {
         "Name": "ETH Zurich",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q11942",
+        "IRI": "http://www.wikidata.org/entity/Q11942",
         "Note": null
       },
       {
         "Name": "Customcells",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q120784603",
+        "IRI": "http://www.wikidata.org/entity/Q120784603",
         "Note": null
       },
       {
         "Name": "Solvionic",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q30285492",
+        "IRI": "http://www.wikidata.org/entity/Q30285492",
         "Note": null
       },
       {
         "Name": "Celgard",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q122199856",
+        "IRI": "http://www.wikidata.org/entity/Q122199856",
         "Note": null
       },
       {
         "Name": "Hohsen",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q138782243",
+        "IRI": "http://www.wikidata.org/entity/Q138782243",
         "Note": null
       }
     ]

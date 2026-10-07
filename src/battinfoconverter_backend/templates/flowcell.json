@@ -2296,61 +2296,61 @@
       {
         "Name": "Empa",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q683116",
+        "IRI": "http://www.wikidata.org/entity/Q683116",
         "Note": null
       },
       {
         "Name": "EPFL",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q262760",
+        "IRI": "http://www.wikidata.org/entity/Q262760",
         "Note": null
       },
       {
         "Name": "ETH Zurich",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q11942",
+        "IRI": "http://www.wikidata.org/entity/Q11942",
         "Note": null
       },
       {
         "Name": "University of Bern",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q659080",
+        "IRI": "http://www.wikidata.org/entity/Q659080",
         "Note": null
       },
       {
         "Name": "Fuel Cell Store",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q27868725",
+        "IRI": "http://www.wikidata.org/entity/Q27868725",
         "Note": null
       },
       {
         "Name": "Fumatech",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q30254565",
+        "IRI": "http://www.wikidata.org/entity/Q30254565",
         "Note": null
       },
       {
         "Name": "Pinflow",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q114797344",
+        "IRI": "http://www.wikidata.org/entity/Q114797344",
         "Note": null
       },
       {
         "Name": "SGL Carbon",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q320207",
+        "IRI": "http://www.wikidata.org/entity/Q320207",
         "Note": null
       },
       {
         "Name": "SigmaAldrich",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q680841",
+        "IRI": "http://www.wikidata.org/entity/Q680841",
         "Note": null
       },
       {
         "Name": "Thermo Fisher Scientific",
         "Class": "schema:Organization",
-        "IRI": "https://www.wikidata.org/wiki/Q643674",
+        "IRI": "http://www.wikidata.org/entity/Q643674",
         "Note": null
       },
       {
