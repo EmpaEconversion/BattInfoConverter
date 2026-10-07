@@ -16,15 +16,16 @@ logger = logging.getLogger(__name__)
 
 
 # Sheet names have changed between template versions. Each canonical name is
-# listed with every spelling that has shipped, newest first.
+# listed with alternative simplified spellings
+# (lower case, no whitespace, no leading @)
 SHEET_NAMES: dict[str, tuple[str, ...]] = {
-    "@Schema": ("@Schema", "Schema"),
-    "@References": ("@References",),
-    "@Context": ("@Context", "@context-TopLevel"),
-    "@Predicates": ("@Predicates", "@context-Connector"),
-    "@Classes": ("@Classes", "Unique ID"),
-    "@Individuals": ("@Individuals",),
-    "@Units": ("@Units", "Ontology - Unit"),
+    "@Schema": ("schema",),
+    "@References": ("references",),
+    "@Context": ("context", "context-toplevel"),
+    "@Predicates": ("predicates", "context-connector"),
+    "@Classes": ("classes", "uniqueid"),
+    "@Individuals": ("individuals",),
+    "@Units": ("units", "ontology-unit"),
 }
 
 # Sheets the conversion cannot run without
@@ -157,12 +158,17 @@ def _sheet_headings(excel_file: str | Path | IO[bytes] | Workbook) -> tuple[list
 
 
 def _canonical_sheets(headings: list[str]) -> dict[str, str]:
-    """Map each canonical sheet name to the heading this workbook uses for it."""
+    """Map canonical sheet names to the real sheet names in the Excel file."""
+    # Map simplified sheet names to the real sheet names for comparing
+    simple_headings = {h.replace(" ", "").lstrip("@").casefold(): h for h in headings}
     found = {}
+    # If the simplified sheet name matches an accepted spelling, assign it to the canonical name
     for sheet, spellings in SHEET_NAMES.items():
-        heading = next((name for name in spellings if name in headings), None)
-        if heading is not None:
-            found[sheet] = heading
+        for spelling in spellings:
+            match = simple_headings.get(spelling)
+            if match:
+                found[sheet] = match
+                break
     return found
 
 
@@ -201,11 +207,7 @@ def _read_tables(
 
 def _check_required(tables: dict[str, pd.DataFrame]) -> None:
     """Error message naming missing sheets and columns."""
-    problems = []
-    for sheet in REQUIRED_SHEETS:
-        if sheet not in tables:
-            spellings = " or ".join(SHEET_NAMES[sheet])
-            problems.append(f"no {spellings} sheet")
+    problems = [f"no {sheet} sheet" for sheet in REQUIRED_SHEETS if sheet not in tables]
     for sheet, columns in REQUIRED_COLUMNS.items():
         if (df := tables.get(sheet)) is None:
             continue

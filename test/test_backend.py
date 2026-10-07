@@ -7,7 +7,7 @@ import pytest
 from conftest import CellFixtures, normalize_jsonld
 from openpyxl import Workbook, load_workbook
 
-from battinfoconverter_backend.excel_tools import ExcelContainer
+from battinfoconverter_backend.excel_tools import ExcelContainer, _canonical_sheets
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
 from battinfoconverter_backend.templates.template_conversion import (
     dict_to_workbook,
@@ -281,3 +281,30 @@ def test_column_headings_resolve(name: str) -> None:
     assert container.data["individual_names"] == {"Empa"}
     assert container.data["individual_types"] == {"Empa": "schema:Organization"}
     assert container.data["unique_id_map"] == {"Empa": "http://www.wikidata.org/entity/Q683116"}
+
+
+def test_legacy_sheet_names() -> None:
+    """Alternative spellings of sheet names are accepted."""
+    res = _canonical_sheets(
+        ["schema", "Context - TopLevel", "Context - Connector", "Unique ID", "Ontology - Unit"],
+    )
+    assert res == {
+        "@Schema": "schema",
+        "@Context": "Context - TopLevel",
+        "@Predicates": "Context - Connector",
+        "@Classes": "Unique ID",
+        "@Units": "Ontology - Unit",
+    }
+
+    res = _canonical_sheets(
+        ["@ScHeMa  ", " @ rEfErEnCeS ", "cONTEXT   ", "@@PREDICATES", " classes ", "@individuals", "@UNITS"],
+    )
+    assert res == {
+        "@Schema": "@ScHeMa  ",
+        "@References": " @ rEfErEnCeS ",
+        "@Context": "cONTEXT   ",
+        "@Predicates": "@@PREDICATES",
+        "@Classes": " classes ",
+        "@Individuals": "@individuals",
+        "@Units": "@UNITS",
+    }
