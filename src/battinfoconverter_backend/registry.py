@@ -36,6 +36,9 @@ class Registry:
         """Initialize, build multi connector candidates."""
         self.data = excel_container.data
 
+        # Includes custom classes added to @context
+        self.mapped_context: dict = {}
+
         self.last_nodes: dict[tuple[str, ...], dict] = {}
         self.path_counts: dict[tuple[str, ...], int] = {}
         self.connector_registry: dict[tuple[str, ...], list[dict]] = {}
@@ -57,10 +60,10 @@ class Registry:
 
         """
         context_connector = self.data["context_connector"]
-        connectors = set(context_connector["Item"])
+        connectors = set(context_connector["Predicate"])
 
         context_toplevel = self.data.get("context_toplevel")
-        top_level_connectors = set(context_toplevel["Item"]) if context_toplevel is not None else set()
+        top_level_connectors = set(context_toplevel["Term"]) if context_toplevel is not None else set()
 
         multi_connector_candidates = connectors | top_level_connectors | {"Comment"}
 
@@ -108,6 +111,18 @@ class Registry:
         logger.debug("Found multi connector candidates %s", multi_connector_candidates)
         logger.debug("Found  collapsible multi paths: %s", collapsible)
         return multi_connector_candidates, collapsible
+
+    def resolves(self, term: object) -> bool:
+        """Return True if the document's context can expand `term`."""
+        from .validate import term_resolves  # imported late, validate imports auxiliary
+
+        return term_resolves(term, self.mapped_context)
+
+    def did_you_mean(self, term: object) -> str:
+        """Suggest the closest classes to `term`, from the context and @Classes."""
+        from .validate import did_you_mean  # imported late, validate imports auxiliary
+
+        return did_you_mean(term, self.mapped_context, self.data.get("classes", ()))
 
     # Entry registration
     def register(
