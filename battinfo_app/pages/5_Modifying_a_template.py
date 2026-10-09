@@ -13,9 +13,11 @@ st.markdown(
     """
     - 'Metadata' is the key, describing the term to your users
     - 'Value' is the ontologized term or number/string value that is put in the JSON-LD
-    - 'Unit' should be a valid unit listed in the `@Units` tab, or 'No Unit'
+    - 'Unit' should be a unit listed in the `@Units` tab when the row is a measurement, and empty
+      when it is not. Use `unitless` for a dimensionless measurement such as pH.
     - 'Priority' can be 'required', 'recommended', or 'optional', and only determines if a user is
       warned when a term is missing.
+    - 'Note' is for your own remarks and is never converted.
     - 'Ontology link' defines how the term is placed into the JSON-LD structure.
     """
 )
@@ -54,16 +56,22 @@ st.markdown(
     """
 )
 
-st.subheader("2. Adding prefixed-namespaces to `@Context`")
+st.subheader("2. Adding namespaces and your own classes to `@Context`")
 
 st.markdown(
     """
     - We use the [BattINFO ontology](https://w3id.org/emmo/domain/battery/context) as the default namespace.
-    - We have additional namespaces in the `@Context` tab, e.g. `"schema": "https://schema.org/"`.
-    - You can add more prefixes as shorthands for URLs here.
-    - You can then use `your_prefix:your_suffix` notation in the Value and Ontology link columns in `@Schema`.
-    - Note that we only validate against cached terms from our provided namespaces; arbitrary 
-      namespaces are not validated.
+    - The `@Context` tab holds a 'Term' and the 'IRI' it stands for, e.g. `schema` and
+      `https://schema.org/`.
+    - What the entry does depends on how the IRI ends:
+        - **Ending in `#` or `/`** declares a namespace prefix. You can then write
+          `your_prefix:your_suffix` in the Value and Ontology link columns of `@Schema`.
+        - **Ending in anything else** names a single class of your own. Write the term on its own in
+          the Value column, and it will be written as a `@type` that expands to your IRI.
+    - This is how to ontologize something the BattINFO ontology does not cover yet, without adding
+      it as a plain comment.
+    - We only validate terms against the namespaces we cache, so terms in a namespace of your own
+      are passed through unchecked.
     """
 )
 
@@ -82,23 +90,50 @@ st.markdown(
     """
 )
 
-st.subheader("4. Adding terms to `@Classes`")
+st.subheader("4. Adding classes to `@Classes`")
 
 st.markdown(
     """
-    - Currently, to use a term from the default namespace, it must be in the `@Classes` tab (it does not need its IRI).
-    - Terms with an IRI not included in any namespace, such as people, companies, or niche concepts, can be added to the
-      `@Classes` with their IRI.
+    - The `@Classes` tab lists classes that are useful in the Value column of `@Schema`, grouped by
+      what part of the cell they belong to.
+    - It is a convenience list, not a restriction. A class the ontology already knows works whether
+      or not it is listed, so you only need to add a row to make a class easier for your users to
+      find.
+    - If a term is new in the [EMMO domain battery context](https://w3id.org/emmo/domain/battery/context)
+      it may not yet be known to the app, in which case you do need to include it in `@Classes`. The
+      term will then be converted correctly, despite the validator warning that the term is unknown.
+    - Every class listed must exist in the ontology. To use something the ontology does not cover,
+      declare it in `@Context` instead.
     """
 )
 
-st.subheader("5. Adding units to `@Units`")
+st.subheader("5. Adding people and organisations to `@Individuals`")
 
 st.markdown(
     """
-    - In the `@Units` tab, add a shorthand in the 'Item' column and the IRI or a term that expands to an IRI in the
-      'Key' column.
-    - The shorthand can now be used in the 'Unit' column of the `@Schema` tab.
+    - `@Classes` is for kinds of things, e.g. a spacer has a type "Aluminium" - it is **an** aluminium thing,
+      and there are other aluminium things that exist.
+    - `@Individuals` is for specific individuals, usually people and organisations. e.g. the creator is **the**
+      Corsin Battaglia, there is only one Corsin Battaglia in existance.
+    - Each row has a 'Name' as written in `@Schema`, the 'Class' it belongs to, and an 'IRI' that
+      identifies it.
+    - Use an [ORCID](https://orcid.org) for a person and a [Wikidata](https://www.wikidata.org)
+      entity for an organisation, in the form `http://www.wikidata.org/entity/Q683116`.
+    - A row with no IRI still works: the name and class are recorded, and only the identifier is
+      missing.
+    """
+)
 
+st.subheader("6. Adding units to `@Units`")
+
+st.markdown(
+    """
+    - In the `@Units` tab, add the symbol your users will type in the 'Unit' column, and the ontology
+      class it means in the 'Unit class' column.
+    - The class may be a term from the default namespace such as `MilliMetre`, a prefixed term such
+      as `unit:MilliA-HR`, or a full IRI. It must resolve to an IRI, or the unit will not be
+      ontologized.
+    - The symbol can then be used in the 'Unit' column of the `@Schema` tab.
+    - `unitless` is already provided for dimensionless measurements such as pH.
     """
 )

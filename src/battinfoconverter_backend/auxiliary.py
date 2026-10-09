@@ -32,9 +32,7 @@ NUMBER_PREDICATES = set(_literals["number"])
 
 LITERAL_PREDICATES = set(_literals["string"]) | NUMBER_PREDICATES | DATE_PREDICATES
 
-# The following keys will create an object with @type value, and look up a unique ID in @Classes
-# E.g. "schema:manufacturer": "Empa"
-# becomes {"@type": "schema:Organisation", "@id": id-lookedup-from-@Classes, "schema:name": "Empa"}
+# Default types for individuals, used as a fallback if not in the Individuals sheet
 TYPES_WITH_ID = {
     "schema:manufacturer": "schema:Organization",
     "schema:creator": "schema:Person",
@@ -669,7 +667,7 @@ def add_to_structure(
             continue
 
         # ==============================================================
-        # CASE 3 - Final value assignment  (unit == "No Unit")
+        # CASE 3 - Final value assignment  (the row is not a measurement)
         # ==============================================================
         if last:
             logger.debug("At last section with part '%s'", part)

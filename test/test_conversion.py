@@ -1,6 +1,7 @@
 """Test module for coin cell conversion."""
 
 import json
+from pathlib import Path
 
 import pytest
 from conftest import CellFixtures, normalize_jsonld
@@ -188,3 +189,38 @@ def test_empty_template(schema: CellFixtures) -> None:
         if group != "Cell identification":
             for row in data2["@Schema"]["data"][group]["rows"]:
                 assert row["Value"] is None
+
+
+# The two apps must be deployed as separate Streamlit entrypoints, each with its own
+# pages/ directory, so the guidance pages are duplicated. These are the only
+# differences between the copies: (battinfo text, catinfo text).
+APP_PAGES = ("4_How_to_fill_the_Excel_file.py", "5_Modifying_a_template.py", "6_FAQs.py")
+PAGE_DIFFERENCES: dict[str, list[tuple[str, str]]] = {
+    "5_Modifying_a_template.py": [
+        (
+            "the [BattINFO ontology](https://w3id.org/emmo/domain/battery/context)",
+            "[EMMO domain-battery](https://w3id.org/emmo/domain/battery/context)",
+        ),
+    ],
+    "6_FAQs.py": [
+        (
+            "What is the difference between BattINFO converter and CatINFO converter?",
+            "What is the difference between CatINFO converter and BattINFO converter?",
+        ),
+    ],
+}
+
+
+@pytest.mark.parametrize("name", APP_PAGES)
+def test_app_pages_are_in_sync(name: str) -> None:
+    """The guidance pages must match, apart from the differences declared above.
+
+    Either app may be edited, so this catches drift in both directions.
+    """
+    pages = Path(__file__).resolve().parent.parent
+    battinfo = (pages / "battinfo_app" / "pages" / name).read_text(encoding="utf-8")
+    catinfo = (pages / "catinfo_app" / "pages" / name).read_text(encoding="utf-8")
+    for battinfo_text, catinfo_text in PAGE_DIFFERENCES.get(name, []):
+        assert battinfo_text in battinfo, f"{name}: battinfo no longer says {battinfo_text!r}"
+        battinfo = battinfo.replace(battinfo_text, catinfo_text, 1)
+    assert battinfo == catinfo, f"{name} has drifted between the two apps"

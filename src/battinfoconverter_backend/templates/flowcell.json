@@ -51,7 +51,7 @@
             "Value": "Empa",
             "Unit": null,
             "Priority": "required",
-            "Note": "Organisation that made the cell, value should be in @classes with ID",
+            "Note": "Organisation that made the cell. List it in @Individuals to give it an IRI.",
             "Ontology link": "NotOntologize"
           },
           {
@@ -59,7 +59,7 @@
             "Value": "David Reber",
             "Unit": null,
             "Priority": "required",
-            "Note": "Person that made the cell, value should be in @classes with ID",
+            "Note": "Person that made the cell. List them in @Individuals to give them an ORCID.",
             "Ontology link": "NotOntologize"
           },
           {
@@ -1530,8 +1530,12 @@
     "type": "keyed_rows",
     "data": [
       {
-        "key": "References",
-        "type": "header"
+        "key": "Metadata",
+        "type": "columns",
+        "values": [
+          "Value",
+          "Extra values  ->  affiliations for an author, a description for a data file, or more items for a list"
+        ]
       },
       {
         "key": "Include references in metadata file (yes/no)",

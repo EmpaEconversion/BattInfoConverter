@@ -250,6 +250,7 @@ def _read_keyed_rows(ws: Worksheet) -> list[dict]:
     Each row is `{"key": <col A>, "values": [remaining cells]}`. A bold row with no
     values is the sheet title (`"type": "header"`) or, when it is filled with a
     colour, a section title (`"type": "section"`) like those of the schema sheet.
+    A bold row that does have values labels the columns (`"type": "columns"`).
     """
     rows = []
     for row in ws.iter_rows():
@@ -257,7 +258,10 @@ def _read_keyed_rows(ws: Worksheet) -> list[dict]:
             continue
         key = _serialize(row[0].value)
         values = [_serialize(c.value) for c in row[1:] if c.value is not None]
-        if not values and row[0].font and row[0].font.b:
+        if row[0].font and row[0].font.b:
+            if values:
+                rows.append({"key": key, "type": "columns", "values": values})
+                continue
             if row[0].fill and row[0].fill.patternType:
                 rows.append({"key": key, "type": "section", "color": _guess_color(row)})
             else:
@@ -289,6 +293,14 @@ def _write_keyed_rows(ws, rows: list[dict], empty: bool = False) -> None:
             fill = PatternFill("solid", fgColor=COLORS[entry.get("color", "grey")]["header"])
             for col in range(1, n_cols + 1):
                 ws.cell(row=row_idx, column=col).fill = fill
+            continue
+
+        if kind == "columns":
+            # labels the columns, and is skipped on conversion like any unknown row
+            style_header(cell)
+            for col, value in enumerate(entry.get("values", []), 2):
+                style_header(ws.cell(row=row_idx, column=col, value=value))
+            ws.row_dimensions[row_idx].height = 20
             continue
 
         values = entry.get("values", [])

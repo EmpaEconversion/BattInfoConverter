@@ -35,29 +35,42 @@ st.code(
 
 st.divider()
 
-st.markdown("**Q:** Why does it say 'x is not understood as an ontology term, adding it as a comment'?")
+st.markdown("**Q:** Why does it say my value 'is recorded as a comment'?")
 st.markdown(
-    "**A:** The term you used is not in the `@Classes` tab, so it is added as a comment instead of "
-    "an ontologized term. If it is an ontology term in the default namespace, add it to `@Classes`. "
-    "To intentionally add a comment, put `rdfs:comment` at the end of the ontology link instead."
+    "**A:** The value is neither listed in the `@Classes` tab nor a term the context can expand, so "
+    "it cannot be ontologized. The warning suggests close matches, which usually points at a "
+    "misspelling. Otherwise: add it to `@Classes` if it is a class, declare it in `@Context` if it "
+    "is your own, or write `comment|` in front of the value to record it as text on purpose."
 )
 
 st.divider()
 
+st.markdown("**Q:** Why does it say my value 'has a numerical value x with no unit, which is ambiguous'?")
 st.markdown(
-    "**Q:** Why does it say 'This is a 'schema:manufacturer' -- we recommend adding a unique ID in the @Classes tab.'?"
+    "**A:** A number in a cell that expects an ontology class is almost always a measurement whose "
+    "Unit cell was left empty. Give the row a unit from the `@Units` tab. If the quantity really is "
+    "dimensionless, such as pH, use `unitless`. If it is not a measurement at all, write `comment|` "
+    "in front of it, or put it on a literal predicate such as `schema:productID`."
 )
+
+st.divider()
+
+st.markdown('**Q:** Why does it say "we recommend listing it with an IRI in @Individuals"?')
 st.markdown(
-    "**A:** If you add a person or manufacturer to the @Classes tab, it is properly expanded to an "
-    "object with an @type, schema:name, and @id."
+    "**A:** The person or organisation is converted, but without an identifier anyone else can "
+    "resolve. Add a row to the `@Individuals` tab with the name, its class, and an IRI: an "
+    "[ORCID](https://orcid.org) for a person, or a [Wikidata](https://www.wikidata.org) entity such "
+    "as `http://www.wikidata.org/entity/Q683116` for an organisation."
 )
 st.divider()
 
 st.markdown("**Q:** Why does it say 'The URL for 'x' is not a known namespace of BattINFO converter'?")
 st.markdown(
     "**A:** Certain prefixed namespaces are cached and the app validates terms against them. "
-    "The URL may be misspelled, e.g. 'schema': 'https://schema.org' would mean 'schema:name' → "
-    "'https://schema.orgname', which is wrong. If you added a custom namespace, you can ignore the warning."
+    "The warning only appears when your URL is very close to one we know, so it almost always means "
+    "a typo, e.g. 'schema': 'https://schema.org' would mean 'schema:name' → 'https://schema.orgname', "
+    "which is wrong. A namespace of your own that looks nothing like ours is accepted silently, and "
+    "its terms are simply not checked."
 )
 
 st.divider()
