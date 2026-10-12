@@ -1,6 +1,7 @@
 """Streamlit web app interface."""
 
 import logging
+import traceback
 from collections.abc import Generator
 from contextlib import contextmanager
 from io import BytesIO
@@ -8,9 +9,26 @@ from pathlib import Path
 
 import simplejson as json
 import streamlit as st
+from pyld import jsonld
+from rdflib import Graph
 
 from battinfoconverter_backend import __version__
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
+
+# Output formats: label -> file extension, mime type, and syntax used for the preview
+OUTPUT_FORMATS = {
+    "JSON-LD": ("json", "application/ld+json", "json"),
+    "Expanded JSON-LD": ("json", "application/ld+json", "json"),
+    "Flattened JSON-LD": ("json", "application/ld+json", "json"),
+    "Turtle": ("ttl", "text/turtle", "turtle"),
+    "N-Triples": ("nt", "application/n-triples", "text"),
+    "RDF/XML": ("rdf", "application/rdf+xml", "xml"),
+}
+
+# The formats serialized by rdflib, with the name it knows them by
+RDFLIB_FORMATS = {"Turtle": "turtle", "N-Triples": "nt", "RDF/XML": "xml"}
+
+DEFAULT_FORMAT = "JSON-LD"
 
 
 # Catch warnings emitted by logging, for displaying nicely in streamlit
@@ -46,7 +64,7 @@ st.image(badge_url)
 
 markdown_content = """
 ### Overview
-CatINFO converter helps you ontologize battery cell metadata using the
+CatINFO converter helps you ontologize catalysis cell metadata using the
 [EMMO](https://emmo-repo.github.io/)
 [domain-battery ontology](https://emmo-repo.github.io/domain-battery/),
 improving data interoperability across platforms and research groups.
@@ -87,6 +105,23 @@ SOFTWARE_CREDIT = (
 )
 
 
+@st.cache_data(show_spinner="Converting the output...")
+def serialize_output(jsonld_str: str, output_format: str) -> str:
+    """Rewrite the JSON-LD string in the chosen format.
+
+    Every format but plain JSON-LD resolves the remote ontology context, so they
+    need network access.
+    """
+    if output_format == DEFAULT_FORMAT:
+        return jsonld_str
+    if output_format in RDFLIB_FORMATS:
+        graph = Graph().parse(data=jsonld_str, format="json-ld")
+        return graph.serialize(format=RDFLIB_FORMATS[output_format])
+    doc = json.loads(jsonld_str)
+    expanded = jsonld.flatten(doc) if output_format == "Flattened JSON-LD" else jsonld.expand(doc)
+    return json.dumps(expanded, indent=4, use_decimal=True, ensure_ascii=False)
+
+
 def main() -> None:
     """Define layout of app."""
     st.image("catinfo_app/assets/catinfo-long.svg", width=700)
@@ -100,34 +135,59 @@ def main() -> None:
         base_name = Path(uploaded_file.name).stem
 
         # Convert the uploaded Excel file to JSON-LD
-        with collect_warnings() as warnings:
-            jsonld_output = convert_excel_to_jsonld(
-                uploaded_file,
-                software_credit=SOFTWARE_CREDIT,
-                validate=True,
+        try:
+            with collect_warnings() as warnings:
+                jsonld_output = convert_excel_to_jsonld(
+                    uploaded_file,
+                    software_credit=SOFTWARE_CREDIT,
+                    validate=True,
+                )
+        except Exception as e:
+            st.error(f"Error encountered during conversion:  \n  \n{e}")
+            with st.expander("💥 See full error traceback"):
+                st.code(traceback.format_exc(), language="python")
+        else:
+            if warnings:
+                st.warning(
+                    f"**{len(warnings)} Warning{'' if len(warnings) == 1 else 's'}**  \n  \n"
+                    + "  \n".join(["- " + w for w in warnings])
+                )
+
+            jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True, ensure_ascii=False)
+
+            output_format = (
+                st.segmented_control(
+                    "__Output format__",
+                    options=list(OUTPUT_FORMATS),
+                    default=DEFAULT_FORMAT,
+                )
+                or DEFAULT_FORMAT
             )
-        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
 
-        if warnings:
-            st.warning(
-                f"**{len(warnings)} Warning{'' if len(warnings) == 1 else 's'}**  \n  \n"
-                + "  \n".join(["- " + w for w in warnings])
+            try:
+                output_str = serialize_output(jsonld_str, output_format)
+            except Exception as e:  # noqa: BLE001
+                st.error(
+                    f"Could not write the output as {output_format}, showing JSON-LD instead. "
+                    "All formats except JSON-LD need to download the ontology context."
+                    f"  \n  \n{e}"
+                )
+                output_format = DEFAULT_FORMAT
+                output_str = jsonld_str
+            extension, mime, language = OUTPUT_FORMATS[output_format]
+
+            # Download button
+            to_download = BytesIO(output_str.encode())
+            output_file_name = f"CatINFO_converter_{base_name}.{extension}"
+            st.download_button(
+                label=f"Download {output_format}",
+                data=to_download,
+                file_name=output_file_name,
+                mime=mime,
             )
 
-        jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True)
-
-        # Download button
-        to_download = BytesIO(jsonld_str.encode())
-        output_file_name = f"CatINFO_converter_{base_name}.json"
-        st.download_button(
-            label="Download JSON-LD",
-            data=to_download,
-            file_name=output_file_name,
-            mime="application/json",
-        )
-
-        # Convert JSON-LD output to a string to display in text area (for preview)
-        st.code(jsonld_str, height=1000, language="json")
+            # Show the output in the chosen format (for preview)
+            st.code(output_str, height=1000, language=language)
 
     st.markdown(markdown_content, unsafe_allow_html=True)
     st.image("./catinfo_app/assets/sponsor.png", width=700)
