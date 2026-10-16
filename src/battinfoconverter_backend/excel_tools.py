@@ -19,12 +19,12 @@ logger = logging.getLogger(__name__)
 # listed with alternative simplified spellings
 # (lower case, no whitespace, no leading @)
 SHEET_NAMES: dict[str, tuple[str, ...]] = {
-    "@Schema": ("schema",),
-    "@References": ("references",),
+    "@Schema": ("schema", "metadata", "template"),
+    "@References": ("references", "outputs", "publications"),
     "@Context": ("context", "context-toplevel"),
-    "@Predicates": ("predicates", "context-connector"),
-    "@Classes": ("classes", "uniqueid"),
-    "@Individuals": ("individuals",),
+    "@Predicates": ("predicates", "context-connector", "relations", "relationships"),
+    "@Classes": ("classes", "uniqueid", "types"),
+    "@Individuals": ("individuals", "instances", "entities"),
     "@Units": ("units", "ontology-unit"),
 }
 
