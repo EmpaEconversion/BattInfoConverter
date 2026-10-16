@@ -1119,7 +1119,7 @@
         }
     },
     "rdfs:comment": [
-        "BattINFO Converter backend v3.3.1",
+        "BattINFO Converter backend v3.4.0",
         "Using template: CoinCellSchema v2.0.0",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion."
     ]
