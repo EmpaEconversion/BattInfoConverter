@@ -9,9 +9,26 @@ from pathlib import Path
 
 import simplejson as json
 import streamlit as st
+from pyld import jsonld
+from rdflib import Graph
 
 from battinfoconverter_backend import __version__
 from battinfoconverter_backend.json_convert import convert_excel_to_jsonld
+
+# Output formats: label -> file extension, mime type, and syntax used for the preview
+OUTPUT_FORMATS = {
+    "JSON-LD": ("json", "application/ld+json", "json"),
+    "Expanded JSON-LD": ("json", "application/ld+json", "json"),
+    "Flattened JSON-LD": ("json", "application/ld+json", "json"),
+    "Turtle": ("ttl", "text/turtle", "turtle"),
+    "N-Triples": ("nt", "application/n-triples", "text"),
+    "RDF/XML": ("rdf", "application/rdf+xml", "xml"),
+}
+
+# The formats serialized by rdflib, with the name it knows them by
+RDFLIB_FORMATS = {"Turtle": "turtle", "N-Triples": "nt", "RDF/XML": "xml"}
+
+DEFAULT_FORMAT = "JSON-LD"
 
 
 # Catch warnings emitted by logging, for displaying nicely in streamlit
@@ -90,6 +107,23 @@ SOFTWARE_CREDIT = (
 )
 
 
+@st.cache_data(show_spinner="Converting the output...")
+def serialize_output(jsonld_str: str, output_format: str) -> str:
+    """Rewrite the JSON-LD string in the chosen format.
+
+    Every format but plain JSON-LD resolves the remote ontology context, so they
+    need network access.
+    """
+    if output_format == DEFAULT_FORMAT:
+        return jsonld_str
+    if output_format in RDFLIB_FORMATS:
+        graph = Graph().parse(data=jsonld_str, format="json-ld")
+        return graph.serialize(format=RDFLIB_FORMATS[output_format])
+    doc = json.loads(jsonld_str)
+    expanded = jsonld.flatten(doc) if output_format == "Flattened JSON-LD" else jsonld.expand(doc)
+    return json.dumps(expanded, indent=4, use_decimal=True, ensure_ascii=False)
+
+
 def main() -> None:
     """Define layout of app."""
     st.image("battinfo_app/assets/battinfo-long.svg", width=700)
@@ -123,18 +157,39 @@ def main() -> None:
 
             jsonld_str = json.dumps(jsonld_output, indent=4, use_decimal=True, ensure_ascii=False)
 
-            # Download button
-            to_download = BytesIO(jsonld_str.encode())
-            output_file_name = f"BattINFO_converter_{base_name}.json"
-            st.download_button(
-                label="Download JSON-LD",
-                data=to_download,
-                file_name=output_file_name,
-                mime="application/json",
+            output_format = (
+                st.segmented_control(
+                    "__Output format__",
+                    options=list(OUTPUT_FORMATS),
+                    default=DEFAULT_FORMAT,
+                )
+                or DEFAULT_FORMAT
             )
 
-            # Convert JSON-LD output to a string to display in text area (for preview)
-            st.code(jsonld_str, height=1000, language="json")
+            try:
+                output_str = serialize_output(jsonld_str, output_format)
+            except Exception as e:  # noqa: BLE001
+                st.error(
+                    f"Could not write the output as {output_format}, showing JSON-LD instead. "
+                    "All formats except JSON-LD need to download the ontology context."
+                    f"  \n  \n{e}"
+                )
+                output_format = DEFAULT_FORMAT
+                output_str = jsonld_str
+            extension, mime, language = OUTPUT_FORMATS[output_format]
+
+            # Download button
+            to_download = BytesIO(output_str.encode())
+            output_file_name = f"BattINFO_converter_{base_name}.{extension}"
+            st.download_button(
+                label=f"Download {output_format}",
+                data=to_download,
+                file_name=output_file_name,
+                mime=mime,
+            )
+
+            # Show the output in the chosen format (for preview)
+            st.code(output_str, height=1000, language=language)
 
     st.markdown(markdown_content, unsafe_allow_html=True)
     st.image("./battinfo_app/assets/sponsor.png", width=700)

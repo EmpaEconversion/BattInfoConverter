@@ -5,8 +5,9 @@ st.title("How to fill the Excel file")
 st.markdown(
     """
     - Most users should just have to modify the 'Value' column of the `@Schema` tab.
-    - Additional ontology terms can be added in the `@Units` and `@Classes` tab as needed.
-    - Do not change tab names or column names in the file - they are essential for the web app.
+    - Additional ontology terms can be added in the `@Classes`, `@Individuals`, `@Units` and
+      `@Context` tabs as needed.
+    - Do not rename tabs or columns.
     """
 )
 
@@ -16,37 +17,92 @@ st.markdown(
     """
     This tab contains the majority of the metadata file.
     - **Value**: Enter the metadata value. If the cell is empty, the script will skip this metadata item.
-    - **Unit**: Specify the unit of the metadata. If the metadata item does not require a unit, enter "No Unit."
-      Leaving this cell blank will result in an error.
-    - **Ontology Link**: The ontology link defines the path to the term in the JSON-LD. If you want to modify these,
+    - **Unit**: Fill this in when the row is a quantity/measurement, using a symbol listed in the `@Units` tab.
+      If the measurement is dimensionless, such as pH, use `unitless`.
+      Leave the unit empty when the row is not a quantity/measurement (the legacy "No Unit" also works).
+    - **Priority**: 'required', 'recommended' or 'optional'. This only decides whether you are warned
+      when the value is missing.
+    - **Note**: Your own remarks. This column is never converted.
+    - **Ontology link**: Defines the path to the term in the JSON-LD. If you want to modify these,
       see the 'Modifying the template' page.
     """
 )
 
-st.subheader("Adding terms to `@Classes`")
+st.subheader("How a 'Value' is interpreted")
 
 st.markdown(
     """
-    Inputs to the 'Value' column of the `@Schema` tab should point to an IRI, or be a literal value.
+    Values in the `@Schema` tab normally name an ontology class. The app works through the following
+    steps in order, and stops at the first one that matches:
 
-    All terms that point to an IRI should be listed in the `@Classes` tab.
+    __1) The value starts with `name|`, `label|` or `comment|`__
+    - The rest of the cell is recorded as plain text, and no class is looked up.
+    - Use this when something has no ontology class, for example `name|PVDF-HFP blend`.
 
-    When adding a term from the Excel file to the JSON-LD, there are four ways for the app to proceed:
+    __2) The value is listed in the `@Individuals` tab__
+    - The app writes the 'Class' column as `@type`, the 'IRI' column as `@id`, and the name as
+      `schema:name`.
 
-    __1) The item is in `@Classes` with a unique ID__
-    - The app will add the 'item' as its `@type`, and the 'ID' as the `@id` in the resulting JSON-LD file.
+    __3) The value is listed in the `@Classes` tab__
+    - The app writes it as `@type`.
 
-    __2) The item is in `@Classes` with a unique ID and is a creator or manufacturer__
-    - The app will add the 'item' as its `schema:name`, and the 'ID' as the `@id` in the resulting JSON-LD file.
+    __4) The value is a term the context already knows__
+    - The app writes it as `@type`, exactly as above. The `@Classes` tab is a convenience list of
+      common options, not a restriction, so a class the ontology already knows works whether or not
+      it is listed. The app knows terms from the
+      [EMMO domain battery context](https://w3id.org/emmo/domain/battery/context).
 
-    __3) The item is in `@Classes` without a unique ID__
-    - The term is already in the default context, so an IRI does not need to be provided.
-    - The app will add this value in "@type" in the resulting JSON-LD file.
+    __5) None of the above__
+    - The app writes the value in `rdfs:comment` and warns you, suggesting close matches where there
+      are any.
+    - If that is what you wanted, write `comment|` in front of the value to say so explicitly.
+    - If it should be a class, check the spelling, add it to `@Classes`, or declare your own class in
+      the `@Context` tab.
+    """
+)
 
-    __4) The item is not listed at all in the @Classes tab__
-    - The app will add this value in `rdfs:comment` in the resulting JSON-LD file, and warn the user.
-    - If the intended behaviour is to add a comment, put "rdfs:comment" at the end of the ontology link.
-    - If the term is intended to point to an IRI, add it to the `@Classes` tab.
+st.subheader("The `@Individuals` tab")
+
+st.markdown(
+    """
+    Individuals are specific, unique things, like people and organisations. as
+    opposed to a class that can describe many things, like aluminium. There are
+    three columns in the `@Individuals` tab:
+    - **Name**: exactly what you type in the `@Schema` tab, for example `Empa`.
+    - **Class**: ontology class for what it is, for example `schema:Person` or `schema:ResearchOrganization`.
+    - **IRI**: a persistent identifier. We prefer an [ORCID](https://orcid.org) for a person, and a
+      [Wikidata](https://www.wikidata.org) entity for an organisation.
+
+    For Wikidata, use the entity form `http://www.wikidata.org/entity/Q683116` rather than the
+    `/wiki/` page address.
+    """
+)
+
+st.subheader("The `@References` tab")
+
+st.markdown(
+    """
+    This tab adds metadata outside of the cell object.
+
+    Enabling the sheet (putting `yes` for "Include references in metadata file") will change the
+    structure of the output:
+
+    **No references** - The Cell object is at the root
+
+    **With references** - A 'Test' object is at the root, the Cell sits under 'hasTestObject', and
+    references sit under 'hasOutput'.
+
+    To fill in the sheet:
+    - **Metadata**: the name of the field. Do not rename these, as the app matches them by name.
+    - **Value**: the value for that field.
+    - **Extra values**: what the remaining columns mean depends on the row.
+        - After an author, they are that author's affiliations, one per column.
+        - After a data file, the next column is a description of that file.
+        - For a list such as the publication figures, every column is another item.
+        - For everything else, only the 'Value' column is read.
+
+    Rows ending in a capital letter, such as `Dataset authorA` and `Dataset authorB`, are collected
+    into one list in the order of that letter. Add more by continuing the sequence.
     """
 )
 

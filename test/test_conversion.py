@@ -1,6 +1,7 @@
 """Test module for coin cell conversion."""
 
 import json
+from pathlib import Path
 
 import pytest
 from conftest import CellFixtures, normalize_jsonld
@@ -12,6 +13,7 @@ from battinfoconverter_backend.templates.template_conversion import (
     dict_to_workbook,
     workbook_to_dict,
 )
+from battinfoconverter_backend.validate import did_you_mean, map_context, term_resolves
 
 
 def _filter_warnings(warnings: list[str]) -> list[str]:
@@ -102,6 +104,62 @@ def test_template_does_not_warn(schema: CellFixtures, caplog: pytest.LogCaptureF
     assert not _filter_warnings(warnings)
 
 
+def _col(row: dict, *names: str) -> str | None:
+    """Read the first of `names` the row has a value for, as the loader does."""
+    return next((row[n] for n in names if row.get(n)), None)
+
+
+def _context_pairs(template: dict) -> list[tuple[str, str]]:
+    """The @Context sheet as the converter builds it."""
+    rows = template["@Context"]["data"]
+    return [(_col(r, "Term", "Item"), _col(r, "IRI", "Key")) for r in rows if _col(r, "Term", "Item")]
+
+
+def _mapped_context(template: dict) -> dict:
+    """The term map the converter would build for this template."""
+    return map_context(
+        ["https://w3id.org/emmo/domain/battery/context", dict(_context_pairs(template))],
+        errors="raise",
+    )
+
+
+def _assert_all_resolve(names: list[str], mapped: dict, sheet: str) -> None:
+    """Fail naming every term the context cannot expand, with close matches."""
+    missing = [name for name in names if not term_resolves(name, mapped)]
+    report = "\n".join(f"  {name}{did_you_mean(name, mapped) or ' no close match'}" for name in missing)
+    assert not missing, f"{len(missing)} {sheet} entries are unknown to the context:\n{report}"
+
+
+def test_template_classes_are_in_context(schema: CellFixtures) -> None:
+    """Every class offered on the @Classes sheet should exist in the ontology.
+
+    Users are not warned about this while converting, since a miss may only mean
+    our cached context is stale, so the templates are checked here instead.
+    """
+    rows = schema.template["@Classes"]["data"]
+    classes = [c for row in rows if (c := _col(row, "Class", "Item"))]
+    assert classes, "the @Classes sheet is empty"
+    _assert_all_resolve(classes, _mapped_context(schema.template), "@Classes")
+
+
+def test_template_predicates_are_in_context(schema: CellFixtures) -> None:
+    """Both columns of @Predicates should be real ontology terms."""
+    rows = schema.template["@Predicates"]["data"]
+    predicates = [p for row in rows if (p := _col(row, "Predicate", "Item"))]
+    types = [t for row in rows if (t := _col(row, "Default class", "Key"))]
+    assert predicates, "the @Predicates sheet is empty"
+    _assert_all_resolve(predicates + types, _mapped_context(schema.template), "@Predicates")
+
+
+def test_template_predicate_defaults_come_first(schema: CellFixtures) -> None:
+    """Predicates with a default type are listed before the open-ended ones."""
+    rows = [row for row in schema.template["@Predicates"]["data"] if _col(row, "Predicate", "Item")]
+    has_default = [bool(_col(row, "Default class", "Key")) for row in rows]
+    assert has_default == sorted(has_default, reverse=True), (
+        f"open-ended predicates must come last: {[_col(r, 'Predicate', 'Item') for r in rows]}"
+    )
+
+
 def test_template_gives_expected_jsonld(schema: CellFixtures) -> None:
     """The template should compile to the expected JSON-LD."""
     wb = dict_to_workbook(schema.template)
@@ -131,3 +189,38 @@ def test_empty_template(schema: CellFixtures) -> None:
         if group != "Cell identification":
             for row in data2["@Schema"]["data"][group]["rows"]:
                 assert row["Value"] is None
+
+
+# The two apps must be deployed as separate Streamlit entrypoints, each with its own
+# pages/ directory, so the guidance pages are duplicated. These are the only
+# differences between the copies: (battinfo text, catinfo text).
+APP_PAGES = ("4_How_to_fill_the_Excel_file.py", "5_Modifying_a_template.py", "6_FAQs.py")
+PAGE_DIFFERENCES: dict[str, list[tuple[str, str]]] = {
+    "5_Modifying_a_template.py": [
+        (
+            "the [BattINFO ontology](https://w3id.org/emmo/domain/battery/context)",
+            "[EMMO domain-battery](https://w3id.org/emmo/domain/battery/context)",
+        ),
+    ],
+    "6_FAQs.py": [
+        (
+            "What is the difference between BattINFO converter and CatINFO converter?",
+            "What is the difference between CatINFO converter and BattINFO converter?",
+        ),
+    ],
+}
+
+
+@pytest.mark.parametrize("name", APP_PAGES)
+def test_app_pages_are_in_sync(name: str) -> None:
+    """The guidance pages must match, apart from the differences declared above.
+
+    Either app may be edited, so this catches drift in both directions.
+    """
+    pages = Path(__file__).resolve().parent.parent
+    battinfo = (pages / "battinfo_app" / "pages" / name).read_text(encoding="utf-8")
+    catinfo = (pages / "catinfo_app" / "pages" / name).read_text(encoding="utf-8")
+    for battinfo_text, catinfo_text in PAGE_DIFFERENCES.get(name, []):
+        assert battinfo_text in battinfo, f"{name}: battinfo no longer says {battinfo_text!r}"
+        battinfo = battinfo.replace(battinfo_text, catinfo_text, 1)
+    assert battinfo == catinfo, f"{name} has drifted between the two apps"

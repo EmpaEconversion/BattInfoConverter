@@ -32,21 +32,80 @@ NUMBER_PREDICATES = set(_literals["number"])
 
 LITERAL_PREDICATES = set(_literals["string"]) | NUMBER_PREDICATES | DATE_PREDICATES
 
-# The following keys will create an object with @type value, and look up a unique ID in @Classes
-# E.g. "schema:manufacturer": "Empa"
-# becomes {"@type": "schema:Organisation", "@id": id-lookedup-from-@Classes, "schema:name": "Empa"}
+# Default types for individuals, used as a fallback if not in the Individuals sheet
 TYPES_WITH_ID = {
     "schema:manufacturer": "schema:Organization",
     "schema:creator": "schema:Person",
 }
 
-# Deprecation warning for terms that get put in as comments
+# Warning for values that match no class, and so are recorded as free text.
+# Takes the value, any 'did you mean' hint, and the value again.
 COMMENT_WARNING = (
-    "DEPRECATION: "
-    "'%s' is not understood as an ontology term, adding it as a comment. "
-    "Implicit comments will be removed in future versions. "
-    "To add comments, put 'rdfs:comment' or 'Comment' at the end of the path."
+    "'%s' is not on the @Classes sheet and is not a term the context can expand, "
+    "so it is recorded as a comment.%s Add it to @Classes if it is a class, declare "
+    "it in @Context if it is your own, or write 'comment|%s' to mark it as free text."
 )
+
+# The legacy label for "this row is not a measurement". A blank Unit cell now
+# means the same thing, so the words cannot be mistaken for a dimensionless unit.
+NO_UNIT_LABEL = "no unit"
+
+# Warning for a value that looks like a quantity but has no unit to attach
+QUANTITY_WARNING = (
+    "'%s' has a numerical value %s with no unit, which is ambiguous. It is "
+    "recorded as a comment rather than a measurement. Give the row a unit if "
+    "it is a measurement, or put it on a literal predicate, or write "
+    "'comment|%s' if it is not a measurement. You can use unit 'unitless' in "
+    "the default templates to specify a dimensionless measurement such as pH."
+)
+
+# A Value cell may be marked as free text rather than an ontology term, so a
+# material with no class can still be recorded without touching the path.
+# E.g. "name|PVDF-HFP blend" becomes {"schema:name": "PVDF-HFP blend"}
+VALUE_SIGILS = {
+    "name": "schema:name",
+    "label": "rdfs:label",
+    "comment": "rdfs:comment",
+}
+
+
+def _split_value_sigil(value: Any) -> tuple[Any, str | None]:
+    """Split a leading ``name|``, ``label|`` or ``comment|`` marker off a Value cell.
+
+    Returns the value and the predicate to write it under, or the value unchanged
+    and None. An unrecognised marker is left alone, so a value may contain a pipe.
+    """
+    if not isinstance(value, str) or "|" not in value:
+        return value, None
+    sigil, remainder = value.split("|", 1)
+    predicate = VALUE_SIGILS.get(sigil.strip().lower())
+    if predicate is None:
+        return value, None
+    return remainder.strip(), predicate
+
+
+def _normalize_unit(unit: Any) -> str | None:
+    """Return the unit, or None when the row is not a measurement.
+
+    A blank cell and the legacy "No Unit" label mean the same thing.
+    """
+    if unit is None or (isinstance(unit, float) and pd.isna(unit)):
+        return None
+    text = str(unit).strip()
+    return None if not text or text.casefold() == NO_UNIT_LABEL else text
+
+
+def _require_str_type(value: Any, metadata: str | None) -> None:
+    """Reject a non-text value where an ontology class is expected."""
+    if isinstance(value, str):
+        return
+    label = f"'{metadata}'" if metadata else "A row"
+    msg = (
+        f"{label} has value '{value}' ({type(value).__name__}) where an ontology class is "
+        f"expected. Give the row a unit if it is a measurement, or prefix the value with "
+        f"'comment|' to record it as free text."
+    )
+    raise ValueError(msg)
 
 
 def _select_entry(
@@ -168,6 +227,56 @@ def _has_type(node: dict[str, Any], wanted: str) -> bool:
     """Return True if ``node`` carries ``wanted`` in its ``@type``."""
     existing = node.get("@type")
     return wanted in (existing if isinstance(existing, list) else [existing])
+
+
+def _assign_node_value(
+    target_node: dict[str, Any],
+    value: Any,
+    literal_predicate: str | None,
+    data_container: Registry,
+    metadata: str | None,
+    unit: str | None = None,
+) -> None:
+    """Write a value that sits in node position, rather than as a literal or a measurement.
+
+    In order of preference the value is:
+     - free text marked with a sigil
+     - a named individual from @Individuals
+     - a class listed on @Classes
+     - a class the context can expand
+     - rdfs:comment, with a warning, when it is none of those
+    """
+    if literal_predicate:
+        target_node[literal_predicate] = value
+        return
+
+    data = data_container.data
+    unique_id_map = data["unique_id_map"]
+
+    # An individual carries its own class, its name and its IRI
+    if value in data["individual_names"]:
+        if node_type := data["individual_types"].get(value):
+            _merge_type(target_node, node_type)
+        else:
+            logger.warning("'%s' has no Type on the @Individuals sheet, so its class is unknown.", value)
+        if uid := unique_id_map.get(value):
+            target_node["@id"] = uid
+        target_node["schema:name"] = value
+        return
+
+    if value in data["classes"] or data_container.resolves(value):
+        _require_str_type(value, metadata)
+        if uid := unique_id_map.get(value):
+            target_node["@id"] = uid  # a legacy @Classes row that carried an IRI
+        _merge_type(target_node, value)
+        return
+
+    if not isinstance(value, str) and unit is None:
+        # A number here almost always means the Unit cell was left empty
+        logger.warning(QUANTITY_WARNING, metadata, value, value)
+    else:
+        logger.warning(COMMENT_WARNING, value, data_container.did_you_mean(value), value)
+    target_node["rdfs:comment"] = value
 
 
 def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -> None:
@@ -348,10 +457,18 @@ def add_to_structure(
     ):
         return
 
+    # A sigil marks the value as free text, so it is never looked up as a term
+    value, literal_predicate = _split_value_sigil(value)
+    if literal_predicate and value == "":
+        return
+
+    # A blank Unit cell and "No Unit" both mean this row is not a measurement
+    unit = _normalize_unit(unit)
+
     # Load lookup tables from the ExcelContainer Registry
     unit_map = data_container.data["unit_map"]
     context_connector = data_container.data["context_connector"]
-    connectors = set(context_connector["Item"])
+    connectors = set(context_connector["Predicate"])
     unique_id_map = data_container.data["unique_id_map"]
 
     # Walk the path
@@ -373,6 +490,7 @@ def add_to_structure(
                     parent_path = tuple(traversed[:-1]) if traversed else ()
                     data_container.update_tokens(parent_path, current_level, typ)
                 else:  # Set the type of the current level to the value
+                    _require_str_type(value, metadata)
                     current_level["@type"] = value
                 continue  # Go to the next path part
             if parts.startswith("rev|"):
@@ -411,9 +529,11 @@ def add_to_structure(
         )
 
         # Ensure the key exists in the current dict
-        if part not in current_level and (value or unit):
+        if part not in current_level and (value is not None or unit is not None):
             if part in connectors:
-                connector_type = context_connector.loc[context_connector["Item"] == part, "Key"].to_numpy()[0]
+                connector_type = context_connector.loc[
+                    context_connector["Predicate"] == part, "Default class"
+                ].to_numpy()[0]
                 current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
             else:
                 current_level[part] = {}
@@ -427,10 +547,7 @@ def add_to_structure(
         # the final segment is the ontology type of the measurement, not a
         # plain property name.  Wrap the value in the EMMO measured-property
         # structure and stop.
-        if penultimate and unit != "No Unit":
-            if pd.isna(unit):
-                msg = f"Value '{value}' at path '{path}' is missing a required unit."
-                raise ValueError(msg)
+        if penultimate and unit is not None:
             if not unit_map.get(unit):
                 msg = f"The unit '{unit}' was not found in the @Units tab."
                 raise ValueError(msg)
@@ -550,7 +667,7 @@ def add_to_structure(
             continue
 
         # ==============================================================
-        # CASE 3 - Final value assignment  (unit == "No Unit")
+        # CASE 3 - Final value assignment  (the row is not a measurement)
         # ==============================================================
         if last:
             logger.debug("At last section with part '%s'", part)
@@ -559,15 +676,17 @@ def add_to_structure(
             if part in TYPES_WITH_ID:
                 logger.debug("Special case - looking up id")
 
+                # @Individuals names the class outright, otherwise it follows the predicate
+                individual_types = data_container.data.get("individual_types") or {}
                 payload: dict[str, Any] = {
-                    "@type": TYPES_WITH_ID[part],
+                    "@type": individual_types.get(value) or TYPES_WITH_ID[part],
                     "schema:name": value,
                 }
                 if uid := unique_id_map.get(value):
                     payload["@id"] = uid
                 else:
                     logger.warning(
-                        "'%s' has value '%s'. This is a '%s' - we recommend adding a unique ID in the @Classes tab.",
+                        "'%s' has value '%s'. This is a '%s' - we recommend listing it with an IRI in @Individuals.",
                         metadata,
                         value,
                         part,
@@ -598,7 +717,7 @@ def add_to_structure(
                 if part == "rdfs:comment":
                     # Comments also get the key and unit included if they exist
                     prefix = f"{metadata}: " if metadata is not None else ""
-                    suffix = f" {unit}" if unit is not None and unit != "No Unit" else ""
+                    suffix = f" {unit}" if unit is not None else ""
                     value = f"{prefix}{value}{suffix}"
                 if part in DATE_PREDICATES:
                     value = coerce_date_to_iso(value)
@@ -630,16 +749,8 @@ def add_to_structure(
                         target[part] = {} if holder in (None, {}) else {"rdfs:comment": holder}
                     target_node = target[part]
 
-                    if value in unique_id_map:
-                        # Known ontology term -> link via @id and @type
-                        logger.debug("Value '%s' is a known ontology term, linking with @id and @type", value)
-                        if uid := unique_id_map.get(value):
-                            target_node["@id"] = uid
-                        _merge_type(target_node, value)
-                    elif value:
-                        # Unknown term -> write as a comment but WARN
-                        logger.warning(COMMENT_WARNING, value)
-                        target_node["rdfs:comment"] = value
+                    if value or value in unique_id_map:
+                        _assign_node_value(target_node, value, literal_predicate, data_container, metadata, unit)
 
                     if part in current_level and current_level[part] in (None, {}):
                         current_level.pop(part)
@@ -673,15 +784,9 @@ def add_to_structure(
                 # Just continue on the path
                 target_node = next_level
 
-            # Write the value into target_node
-            if value in unique_id_map:
-                if uid := unique_id_map.get(value):
-                    target_node["@id"] = uid
-                _merge_type(target_node, value)
-            elif value:
-                # Legacy behaviour: do not store with metadata, overwrite existing values
-                logger.warning(COMMENT_WARNING, value)
-                target_node["rdfs:comment"] = value
+            # Write the value into target_node, overwriting any existing value
+            if value or value in unique_id_map:
+                _assign_node_value(target_node, value, literal_predicate, data_container, metadata, unit)
             break
 
         # Did not match any of the 3 cases: step into the next level
