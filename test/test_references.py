@@ -319,16 +319,34 @@ def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
         assert node["dcat:downloadURL"] == {"@id": expected}
 
 
-def test_download_url_without_a_zip_is_a_direct_file(coincell: CellFixtures) -> None:
+def test_download_url_without_a_zip_is_a_direct_file(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
     """Without a zip the files are uploaded individually, so each gets a direct URL."""
+    template = _set_reference(coincell.template, "Data zip file", [])
+    template = _set_reference(template, "Data fileA", ["data.parquet"])
+    rows = _rows(template)
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+
+    node = output["hasOutput"]["dcat:distribution"][0]
+    assert node["@id"] == _zenodo_url(rows, "data.parquet")
+    assert "#" not in node["@id"]
+    assert "data.parquet" not in caplog.text
+
+
+def test_folders_without_a_zip_get_no_link(coincell: CellFixtures, caplog: pytest.LogCaptureFixture) -> None:
+    """Zenodo has no folders outside a zip, so such a file is named by its path and the user is told."""
     template = _set_reference(coincell.template, "Data zip file", [])
     rows = _rows(template)
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
 
-    path = next(rows[k][0] for k in sorted(rows) if k.startswith("Data file"))
-    node = output["hasOutput"]["dcat:distribution"][0]
-    assert node["@id"] == _zenodo_url(rows, path)
-    assert "#" not in node["@id"]
+    for node, path in zip(output["hasOutput"]["dcat:distribution"], _file_paths(rows), strict=True):
+        assert "@id" not in node
+        assert node["dcterms:identifier"] == path
+        assert "dcat:downloadURL" not in node
+
+    warnings = [w for w in caplog.text.splitlines() if "only keeps folders inside a zip" in w]
+    assert len(warnings) == len(_file_paths(rows))
+    for path in _file_paths(rows):
+        assert any(path in w for w in warnings)
 
 
 def test_unpublished_files_are_named_by_their_path(coincell: CellFixtures) -> None:
@@ -336,9 +354,8 @@ def test_unpublished_files_are_named_by_their_path(coincell: CellFixtures) -> No
     template = _set_reference(coincell.template, "Dataset URL", [])
     rows = _rows(template)
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
-    paths = [rows[k][0] for k in sorted(rows) if k.startswith("Data file")]
 
-    for node, path in zip(output["hasOutput"]["dcat:distribution"], paths, strict=True):
+    for node, path in zip(output["hasOutput"]["dcat:distribution"], _file_paths(rows), strict=True):
         # No invented IRI: the node is blank and carries the path as a literal
         assert "@id" not in node
         assert node["dcterms:identifier"] == path
