@@ -792,28 +792,6 @@
             "schema:productID": "Micro Flow Cell"
         }
     },
-    "hasInput": {
-        "@type": [
-            "RawData",
-            "dcat:Dataset"
-        ],
-        "dcat:distribution": [
-            {
-                "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr",
-                "@type": [
-                    "dcat:Distribution",
-                    "RawData"
-                ],
-                "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
-                },
-                "rdfs:comment": "Raw electrochemical data, Biologic EC-Lab mpr binary format",
-                "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr"
-                }
-            }
-        ]
-    },
     "hasOutput": {
         "@type": [
             "ElectrolysisTestResult",
@@ -930,6 +908,20 @@
                 "rdfs:comment": "Time series electrochemical data as csv with Catalysis Data Format columns",
                 "dcat:downloadURL": {
                     "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.csv"
+                }
+            },
+            {
+                "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr",
+                "@type": [
+                    "dcat:Distribution",
+                    "RawData"
+                ],
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                },
+                "rdfs:comment": "Raw electrochemical data, Biologic EC-Lab mpr binary format",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001_CA_C01.mpr"
                 }
             }
         ],

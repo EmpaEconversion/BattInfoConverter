@@ -242,6 +242,17 @@ MEDIA_TYPES = {
 }
 
 
+def _file_paths(rows: dict) -> list[str]:
+    """Paths of the data files then the raw files, in sheet order."""
+    data = [rows[k][0] for k in sorted(rows) if k.startswith("Data file")]
+    return data + [rows[k][0] for k in sorted(rows) if k.startswith("Raw data file")]
+
+
+def _data_nodes(output: dict) -> list[dict]:
+    """Get the distributions of the processed data files, without the raw ones."""
+    return [d for d in output["hasOutput"]["dcat:distribution"] if "RawData" not in d["@type"]]
+
+
 def _zenodo_url(rows: dict, path: str) -> str:
     """Where a file of the dataset can be downloaded, the way the sheet describes it."""
     record = rows["Dataset URL"][0].rsplit(".", 1)[-1]
@@ -257,7 +268,7 @@ def test_data_files_become_distributions(schema: CellFixtures) -> None:
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
     rows = _rows(template)
     files = [rows[k] for k in sorted(rows) if k.startswith("Data file")]
-    distributions = output["hasOutput"]["dcat:distribution"]
+    distributions = _data_nodes(output)
 
     assert len(distributions) == len(files)
     for node, (path, comment) in zip(distributions, files, strict=True):
@@ -273,28 +284,26 @@ def test_tabular_files_get_the_schema_of_the_cell(schema: CellFixtures) -> None:
     """Battery cells use the Battery Data Format, electrolysis cells the Catalysis one."""
     output = convert_excel_to_jsonld(dict_to_workbook(schema.template), validate=False)
     expected = SCHEMAS[output["hasTestObject"]["@type"]]
-    for node in output["hasOutput"]["dcat:distribution"]:
+    for node in _data_nodes(output):
         assert node["csvw:tableSchema"] == {"@id": expected}
         # only CSV needs its dialect spelled out
         assert ("csvw:dialect" in node) == node["@id"].endswith(".csv")
 
 
-def test_raw_files_are_inputs(schema: CellFixtures) -> None:
-    """Raw instrument files describe what went into the test, not what came out."""
+def test_raw_files_are_outputs(schema: CellFixtures) -> None:
+    """Raw instrument files are recorded by the test, so they sit with its other outputs."""
     template = schema.template
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
     rows = _rows(template)
     raw_paths = [rows[k][0] for k in sorted(rows) if k.startswith("Raw data file")]
 
-    node = output["hasInput"]
-    assert node["@type"] == ["RawData", "dcat:Dataset"]
-    assert [d["@id"] for d in node["dcat:distribution"]] == [_zenodo_url(rows, p) for p in raw_paths]
-    for distribution in node["dcat:distribution"]:
+    assert "hasInput" not in output
+    raw = [d for d in output["hasOutput"]["dcat:distribution"] if "RawData" in d["@type"]]
+    assert [d["@id"] for d in raw] == [_zenodo_url(rows, p) for p in raw_paths]
+    for distribution in raw:
         assert distribution["@type"] == ["dcat:Distribution", "RawData"]
         # raw files are not tabular, so they carry no schema
         assert "csvw:tableSchema" not in distribution
-    # and they are not repeated as outputs
-    assert not set(raw_paths) & {d["@id"] for d in output["hasOutput"]["dcat:distribution"]}
 
 
 def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
@@ -302,9 +311,8 @@ def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
     template = schema.template
     rows = _rows(template)
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
-    paths = [rows[k][0] for k in sorted(rows) if k.startswith("Data file")]
 
-    for node, path in zip(output["hasOutput"]["dcat:distribution"], paths, strict=True):
+    for node, path in zip(output["hasOutput"]["dcat:distribution"], _file_paths(rows), strict=True):
         expected = _zenodo_url(rows, path)
         assert "#" in expected
         assert node["@id"] == expected

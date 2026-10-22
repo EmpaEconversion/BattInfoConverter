@@ -499,8 +499,6 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
         "@type": test_type,
         "hasTestObject": jsonld,
     }
-    if raw_files := _distributions(groups, RAW_FILE_PREFIX, fields, raw=True):
-        wrapped["hasInput"] = {"@type": [RAW_DATA_TYPE, DATASET_TYPE], "dcat:distribution": raw_files}
     wrapped["hasOutput"] = _dataset_node(fields, groups, individuals, f"{test_type}Result")
     return wrapped
 

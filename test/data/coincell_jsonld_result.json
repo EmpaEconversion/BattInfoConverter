@@ -768,28 +768,6 @@
             }
         ]
     },
-    "hasInput": {
-        "@type": [
-            "RawData",
-            "dcat:Dataset"
-        ],
-        "dcat:distribution": [
-            {
-                "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001_GCPL_C01.mpr",
-                "@type": [
-                    "dcat:Distribution",
-                    "RawData"
-                ],
-                "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
-                },
-                "rdfs:comment": "Raw cycling data, Biologic EC-Lab binary mpr format",
-                "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001_GCPL_C01.mpr"
-                }
-            }
-        ]
-    },
     "hasOutput": {
         "@type": [
             "BatteryTestResult",
@@ -975,6 +953,20 @@
                 "rdfs:comment": "Time series electrochemical data as csv with Battery Data Format columns",
                 "dcat:downloadURL": {
                     "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001.bdf.csv"
+                }
+            },
+            {
+                "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001_GCPL_C01.mpr",
+                "@type": [
+                    "dcat:Distribution",
+                    "RawData"
+                ],
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                },
+                "rdfs:comment": "Raw cycling data, Biologic EC-Lab binary mpr format",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001_GCPL_C01.mpr"
                 }
             }
         ],
