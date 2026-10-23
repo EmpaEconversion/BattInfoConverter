@@ -88,7 +88,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.2.0",
+            "Value": "0.2.1",
             "Unit": null,
             "Priority": "required",
             "Note": "Version of this schema, do not change",
@@ -1533,6 +1533,13 @@
           "empa__ecid000001/empa__ecid000001_CA_C01.mpr",
           "Raw electrochemical data, Biologic EC-Lab mpr binary format"
         ]
+      },
+      {
+        "key": "Input fileA",
+        "values": [
+          "empa__ecid000001/empa__ecid000001.mps",
+          "Measurement protocol, Biologic EC-Lab settings file"
+        ]
       }
     ]
   },
@@ -2527,7 +2534,7 @@
       },
       {
         "Unit": "mAh/cm2",
-        "Unit class": "emmo:MilliAmpereHourPerSquareCentiMetre",
+        "Unit class": "MilliAmpereHourPerSquareCentiMetre",
         "Note": null
       },
       {

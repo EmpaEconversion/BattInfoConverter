@@ -92,12 +92,20 @@ st.markdown(
     **With references** - A 'Test' object is at the root, the Cell sits under 'hasTestObject', and
     references sit under 'hasOutput'.
 
+    Files are listed in three kinds of row:
+    - **Data file**: processed data produced by the test, under 'hasOutput'.
+    - **Raw data file**: instrument files recorded by the test, also under 'hasOutput'.
+    - **Input file**: files that went into the test, such as the protocol, under 'hasInput'.
+
+    Give each file's path within the dataset. If it is a zip, use the path relative to the zip root.
+    If files are uploaded individually, just use plain file names (Zenodo does not allow folders).
+
     To fill in the sheet:
     - **Metadata**: the name of the field. Do not rename these, as the app matches them by name.
     - **Value**: the value for that field.
     - **Extra values**: what the remaining columns mean depends on the row.
         - After an author, they are that author's affiliations, one per column.
-        - After a data file, the next column is a description of that file.
+        - After a file, the next column is a description of that file.
         - For a list such as the publication figures, every column is another item.
         - For everything else, only the 'Value' column is read.
 
