@@ -2534,7 +2534,7 @@
       },
       {
         "Unit": "mAh/cm2",
-        "Unit class": "emmo:MilliAmpereHourPerSquareCentiMetre",
+        "Unit class": "MilliAmpereHourPerSquareCentiMetre",
         "Note": null
       },
       {

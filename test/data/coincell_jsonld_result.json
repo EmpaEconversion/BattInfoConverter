@@ -252,7 +252,7 @@
                         "@type": "RealData",
                         "hasNumberValue": 1.056
                     },
-                    "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
+                    "hasMeasurementUnit": "MilliAmpereHourPerSquareCentiMetre"
                 },
                 {
                     "@type": "RatedCapacity",
@@ -488,7 +488,7 @@
                         "@type": "RealData",
                         "hasNumberValue": 1.19
                     },
-                    "hasMeasurementUnit": "emmo:MilliAmpereHourPerSquareCentiMetre"
+                    "hasMeasurementUnit": "MilliAmpereHourPerSquareCentiMetre"
                 },
                 {
                     "@type": "RatedCapacity",
