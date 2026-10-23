@@ -248,6 +248,11 @@ def _file_paths(rows: dict) -> list[str]:
     return data + [rows[k][0] for k in sorted(rows) if k.startswith("Raw data file")]
 
 
+def _input_paths(rows: dict) -> list[str]:
+    """Paths of the input files, in sheet order."""
+    return [rows[k][0] for k in sorted(rows) if k.startswith("Input file")]
+
+
 def _data_nodes(output: dict) -> list[dict]:
     """Get the distributions of the processed data files, without the raw ones."""
     return [d for d in output["hasOutput"]["dcat:distribution"] if "RawData" not in d["@type"]]
@@ -297,13 +302,50 @@ def test_raw_files_are_outputs(schema: CellFixtures) -> None:
     rows = _rows(template)
     raw_paths = [rows[k][0] for k in sorted(rows) if k.startswith("Raw data file")]
 
-    assert "hasInput" not in output
     raw = [d for d in output["hasOutput"]["dcat:distribution"] if "RawData" in d["@type"]]
     assert [d["@id"] for d in raw] == [_zenodo_url(rows, p) for p in raw_paths]
     for distribution in raw:
         assert distribution["@type"] == ["dcat:Distribution", "RawData"]
         # raw files are not tabular, so they carry no schema
         assert "csvw:tableSchema" not in distribution
+    assert not {d["@id"] for d in raw} & {d["@id"] for d in output["hasInput"]["dcat:distribution"]}
+
+
+def test_input_files_are_inputs(schema: CellFixtures) -> None:
+    """Files that went into the test, such as its protocol, sit under hasInput."""
+    template = schema.template
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    rows = _rows(template)
+    inputs = [rows[k] for k in sorted(rows) if k.startswith("Input file")]
+
+    node = output["hasInput"]
+    assert node["@type"] == "dcat:Dataset"
+    assert len(node["dcat:distribution"]) == len(inputs)
+    for distribution, (path, comment) in zip(node["dcat:distribution"], inputs, strict=True):
+        assert distribution["@id"] == _zenodo_url(rows, path)
+        assert distribution["dcat:downloadURL"] == {"@id": _zenodo_url(rows, path)}
+        assert distribution["@type"] == "dcat:Distribution"
+        assert distribution["rdfs:comment"] == comment
+    output_ids = {d["@id"] for d in output["hasOutput"]["dcat:distribution"]}
+    assert not output_ids & {d["@id"] for d in node["dcat:distribution"]}
+
+
+def test_input_files_do_not_get_the_data_schema(coincell: CellFixtures) -> None:
+    """The tabular data schema describes the measured data, not a tabular input."""
+    template = _set_reference(coincell.template, "Input fileA", ["protocol.csv"])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+
+    (node,) = output["hasInput"]["dcat:distribution"]
+    assert node["dcat:mediaType"] == {"@id": IANA + "text/csv"}
+    assert "csvw:tableSchema" not in node
+    assert "csvw:dialect" not in node
+
+
+def test_no_input_files_no_has_input(coincell: CellFixtures) -> None:
+    """Without input file rows the test has no hasInput."""
+    template = _set_reference(coincell.template, "Input fileA", [])
+    output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
+    assert "hasInput" not in output
 
 
 def test_download_urls_point_into_the_zenodo_zip(schema: CellFixtures) -> None:
@@ -342,10 +384,14 @@ def test_folders_without_a_zip_get_no_link(coincell: CellFixtures, caplog: pytes
         assert "@id" not in node
         assert node["dcterms:identifier"] == path
         assert "dcat:downloadURL" not in node
+    for node, path in zip(output["hasInput"]["dcat:distribution"], _input_paths(rows), strict=True):
+        assert "@id" not in node
+        assert node["dcterms:identifier"] == path
 
+    paths = _file_paths(rows) + _input_paths(rows)
     warnings = [w for w in caplog.text.splitlines() if "only keeps folders inside a zip" in w]
-    assert len(warnings) == len(_file_paths(rows))
-    for path in _file_paths(rows):
+    assert len(warnings) == len(paths)
+    for path in paths:
         assert any(path in w for w in warnings)
 
 

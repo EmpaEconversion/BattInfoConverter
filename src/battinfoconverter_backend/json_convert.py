@@ -47,6 +47,7 @@ PUBLICATION_PREFIX = "Associated publication"
 # Labels of the @References rows listing the files of the dataset
 DATA_FILE_PREFIX = "Data file"
 RAW_FILE_PREFIX = "Raw data file"
+INPUT_FILE_PREFIX = "Input file"
 ZIP_FIELD = "Data zip file"
 TABLE_SCHEMA_FIELD = "Tabular data schema"
 
@@ -484,9 +485,9 @@ def _dataset_node(fields: dict[str, list], groups: dict, individuals: Individual
 def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     """Move the cell under a test node with publication information, if requested in @Extra.
 
-    The test becomes the root node, the cell becomes its hasTestObject, and the
-    publication information is attached as its hasOutput. The test type follows
-    from the cell type. The cell keeps its own comments.
+    The test becomes the root node, the cell becomes its hasTestObject, input files
+    such as protocols go under hasInput, and the dataset and publication information
+    under hasOutput. The test type follows from the cell type. The cell keeps its own comments.
     """
     rows = data_container.data.get("extra_rows")
     if not rows:
@@ -507,6 +508,9 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
         "@type": test_type,
         "hasTestObject": jsonld,
     }
+    # The tabular data schema describes the measured data, not what went into the test
+    if inputs := [_distribution_node(cells, fields, None, raw=False) for cells in groups.get(INPUT_FILE_PREFIX, [])]:
+        wrapped["hasInput"] = {"@type": DATASET_TYPE, "dcat:distribution": inputs}
     wrapped["hasOutput"] = _dataset_node(fields, groups, individuals, f"{test_type}Result")
     return wrapped
 

@@ -80,7 +80,7 @@
           },
           {
             "Metadata": "Schema version",
-            "Value": "0.2.0",
+            "Value": "0.2.1",
             "Unit": null,
             "Priority": "required",
             "Note": "Version of this schema, do not change",
@@ -1790,6 +1790,13 @@
         "values": [
           "empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
           "Raw cycling data, Biologic EC-Lab mpr binary format"
+        ]
+      },
+      {
+        "key": "Input fileA",
+        "values": [
+          "empa__fcid000001/empa__fcid000001.mps",
+          "Cycling protocol, Biologic EC-Lab settings file"
         ]
       }
     ]

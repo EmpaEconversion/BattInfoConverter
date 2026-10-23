@@ -35,7 +35,7 @@
             "Project: Battery2030+/PREMISE",
             "Assembled manually or by robot: manually",
             "Schema name: CoinCellSchema",
-            "Schema version: 2.0.0",
+            "Schema version: 2.1.0",
             "Cell assembly sequence: CellCan, NegativeElectrode, Separator, 30.0 uL Electrolyte, PositiveElectrode, 1.0 mm Spacer, Spring, CellLid"
         ],
         "hasPositiveElectrode": {
@@ -768,6 +768,22 @@
             }
         ]
     },
+    "hasInput": {
+        "@type": "dcat:Dataset",
+        "dcat:distribution": [
+            {
+                "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001.mps",
+                "@type": "dcat:Distribution",
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/text/plain"
+                },
+                "rdfs:comment": "Cycling protocol, Biologic EC-Lab settings file",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/15481956/files/Dataset-rocrate.zip#empa__ccid000001/empa__ccid000001.mps"
+                }
+            }
+        ]
+    },
     "hasOutput": {
         "@type": [
             "BatteryTestResult",
@@ -1112,7 +1128,7 @@
     },
     "rdfs:comment": [
         "BattINFO Converter backend v3.4.0",
-        "Using template: CoinCellSchema v2.0.0",
+        "Using template: CoinCellSchema v2.1.0",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion."
     ]
 }
