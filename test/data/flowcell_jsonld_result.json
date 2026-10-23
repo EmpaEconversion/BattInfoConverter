@@ -34,7 +34,7 @@
         "rdfs:comment": [
             "Project: SNSF Ambizione Z00P2_209078",
             "Schema name: RFBCellSchema",
-            "Schema version: 0.2.0"
+            "Schema version: 0.2.1"
         ],
         "hasPositiveElectrode": {
             "@type": [
@@ -831,23 +831,17 @@
         }
     },
     "hasInput": {
-        "@type": [
-            "RawData",
-            "dcat:Dataset"
-        ],
+        "@type": "dcat:Dataset",
         "dcat:distribution": [
             {
-                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
-                "@type": [
-                    "dcat:Distribution",
-                    "RawData"
-                ],
+                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.mps",
+                "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                    "@id": "https://www.iana.org/assignments/media-types/text/plain"
                 },
-                "rdfs:comment": "Raw cycling data, Biologic EC-Lab mpr binary format",
+                "rdfs:comment": "Cycling protocol, Biologic EC-Lab settings file",
                 "dcat:downloadURL": {
-                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr"
+                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.mps"
                 }
             }
         ]
@@ -1021,6 +1015,20 @@
                 "dcat:downloadURL": {
                     "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.eis.bdf.parquet"
                 }
+            },
+            {
+                "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr",
+                "@type": [
+                    "dcat:Distribution",
+                    "RawData"
+                ],
+                "dcat:mediaType": {
+                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                },
+                "rdfs:comment": "Raw cycling data, Biologic EC-Lab mpr binary format",
+                "dcat:downloadURL": {
+                    "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001_GCPL_C01.mpr"
+                }
             }
         ],
         "schema:associatedMedia": {
@@ -1153,7 +1161,7 @@
     },
     "rdfs:comment": [
         "BattINFO Converter backend v3.4.0",
-        "Using template: RFBCellSchema v0.2.0",
+        "Using template: RFBCellSchema v0.2.1",
         "Software credit: This JSON-LD was created using the BattINFO Converter Python package (https://github.com/EmpaEconversion/BattInfoConverter), developed at Empa, Swiss Federal Laboratories for Materials Science and Technology in the Laboratory Materials for Energy Conversion."
     ]
 }
