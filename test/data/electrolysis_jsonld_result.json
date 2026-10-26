@@ -19,7 +19,7 @@
     "hasTestObject": {
         "@type": "ElectrolyticCell",
         "schema:productID": "empa__ecid_000001",
-        "schema:name": "240616_bco_gr-NMC_01",
+        "schema:name": "240616_bco_Cu-IrO2_01",
         "schema:dateCreated": "2024-05-01",
         "schema:manufacturer": {
             "@type": "schema:ResearchOrganization",
@@ -156,14 +156,24 @@
                 "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "15p_Cu",
-            "hasMeasuredProperty": {
-                "@type": "Area",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 1
+            "hasMeasuredProperty": [
+                {
+                    "@type": "ElectrodeGeometricSurfaceArea",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 1
+                    },
+                    "hasMeasurementUnit": "SquareCentiMetre"
                 },
-                "hasMeasurementUnit": "SquareCentiMetre"
-            }
+                {
+                    "@type": "ElectrodeToSeparatorGapWidth",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 0
+                    },
+                    "hasMeasurementUnit": "MilliMetre"
+                }
+            ]
         },
         "hasPositiveElectrode": {
             "@type": [
@@ -278,14 +288,24 @@
                 "@id": "http://www.wikidata.org/entity/Q683116"
             },
             "schema:productID": "18x_Ti",
-            "hasMeasuredProperty": {
-                "@type": "Area",
-                "hasNumericalPart": {
-                    "@type": "RealData",
-                    "hasNumberValue": 1
+            "hasMeasuredProperty": [
+                {
+                    "@type": "ElectrodeGeometricSurfaceArea",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 1
+                    },
+                    "hasMeasurementUnit": "SquareCentiMetre"
                 },
-                "hasMeasurementUnit": "SquareCentiMetre"
-            }
+                {
+                    "@type": "ElectrodeToSeparatorGapWidth",
+                    "hasNumericalPart": {
+                        "@type": "RealData",
+                        "hasNumberValue": 0
+                    },
+                    "hasMeasurementUnit": "MilliMetre"
+                }
+            ]
         },
         "hasComponent": [
             {
@@ -344,14 +364,6 @@
                 },
                 "hasComponent": {
                     "@type": "FlowField"
-                },
-                "hasMeasuredProperty": {
-                    "@type": "Width",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "MilliMetre"
                 }
             },
             {
@@ -385,20 +397,20 @@
                 "@type": "AnolyteCompartment",
                 "hasMeasuredProperty": [
                     {
-                        "@type": "Volume",
-                        "hasNumericalPart": {
-                            "@type": "RealData",
-                            "hasNumberValue": 0.065
-                        },
-                        "hasMeasurementUnit": "unit:MilliL"
-                    },
-                    {
                         "@type": "Width",
                         "hasNumericalPart": {
                             "@type": "RealData",
                             "hasNumberValue": 0
                         },
                         "hasMeasurementUnit": "MilliMetre"
+                    },
+                    {
+                        "@type": "Volume",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 0.065
+                        },
+                        "hasMeasurementUnit": "unit:MilliL"
                     }
                 ],
                 "hasReferenceElectrode": {
@@ -446,14 +458,6 @@
                             "hasMeasurementUnit": "unit:BAR"
                         }
                     ]
-                },
-                "hasMeasuredProperty": {
-                    "@type": "Width",
-                    "hasNumericalPart": {
-                        "@type": "RealData",
-                        "hasNumberValue": 1
-                    },
-                    "hasMeasurementUnit": "MilliMetre"
                 },
                 "hasComponent": {
                     "@type": "FlowField"

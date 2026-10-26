@@ -32,7 +32,7 @@
           },
           {
             "Metadata": "Cell name",
-            "Value": "240616_bco_gr-NMC_01",
+            "Value": "240616_bco_Cu-IrO2_01",
             "Unit": null,
             "Priority": "recommended",
             "Note": "Human-friendly name for the cell",
@@ -217,6 +217,14 @@
             "Priority": "optional",
             "Note": null,
             "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-Porosity"
+          },
+          {
+            "Metadata": "Negative electrode substrate mean pore size",
+            "Value": null,
+            "Unit": "um",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasNegativeElectrode-hasSubstrate-hasMeasuredProperty-MeanPoreSize"
           },
           {
             "Metadata": "Negative electrode coating active material particle size (leave blank for films)",
@@ -411,6 +419,14 @@
             "Priority": "optional",
             "Note": null,
             "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-Porosity"
+          },
+          {
+            "Metadata": "Positive electrode substrate mean pore size",
+            "Value": null,
+            "Unit": "um",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasSubstrate-hasMeasuredProperty-MeanPoreSize"
           },
           {
             "Metadata": "Positive electrode coating active material mean particle size (leave blank for films)",
@@ -1049,11 +1065,11 @@
             "Ontology link": "hasSeparator"
           },
           {
-            "Metadata": "Membrane type  (BilayerMembrane or leave blank)",
+            "Metadata": "Membrane type",
             "Value": "BilayerMembrane",
             "Unit": null,
             "Priority": "optional",
-            "Note": null,
+            "Note": "BilayerMembrane or leave blank",
             "Ontology link": "hasSeparator"
           },
           {
@@ -1123,7 +1139,7 @@
         ]
       },
       "Membrane optional physical parameters": {
-        "type": "section",
+        "type": "subsection",
         "color": "grey",
         "rows": [
           {
@@ -1145,7 +1161,7 @@
         ]
       },
       "Membrane optional component manufacturer information": {
-        "type": "section",
+        "type": "subsection",
         "color": "grey",
         "rows": [
           {
@@ -1187,39 +1203,71 @@
         "color": "grey",
         "rows": [
           {
-            "Metadata": "Cell case type (FlowCell or leave blank)",
+            "Metadata": "Cell case type",
             "Value": "FlowCell",
             "Unit": null,
             "Priority": "required",
-            "Note": null,
+            "Note": "FlowCell or leave blank",
             "Ontology link": "hasCase"
           },
           {
-            "Metadata": "Negative electrode gas compartment (FlowField or leave blank)",
+            "Metadata": "Negative electrode gas compartment",
             "Value": "FlowField",
             "Unit": null,
             "Priority": "required",
-            "Note": null,
+            "Note": "FlowField or leave blank",
             "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasComponent"
           },
           {
             "Metadata": "Negative electrode gas compartment width",
-            "Value": 1,
+            "Value": null,
             "Unit": "mm",
-            "Priority": "required",
-            "Note": null,
+            "Priority": "optional",
+            "Note": "Leave blank if FlowField",
             "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasMeasuredProperty-Width"
           },
           {
-            "Metadata": "Negative electrode projected area",
+            "Metadata": "Negative electrode gas compartment volume",
+            "Value": null,
+            "Unit": "mL",
+            "Priority": "optional",
+            "Note": "Leave blank if FlowField",
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasMeasuredProperty-Volume"
+          },
+          {
+            "Metadata": "Negative electrode geometric surface area",
             "Value": 1,
             "Unit": "cm2",
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-Area"
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-ElectrodeGeometricSurfaceArea"
           },
           {
-            "Metadata": "Negative electrode to membrane gap/catholyte compartment width",
+            "Metadata": "Negative electrode real surface area",
+            "Value": null,
+            "Unit": "cm2",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-ElectrodeRealSurfaceArea"
+          },
+          {
+            "Metadata": "Negative electrode electrochemically active surface area",
+            "Value": null,
+            "Unit": "cm2",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-ElectrochemicallyActiveSurfaceArea"
+          },
+          {
+            "Metadata": "Negative electrode to separator gap width",
+            "Value": 0,
+            "Unit": "mm",
+            "Priority": "required",
+            "Note": null,
+            "Ontology link": "hasNegativeElectrode-hasMeasuredProperty-ElectrodeToSeparatorGapWidth"
+          },
+          {
+            "Metadata": "Catholyte compartment width",
             "Value": 0,
             "Unit": "mm",
             "Priority": "required",
@@ -1251,20 +1299,20 @@
             "Ontology link": "hasSeparator-hasMeasuredProperty-Area"
           },
           {
+            "Metadata": "Anolyte compartment width",
+            "Value": 0,
+            "Unit": "mm",
+            "Priority": "required",
+            "Note": null,
+            "Ontology link": "hasComponentC-type|AnolyteCompartment-hasMeasuredProperty-Width"
+          },
+          {
             "Metadata": "Anolyte compartment volume",
             "Value": 0.065,
             "Unit": "mL",
             "Priority": "required",
             "Note": null,
             "Ontology link": "hasComponentC-type|AnolyteCompartment-hasMeasuredProperty-Volume"
-          },
-          {
-            "Metadata": "Positive electrode to membrane gap/anolyte compartment width",
-            "Value": 0,
-            "Unit": "mm",
-            "Priority": "required",
-            "Note": null,
-            "Ontology link": "hasComponentC-type|AnolyteCompartment-hasMeasuredProperty-Width"
           },
           {
             "Metadata": "Reference electrode in anolyte compartment",
@@ -1275,28 +1323,60 @@
             "Ontology link": "hasComponentC-type|AnolyteCompartment-hasReferenceElectrode"
           },
           {
-            "Metadata": "Positive electrode projected area",
+            "Metadata": "Positive electrode geometric surface area",
             "Value": 1,
             "Unit": "cm2",
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-Area"
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-ElectrodeGeometricSurfaceArea"
           },
           {
-            "Metadata": "Positive electrode gas compartment width",
-            "Value": 1,
+            "Metadata": "Positive electrode real surface area",
+            "Value": null,
+            "Unit": "cm2",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-ElectrodeRealSurfaceArea"
+          },
+          {
+            "Metadata": "Positive electrode electrochemically active surface area",
+            "Value": null,
+            "Unit": "cm2",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-ElectrochemicallyActiveSurfaceArea"
+          },
+          {
+            "Metadata": "Positive electrode to separator gap width",
+            "Value": 0,
             "Unit": "mm",
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasMeasuredProperty-Width"
+            "Ontology link": "hasPositiveElectrode-hasMeasuredProperty-ElectrodeToSeparatorGapWidth"
           },
           {
-            "Metadata": "Positive electrode gas compartment (FlowField or leave blank)",
+            "Metadata": "Positive electrode gas compartment",
             "Value": "FlowField",
             "Unit": null,
             "Priority": "required",
-            "Note": null,
+            "Note": "FlowField or leave blank",
             "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasComponent"
+          },
+          {
+            "Metadata": "Positive electrode gas compartment width",
+            "Value": null,
+            "Unit": "mm",
+            "Priority": "optional",
+            "Note": "Leave blank if FlowField",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasMeasuredProperty-Width"
+          },
+          {
+            "Metadata": "Positive electrode gas compartment volume",
+            "Value": null,
+            "Unit": "mL",
+            "Priority": "optional",
+            "Note": "Leave blank if FlowField",
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasMeasuredProperty-Volume"
           },
           {
             "Metadata": "Catholyte tank volume",
@@ -2471,6 +2551,18 @@
         "Class": "schema:Organization",
         "IRI": null,
         "Note": "Versogen Inc.; manufacturer of PiperION AEM series based on poly(aryl piperidinium) backbone for CO2 electrolysis and fuel cells. https://www.versogen.com. to be requested"
+      },
+      {
+        "Name": "Baoji Qixin Titanium",
+        "Class": "schema:Organization",
+        "IRI": null,
+        "Note": null
+      },
+      {
+        "Name": "Redox.me",
+        "Class": "schema:Organization",
+        "IRI": null,
+        "Note": null
       }
     ]
   },
