@@ -1143,7 +1143,7 @@
         "color": "grey",
         "rows": [
           {
-            "Metadata": "Membrane A area specific conductivity",
+            "Metadata": "Membrane A conductivity",
             "Value": 8,
             "Unit": "mS/cm",
             "Priority": "optional",
@@ -1151,7 +1151,7 @@
             "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-ElectrolyticConductivity"
           },
           {
-            "Metadata": "Membrane B area specific conductivity",
+            "Metadata": "Membrane B conductivity",
             "Value": 8,
             "Unit": "mS/cm",
             "Priority": "optional",
