@@ -295,23 +295,29 @@ def _add_or_extend_list(node: dict[str, Any], key: str, entry: dict[str, Any]) -
         node[key] = [current, entry]
 
 
-def _new_item(parent: dict[str, Any], key: str) -> dict[str, Any]:
-    """Create a fresh empty dict as a new sibling under ``parent[key]``.
+def _default_node(key: str, data_container: Registry) -> dict[str, Any]:
+    """Return a new node for `key`, with the default class from `@Predicates` if it has one."""
+    predicates = data_container.data["context_connector"]
+    default = predicates.loc[predicates["Predicate"] == key, "Default class"].to_numpy()
+    return {"@type": default[0]} if len(default) and not pd.isna(default[0]) else {}
+
+
+def _new_item(parent: dict[str, Any], key: str, data_container: Registry) -> dict[str, Any]:
+    """Create a fresh node as a new sibling under ``parent[key]``.
 
     This is how multi-connector nodes are extended: the first occurrence is
     stored directly, subsequent ones cause promotion to a list.
     """
+    fresh = _default_node(key, data_container)
     value = parent.get(key)
     if value in (None, {}):
-        parent[key] = {}
-        return parent[key]
-    if isinstance(value, list):
-        fresh: dict[str, Any] = {}
+        parent[key] = fresh
+    elif isinstance(value, list):
         value.append(fresh)
-        return fresh
-    # Single dict already present - promote to list
-    parent[key] = [value, {}]
-    return parent[key][-1]
+    else:
+        # Single dict already present - promote to list
+        parent[key] = [value, fresh]
+    return fresh
 
 
 def _extract_type(segment: str) -> str:
@@ -394,7 +400,7 @@ def _ensure_indexed_connector_node(
         ):
             target_node = holder
         else:
-            target_node = _new_item(parent, connector)
+            target_node = _new_item(parent, connector, data_container)
 
         data_container.register(
             parent_path,
@@ -467,8 +473,6 @@ def add_to_structure(
 
     # Load lookup tables from the ExcelContainer Registry
     unit_map = data_container.data["unit_map"]
-    context_connector = data_container.data["context_connector"]
-    connectors = set(context_connector["Predicate"])
     unique_id_map = data_container.data["unique_id_map"]
 
     # Walk the path
@@ -530,13 +534,7 @@ def add_to_structure(
 
         # Ensure the key exists in the current dict
         if part not in current_level and (value is not None or unit is not None):
-            if part in connectors:
-                connector_type = context_connector.loc[
-                    context_connector["Predicate"] == part, "Default class"
-                ].to_numpy()[0]
-                current_level[part] = {} if pd.isna(connector_type) else {"@type": connector_type}
-            else:
-                current_level[part] = {}
+            current_level[part] = _default_node(part, data_container)
 
         next_level = current_level[part]
 
@@ -648,7 +646,7 @@ def add_to_structure(
                 ):
                     target_node = holder
                 else:
-                    target_node = _new_item(current_level, part)
+                    target_node = _new_item(current_level, part, data_container)
 
                 entries_for_parent = data_container.get_entries(connector_parent_path, current_level)
                 if not any(e.get("node") is target_node for e in entries_for_parent):
@@ -856,14 +854,11 @@ def _assign_multi_connector_leaf(
         holder = current_level.get(part)
         if isinstance(holder, dict):
             target_node = holder
-        elif holder in (None, {}):
-            current_level[part] = {}
-            target_node = current_level[part]
         elif isinstance(holder, list) and holder:
             target_node = holder[0]
             current_level[part] = target_node  # collapse list back to dict
         else:
-            current_level[part] = {}
+            current_level[part] = _default_node(part, data_container)
             target_node = current_level[part]
         data_container.register(parent_path, part, target_node, metadata, value, current_level)
 
@@ -879,7 +874,7 @@ def _assign_multi_connector_leaf(
         )
     else:
         # No index - always a new sibling
-        target_node = _new_item(current_level, part)
+        target_node = _new_item(current_level, part, data_container)
         data_container.register(parent_path, part, target_node, metadata, value, current_level)
 
     data_container.remember_last((*tuple(parent_path), part), target_node)

@@ -79,6 +79,20 @@ def test_comment_distinguishes_duplicate_measured_properties() -> None:
     assert "rdfs:comment" not in compressed
 
 
+def test_split_predicates_all_get_default_class() -> None:
+    """Every sibling of a split predicate gets the @Predicates default class."""
+    jsonld = _build(
+        [
+            ("hasCatholyte-hasSolventA-hasStringValue", "water", "No Unit", "Solvent A"),
+            ("hasCatholyte-hasSolventB-hasStringValue", "ethanol", "No Unit", "Solvent B"),
+            ("hasCatholyte-hasSolute-type|Foo-hasStringValue", "x", "No Unit", "Solute foo"),
+            ("hasCatholyte-hasSolute-type|Bar-hasStringValue", "y", "No Unit", "Solute bar"),
+        ]
+    )
+    assert [s["@type"] for s in jsonld["hasCatholyte"]["hasSolvent"]] == ["Solvent", "Solvent"]
+    assert [s["@type"] for s in jsonld["hasCatholyte"]["hasSolute"]] == [["Solute", "Foo"], ["Solute", "Bar"]]
+
+
 # (unit cell, value, ontology link) and whether a missing-unit warning is wanted
 UNIT_CASES = [
     ("mm", 12, "hasNegativeElectrode-hasMeasuredProperty-Thickness", False),
