@@ -206,7 +206,7 @@
           }
         ]
       },
-      "Negative electrode optional microstructral/physical parameters": {
+      "Negative electrode optional microstructural/physical parameters": {
         "type": "subsection",
         "color": "blue",
         "rows": [
@@ -399,7 +399,7 @@
             "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder-hasMeasuredProperty-MassFraction"
           },
           {
-            "Metadata": "Positive electrode coating  thickness",
+            "Metadata": "Positive electrode coating thickness",
             "Value": 0.5,
             "Unit": "um",
             "Priority": "recommended",
@@ -755,7 +755,7 @@
             "Ontology link": "hasCatholyte-hasSoluteA-schema:manufacturer"
           },
           {
-            "Metadata": "Catholyte solute A manufacturer productD",
+            "Metadata": "Catholyte solute A manufacturer product ID",
             "Value": 424090010,
             "Unit": null,
             "Priority": "optional",
@@ -1027,7 +1027,7 @@
             "Ontology link": "hasAnolyte-hasSolute-schema:manufacturer"
           },
           {
-            "Metadata": "Anolyte solute A manufacturer productD",
+            "Metadata": "Anolyte solute A manufacturer product ID",
             "Value": 258105,
             "Unit": null,
             "Priority": "optional",
