@@ -518,7 +518,7 @@
             "Unit": null,
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas"
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-type|Gas"
           },
           {
             "Metadata": "Negative electrode gas A volume fraction",
@@ -534,7 +534,7 @@
             "Unit": null,
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas"
+            "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-type|Gas"
           },
           {
             "Metadata": "Negative electrode gas B volume fraction",
@@ -790,7 +790,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-Gas"
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentA-type|Gas"
           },
           {
             "Metadata": "Positive electrode gas A volume fraction",
@@ -806,7 +806,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-Gas"
+            "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-type|Gas"
           },
           {
             "Metadata": "Positive electrode gas B volume fraction",
