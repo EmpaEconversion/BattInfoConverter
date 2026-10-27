@@ -1065,11 +1065,11 @@
             "Ontology link": "hasSeparator"
           },
           {
-            "Metadata": "Membrane type",
+            "Metadata": "Membrane type (BilayerMembrane or leave blank)",
             "Value": "BilayerMembrane",
             "Unit": null,
             "Priority": "optional",
-            "Note": "BilayerMembrane or leave blank",
+            "Note": null,
             "Ontology link": "hasSeparator"
           },
           {
