@@ -265,7 +265,7 @@
             "Ontology link": "hasNegativeElectrode-hasSubstrate-schema:manufacturer"
           },
           {
-            "Metadata": "Negative electrode substrate product ID",
+            "Metadata": "Negative electrode substrate manufacturer product ID",
             "Value": "39BB",
             "Unit": null,
             "Priority": "optional",
@@ -281,7 +281,7 @@
             "Ontology link": "hasNegativeElectrode-hasCoating-hasActiveMaterial-schema:manufacturer"
           },
           {
-            "Metadata": "Negative electrode coating active material product ID",
+            "Metadata": "Negative electrode coating active material manufacturer product ID",
             "Value": 774081,
             "Unit": null,
             "Priority": "optional",
@@ -297,7 +297,7 @@
             "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder-schema:manufacturer"
           },
           {
-            "Metadata": "Negative electrode coating binder product ID",
+            "Metadata": "Negative electrode coating binder manufacturer product ID",
             "Value": "D521CS",
             "Unit": null,
             "Priority": "optional",
@@ -1396,7 +1396,7 @@
           }
         ]
       },
-      "Cell optional component supplier information": {
+      "Cell optional component manufacturer information": {
         "type": "subsection",
         "color": "grey",
         "rows": [
