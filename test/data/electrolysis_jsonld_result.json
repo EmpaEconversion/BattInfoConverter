@@ -317,9 +317,10 @@
                     ],
                     "hasConstituent": [
                         {
-                            "Gas": {
-                                "@type": "CarbonDioxide"
-                            },
+                            "@type": [
+                                "Gas",
+                                "CarbonDioxide"
+                            ],
                             "hasMeasuredProperty": {
                                 "@type": "VolumeFraction",
                                 "hasNumericalPart": {
@@ -330,9 +331,10 @@
                             }
                         },
                         {
-                            "Gas": {
-                                "@type": "Argon"
-                            },
+                            "@type": [
+                                "Gas",
+                                "Argon"
+                            ],
                             "hasMeasuredProperty": {
                                 "@type": "VolumeFraction",
                                 "hasNumericalPart": {
@@ -428,9 +430,10 @@
                         "GasMixture"
                     ],
                     "hasConstituent": {
-                        "Gas": {
-                            "@type": "Nitrogen"
-                        },
+                        "@type": [
+                            "Gas",
+                            "Nitrogen"
+                        ],
                         "hasMeasuredProperty": {
                             "@type": "VolumeFraction",
                             "hasNumericalPart": {
@@ -502,23 +505,18 @@
                     }
                 }
             },
-            "hasSolute": [
-                {
-                    "@type": "Solute",
-                    "hasConstituent": {
-                        "@type": "PotassiumCarbonate",
-                        "hasMeasuredProperty": {
-                            "@type": "AmountConcentration",
-                            "hasNumericalPart": {
-                                "@type": "RealData",
-                                "hasNumberValue": 1
-                            },
-                            "hasMeasurementUnit": "MolePerCubicDeciMetre"
-                        }
-                    }
-                },
-                {
-                    "@type": "Solute",
+            "hasSolute": {
+                "@type": "Solute",
+                "hasConstituent": {
+                    "@type": "PotassiumCarbonate",
+                    "hasMeasuredProperty": {
+                        "@type": "AmountConcentration",
+                        "hasNumericalPart": {
+                            "@type": "RealData",
+                            "hasNumberValue": 1
+                        },
+                        "hasMeasurementUnit": "MolePerCubicDeciMetre"
+                    },
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Thermo Fisher Scientific",
@@ -526,7 +524,7 @@
                     },
                     "schema:productID": "424090010"
                 }
-            ],
+            },
             "hasMeasuredProperty": [
                 {
                     "@type": "Volume",
@@ -619,14 +617,14 @@
                             "hasNumberValue": 1
                         },
                         "hasMeasurementUnit": "MolePerCubicDeciMetre"
-                    }
-                },
-                "schema:manufacturer": {
-                    "@type": "schema:Organization",
-                    "schema:name": "Millipore Sigma",
-                    "@id": "http://www.wikidata.org/entity/Q1669719"
-                },
-                "schema:productID": "258105"
+                    },
+                    "schema:manufacturer": {
+                        "@type": "schema:Organization",
+                        "schema:name": "Millipore Sigma",
+                        "@id": "http://www.wikidata.org/entity/Q1669719"
+                    },
+                    "schema:productID": "258105"
+                }
             },
             "hasMeasuredProperty": [
                 {

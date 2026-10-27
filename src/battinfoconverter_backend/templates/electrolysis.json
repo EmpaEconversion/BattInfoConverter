@@ -720,7 +720,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSolventA-schema:manufacturer"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-schema:manufacturer"
           },
           {
             "Metadata": "Catholyte solvent A manufacturer product ID",
@@ -728,7 +728,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSolventA-schema:productID"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentA-schema:productID"
           },
           {
             "Metadata": "Catholyte solvent B manufacturer",
@@ -736,7 +736,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSolventB-schema:manufacturer"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-schema:manufacturer"
           },
           {
             "Metadata": "Catholyte solvent B manufacturer product ID",
@@ -744,7 +744,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSolventB-schema:productID"
+            "Ontology link": "hasCatholyte-hasSolvent-hasConstituentB-schema:productID"
           },
           {
             "Metadata": "Catholyte solute A manufacturer",
@@ -752,7 +752,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSoluteA-schema:manufacturer"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-schema:manufacturer"
           },
           {
             "Metadata": "Catholyte solute A manufacturer product ID",
@@ -760,7 +760,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSoluteA-schema:productID"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentA-schema:productID"
           },
           {
             "Metadata": "Catholyte solute B manufacturer",
@@ -768,7 +768,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSoluteB-schema:manufacturer"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-schema:manufacturer"
           },
           {
             "Metadata": "Catholyte solute B manufacturer product ID",
@@ -776,7 +776,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasCatholyte-hasSoluteB-schema:productID"
+            "Ontology link": "hasCatholyte-hasSolute-hasConstituentB-schema:productID"
           }
         ]
       },
@@ -992,7 +992,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolvent-schema:manufacturer"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-schema:manufacturer"
           },
           {
             "Metadata": "Anolyte solvent A manufacturer product ID",
@@ -1000,7 +1000,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolvent-schema:productID"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentA-schema:productID"
           },
           {
             "Metadata": "Anolyte solvent B manufacturer",
@@ -1008,7 +1008,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolvent-schema:manufacturer"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-schema:manufacturer"
           },
           {
             "Metadata": "Anolyte solvent B manufacturer product ID",
@@ -1016,7 +1016,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolvent-schema:productID"
+            "Ontology link": "hasAnolyte-hasSolvent-hasConstituentB-schema:productID"
           },
           {
             "Metadata": "Anolyte solute A manufacturer",
@@ -1024,7 +1024,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolute-schema:manufacturer"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-schema:manufacturer"
           },
           {
             "Metadata": "Anolyte solute A manufacturer product ID",
@@ -1032,7 +1032,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolute-schema:productID"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentA-schema:productID"
           },
           {
             "Metadata": "Anolyte solute B manufacturer",
@@ -1040,7 +1040,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolute-schema:manufacturer"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-schema:manufacturer"
           },
           {
             "Metadata": "Anolyte solute B manufacturer product ID",
@@ -1048,7 +1048,7 @@
             "Unit": null,
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasAnolyte-hasSolute-schema:productID"
+            "Ontology link": "hasAnolyte-hasSolute-hasConstituentB-schema:productID"
           }
         ]
       },
