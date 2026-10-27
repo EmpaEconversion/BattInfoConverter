@@ -1081,7 +1081,7 @@
             "Ontology link": "hasSeparator-hasElectrolyteA"
           },
           {
-            "Metadata": "Membrane A material A (facing catholyte)",
+            "Metadata": "Membrane A material (facing catholyte)",
             "Value": "PolyArylPiperidinium",
             "Unit": null,
             "Priority": "required",
@@ -1113,7 +1113,7 @@
             "Ontology link": "hasSeparator-hasElectrolyteB"
           },
           {
-            "Metadata": "Membrane B material A (facing anolyte)",
+            "Metadata": "Membrane B material (facing anolyte)",
             "Value": "PerfluorosulfonicAcid",
             "Unit": null,
             "Priority": "required",
