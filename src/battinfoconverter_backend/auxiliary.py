@@ -493,6 +493,9 @@ def add_to_structure(
                     _merge_type(current_level, typ)
                     parent_path = tuple(traversed[:-1]) if traversed else ()
                     data_container.update_tokens(parent_path, current_level, typ)
+                    # A trailing type| leaves the value to describe the same node
+                    if index == len(path) - 1:
+                        _assign_node_value(current_level, value, literal_predicate, data_container, metadata, unit)
                 else:  # Set the type of the current level to the value
                     _require_str_type(value, metadata)
                     current_level["@type"] = value
