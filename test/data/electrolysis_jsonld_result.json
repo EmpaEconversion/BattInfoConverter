@@ -514,6 +514,7 @@
                     }
                 },
                 {
+                    "@type": "Solute",
                     "schema:manufacturer": {
                         "@type": "schema:Organization",
                         "schema:name": "Thermo Fisher Scientific",
@@ -736,6 +737,7 @@
                 },
                 {
                     "@type": [
+                        "Electrolyte",
                         "CationExchangeMembrane",
                         "PerfluorosulfonicAcid"
                     ],
