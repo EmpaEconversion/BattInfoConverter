@@ -93,6 +93,12 @@ def test_split_predicates_all_get_default_class() -> None:
     assert [s["@type"] for s in jsonld["hasCatholyte"]["hasSolute"]] == [["Solute", "Foo"], ["Solute", "Bar"]]
 
 
+def test_trailing_type_keeps_value() -> None:
+    """A link ending in 'type|<Class>' merges that class with the value's class."""
+    jsonld = _build([("hasCatholyte-hasConstituentA-type|Gas", "Argon", "No Unit", "Gas")])
+    assert jsonld["hasCatholyte"]["hasConstituent"]["@type"] == ["Gas", "Argon"]
+
+
 # (unit cell, value, ontology link) and whether a missing-unit warning is wanted
 UNIT_CASES = [
     ("mm", 12, "hasNegativeElectrode-hasMeasuredProperty-Thickness", False),

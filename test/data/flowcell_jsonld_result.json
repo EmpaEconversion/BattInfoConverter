@@ -482,7 +482,10 @@
                 "rdfs:comment": "Negative electrolyte tank convection?: Bubbled with gas"
             },
             {
-                "@type": "FlowField",
+                "@type": [
+                    "FlowField",
+                    "Graphite"
+                ],
                 "hasDatum": [
                     {
                         "@type": "ChemicalName",
@@ -502,7 +505,10 @@
                 "schema:productID": "5SCH-PB"
             },
             {
-                "@type": "Gasket",
+                "@type": [
+                    "Gasket",
+                    "PolymerCompound"
+                ],
                 "hasDatum": {
                     "@type": "ChemicalName",
                     "hasStringValue": "Viton"
