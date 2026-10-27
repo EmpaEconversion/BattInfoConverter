@@ -107,13 +107,14 @@ UNIT_CASES = [
 ]
 
 
-def _unit_workbook(unit: object, value: object, link: str) -> Workbook:
-    """A minimal workbook with one row, to exercise the Unit column."""
+def _workbook(rows: list[tuple[str, object, object]]) -> Workbook:
+    """Build a minimal workbook with one schema row per (link, value, unit)."""
     wb = Workbook()
     ws = wb.active
     ws.title = "@Schema"
     ws.append(["Metadata", "Value", "Unit", "Priority", "Note", "Ontology link"])
-    ws.append(["A row", value, unit, "optional", "", link])
+    for i, (link, value, unit) in enumerate(rows):
+        ws.append([f"Row {i}", value, unit, "optional", "", link])
     ws = wb.create_sheet("@Context")
     ws.append(["Term", "IRI"])
     ws.append(["unit", "https://qudt.org/vocab/unit/"])
@@ -123,17 +124,36 @@ def _unit_workbook(unit: object, value: object, link: str) -> Workbook:
         ("hasNegativeElectrode", "NegativeElectrode"),
         ("hasElectrolyte", "Electrolyte"),
         ("hasActiveMaterial", "ActiveMaterial"),
+        ("hasSolvent", "Solvent"),
         ("hasMeasuredProperty", None),
     ):
         ws.append([predicate, default])
     ws = wb.create_sheet("@Classes")
     ws.append(["Class", "Note"])
-    ws.append(["Graphite", None])
+    for cls in ("Graphite", "Water", "Ethanol"):
+        ws.append([cls, None])
     ws = wb.create_sheet("@Units")
     ws.append(["Unit", "Unit class"])
     ws.append(["mm", "MilliMetre"])
     ws.append(["unitless", "UnitOne"])
     return wb
+
+
+def _unit_workbook(unit: object, value: object, link: str) -> Workbook:
+    """A minimal workbook with one row, to exercise the Unit column."""
+    return _workbook([(link, value, unit)])
+
+
+def test_split_leaf_predicates_get_default_class() -> None:
+    """A suffixed predicate at the end of a link keeps its default class, alone or split."""
+    single = convert_excel_to_jsonld(_workbook([("hasElectrolyte-hasSolventA", "Water", None)]), validate=False)
+    assert single["hasElectrolyte"]["hasSolvent"] == {"@type": ["Solvent", "Water"]}
+
+    split = convert_excel_to_jsonld(
+        _workbook([("hasElectrolyte-hasSolventA", "Water", None), ("hasElectrolyte-hasSolventB", "Ethanol", None)]),
+        validate=False,
+    )
+    assert split["hasElectrolyte"]["hasSolvent"] == [{"@type": ["Solvent", "Water"]}, {"@type": ["Solvent", "Ethanol"]}]
 
 
 @pytest.mark.parametrize(("unit", "value", "link", "wants_warning"), UNIT_CASES)
