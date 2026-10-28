@@ -837,7 +837,7 @@
                 "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.mps",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/text/plain"
+                    "@id": "http://www.iana.org/assignments/media-types/text/plain"
                 },
                 "rdfs:comment": "Cycling protocol, Biologic EC-Lab settings file",
                 "dcat:downloadURL": {
@@ -992,7 +992,7 @@
                 "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.bdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
+                    "@id": "http://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
                 },
                 "csvw:tableSchema": {
                     "@id": "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema"
@@ -1006,7 +1006,7 @@
                 "@id": "https://zenodo.org/records/21805277/files/BatteryData.zip#empa__fcid000001/empa__fcid000001.eis.bdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
+                    "@id": "http://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
                 },
                 "csvw:tableSchema": {
                     "@id": "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema"
@@ -1023,7 +1023,7 @@
                     "RawData"
                 ],
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                    "@id": "http://www.iana.org/assignments/media-types/application/octet-stream"
                 },
                 "rdfs:comment": "Raw cycling data, Biologic EC-Lab mpr binary format",
                 "dcat:downloadURL": {

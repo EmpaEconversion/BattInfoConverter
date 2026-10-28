@@ -234,7 +234,7 @@ SCHEMAS = {
     "RedoxFlowBattery": "https://w3id.org/battery-data-alliance/ontology/battery-data-format/schema",
     "ElectrolyticCell": "https://w3id.org/catalysis-data-format/schema",
 }
-IANA = "https://www.iana.org/assignments/media-types/"
+IANA = "http://www.iana.org/assignments/media-types/"
 MEDIA_TYPES = {
     ".parquet": "application/vnd.apache.parquet",
     ".csv": "text/csv",

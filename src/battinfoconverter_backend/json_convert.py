@@ -54,8 +54,8 @@ TABLE_SCHEMA_FIELD = "Tabular data schema"
 RAW_DATA_TYPE = "RawData"
 DISTRIBUTION_TYPE = "dcat:Distribution"
 
-# Media types are identified by their IANA IRI, not by their name
-IANA_MEDIA_TYPES = "https://www.iana.org/assignments/media-types/"
+# Media types are identified by their IANA IRI
+IANA_MEDIA_TYPES = "http://www.iana.org/assignments/media-types/"
 
 # Media type of a data file, by extension
 DEFAULT_MEDIA_TYPE = "application/octet-stream"
