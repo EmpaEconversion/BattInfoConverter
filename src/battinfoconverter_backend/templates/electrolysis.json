@@ -1493,7 +1493,7 @@
       {
         "key": "Dataset authorA",
         "values": [
-          "Claudia Bissattini",
+          "Claudia Bissattini Alessi",
           "Empa",
           "EPFL"
         ]
@@ -1548,7 +1548,7 @@
       {
         "key": "Associated publication authorA",
         "values": [
-          "Claudia Bissattini",
+          "Claudia Bissattini Alessi",
           "Empa",
           "EPFL"
         ]
@@ -2367,9 +2367,9 @@
         "Note": null
       },
       {
-        "Name": "Claudia Bissattini",
+        "Name": "Claudia Bissattini Alessi",
         "Class": "schema:Person",
-        "IRI": "https://orcid.org/0000-0002-3971-0398",
+        "IRI": "https://orcid.org/0009-0000-0662-4971",
         "Note": null
       },
       {
@@ -2411,13 +2411,13 @@
       {
         "Name": "AGC",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q367032",
+        "IRI": "http://www.wikidata.org/entity/Q720484",
         "Note": "AGC Inc. (formerly Asahi Glass); manufacturer of Selemion AEM/CEM series and Flemion CEM series. https://www.agc.com"
       },
       {
         "Name": "Agfa",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q310172",
+        "IRI": "http://www.wikidata.org/entity/Q309245",
         "Note": "Agfa-Gevaert; manufacturer of Zirfon Perl UTP 500 porous composite diaphragm for alkaline water electrolysis. https://www.agfa.com"
       },
       {
@@ -2429,7 +2429,7 @@
       {
         "Name": "Chemours",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q15829006",
+        "IRI": "http://www.wikidata.org/entity/Q20630716",
         "Note": "The Chemours Company; manufacturer of Nafion perfluorosulfonic acid CEM series (N117, N115, N212, N211). https://www.chemours.com"
       },
       {
@@ -2441,7 +2441,7 @@
       {
         "Name": "Freudenberg",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q879878",
+        "IRI": "http://www.wikidata.org/entity/Q15810492",
         "Note": "Freudenberg Performance Materials; manufacturer of gas diffusion layer series (H23C6, H14C9, H23C2) for fuel cells and electrolyzers. https://www.freudenberg-pm.com"
       },
       {
@@ -2465,13 +2465,13 @@
       {
         "Name": "SGLCarbon",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q2361947",
+        "IRI": "http://www.wikidata.org/entity/Q320207",
         "Note": "SGL Carbon SE; manufacturer of Sigracet GDL series (22BB, 28BC, 29BC, 39BB, 39BC) for fuel cells and electrolyzers. https://www.sglcarbon.com"
       },
       {
         "Name": "Solvay",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q487209",
+        "IRI": "http://www.wikidata.org/entity/Q706184",
         "Note": "Solvay S.A.; manufacturer of Aquivion short-side-chain PFSA CEM series (E87-05S, E87-12S, E98-05S) for PEM electrolyzers. https://www.solvay.com"
       },
       {
@@ -2483,13 +2483,13 @@
       {
         "Name": "Thermo Fisher Scientific",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q306455",
+        "IRI": "http://www.wikidata.org/entity/Q643674",
         "Note": "Thermo Fisher Scientific; global supplier of laboratory chemicals, reagents and analytical instruments. https://www.thermofisher.com"
       },
       {
         "Name": "Toray",
         "Class": "schema:Organization",
-        "IRI": "http://www.wikidata.org/entity/Q908461",
+        "IRI": "http://www.wikidata.org/entity/Q168115",
         "Note": "Toray Industries; manufacturer of Toray carbon paper GDL series (TGP-H-060, TGP-H-090, TGP-H-120) for fuel cells and electrolyzers. https://www.toray.com"
       },
       {
