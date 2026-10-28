@@ -801,7 +801,7 @@
                 "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.mps",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/text/plain"
+                    "@id": "http://www.iana.org/assignments/media-types/text/plain"
                 },
                 "rdfs:comment": "Measurement protocol, Biologic EC-Lab settings file",
                 "dcat:downloadURL": {
@@ -899,7 +899,7 @@
                 "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.parquet",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
+                    "@id": "http://www.iana.org/assignments/media-types/application/vnd.apache.parquet"
                 },
                 "csvw:tableSchema": {
                     "@id": "https://w3id.org/catalysis-data-format/schema"
@@ -913,7 +913,7 @@
                 "@id": "https://zenodo.org/records/22092428/files/Data.zip#empa__ecid000001/empa__ecid000001.cdf.csv",
                 "@type": "dcat:Distribution",
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/text/csv"
+                    "@id": "http://www.iana.org/assignments/media-types/text/csv"
                 },
                 "csvw:tableSchema": {
                     "@id": "https://w3id.org/catalysis-data-format/schema"
@@ -935,7 +935,7 @@
                     "RawData"
                 ],
                 "dcat:mediaType": {
-                    "@id": "https://www.iana.org/assignments/media-types/application/octet-stream"
+                    "@id": "http://www.iana.org/assignments/media-types/application/octet-stream"
                 },
                 "rdfs:comment": "Raw electrochemical data, Biologic EC-Lab mpr binary format",
                 "dcat:downloadURL": {
