@@ -176,7 +176,7 @@
             "Metadata": "Negative electrode coating binder type",
             "Value": "IonomerCompound",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "recommended",
             "Note": null,
             "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder"
           },
@@ -184,7 +184,7 @@
             "Metadata": "Negative electrode coating binder material",
             "Value": "PerfluorosulfonicAcid",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "recommended",
             "Note": null,
             "Ontology link": "hasNegativeElectrode-hasCoating-hasBinder"
           },
@@ -378,7 +378,7 @@
             "Metadata": "Positive electrode coating binder type",
             "Value": "IonomerCompound",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "recommended",
             "Note": null,
             "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder"
           },
@@ -386,7 +386,7 @@
             "Metadata": "Positive electrode coating binder material",
             "Value": "PerfluorosulfonicAcid",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "recommended",
             "Note": null,
             "Ontology link": "hasPositiveElectrode-hasCoating-hasBinder"
           },
@@ -530,17 +530,17 @@
           },
           {
             "Metadata": "Negative electrode gas B",
-            "Value": "Argon",
+            "Value": null,
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-type|Gas"
           },
           {
             "Metadata": "Negative electrode gas B volume fraction",
-            "Value": 0,
+            "Value": null,
             "Unit": "%",
-            "Priority": "required",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasActiveMaterial-type|GasMixture-hasConstituentB-hasMeasuredProperty-VolumeFraction"
           },
@@ -1108,7 +1108,7 @@
             "Metadata": "Membrane B type (facing anolyte)",
             "Value": "CationExchangeMembrane",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasSeparator-hasElectrolyteB"
           },
@@ -1116,7 +1116,7 @@
             "Metadata": "Membrane B material (facing anolyte)",
             "Value": "PerfluorosulfonicAcid",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasSeparator-hasElectrolyteB"
           },
@@ -1124,7 +1124,7 @@
             "Metadata": "Membrane B thickness (facing anolyte)",
             "Value": 80,
             "Unit": "um",
-            "Priority": "recommended",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-Thickness"
           },
@@ -1132,7 +1132,7 @@
             "Metadata": "Membrane B ion exchange capacity (facing anolyte)",
             "Value": 2.1,
             "Unit": "mEq/100g",
-            "Priority": "recommended",
+            "Priority": "optional",
             "Note": null,
             "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-AmountConcentration"
           }
@@ -1206,7 +1206,7 @@
             "Metadata": "Cell case type",
             "Value": "FlowCell",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": "FlowCell or leave blank",
             "Ontology link": "hasCase"
           },
@@ -1214,7 +1214,7 @@
             "Metadata": "Negative electrode gas compartment",
             "Value": "FlowField",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": "FlowField or leave blank",
             "Ontology link": "hasComponentA-type|NegativeElectrodeGasCompartment-hasComponent"
           },
@@ -1358,7 +1358,7 @@
             "Metadata": "Positive electrode gas compartment",
             "Value": "FlowField",
             "Unit": null,
-            "Priority": "required",
+            "Priority": "optional",
             "Note": "FlowField or leave blank",
             "Ontology link": "hasComponentD-type|PositiveElectrodeGasCompartment-hasComponent"
           },
