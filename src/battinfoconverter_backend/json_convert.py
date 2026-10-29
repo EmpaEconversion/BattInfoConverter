@@ -47,14 +47,15 @@ PUBLICATION_PREFIX = "Associated publication"
 # Labels of the @References rows listing the files of the dataset
 DATA_FILE_PREFIX = "Data file"
 RAW_FILE_PREFIX = "Raw data file"
+INPUT_FILE_PREFIX = "Input file"
 ZIP_FIELD = "Data zip file"
 TABLE_SCHEMA_FIELD = "Tabular data schema"
 
 RAW_DATA_TYPE = "RawData"
 DISTRIBUTION_TYPE = "dcat:Distribution"
 
-# Media types are identified by their IANA IRI, not by their name
-IANA_MEDIA_TYPES = "https://www.iana.org/assignments/media-types/"
+# Media types are identified by their IANA IRI
+IANA_MEDIA_TYPES = "http://www.iana.org/assignments/media-types/"
 
 # Media type of a data file, by extension
 DEFAULT_MEDIA_TYPE = "application/octet-stream"
@@ -178,6 +179,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             registry,
             metadata=row["Metadata"],
         )
+    aux.prune_unfilled_placeholders(registry)
 
     return jsonld
 
@@ -343,17 +345,24 @@ def _zenodo_record_id(dataset_url: str | None) -> str | None:
 
 
 def _download_url(path: str, record_id: str | None, zip_name: str | None) -> str | None:
-    """Build where a file can be downloaded, once the dataset is on Zenodo.
+    """Build where a file can be downloaded once the dataset is on Zenodo, which is also its `@id`.
 
-    This is the file's location, kept apart from its `@id`, which stays the path
-    inside the dataset so it does not change when the dataset is published. Zenodo
-    cannot link into a zip, so for a zipped dataset the path within it is a fragment.
+    Zenodo keeps individually uploaded files flat at the record root and cannot link
+    into a zip, so a path with folders needs a zip and becomes a fragment of its URL.
     """
     if not record_id:
         return None
     base = f"https://zenodo.org/records/{record_id}/files"
     if zip_name:
         return f"{base}/{quote(zip_name, safe='')}#{quote(path)}"
+    if "/" in path or "\\" in path:
+        logger.warning(
+            "'%s' is in a folder, but Zenodo only keeps folders inside a zip, so it gets no download link. "
+            "Set '%s' or use a plain file name",
+            path,
+            ZIP_FIELD,
+        )
+        return None
     return f"{base}/{quote(path)}"
 
 
@@ -390,14 +399,15 @@ def _distribution_node(cells: list, fields: dict[str, list], schema: object, *, 
     return node
 
 
-def _distributions(groups: dict, prefix: str, fields: dict[str, list], *, raw: bool = False) -> list[dict]:
-    """Create the file nodes of one row family, in sheet order."""
-    entries = groups.get(prefix, [])
+def _distributions(groups: dict, fields: dict[str, list]) -> list[dict]:
+    """Create the file nodes of the dataset, data files then raw files, in sheet order."""
+    entries = [(cells, False) for cells in groups.get(DATA_FILE_PREFIX, [])]
+    entries += [(cells, True) for cells in groups.get(RAW_FILE_PREFIX, [])]
     # Resolved once, so a schema that is not a URL is only reported once
     schema = fields.get(TABLE_SCHEMA_FIELD, [None])[0]
-    if schema and any(Path(cells[0]).suffix.lower() in TABULAR_SUFFIXES for cells in entries):
+    if schema and any(Path(cells[0]).suffix.lower() in TABULAR_SUFFIXES for cells, _ in entries):
         schema = _link_value(schema, TABLE_SCHEMA_FIELD)
-    return [_distribution_node(cells, fields, schema, raw=raw) for cells in entries]
+    return [_distribution_node(cells, fields, schema, raw=raw) for cells, raw in entries]
 
 
 def _publication_node(fields: dict[str, list], groups: dict, individuals: Individuals) -> dict | None:
@@ -466,7 +476,7 @@ def _dataset_node(fields: dict[str, list], groups: dict, individuals: Individual
             if node := _publication_node(fields, groups, individuals):
                 output[predicate] = node
         elif kind == "files":
-            if distributions := _distributions(groups, label, fields):
+            if distributions := _distributions(groups, fields):
                 output[predicate] = distributions
         elif values := (groups.get(label, []) if kind == "people" else fields.get(label, [])):
             output[predicate] = _simple_value(kind, values, individuals, label)
@@ -476,9 +486,9 @@ def _dataset_node(fields: dict[str, list], groups: dict, individuals: Individual
 def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
     """Move the cell under a test node with publication information, if requested in @Extra.
 
-    The test becomes the root node, the cell becomes its hasTestObject, and the
-    publication information is attached as its hasOutput. The test type follows
-    from the cell type. The cell keeps its own comments.
+    The test becomes the root node, the cell becomes its hasTestObject, input files
+    such as protocols go under hasInput, and the dataset and publication information
+    under hasOutput. The test type follows from the cell type. The cell keeps its own comments.
     """
     rows = data_container.data.get("extra_rows")
     if not rows:
@@ -499,8 +509,9 @@ def wrap_in_test(jsonld: dict, data_container: ExcelContainer) -> dict:
         "@type": test_type,
         "hasTestObject": jsonld,
     }
-    if raw_files := _distributions(groups, RAW_FILE_PREFIX, fields, raw=True):
-        wrapped["hasInput"] = {"@type": [RAW_DATA_TYPE, DATASET_TYPE], "dcat:distribution": raw_files}
+    # The tabular data schema describes the measured data, not what went into the test
+    if inputs := [_distribution_node(cells, fields, None, raw=False) for cells in groups.get(INPUT_FILE_PREFIX, [])]:
+        wrapped["hasInput"] = {"@type": DATASET_TYPE, "dcat:distribution": inputs}
     wrapped["hasOutput"] = _dataset_node(fields, groups, individuals, f"{test_type}Result")
     return wrapped
 
