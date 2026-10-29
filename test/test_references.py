@@ -308,7 +308,8 @@ def test_raw_files_are_outputs(schema: CellFixtures) -> None:
         assert distribution["@type"] == ["dcat:Distribution", "RawData"]
         # raw files are not tabular, so they carry no schema
         assert "csvw:tableSchema" not in distribution
-    assert not {d["@id"] for d in raw} & {d["@id"] for d in output["hasInput"]["dcat:distribution"]}
+    input_ids = {d["@id"] for d in output.get("hasInput", {}).get("dcat:distribution", [])}
+    assert not {d["@id"] for d in raw} & input_ids
 
 
 def test_input_files_are_inputs(schema: CellFixtures) -> None:
@@ -316,7 +317,10 @@ def test_input_files_are_inputs(schema: CellFixtures) -> None:
     template = schema.template
     output = convert_excel_to_jsonld(dict_to_workbook(template), validate=False)
     rows = _rows(template)
-    inputs = [rows[k] for k in sorted(rows) if k.startswith("Input file")]
+    inputs = [rows[k] for k in sorted(rows) if k.startswith("Input file") and rows[k]]
+    if not inputs:
+        assert "hasInput" not in output
+        return
 
     node = output["hasInput"]
     assert node["@type"] == "dcat:Dataset"
