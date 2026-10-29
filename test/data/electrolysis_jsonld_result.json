@@ -343,7 +343,6 @@
                     }
                 ]
             },
-            {},
             {
                 "@type": "CatholyteTank",
                 "hasMeasuredProperty": {
