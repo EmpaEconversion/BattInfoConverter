@@ -179,6 +179,7 @@ def create_jsonld_with_conditions(data_container: ExcelContainer) -> dict:
             registry,
             metadata=row["Metadata"],
         )
+    aux.prune_unfilled_placeholders(registry)
 
     return jsonld
 
