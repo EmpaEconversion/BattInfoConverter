@@ -24,7 +24,7 @@
           },
           {
             "Metadata": "Cell ID",
-            "Value": "empa__ecid_000001",
+            "Value": "empa__ecid000251",
             "Unit": null,
             "Priority": "required",
             "Note": "Unique ID for cell",
@@ -32,7 +32,7 @@
           },
           {
             "Metadata": "Cell name",
-            "Value": "240616_bco_Cu-IrO2_01",
+            "Value": "20251118_S200-KHCO3-cont-puls-01",
             "Unit": null,
             "Priority": "recommended",
             "Note": "Human-friendly name for the cell",
@@ -40,7 +40,7 @@
           },
           {
             "Metadata": "Date of cell assembly",
-            "Value": "2024-05-01",
+            "Value": "2025-11-18",
             "Unit": null,
             "Priority": "required",
             "Note": "Assembly date in ISO8601 format (YYYY-MM-DD)",
@@ -56,7 +56,7 @@
           },
           {
             "Metadata": "Scientist/technician/operator",
-            "Value": "Corsin Battaglia",
+            "Value": "Claudia Bissattini Alessi",
             "Unit": null,
             "Priority": "required",
             "Note": "Person that made the cell. List them in @Individuals to give them an ORCID.",
@@ -64,7 +64,7 @@
           },
           {
             "Metadata": "Project",
-            "Value": "ETHB PREMISE/NCCR Catalysis",
+            "Value": "SFOE SWEET Refuel.ch/ETHB ORD PREMISE",
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -72,7 +72,7 @@
           },
           {
             "Metadata": "Assembled manually or by robot",
-            "Value": "manually",
+            "Value": "Manually",
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -110,7 +110,7 @@
           },
           {
             "Metadata": "Negative electrode substrate type",
-            "Value": "CarbonPaper",
+            "Value": "ElectrospunMesh",
             "Unit": null,
             "Priority": "required",
             "Note": null,
@@ -118,7 +118,7 @@
           },
           {
             "Metadata": "Negative electrode substrate material",
-            "Value": "Carbon",
+            "Value": "PolyvinylideneFluoride",
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -126,7 +126,7 @@
           },
           {
             "Metadata": "Negative electrode substrate coating material",
-            "Value": "Polytetrafluoroethylene",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -134,7 +134,7 @@
           },
           {
             "Metadata": "Negative electrode substrate thickness",
-            "Value": 315,
+            "Value": 110,
             "Unit": "um",
             "Priority": "recommended",
             "Note": null,
@@ -150,7 +150,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material",
-            "Value": "Copper",
+            "Value": "Silver",
             "Unit": null,
             "Priority": "required",
             "Note": null,
@@ -158,7 +158,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material mass loading",
-            "Value": 1.1,
+            "Value": 0.5,
             "Unit": "mg/cm2",
             "Priority": "required",
             "Note": null,
@@ -166,7 +166,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material mass fraction",
-            "Value": 90,
+            "Value": 100,
             "Unit": "%",
             "Priority": "optional",
             "Note": null,
@@ -174,7 +174,7 @@
           },
           {
             "Metadata": "Negative electrode coating binder type",
-            "Value": "IonomerCompound",
+            "Value": null,
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -182,7 +182,7 @@
           },
           {
             "Metadata": "Negative electrode coating binder material",
-            "Value": "PerfluorosulfonicAcid",
+            "Value": null,
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -190,7 +190,7 @@
           },
           {
             "Metadata": "Negative electrode coating binder mass fraction",
-            "Value": 10,
+            "Value": null,
             "Unit": "%",
             "Priority": "optional",
             "Note": null,
@@ -212,7 +212,7 @@
         "rows": [
           {
             "Metadata": "Negative electrode substrate porosity",
-            "Value": 85,
+            "Value": null,
             "Unit": "%",
             "Priority": "optional",
             "Note": null,
@@ -220,7 +220,7 @@
           },
           {
             "Metadata": "Negative electrode substrate mean pore size",
-            "Value": null,
+            "Value": 0.2,
             "Unit": "um",
             "Priority": "optional",
             "Note": null,
@@ -228,7 +228,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material median particle size (leave blank for films)",
-            "Value": 0.02,
+            "Value": null,
             "Unit": "um",
             "Priority": "optional",
             "Note": null,
@@ -250,7 +250,7 @@
           },
           {
             "Metadata": "Negative electrode manufacturer product ID",
-            "Value": "15p_Cu",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -258,7 +258,7 @@
           },
           {
             "Metadata": "Negative electrode substrate manufacturer",
-            "Value": "SGLCarbon",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -266,7 +266,7 @@
           },
           {
             "Metadata": "Negative electrode substrate manufacturer product ID",
-            "Value": "39BB",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -274,7 +274,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material manufacturer",
-            "Value": "Millipore Sigma",
+            "Value": "Empa",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -282,7 +282,7 @@
           },
           {
             "Metadata": "Negative electrode coating active material manufacturer product ID",
-            "Value": 774081,
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -290,7 +290,7 @@
           },
           {
             "Metadata": "Negative electrode coating binder manufacturer",
-            "Value": "Chemours",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -298,7 +298,7 @@
           },
           {
             "Metadata": "Negative electrode coating binder manufacturer product ID",
-            "Value": "D521CS",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -336,7 +336,7 @@
           },
           {
             "Metadata": "Positive electrode substrate thickness",
-            "Value": 20,
+            "Value": 500,
             "Unit": "um",
             "Priority": "recommended",
             "Note": null,
@@ -351,16 +351,40 @@
             "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial"
           },
           {
-            "Metadata": "Positive electrode coating active material",
-            "Value": "IridiumIIIOxide",
+            "Metadata": "Positive electrode coating active material A",
+            "Value": "IridiumOxideCompound",
             "Unit": null,
             "Priority": "required",
             "Note": null,
-            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial"
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasConstituentA"
+          },
+          {
+            "Metadata": "Positive electrode coating active material A mass fraction",
+            "Value": 20,
+            "Unit": "%",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasConstituentA-hasMeasuredProperty-MassFraction"
+          },
+          {
+            "Metadata": "Positive electrode coating active material B",
+            "Value": "TantalumOxideCompound",
+            "Unit": null,
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasConstituentB"
+          },
+          {
+            "Metadata": "Positive electrode coating active material B mass fraction",
+            "Value": 80,
+            "Unit": "%",
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasPositiveElectrode-hasCoating-hasActiveMaterial-hasConstituentB-hasMeasuredProperty-MassFraction"
           },
           {
             "Metadata": "Positive electrode coating active material mass loading",
-            "Value": 0.5,
+            "Value": 1,
             "Unit": "mg/cm2",
             "Priority": "recommended",
             "Note": null,
@@ -368,7 +392,7 @@
           },
           {
             "Metadata": "Positive electrode coating active material mass fraction",
-            "Value": 90,
+            "Value": 100,
             "Unit": "%",
             "Priority": "recommended",
             "Note": null,
@@ -376,7 +400,7 @@
           },
           {
             "Metadata": "Positive electrode coating binder type",
-            "Value": "IonomerCompound",
+            "Value": null,
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -384,7 +408,7 @@
           },
           {
             "Metadata": "Positive electrode coating binder material",
-            "Value": "PerfluorosulfonicAcid",
+            "Value": null,
             "Unit": null,
             "Priority": "recommended",
             "Note": null,
@@ -392,7 +416,7 @@
           },
           {
             "Metadata": "Positive electrode coating binder mass fraction",
-            "Value": 10,
+            "Value": null,
             "Unit": "%",
             "Priority": "recommended",
             "Note": null,
@@ -444,7 +468,7 @@
         "rows": [
           {
             "Metadata": "Positive electrode manufacturer",
-            "Value": "Empa",
+            "Value": "Baoji Qixin Titanium",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -452,7 +476,7 @@
           },
           {
             "Metadata": "Positive electrode manufacturer product ID",
-            "Value": "18x_Ti",
+            "Value": "Iridium Oxide Coated Titanium Anodes",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -460,7 +484,7 @@
           },
           {
             "Metadata": "Positive electrode substrate manufacturer",
-            "Value": "Fuel Cell Store",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -468,7 +492,7 @@
           },
           {
             "Metadata": "Positive electrode substrate manufacturer product ID",
-            "Value": 40050001,
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -476,7 +500,7 @@
           },
           {
             "Metadata": "Positive electrode coating active material manufacturer",
-            "Value": "Fuel Cell Store",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -484,7 +508,7 @@
           },
           {
             "Metadata": "Positive electrode coating active material manufacturer product ID",
-            "Value": 57080249,
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -492,7 +516,7 @@
           },
           {
             "Metadata": "Positive electrode coating binder manufacturer",
-            "Value": "Chemours",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -500,7 +524,7 @@
           },
           {
             "Metadata": "Positive electrode coating binder manufacturer product ID",
-            "Value": "D521CS",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -546,7 +570,7 @@
           },
           {
             "Metadata": "Negative electrode gas flow rate",
-            "Value": 5,
+            "Value": 20,
             "Unit": "mL/min",
             "Priority": "required",
             "Note": null,
@@ -600,7 +624,7 @@
           },
           {
             "Metadata": "Catholyte solute A",
-            "Value": "PotassiumCarbonate",
+            "Value": "PotassiumBicarbonate",
             "Unit": null,
             "Priority": "required",
             "Note": null,
@@ -662,7 +686,7 @@
         "rows": [
           {
             "Metadata": "Catholyte conductivity",
-            "Value": 100,
+            "Value": null,
             "Unit": "mS/cm",
             "Priority": "optional",
             "Note": null,
@@ -670,7 +694,7 @@
           },
           {
             "Metadata": "Catholyte pH",
-            "Value": 3.8,
+            "Value": 7.8,
             "Unit": "unitless",
             "Priority": "optional",
             "Note": null,
@@ -708,7 +732,7 @@
           },
           {
             "Metadata": "Catholyte manufacturer product ID",
-            "Value": "KCl_1M_catholyte",
+            "Value": "KHCO3_1M_catholyte",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -748,7 +772,7 @@
           },
           {
             "Metadata": "Catholyte solute A manufacturer",
-            "Value": "Thermo Fisher Scientific",
+            "Value": "Millipore Sigma",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -756,7 +780,7 @@
           },
           {
             "Metadata": "Catholyte solute A manufacturer product ID",
-            "Value": 424090010,
+            "Value": 237205,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -786,7 +810,7 @@
         "rows": [
           {
             "Metadata": "Positive electrode gas A",
-            "Value": "Nitrogen",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -794,7 +818,7 @@
           },
           {
             "Metadata": "Positive electrode gas A volume fraction",
-            "Value": 100,
+            "Value": null,
             "Unit": "%",
             "Priority": "optional",
             "Note": null,
@@ -818,7 +842,7 @@
           },
           {
             "Metadata": "Positive electrode gas flow rate",
-            "Value": 4,
+            "Value": null,
             "Unit": "mL/min",
             "Priority": "optional",
             "Note": null,
@@ -826,7 +850,7 @@
           },
           {
             "Metadata": "Positive electrode gas pressure",
-            "Value": 1,
+            "Value": null,
             "Unit": "bar",
             "Priority": "optional",
             "Note": null,
@@ -934,7 +958,7 @@
         "rows": [
           {
             "Metadata": "Anolyte conductivity",
-            "Value": 800,
+            "Value": null,
             "Unit": "mS/cm",
             "Priority": "optional",
             "Note": null,
@@ -950,7 +974,7 @@
           },
           {
             "Metadata": "Anolyte density",
-            "Value": 1.06,
+            "Value": 1.1,
             "Unit": "g/cm3",
             "Priority": "optional",
             "Note": null,
@@ -1066,7 +1090,7 @@
           },
           {
             "Metadata": "Membrane type (BilayerMembrane or leave blank)",
-            "Value": "BilayerMembrane",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1074,7 +1098,7 @@
           },
           {
             "Metadata": "Membrane A type (facing catholyte)",
-            "Value": "AnionExchangeMembrane",
+            "Value": "CationExchangeMembrane",
             "Unit": null,
             "Priority": "required",
             "Note": null,
@@ -1082,7 +1106,7 @@
           },
           {
             "Metadata": "Membrane A material (facing catholyte)",
-            "Value": "PolyArylPiperidinium",
+            "Value": "PerfluorosulfonicAcid",
             "Unit": null,
             "Priority": "required",
             "Note": null,
@@ -1090,7 +1114,7 @@
           },
           {
             "Metadata": "Membrane A thickness (facing catholyte)",
-            "Value": 80,
+            "Value": 50,
             "Unit": "um",
             "Priority": "recommended",
             "Note": null,
@@ -1098,15 +1122,15 @@
           },
           {
             "Metadata": "Membrane A ion exchange capacity (facing catholyte)",
-            "Value": 2.1,
+            "Value": 102,
             "Unit": "mEq/100g",
             "Priority": "recommended",
             "Note": null,
-            "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-AmountConcentration"
+            "Ontology link": "hasSeparator-hasElectrolyteA-hasMeasuredProperty-IonExchangeCapacity"
           },
           {
             "Metadata": "Membrane B type (facing anolyte)",
-            "Value": "CationExchangeMembrane",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1114,7 +1138,7 @@
           },
           {
             "Metadata": "Membrane B material (facing anolyte)",
-            "Value": "PerfluorosulfonicAcid",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1122,7 +1146,7 @@
           },
           {
             "Metadata": "Membrane B thickness (facing anolyte)",
-            "Value": 80,
+            "Value": null,
             "Unit": "um",
             "Priority": "optional",
             "Note": null,
@@ -1130,11 +1154,11 @@
           },
           {
             "Metadata": "Membrane B ion exchange capacity (facing anolyte)",
-            "Value": 2.1,
+            "Value": null,
             "Unit": "mEq/100g",
             "Priority": "optional",
             "Note": null,
-            "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-AmountConcentration"
+            "Ontology link": "hasSeparator-hasElectrolyteB-hasMeasuredProperty-IonExchangeCapacity"
           }
         ]
       },
@@ -1144,7 +1168,7 @@
         "rows": [
           {
             "Metadata": "Membrane A conductivity",
-            "Value": 8,
+            "Value": null,
             "Unit": "mS/cm",
             "Priority": "optional",
             "Note": null,
@@ -1152,7 +1176,7 @@
           },
           {
             "Metadata": "Membrane B conductivity",
-            "Value": 8,
+            "Value": null,
             "Unit": "mS/cm",
             "Priority": "optional",
             "Note": null,
@@ -1174,7 +1198,7 @@
           },
           {
             "Metadata": "Membrane A manufacturer product ID",
-            "Value": 72010015,
+            "Value": 87010020,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1182,7 +1206,7 @@
           },
           {
             "Metadata": "Membrane B manufacturer",
-            "Value": "Chemours",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1190,7 +1214,7 @@
           },
           {
             "Metadata": "Membrane B manufacturer product ID",
-            "Value": "N117",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1212,7 +1236,7 @@
           },
           {
             "Metadata": "Negative electrode gas compartment",
-            "Value": "FlowField",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": "FlowField or leave blank",
@@ -1260,7 +1284,7 @@
           },
           {
             "Metadata": "Negative electrode to separator gap width",
-            "Value": 0,
+            "Value": 11,
             "Unit": "mm",
             "Priority": "required",
             "Note": null,
@@ -1268,7 +1292,7 @@
           },
           {
             "Metadata": "Catholyte compartment width",
-            "Value": 0,
+            "Value": 11,
             "Unit": "mm",
             "Priority": "required",
             "Note": null,
@@ -1276,7 +1300,7 @@
           },
           {
             "Metadata": "Catholyte compartment volume",
-            "Value": 0.065,
+            "Value": 1.5,
             "Unit": "mL",
             "Priority": "required",
             "Note": null,
@@ -1300,7 +1324,7 @@
           },
           {
             "Metadata": "Anolyte compartment width",
-            "Value": 0,
+            "Value": 32,
             "Unit": "mm",
             "Priority": "required",
             "Note": null,
@@ -1308,7 +1332,7 @@
           },
           {
             "Metadata": "Anolyte compartment volume",
-            "Value": 0.065,
+            "Value": 13,
             "Unit": "mL",
             "Priority": "required",
             "Note": null,
@@ -1316,7 +1340,7 @@
           },
           {
             "Metadata": "Reference electrode in anolyte compartment",
-            "Value": "SilverChlorideElectrode",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1324,7 +1348,7 @@
           },
           {
             "Metadata": "Positive electrode geometric surface area",
-            "Value": 1,
+            "Value": 10,
             "Unit": "cm2",
             "Priority": "required",
             "Note": null,
@@ -1348,7 +1372,7 @@
           },
           {
             "Metadata": "Positive electrode to separator gap width",
-            "Value": 0,
+            "Value": 6,
             "Unit": "mm",
             "Priority": "required",
             "Note": null,
@@ -1356,7 +1380,7 @@
           },
           {
             "Metadata": "Positive electrode gas compartment",
-            "Value": "FlowField",
+            "Value": null,
             "Unit": null,
             "Priority": "optional",
             "Note": "FlowField or leave blank",
@@ -1402,15 +1426,23 @@
         "rows": [
           {
             "Metadata": "Cell case manufacturer",
-            "Value": "Fuel Cell Store",
+            "Value": "Redox.me",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
             "Ontology link": "hasCase-schema:manufacturer"
           },
           {
-            "Metadata": "Cell case manufacturer product ID",
-            "Value": "Micro Flow Cell",
+            "Metadata": "Cell case manufacturer product ID A",
+            "Value": "C-A-MM_PEC_HC-2x15-1",
+            "Unit": null,
+            "Priority": "optional",
+            "Note": null,
+            "Ontology link": "hasCase-schema:productID"
+          },
+          {
+            "Metadata": "Cell case manufacturer product ID B",
+            "Value": "C-A-MM_FC_GDE_XRD_EC",
             "Unit": null,
             "Priority": "optional",
             "Note": null,
@@ -1481,13 +1513,13 @@
       {
         "key": "Dataset URL",
         "values": [
-          "https://doi.org/10.5281/zenodo.22092428"
+          "https://doi.org/10.5281/zenodo.23761089"
         ]
       },
       {
         "key": "Dataset API URL",
         "values": [
-          "https://zenodo.org/api/records/22092428"
+          "https://zenodo.org/api/records/23761089"
         ]
       },
       {
@@ -1541,8 +1573,8 @@
       {
         "key": "Associated publication figures",
         "values": [
-          "Fig. 1a",
-          "Fig. 2b"
+          "Fig. 2a",
+          "Fig. 3a"
         ]
       },
       {
@@ -1596,30 +1628,27 @@
       {
         "key": "Data fileA",
         "values": [
-          "empa__ecid000001/empa__ecid000001.cdf.parquet",
+          "empa__ecid000251.cdf.parquet",
           "Time series electrochemical data as parquet with Catalysis Data Format columns"
         ]
       },
       {
         "key": "Data fileB",
         "values": [
-          "empa__ecid000001/empa__ecid000001.cdf.csv",
+          "empa__ecid000251.cdf.csv",
           "Time series electrochemical data as csv with Catalysis Data Format columns"
         ]
       },
       {
         "key": "Raw data fileA",
         "values": [
-          "empa__ecid000001/empa__ecid000001_CA_C01.mpr",
-          "Raw electrochemical data, Biologic EC-Lab mpr binary format"
+          "empa__ecid000251.raw.zip",
+          "Raw electrochemical data, GC data, and yadg settings."
         ]
       },
       {
         "key": "Input fileA",
-        "values": [
-          "empa__ecid000001/empa__ecid000001.mps",
-          "Measurement protocol, Biologic EC-Lab settings file"
-        ]
+        "values": []
       }
     ]
   },
