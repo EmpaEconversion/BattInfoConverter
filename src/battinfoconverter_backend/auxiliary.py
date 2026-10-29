@@ -401,6 +401,8 @@ def _ensure_indexed_connector_node(
             target_node = holder
         else:
             target_node = _new_item(parent, connector, data_container)
+        if not is_target:
+            data_container.placeholders.append((parent, connector, target_node))
 
         data_container.register(
             parent_path,
@@ -412,7 +414,22 @@ def _ensure_indexed_connector_node(
         )
         entries = [e for e in data_container.get_entries(parent_path, parent) if e.get("connector") == connector]
 
-    return entries[index]["node"]
+    node = entries[index]["node"]
+    data_container.addressed.add(id(node))
+    return node
+
+
+def prune_unfilled_placeholders(data_container: Registry) -> None:
+    """Remove placeholder nodes that no row wrote to, e.g. hasComponentD when only E and F are given."""
+    for parent, connector, node in data_container.placeholders:
+        if id(node) in data_container.addressed:
+            continue
+        held = parent.get(connector)
+        if held is node:
+            del parent[connector]
+        elif isinstance(held, list):
+            remaining = [item for item in held if item is not node]
+            parent[connector] = remaining[0] if len(remaining) == 1 else remaining
 
 
 # ===========================================================================
@@ -591,18 +608,15 @@ def add_to_structure(
                 logger.debug("Has connector index '%s'", connector_index)
                 # Explicit suffix index (hasSolventA -> index 0) - navigate
                 # directly to (or create) the node at that index.
-                if connector_index < len(registry_entries):
-                    target_node = registry_entries[connector_index]["node"]
-                else:
-                    target_node = _ensure_indexed_connector_node(
-                        current_level,
-                        part,
-                        connector_parent_path,
-                        connector_index,
-                        metadata,
-                        None,
-                        data_container,
-                    )
+                target_node = _ensure_indexed_connector_node(
+                    current_level,
+                    part,
+                    connector_parent_path,
+                    connector_index,
+                    metadata,
+                    None,
+                    data_container,
+                )
                 data_container.remember_last(tuple(traversed), target_node)
                 data_container.update_tokens(connector_parent_path, target_node, metadata)
                 current_level = target_node

@@ -162,6 +162,39 @@ def test_split_leaf_predicates_get_default_class() -> None:
     assert split["hasElectrolyte"]["hasSolvent"] == [{"@type": ["Solvent", "Water"]}, {"@type": ["Solvent", "Ethanol"]}]
 
 
+def test_skipped_split_predicates_leave_no_empty_nodes() -> None:
+    """Blank A/B/C rows before a filled one do not leave placeholder nodes behind."""
+    only_b = convert_excel_to_jsonld(_workbook([("hasElectrolyte-hasSolventB", "Ethanol", None)]), validate=False)
+    assert only_b["hasElectrolyte"]["hasSolvent"] == {"@type": ["Solvent", "Ethanol"]}
+
+    gap = convert_excel_to_jsonld(
+        _workbook([("hasElectrolyte-hasSolventA", "Water", None), ("hasElectrolyte-hasSolventC", "Ethanol", None)]),
+        validate=False,
+    )
+    assert gap["hasElectrolyte"]["hasSolvent"] == [{"@type": ["Solvent", "Water"]}, {"@type": ["Solvent", "Ethanol"]}]
+
+    nested = convert_excel_to_jsonld(
+        _workbook([("hasElectrolyte-hasSolventB-hasMeasuredProperty-Thickness", 3, "mm")]), validate=False
+    )
+    assert isinstance(nested["hasElectrolyte"]["hasSolvent"], dict)
+    assert "hasMeasuredProperty" in nested["hasElectrolyte"]["hasSolvent"]
+
+
+def test_placeholder_filled_by_later_row_is_kept() -> None:
+    """A placeholder made for a B row is kept once a later A row fills it."""
+    out = convert_excel_to_jsonld(
+        _workbook([("hasElectrolyte-hasSolventB", "Ethanol", None), ("hasElectrolyte-hasSolventA", "Water", None)]),
+        validate=False,
+    )
+    assert out["hasElectrolyte"]["hasSolvent"] == [{"@type": ["Solvent", "Water"]}, {"@type": ["Solvent", "Ethanol"]}]
+
+    default_only = convert_excel_to_jsonld(
+        _workbook([("hasElectrolyte-hasSolventB", "Ethanol", None), ("hasElectrolyte-hasSolventA", "Solvent", None)]),
+        validate=False,
+    )
+    assert default_only["hasElectrolyte"]["hasSolvent"] == [{"@type": "Solvent"}, {"@type": ["Solvent", "Ethanol"]}]
+
+
 @pytest.mark.parametrize(("unit", "value", "link", "wants_warning"), UNIT_CASES)
 def test_missing_unit_warns_only_for_quantities(
     unit: object, value: object, link: str, wants_warning: bool, caplog: pytest.LogCaptureFixture

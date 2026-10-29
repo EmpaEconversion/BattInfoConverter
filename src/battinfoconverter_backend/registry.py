@@ -42,6 +42,10 @@ class Registry:
         self.last_nodes: dict[tuple[str, ...], dict] = {}
         self.path_counts: dict[tuple[str, ...], int] = {}
         self.connector_registry: dict[tuple[str, ...], list[dict]] = {}
+        # (parent, connector, node) of nodes made to pad skipped A/B/C indices
+        self.placeholders: list[tuple[dict, str, dict]] = []
+        # ids of indexed nodes that a row has written to
+        self.addressed: set[int] = set()
 
         connector_candidates, collapsible_multi_paths = self._build_multi_connector_candidates()
 
